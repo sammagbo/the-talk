@@ -3,6 +3,9 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import EpisodePage from './pages/EpisodePage';
 import Player from './components/Player';
+import { useAuth } from './context/AuthContext';
+import { db } from './firebase';
+import { doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove, getDoc } from 'firebase/firestore';
 
 // Données du podcast (Initial State)
 const portfolioItems = [
@@ -60,6 +63,48 @@ export default function App() {
   const [items, setItems] = useState(portfolioItems);
   const [currentEpisode, setCurrentEpisode] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const { user } = useAuth();
+  const [favorites, setFavorites] = useState([]);
+
+  // Firestore Favorites Logic
+  useEffect(() => {
+    if (user) {
+      const userRef = doc(db, 'users', user.uid);
+      const unsubscribe = onSnapshot(userRef, (docSnap) => {
+        if (docSnap.exists()) {
+          setFavorites(docSnap.data().favorites || []);
+        } else {
+          // Initialize user doc if it doesn't exist
+          setDoc(userRef, { favorites: [] });
+          setFavorites([]);
+        }
+      });
+      return unsubscribe;
+    } else {
+      setFavorites([]);
+    }
+  }, [user]);
+
+  const toggleFavorite = async (episodeId) => {
+    if (!user) {
+      alert("Please login to save favorites.");
+      return;
+    }
+    const userRef = doc(db, 'users', user.uid);
+    try {
+      if (favorites.includes(episodeId)) {
+        await updateDoc(userRef, {
+          favorites: arrayRemove(episodeId)
+        });
+      } else {
+        await updateDoc(userRef, {
+          favorites: arrayUnion(episodeId)
+        });
+      }
+    } catch (error) {
+      console.error("Error updating favorites:", error);
+    }
+  };
 
   const handlePlay = (episode) => {
     if (currentEpisode?.id === episode.id) {
@@ -75,12 +120,11 @@ export default function App() {
     setCurrentEpisode(null);
   };
 
-  // RSS Fetching with DOMParser (Fallback due to rss-parser proxy issues)
+  // RSS Fetching with DOMParser
   useEffect(() => {
     const fetchRSS = async () => {
       try {
         const FEED_URL = 'https://feeds.simplecast.com/54nAGcIl';
-        // Using allorigins.win/get which returns JSON with contents
         const PROXY_URL = `https://api.allorigins.win/get?url=${encodeURIComponent(FEED_URL)}`;
 
         const response = await fetch(PROXY_URL);
@@ -122,7 +166,7 @@ export default function App() {
   return (
     <div className="relative min-h-screen">
       <Routes>
-        <Route path="/" element={<Home items={items} onPlay={handlePlay} />} />
+        <Route path="/" element={<Home items={items} onPlay={handlePlay} favorites={favorites} toggleFavorite={toggleFavorite} />} />
         <Route path="/episode/:id" element={<EpisodePage items={items} onPlay={handlePlay} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
       </Routes>
 

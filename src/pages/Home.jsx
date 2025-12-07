@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Newsletter from '../Newsletter';
-import { Mic, Instagram, Mail, X, Menu, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee } from 'lucide-react';
+import { Mic, Instagram, Mail, X, Menu, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, LogOut } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 import ThemeToggle from '../components/ThemeToggle';
 
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
 
-export default function Home({ items }) {
+export default function Home({ items, onPlay, favorites, toggleFavorite }) {
+    const { user, signInWithGoogle, logout } = useAuth();
     const [activeCategory, setActiveCategory] = useState('Tous');
     const [searchQuery, setSearchQuery] = useState('');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -141,9 +143,30 @@ export default function Home({ items }) {
                         <button onClick={() => scrollToSection('ai-lab')} className="hover:text-[#007BFF] transition-colors flex items-center gap-1"><Sparkles size={14} /> AI LAB</button>
                         <button onClick={() => scrollToSection('apropos')} className="hover:text-[#007BFF] transition-colors">À PROPOS</button>
                         <button onClick={() => scrollToSection('contact')} className="hover:text-[#007BFF] transition-colors">CONTACT</button>
-                        <button className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-6 py-2.5 rounded-full transition-all transform hover:scale-105 font-bold shadow-[0_0_15px_rgba(0,123,255,0.3)]">
-                            S'abonner
-                        </button>
+
+                        {user ? (
+                            <div className="flex items-center gap-3 ml-2">
+                                <img
+                                    src={user.photoURL}
+                                    alt={user.displayName}
+                                    className="w-8 h-8 rounded-full border border-[#333]"
+                                />
+                                <button
+                                    onClick={logout}
+                                    title="Se déconnecter"
+                                    className="text-gray-500 hover:text-red-500 transition-colors"
+                                >
+                                    <LogOut size={18} />
+                                </button>
+                            </div>
+                        ) : (
+                            <button
+                                onClick={signInWithGoogle}
+                                className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-6 py-2.5 rounded-full transition-all transform hover:scale-105 font-bold shadow-[0_0_15px_rgba(0,123,255,0.3)]"
+                            >
+                                connexion
+                            </button>
+                        )}
                         <ThemeToggle />
                     </div>
 
@@ -256,27 +279,44 @@ export default function Home({ items }) {
                 {/* Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems.map((item) => (
-                        <Link
-                            to={`/episode/${item.id}`}
+                        <div
                             key={item.id}
                             className="group relative overflow-hidden rounded-2xl cursor-pointer bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] hover:border-[#007BFF]/50 transition-all duration-300 block"
                         >
-                            <div className="aspect-[4/3] overflow-hidden">
-                                <img
-                                    src={item.src}
-                                    alt={item.title}
-                                    className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
-                                />
-                            </div>
-                            <div className="p-6 relative">
-                                <div className="absolute -top-6 right-6 bg-[#007BFF] p-3 rounded-full text-white shadow-lg opacity-0 group-hover:opacity-100 group-hover:-translate-y-2 transition-all duration-300">
-                                    <Upload className="w-5 h-5" />
+                            <Link to={`/episode/${item.id}`} className="block">
+                                <div className="aspect-[4/3] overflow-hidden">
+                                    <img
+                                        src={item.src}
+                                        alt={item.title}
+                                        className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                                    />
                                 </div>
-                                <p className="text-[#007BFF] text-xs font-creativo font-bold uppercase tracking-widest mb-2">{item.category}</p>
-                                <h3 className="text-xl font-creativo font-bold text-black dark:text-white mb-1 group-hover:text-[#007BFF] dark:group-hover:text-[#A9A9F5] transition-colors">{item.title}</h3>
-                                <p className="text-gray-500 dark:text-[#6C757D] text-sm font-minimal">Disponible maintenant</p>
+                            </Link>
+                            <div className="p-6 relative">
+                                <Link to={`/episode/${item.id}`} className="block">
+                                    <div className="absolute -top-6 right-6 bg-[#007BFF] p-3 rounded-full text-white shadow-lg opacity-0 group-hover:opacity-100 group-hover:-translate-y-2 transition-all duration-300 pointer-events-none">
+                                        <Upload className="w-5 h-5" />
+                                    </div>
+                                    <p className="text-[#007BFF] text-xs font-creativo font-bold uppercase tracking-widest mb-2">{item.category}</p>
+                                    <h3 className="text-xl font-creativo font-bold text-black dark:text-white mb-1 group-hover:text-[#007BFF] dark:group-hover:text-[#A9A9F5] transition-colors">{item.title}</h3>
+                                    <p className="text-gray-500 dark:text-[#6C757D] text-sm font-minimal">Disponible maintenant</p>
+                                </Link>
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        toggleFavorite(item.id);
+                                    }}
+                                    className="absolute top-6 right-6 p-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:scale-110 transition-transform z-10"
+                                >
+                                    <Heart
+                                        size={20}
+                                        fill={favorites.includes(item.id) ? "red" : "none"}
+                                        className={favorites.includes(item.id) ? "text-red-500" : "text-white"}
+                                    />
+                                </button>
                             </div>
-                        </Link>
+                        </div>
                     ))}
                 </div>
             </section>
