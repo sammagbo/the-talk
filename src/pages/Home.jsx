@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Newsletter from '../Newsletter';
 import { Mic, Instagram, Mail, X, Menu, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, LogOut, Bell } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 import { useAuth } from '../context/AuthContext';
 import ThemeToggle from '../components/ThemeToggle';
 import { usePushNotifications } from '../hooks/usePushNotifications';
@@ -10,6 +12,7 @@ import { usePushNotifications } from '../hooks/usePushNotifications';
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
 
 export default function Home({ items, onPlay, favorites, toggleFavorite }) {
+    const { t } = useTranslation();
     const { user, signInWithGoogle, logout } = useAuth();
     const { requestPermission, notificationPermission } = usePushNotifications();
     const [activeCategory, setActiveCategory] = useState('Tous');
@@ -150,10 +153,10 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
 
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center gap-8 text-sm font-minimal font-medium tracking-wide">
-                        <button onClick={() => scrollToSection('galerie')} className="hover:text-[#007BFF] transition-colors">ÉPISODES</button>
-                        <button onClick={() => scrollToSection('ai-lab')} className="hover:text-[#007BFF] transition-colors flex items-center gap-1"><Sparkles size={14} /> AI LAB</button>
-                        <button onClick={() => scrollToSection('apropos')} className="hover:text-[#007BFF] transition-colors">À PROPOS</button>
-                        <button onClick={() => scrollToSection('contact')} className="hover:text-[#007BFF] transition-colors">CONTACT</button>
+                        <button onClick={() => scrollToSection('galerie')} className="hover:text-[#007BFF] transition-colors">{t('nav.episodes')}</button>
+                        <button onClick={() => scrollToSection('ai-lab')} className="hover:text-[#007BFF] transition-colors flex items-center gap-1"><Sparkles size={14} /> {t('nav.ai_lab')}</button>
+                        <button onClick={() => scrollToSection('apropos')} className="hover:text-[#007BFF] transition-colors">{t('nav.about')}</button>
+                        <button onClick={() => scrollToSection('contact')} className="hover:text-[#007BFF] transition-colors">{t('nav.contact')}</button>
 
                         {user ? (
                             <div className="flex items-center gap-3 ml-2">
@@ -197,10 +200,10 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
                 {/* Mobile Menu Overlay */}
                 {isMenuOpen && (
                     <div className="md:hidden absolute top-full left-0 w-full bg-black border-b border-[#6C757D]/20 p-6 flex flex-col gap-4 text-center font-minimal">
-                        <button onClick={() => scrollToSection('galerie')} className="py-2 hover:text-[#007BFF]">Épisodes</button>
-                        <button onClick={() => scrollToSection('ai-lab')} className="py-2 hover:text-[#007BFF]">AI Lab</button>
-                        <button onClick={() => scrollToSection('apropos')} className="py-2 hover:text-[#007BFF]">À propos</button>
-                        <button onClick={() => scrollToSection('contact')} className="py-2 hover:text-[#007BFF]">Contact</button>
+                        <button onClick={() => scrollToSection('galerie')} className="py-2 hover:text-[#007BFF]">{t('nav.episodes')}</button>
+                        <button onClick={() => scrollToSection('ai-lab')} className="py-2 hover:text-[#007BFF]">{t('nav.ai_lab')}</button>
+                        <button onClick={() => scrollToSection('apropos')} className="py-2 hover:text-[#007BFF]">{t('nav.about')}</button>
+                        <button onClick={() => scrollToSection('contact')} className="py-2 hover:text-[#007BFF]">{t('nav.contact')}</button>
                         <div className="flex justify-center pt-4">
                             <ThemeToggle />
                         </div>
@@ -249,7 +252,7 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
                             <ChevronRight className="w-5 h-5" />
                         </button>
                         <button className="px-8 py-4 rounded-lg border border-gray-400 dark:border-[#6C757D] text-black dark:text-white hover:border-black dark:hover:border-white transition-all font-minimal">
-                            Voir le Portfolio
+                            {t('hero.portfolio')}
                         </button>
                     </div>
                 </div>
@@ -317,7 +320,7 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
                                     </div>
                                     <p className="text-[#007BFF] text-xs font-creativo font-bold uppercase tracking-widest mb-2">{item.category}</p>
                                     <h3 className="text-xl font-creativo font-bold text-black dark:text-white mb-1 group-hover:text-[#007BFF] dark:group-hover:text-[#A9A9F5] transition-colors">{item.title}</h3>
-                                    <p className="text-gray-500 dark:text-[#6C757D] text-sm font-minimal">Disponible maintenant</p>
+                                    <p className="text-gray-500 dark:text-[#6C757D] text-sm font-minimal">{t('gallery.available_now')}</p>
                                 </Link>
                                 <button
                                     onClick={(e) => {
@@ -345,11 +348,11 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
                     <div className="text-center mb-12">
                         <div className="inline-flex items-center gap-2 bg-[#007BFF]/10 text-[#007BFF] px-4 py-1 rounded-full mb-4 border border-[#007BFF]/20">
                             <Sparkles size={16} />
-                            <span className="text-xs font-bold uppercase tracking-widest font-minimal">Gemini AI Powered</span>
+                            <span className="text-xs font-bold uppercase tracking-widest font-minimal">{t('ai_lab.badge')}</span>
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-creativo font-bold mb-4 text-black dark:text-white">Laboratoire Créatif</h2>
+                        <h2 className="text-4xl md:text-5xl font-creativo font-bold mb-4 text-black dark:text-white">{t('ai_lab.title')}</h2>
                         <p className="text-gray-600 dark:text-[#6C757D] font-minimal text-lg max-w-2xl mx-auto">
-                            Utilisez notre assistant IA pour générer instantanément des concepts d'épisodes inspirés par le style éditorial de Mijea Rochi.
+                            {t('ai_lab.description')}
                         </p>
                     </div>
 
@@ -439,13 +442,13 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
 
                         <div className="w-full md:w-1/2 space-y-8">
                             <div>
-                                <h4 className="text-[#007BFF] font-creativo font-bold text-lg mb-2">À PROPOS</h4>
+                                <h4 className="text-[#007BFF] font-creativo font-bold text-lg mb-2">{t('about.title')}</h4>
                                 <h2 className="text-4xl md:text-5xl font-creativo font-bold text-black dark:text-white mb-4">Mijea Rochi</h2>
-                                <p className="text-[#007BFF] dark:text-[#A9A9F5] font-minimal text-xl">Creative Director & Photographer</p>
+                                <p className="text-[#007BFF] dark:text-[#A9A9F5] font-minimal text-xl">{t('about.role')}</p>
                             </div>
 
                             <p className="text-gray-600 dark:text-[#6C757D] leading-relaxed text-lg font-minimal">
-                                THE TALK est plus qu'un podcast ; c'est un espace d'exploration. En tant que créatrice visuelle, je cherche à déconstruire les processus derrière l'innovation digitale et l'art.
+                                {t('about.description')}
                             </p>
 
                             <div className="grid grid-cols-2 gap-6">
@@ -484,8 +487,8 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
                     {/* New Contact Header Card based on references */}
                     <div className="bg-gray-50 dark:bg-[#020202] p-10 rounded-3xl border border-gray-200 dark:border-[#333] mb-12 flex flex-col md:flex-row items-center justify-between group hover:border-[#007BFF]/50 transition-all duration-500 shadow-2xl">
                         <div className="mb-6 md:mb-0">
-                            <h2 className="text-4xl md:text-5xl font-creativo font-black text-black dark:text-white mb-3">Travaillons Ensemble</h2>
-                            <p className="text-gray-600 dark:text-[#6C757D] text-lg font-minimal">Vous avez un projet ou une histoire à partager ?</p>
+                            <h2 className="text-4xl md:text-5xl font-creativo font-black text-black dark:text-white mb-3">{t('contact.title')}</h2>
+                            <p className="text-gray-600 dark:text-[#6C757D] text-lg font-minimal">{t('contact.subtitle')}</p>
                         </div>
                         {/* The Icon Circle */}
                         <div className="bg-gradient-to-tr from-[#007BFF] to-[#0056b3] p-6 rounded-full group-hover:scale-110 group-hover:rotate-45 transition-all duration-500 shadow-lg shadow-[#007BFF]/30 cursor-pointer">
@@ -602,12 +605,15 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
                             <span className="text-black dark:text-white font-creativo font-bold tracking-tight">THE TALK</span>
                         </div>
                         <p className="text-gray-500 dark:text-[#6C757D] text-xs font-minimal">A Podcast by Mijea Rochi. Innovation & Creativity.</p>
+                        <div className="mt-4">
+                            <LanguageSwitcher />
+                        </div>
                     </div>
 
                     <div className="flex gap-6 items-center">
                         <a href="https://www.buymeacoffee.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#FFD700] hover:text-[#FFC107] transition-colors font-minimal text-sm font-bold mr-4">
                             <Coffee size={18} />
-                            <span>Soutenir</span>
+                            <span>{t('footer.support')}</span>
                         </a>
                         <a href="#" className="text-[#6C757D] hover:text-[#007BFF] transition-colors"><Twitter className="w-5 h-5" /></a>
                         <a href="#" className="text-[#6C757D] hover:text-[#007BFF] transition-colors"><Facebook className="w-5 h-5" /></a>
@@ -620,3 +626,4 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
         </div>
     );
 }
+

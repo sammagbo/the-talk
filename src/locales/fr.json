@@ -1,0 +1,106 @@
+{
+    "nav": {
+        "episodes": "ÉPISODES",
+        "ai_lab": "AI LAB",
+        "about": "À PROPOS",
+        "contact": "CONTACT",
+        "login": "CONNEXION",
+        "logout": "Se déconnecter",
+        "back_gallery": "Retour à la galerie"
+    },
+    "hero": {
+        "subtitle": "By Mijea Rochi",
+        "new_episode": "Nouvel Épisode Disponible",
+        "description": "Explorer la créativité et l'innovation digitale à travers des conversations authentiques.",
+        "listen_now": "Écouter Maintenant",
+        "portfolio": "Voir le Portfolio"
+    },
+    "gallery": {
+        "recent_episodes": "Épisodes Récents",
+        "search_placeholder": "Rechercher un épisode...",
+        "available_now": "Disponible maintenant",
+        "categories": {
+            "all": "Tous",
+            "episodes": "Épisodes",
+            "interviews": "Interviews",
+            "backstage": "Coulisses"
+        }
+    },
+    "ai_lab": {
+        "badge": "Gemini AI Powered",
+        "title": "Laboratoire Créatif",
+        "description": "Utilisez notre assistant IA pour générer instantanément des concepts d'épisodes inspirés par le style éditorial de Mijea Rochi.",
+        "generator_title": "Générateur",
+        "generator_subtitle": "Entrez un thème, un mot-clé ou une émotion.",
+        "placeholder": "Ex: Futur de la Mode, IA et Art...",
+        "generating": "Génération...",
+        "generate_button": "Générer le Concept ✨",
+        "result_title": "Résultat généré par l'IA",
+        "waiting_title": "En attente d'inspiration...",
+        "waiting_subtitle": "Le résultat apparaîtra ici."
+    },
+    "about": {
+        "title": "À PROPOS",
+        "role": "Creative Director & Photographer",
+        "description": "THE TALK est plus qu'un podcast ; c'est un espace d'exploration. En tant que créatrice visuelle, je cherche à déconstruire les processus derrière l'innovation digitale et l'art.",
+        "curated": "Curated",
+        "curated_sub": "Contenu sélectionné",
+        "storytelling": "Storytelling",
+        "storytelling_sub": "Narrations profondes"
+    },
+    "contact": {
+        "title": "Travaillons Ensemble",
+        "subtitle": "Vous avez un projet ou une histoire à partager ?",
+        "email": "Email",
+        "social": "Social",
+        "studio": "Studio",
+        "form": {
+            "name": "Nom",
+            "email": "Email",
+            "message": "Message",
+            "placeholders": {
+                "name": "Mijea...",
+                "email": "hello@exemple.com",
+                "message": "Votre message..."
+            },
+            "submit": "ENVOYER LE MESSAGE",
+            "success": "Message envoyé. Merci de nous contacter."
+        }
+    },
+    "newsletter": {
+        "title": "Restez Inspiré",
+        "description": "Rejoignez notre communauté de créatifs et recevez les derniers épisodes et insights directement dans votre boîte mail."
+    },
+    "footer": {
+        "support": "Soutenir",
+        "rights": "© 2025 Mijea Rochi. All Rights Reserved."
+    },
+    "episode": {
+        "not_found": "Épisode non trouvé",
+        "back_home": "Retour à l'accueil",
+        "retry": "Réessayer",
+        "loading": "Chargement...",
+        "published_recently": "Publié récemment",
+        "share": "Partager",
+        "playing": "En cours de lecture...",
+        "play": "Écouter l'épisode",
+        "play_hint": "* La lecture continuera en bas de page pendant votre navigation.",
+        "tabs": {
+            "description": "Description",
+            "transcript": "Transcription",
+            "comments": "Commentaires"
+        },
+        "ai_takeaways": "AI Key Takeaways",
+        "generate_summary": "Générer le Résumé",
+        "analyzing": "Analyse...",
+        "summary_hint": "Cliquez sur le bouton pour générer les points clés de cet épisode grâce à l'IA.",
+        "transcript_unavailable": "Transcription non disponible pour le moment.",
+        "come_back_later": "Revenez plus tard !",
+        "similar_episodes": "Épisodes Similaires",
+        "comments_title": "Discussions",
+        "login_comment": "Connectez-vous pour participer à la discussion.",
+        "loading_comments": "Chargement des commentaires...",
+        "first_comment": "Soyez le premier à commenter cet épisode.",
+        "placeholder_comment": "Partagez votre avis sur cet épisode..."
+    }
+}

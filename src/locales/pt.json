@@ -1,0 +1,106 @@
+{
+    "nav": {
+        "episodes": "EPISÓDIOS",
+        "ai_lab": "LAB IA",
+        "about": "SOBRE",
+        "contact": "CONTATO",
+        "login": "ENTRAR",
+        "logout": "Sair",
+        "back_gallery": "Voltar para galeria"
+    },
+    "hero": {
+        "subtitle": "Por Mijea Rochi",
+        "new_episode": "Novo Episódio Disponível",
+        "description": "Explorando a criatividade e a inovação digital através de conversas autênticas.",
+        "listen_now": "Ouvir Agora",
+        "portfolio": "Ver Portfólio"
+    },
+    "gallery": {
+        "recent_episodes": "Episódios Recentes",
+        "search_placeholder": "Pesquisar um episódio...",
+        "available_now": "Disponível agora",
+        "categories": {
+            "all": "Todos",
+            "episodes": "Episódios",
+            "interviews": "Entrevistas",
+            "backstage": "Bastidores"
+        }
+    },
+    "ai_lab": {
+        "badge": "Portado por Gemini AI",
+        "title": "Laboratório Criativo",
+        "description": "Use nosso assistente de IA para gerar instantaneamente conceitos de episódios inspirados no estilo editorial de Mijea Rochi.",
+        "generator_title": "Gerador",
+        "generator_subtitle": "Digite um tema, uma palavra-chave ou uma emoção.",
+        "placeholder": "Ex: Futuro da Moda, IA e Arte...",
+        "generating": "Gerando...",
+        "generate_button": "Gerar Conceito ✨",
+        "result_title": "Resultado gerado por IA",
+        "waiting_title": "Aguardando inspiração...",
+        "waiting_subtitle": "O resultado aparecerá aqui."
+    },
+    "about": {
+        "title": "SOBRE",
+        "role": "Diretora Criativa & Fotógrafa",
+        "description": "THE TALK é mais do que um podcast; é um espaço de exploração. Como criadora visual, busco desconstruir os processos por trás da inovação digital e da arte.",
+        "curated": "Curadoria",
+        "curated_sub": "Conteúdo selecionado",
+        "storytelling": "Storytelling",
+        "storytelling_sub": "Narrativas profundas"
+    },
+    "contact": {
+        "title": "Vamos Trabalhar Juntos",
+        "subtitle": "Tem um projeto ou uma história para compartilhar?",
+        "email": "Email",
+        "social": "Social",
+        "studio": "Estúdio",
+        "form": {
+            "name": "Nome",
+            "email": "Email",
+            "message": "Mensagem",
+            "placeholders": {
+                "name": "Mijea...",
+                "email": "ola@exemplo.com",
+                "message": "Sua mensagem..."
+            },
+            "submit": "ENVIAR MENSAGEM",
+            "success": "Mensagem enviada. Obrigado por nos contatar."
+        }
+    },
+    "newsletter": {
+        "title": "Mantenha-se Inspirado",
+        "description": "Junte-se à nossa comunidade criativa e receba os últimos episódios e insights diretamente na sua caixa de entrada."
+    },
+    "footer": {
+        "support": "Apoiar",
+        "rights": "© 2025 Mijea Rochi. Todos os direitos reservados."
+    },
+    "episode": {
+        "not_found": "Episódio não encontrado",
+        "back_home": "Voltar ao Início",
+        "retry": "Tentar novamente",
+        "loading": "Carregando...",
+        "published_recently": "Publicado recentemente",
+        "share": "Compartilhar",
+        "playing": "Reproduzindo...",
+        "play": "Ouvir episódio",
+        "play_hint": "* A reprodução continuará na parte inferior da página enquanto você navega.",
+        "tabs": {
+            "description": "Descrição",
+            "transcript": "Transcrição",
+            "comments": "Comentários"
+        },
+        "ai_takeaways": "Principais Pontos (IA)",
+        "generate_summary": "Gerar Resumo",
+        "analyzing": "Analisando...",
+        "summary_hint": "Clique no botão para gerar os pontos principais deste episódio usando IA.",
+        "transcript_unavailable": "Transcrição não disponível no momento.",
+        "come_back_later": "Volte mais tarde!",
+        "similar_episodes": "Episódios Semelhantes",
+        "comments_title": "Discussões",
+        "login_comment": "Faça login para participar da discussão.",
+        "loading_comments": "Carregando comentários...",
+        "first_comment": "Seja o primeiro a comentar este episódio.",
+        "placeholder_comment": "Compartilhe sua opinião sobre este episódio..."
+    }
+}

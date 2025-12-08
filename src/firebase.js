@@ -1,6 +1,6 @@
-import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { initializeApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -11,14 +11,8 @@ const firebaseConfig = {
     appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-import { getMessaging } from "firebase/messaging";
-import { getAnalytics } from "firebase/analytics";
-
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
-const db = getFirestore(app);
-const messaging = getMessaging(app);
-const analytics = getAnalytics(app);
 
-export { auth, googleProvider, db, messaging, analytics };
+export const auth = getAuth(app);
+export const googleProvider = new GoogleAuthProvider();
+export const db = getFirestore(app);

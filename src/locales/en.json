@@ -1,0 +1,106 @@
+{
+    "nav": {
+        "episodes": "EPISODES",
+        "ai_lab": "AI LAB",
+        "about": "ABOUT",
+        "contact": "CONTACT",
+        "login": "LOGIN",
+        "logout": "Logout",
+        "back_gallery": "Back to gallery"
+    },
+    "hero": {
+        "subtitle": "By Mijea Rochi",
+        "new_episode": "New Episode Available",
+        "description": "Exploring creativity and digital innovation through authentic conversations.",
+        "listen_now": "Listen Now",
+        "portfolio": "View Portfolio"
+    },
+    "gallery": {
+        "recent_episodes": "Recent Episodes",
+        "search_placeholder": "Search for an episode...",
+        "available_now": "Available now",
+        "categories": {
+            "all": "All",
+            "episodes": "Episodes",
+            "interviews": "Interviews",
+            "backstage": "Backstage"
+        }
+    },
+    "ai_lab": {
+        "badge": "Gemini AI Powered",
+        "title": "Creative Lab",
+        "description": "Use our AI assistant to instantly generate episode concepts inspired by Mijea Rochi's editorial style.",
+        "generator_title": "Generator",
+        "generator_subtitle": "Enter a theme, a keyword, or an emotion.",
+        "placeholder": "Ex: Future of Fashion, AI and Art...",
+        "generating": "Generating...",
+        "generate_button": "Generate Concept ✨",
+        "result_title": "AI Generated Result",
+        "waiting_title": "Waiting for inspiration...",
+        "waiting_subtitle": "The result will appear here."
+    },
+    "about": {
+        "title": "ABOUT",
+        "role": "Creative Director & Photographer",
+        "description": "THE TALK is more than a podcast; it's a space for exploration. As a visual creator, I seek to deconstruct the processes behind digital innovation and art.",
+        "curated": "Curated",
+        "curated_sub": "Selected content",
+        "storytelling": "Storytelling",
+        "storytelling_sub": "Deep narratives"
+    },
+    "contact": {
+        "title": "Let's Work Together",
+        "subtitle": "Have a project or story to share?",
+        "email": "Email",
+        "social": "Social",
+        "studio": "Studio",
+        "form": {
+            "name": "Name",
+            "email": "Email",
+            "message": "Message",
+            "placeholders": {
+                "name": "Mijea...",
+                "email": "hello@example.com",
+                "message": "Your message..."
+            },
+            "submit": "SEND MESSAGE",
+            "success": "Message sent. Thank you for contacting us."
+        }
+    },
+    "newsletter": {
+        "title": "Stay Inspired",
+        "description": "Join our creative community and receive the latest episodes and insights directly in your inbox."
+    },
+    "footer": {
+        "support": "Support",
+        "rights": "© 2025 Mijea Rochi. All Rights Reserved."
+    },
+    "episode": {
+        "not_found": "Episode not found",
+        "back_home": "Back to Home",
+        "retry": "Retry",
+        "loading": "Loading...",
+        "published_recently": "Recently published",
+        "share": "Share",
+        "playing": "Now playing...",
+        "play": "Listen to episode",
+        "play_hint": "* Playback will continue at the bottom of the page while you browse.",
+        "tabs": {
+            "description": "Description",
+            "transcript": "Transcript",
+            "comments": "Comments"
+        },
+        "ai_takeaways": "AI Key Takeaways",
+        "generate_summary": "Generate Summary",
+        "analyzing": "Analyzing...",
+        "summary_hint": "Click the button to generate key takeaways for this episode using AI.",
+        "transcript_unavailable": "Transcript not available at the moment.",
+        "come_back_later": "Check back later!",
+        "similar_episodes": "Similar Episodes",
+        "comments_title": "Discussions",
+        "login_comment": "Log in to join the discussion.",
+        "loading_comments": "Loading comments...",
+        "first_comment": "Be the first to comment on this episode.",
+        "placeholder_comment": "Share your thoughts on this episode..."
+    }
+}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { client, urlFor } from '../sanity';
-import { analytics } from '../firebase';
+// import { analytics } from '../firebase'; // Analytics removed from firebase config
 import { logEvent } from 'firebase/analytics';
 import { X, ExternalLink } from 'lucide-react';
 
@@ -34,11 +34,12 @@ export default function SponsorBanner() {
 
     const handleClick = () => {
         if (sponsor) {
-            logEvent(analytics, 'select_content', {
-                content_type: 'sponsor',
-                item_id: sponsor.name,
-                destination: sponsor.url
-            });
+            console.log("Analytics log: select_content", sponsor);
+            // logEvent(analytics, 'select_content', {
+            //     content_type: 'sponsor',
+            //     item_id: sponsor.name,
+            //     destination: sponsor.url
+            // });
         }
     };
 
