@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import EpisodePage from './pages/EpisodePage';
 import Player from './components/Player';
+import { Loader2 } from 'lucide-react';
+
+const Home = lazy(() => import('./pages/Home'));
+const EpisodePage = lazy(() => import('./pages/EpisodePage'));
+const StorePage = lazy(() => import('./pages/StorePage'));
 import { useAuth } from './context/AuthContext';
 import { db } from './firebase';
+import SponsorBanner from './components/SponsorBanner';
+import ExitIntentPopup from './components/ExitIntentPopup';
 import { doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove, getDoc } from 'firebase/firestore';
 
 // Données du podcast (Initial State)
@@ -165,10 +170,20 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen">
-      <Routes>
-        <Route path="/" element={<Home items={items} onPlay={handlePlay} favorites={favorites} toggleFavorite={toggleFavorite} />} />
-        <Route path="/episode/:id" element={<EpisodePage items={items} onPlay={handlePlay} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
-      </Routes>
+      <Suspense fallback={
+        <div className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
+          <Loader2 className="w-10 h-10 animate-spin text-[#007BFF]" />
+        </div>
+      }>
+        <Routes>
+          <Route path="/" element={<Home items={items} onPlay={handlePlay} favorites={favorites} toggleFavorite={toggleFavorite} />} />
+          <Route path="/episode/:id" element={<EpisodePage items={items} onPlay={handlePlay} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
+          <Route path="/store" element={<StorePage />} />
+        </Routes>
+      </Suspense>
+
+      <SponsorBanner />
+      <ExitIntentPopup />
 
       <Player
         currentEpisode={currentEpisode}

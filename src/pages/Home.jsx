@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import Newsletter from '../Newsletter';
-import { Mic, Instagram, Mail, X, Menu, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, LogOut } from 'lucide-react';
+import { Mic, Instagram, Mail, X, Menu, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, LogOut, Bell } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import ThemeToggle from '../components/ThemeToggle';
+import { usePushNotifications } from '../hooks/usePushNotifications';
 
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
 
 export default function Home({ items, onPlay, favorites, toggleFavorite }) {
     const { user, signInWithGoogle, logout } = useAuth();
+    const { requestPermission, notificationPermission } = usePushNotifications();
     const [activeCategory, setActiveCategory] = useState('Tous');
     const [searchQuery, setSearchQuery] = useState('');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -106,6 +109,14 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
 
     return (
         <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-[#007BFF] selection:text-white transition-colors duration-300">
+            <Helmet>
+                <title>THE TALK | Podcast by Mijea Rochi</title>
+                <meta name="description" content="Explorer la créativité et l'innovation digitale à travers des conversations authentiques. Un podcast visionnaire par Mijea Rochi." />
+                <meta property="og:title" content="THE TALK | Podcast by Mijea Rochi" />
+                <meta property="og:description" content="Explorer la créativité et l'innovation digitale à travers des conversations authentiques." />
+                <meta property="og:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80" />
+                <meta property="og:type" content="website" />
+            </Helmet>
 
             {/* Intégration des polices Google Fonts */}
             <style>
@@ -168,6 +179,13 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
                             </button>
                         )}
                         <ThemeToggle />
+                        <button
+                            onClick={requestPermission}
+                            className={`p-2 rounded-full transition-colors ${notificationPermission === 'granted' ? 'text-[#007BFF] bg-[#007BFF]/10' : 'text-gray-500 hover:text-black dark:hover:text-white'}`}
+                            title={notificationPermission === 'granted' ? 'Notifications activées' : 'Activer les notifications'}
+                        >
+                            <Bell size={20} fill={notificationPermission === 'granted' ? 'currentColor' : 'none'} />
+                        </button>
                     </div>
 
                     {/* Mobile Menu Button */}

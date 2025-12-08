@@ -11,24 +11,14 @@ const firebaseConfig = {
     appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-// Initialize Firebase
-let app;
-let auth;
-let googleProvider;
-let db;
+import { getMessaging } from "firebase/messaging";
+import { getAnalytics } from "firebase/analytics";
 
-try {
-    console.log("Initializing Firebase with project:", firebaseConfig.projectId);
-    if (!firebaseConfig.apiKey) {
-        console.error("Firebase API Key is missing! Check your .env file.");
-    }
-    app = initializeApp(firebaseConfig);
-    auth = getAuth(app);
-    googleProvider = new GoogleAuthProvider();
-    db = getFirestore(app);
-    console.log("Firebase initialized successfully");
-} catch (error) {
-    console.error("Error initializing Firebase:", error);
-}
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+const db = getFirestore(app);
+const messaging = getMessaging(app);
+const analytics = getAnalytics(app);
 
-export { auth, googleProvider, db };
+export { auth, googleProvider, db, messaging, analytics };
