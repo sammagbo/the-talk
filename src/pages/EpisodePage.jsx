@@ -31,7 +31,7 @@ export default function EpisodePage({ items, onPlay, currentEpisode, isPlaying }
             setLoading(true);
             setError(null);
             try {
-                // Fetch directly from Sanity by ID with category expansion
+                // Fetch directly from Sanity by ID with category expansion and related episodes
                 const query = `*[_type == "episode" && _id == $id][0]{ 
                     _id, 
                     title, 
@@ -43,7 +43,15 @@ export default function EpisodePage({ items, onPlay, currentEpisode, isPlaying }
                     "fullSrc": mainImage.asset->url, 
                     audioUrl,
                     transcript,
-                    slug
+                    slug,
+                    "related": *[_type == "episode" && category->title == ^.category->title && _id != ^._id][0...3]{
+                        _id, 
+                        title, 
+                        duration, 
+                        date, 
+                        "category": category->title, 
+                        "src": mainImage.asset->url 
+                    }
                 }`;
                 const result = await client.fetch(query, { id });
 
@@ -51,17 +59,30 @@ export default function EpisodePage({ items, onPlay, currentEpisode, isPlaying }
                     setEpisode({
                         id: result._id,
                         title: result.title,
-                        category: result.category || 'Épisodes', // GROQ maps category->title to category
+                        category: result.category || 'Épisodes',
                         description: result.description,
                         date: result.date,
                         duration: result.duration,
                         audioUrl: result.audioUrl,
-                        mainImage: result.src, // mapped from GROQ
+                        mainImage: result.src,
                         src: result.src ? urlFor(result.src).width(800).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=800&q=80',
                         fullSrc: result.fullSrc ? urlFor(result.fullSrc).width(1600).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=1600&q=80',
                         transcript: result.transcript,
                         slug: result.slug?.current
                     });
+
+                    // Set related episodes from the same query result
+                    if (result.related) {
+                        const mappedRelated = result.related.map(item => ({
+                            id: item._id,
+                            title: item.title,
+                            category: item.category,
+                            date: item.date,
+                            duration: item.duration,
+                            fullSrc: item.src ? urlFor(item.src).width(600).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=600&q=80'
+                        }));
+                        setRelatedEpisodes(mappedRelated);
+                    }
                 } else {
                     setError(t('episode.not_found'));
                 }
@@ -77,38 +98,6 @@ export default function EpisodePage({ items, onPlay, currentEpisode, isPlaying }
             fetchEpisode();
         }
     }, [id, retryCount, t]);
-
-    useEffect(() => {
-        const fetchRelated = async () => {
-            if (!episode?.category) return;
-
-            try {
-                const query = `*[_type == "episode" && category->title == $category && _id != $id][0...3]{
-                    _id,
-                    title,
-                    "category": category->title,
-                    "src": mainImage.asset->url,
-                    "fullSrc": mainImage.asset->url,
-                    slug
-                }`;
-                const result = await client.fetch(query, { category: episode.category, id: episode.id });
-
-                if (result) {
-                    const mapped = result.map(item => ({
-                        id: item._id,
-                        title: item.title,
-                        category: item.category,
-                        fullSrc: item.fullSrc ? urlFor(item.fullSrc).width(600).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=600&q=80'
-                    }));
-                    setRelatedEpisodes(mapped);
-                }
-            } catch (error) {
-                console.error("Error fetching related episodes:", error);
-            }
-        };
-
-        fetchRelated();
-    }, [episode]);
 
     const generateSummary = async () => {
         setIsGenerating(true);

@@ -13,9 +13,6 @@ import ExitIntentPopup from './components/ExitIntentPopup';
 import { doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove, getDoc } from 'firebase/firestore';
 import { client, urlFor } from './sanity';
 
-// Données du podcast (Initial State)
-
-
 export default function App() {
   const [items, setItems] = useState([]);
   const [currentEpisode, setCurrentEpisode] = useState(null);
