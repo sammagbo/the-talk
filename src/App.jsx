@@ -10,7 +10,7 @@ import { useAuth } from './context/AuthContext';
 import { db } from './firebase';
 import SponsorBanner from './components/SponsorBanner';
 import ExitIntentPopup from './components/ExitIntentPopup';
-import { doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove, getDoc } from 'firebase/firestore';
+import { doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { client, urlFor } from './sanity';
 
 export default function App() {
@@ -35,6 +35,7 @@ export default function App() {
       });
       return unsubscribe;
     } else {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFavorites([]);
     }
   }, [user]);

@@ -9,7 +9,7 @@ import { useAuth } from '../context/AuthContext';
 import { client, urlFor } from '../sanity';
 import { useTranslation } from 'react-i18next';
 
-export default function EpisodePage({ items, onPlay, currentEpisode, isPlaying }) {
+export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
     const { id } = useParams();
     const { t } = useTranslation();
     console.log('Episode ID:', id);

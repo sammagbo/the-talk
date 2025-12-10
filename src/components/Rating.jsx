@@ -8,7 +8,7 @@ export default function Rating({ episodeId, user }) {
     const [hover, setHover] = useState(0);
     const [average, setAverage] = useState(0);
     const [count, setCount] = useState(0);
-    const [userRatingDoc, setUserRatingDoc] = useState(null);
+
 
     // Fetch ratings and calculate average
     useEffect(() => {
@@ -33,6 +33,7 @@ export default function Rating({ episodeId, user }) {
     // Check for existing user rating
     useEffect(() => {
         if (!user || !episodeId) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setRating(0);
             return;
         }
@@ -42,10 +43,8 @@ export default function Rating({ episodeId, user }) {
         const unsubscribe = onSnapshot(doc(db, 'ratings', docId), (doc) => {
             if (doc.exists()) {
                 setRating(doc.data().value);
-                setUserRatingDoc(doc);
             } else {
                 setRating(0);
-                setUserRatingDoc(null);
             }
         });
 

@@ -11,7 +11,7 @@ import { usePushNotifications } from '../hooks/usePushNotifications';
 
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
 
-export default function Home({ items, onPlay, favorites, toggleFavorite }) {
+export default function Home({ items, favorites, toggleFavorite }) {
     const { t } = useTranslation();
     const { user, signInWithGoogle, logout } = useAuth();
     const { requestPermission, notificationPermission } = usePushNotifications();
@@ -48,7 +48,7 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
     };
 
     // Fonction pour appeler l'API Gemini
-    const generateEpisodeIdea = async (e) => {
+    const handleCreativeAdvice = async (e) => {
         e.preventDefault();
         if (!aiPrompt.trim()) return;
 
@@ -72,16 +72,7 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
                     body: JSON.stringify({
                         contents: [{
                             parts: [{
-                                text: `Tu es l'assistant de production IA pour le podcast "THE TALK" de Mijea Rochi. 
-                Le ton est : Créatif, Visionnaire, Digital, Sophistiqué.
-                L'utilisateur te donne un thème : "${aiPrompt}".
-                
-                Génère un concept d'épisode structuré ainsi :
-                1. Titre de l'Épisode (accrocheur)
-                2. Synopsis (court, intriguant, style éditorial)
-                3. Trois "Talking Points" (sujets clés à aborder)
-                
-                Utilise des emojis pertinents. Formatte la réponse proprement.`
+                                text: `Atue como Mijea Rochi, Diretora Criativa e Host do podcast THE TALK. O tom deve ser: Sofisticado, minimalista, encorajador e técnico. O utilizador tem este bloqueio criativo: "${aiPrompt}". Dê um conselho curto (máx 3 frases), prático e inspirador para resolver isso.`
                             }]
                         }]
                     }),
@@ -348,11 +339,11 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
                     <div className="text-center mb-12">
                         <div className="inline-flex items-center gap-2 bg-[#007BFF]/10 text-[#007BFF] px-4 py-1 rounded-full mb-4 border border-[#007BFF]/20">
                             <Sparkles size={16} />
-                            <span className="text-xs font-bold uppercase tracking-widest font-minimal">{t('ai_lab.badge')}</span>
+                            <span className="text-xs font-bold uppercase tracking-widest font-minimal">Mentoria Criativa</span>
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-creativo font-bold mb-4 text-black dark:text-white">{t('ai_lab.title')}</h2>
+                        <h2 className="text-4xl md:text-5xl font-creativo font-bold mb-4 text-black dark:text-white">Desbloqueio Criativo</h2>
                         <p className="text-gray-600 dark:text-[#6C757D] font-minimal text-lg max-w-2xl mx-auto">
-                            {t('ai_lab.description')}
+                            Está travado num projeto? Conte-nos o seu desafio e receba um conselho estratégico da nossa IA.
                         </p>
                     </div>
 
@@ -368,12 +359,12 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
                                     <p className="text-gray-500 dark:text-[#6C757D] text-sm">Entrez un thème, un mot-clé ou une émotion.</p>
                                 </div>
 
-                                <form onSubmit={generateEpisodeIdea} className="space-y-4">
+                                <form onSubmit={handleCreativeAdvice} className="space-y-4">
                                     <input
                                         type="text"
                                         value={aiPrompt}
                                         onChange={(e) => setAiPrompt(e.target.value)}
-                                        placeholder="Ex: Futur de la Mode, IA et Art..."
+                                        placeholder="Ex: Não consigo escolher a paleta de cores para uma marca de luxo..."
                                         className="w-full bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded-xl px-4 py-4 text-black dark:text-white focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal placeholder:text-gray-400 dark:placeholder:text-[#444]"
                                     />
                                     <button
@@ -387,7 +378,7 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
                                             </>
                                         ) : (
                                             <>
-                                                Générer le Concept ✨
+                                                Receber Insight 💡
                                             </>
                                         )}
                                     </button>
@@ -400,7 +391,7 @@ export default function Home({ items, onPlay, favorites, toggleFavorite }) {
                                     <div className="animate-fade-in h-full overflow-y-auto custom-scrollbar">
                                         <div className="flex items-center gap-2 mb-6 border-b border-gray-200 dark:border-[#333] pb-4">
                                             <BrainCircuit className="text-[#007BFF]" size={20} />
-                                            <span className="text-sm font-bold text-gray-500 dark:text-[#6C757D] uppercase tracking-wider">Résultat généré par l'IA</span>
+                                            <span className="text-sm font-bold text-gray-500 dark:text-[#6C757D] uppercase tracking-wider">Insight da Mijea</span>
                                         </div>
                                         <div className="prose prose-invert prose-p:text-gray-700 dark:prose-p:text-[#A0A0A0] prose-headings:text-black dark:prose-headings:text-white max-w-none font-minimal whitespace-pre-wrap leading-relaxed">
                                             {aiResponse}

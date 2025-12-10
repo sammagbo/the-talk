@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { client, urlFor } from '../sanity';
 // import { analytics } from '../firebase'; // Analytics removed from firebase config
-import { logEvent } from 'firebase/analytics';
 import { X, ExternalLink } from 'lucide-react';
 
 export default function SponsorBanner() {

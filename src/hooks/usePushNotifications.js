@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { getToken, onMessage } from "firebase/messaging";
 // import { messaging } from "../firebase"; // Messaging removed from firebase config
 
 export const usePushNotifications = () => {
-    const [token, setToken] = useState(null);
+    const [token] = useState(null);
     const [notificationPermission, setNotificationPermission] = useState(Notification.permission);
 
     const requestPermission = async () => {

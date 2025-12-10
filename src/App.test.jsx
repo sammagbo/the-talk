@@ -49,6 +49,7 @@ vi.mock('firebase/firestore', () => ({
 }));
 
 // Mock global fetch
+// eslint-disable-next-line no-undef
 global.fetch = vi.fn(() =>
     Promise.resolve({
         json: () => Promise.resolve({ contents: '<rss></rss>' }),
