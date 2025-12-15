@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Newsletter from '../Newsletter';
-import { Mic, Instagram, Mail, X, Menu, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, LogOut, Bell } from 'lucide-react';
+import { Mic, Instagram, Mail, X, Menu, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, LogOut, Bell, Download } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { useAuth } from '../context/AuthContext';
 import ThemeToggle from '../components/ThemeToggle';
 import { usePushNotifications } from '../hooks/usePushNotifications';
+import LazyImage from '../components/LazyImage';
 
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
 
@@ -21,6 +22,25 @@ export default function Home({ items, favorites, toggleFavorite }) {
     const [scrolled, setScrolled] = useState(false);
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const [formStatus, setFormStatus] = useState('');
+    const [deferredPrompt, setDeferredPrompt] = useState(null);
+
+    useEffect(() => {
+        const handler = (e) => {
+            e.preventDefault();
+            setDeferredPrompt(e);
+        };
+        window.addEventListener('beforeinstallprompt', handler);
+        return () => window.removeEventListener('beforeinstallprompt', handler);
+    }, []);
+
+    const handleInstallClick = async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            setDeferredPrompt(null);
+        }
+    };
 
     // États pour l'IA Gemini
     const [aiPrompt, setAiPrompt] = useState('');
@@ -180,6 +200,15 @@ export default function Home({ items, favorites, toggleFavorite }) {
                         >
                             <Bell size={20} fill={notificationPermission === 'granted' ? 'currentColor' : 'none'} />
                         </button>
+                        {deferredPrompt && (
+                            <button
+                                onClick={handleInstallClick}
+                                className="flex items-center gap-2 bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-full font-bold transition-transform hover:scale-105 ml-2"
+                            >
+                                <Download size={16} />
+                                Instalar App
+                            </button>
+                        )}
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -297,7 +326,7 @@ export default function Home({ items, favorites, toggleFavorite }) {
                         >
                             <Link to={`/episode/${item.id}`} className="block">
                                 <div className="aspect-[4/3] overflow-hidden">
-                                    <img
+                                    <LazyImage
                                         src={item.src}
                                         alt={item.title}
                                         className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
@@ -416,7 +445,7 @@ export default function Home({ items, favorites, toggleFavorite }) {
                     <div className="flex flex-col md:flex-row items-center gap-16">
                         <div className="w-full md:w-1/2 relative">
                             <div className="absolute inset-0 bg-gradient-to-tr from-[#007BFF] to-[#A9A9F5] rounded-2xl transform rotate-3 blur-sm opacity-30"></div>
-                            <img
+                            <LazyImage
                                 src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80"
                                 alt="Mijea Rochi"
                                 className="w-full rounded-2xl relative z-10 grayscale hover:grayscale-0 transition-all duration-700 object-cover"
@@ -460,7 +489,7 @@ export default function Home({ items, favorites, toggleFavorite }) {
                             </div>
 
                             <div className="pt-4">
-                                <img
+                                <LazyImage
                                     src="https://fakeimg.pl/200x60/000000/ffffff/?text=Mijea+Rochi&font=lobster"
                                     alt="Signature"
                                     className="h-12 opacity-50 invert"

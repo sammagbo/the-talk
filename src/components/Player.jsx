@@ -16,6 +16,54 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
         }
     }, [currentEpisode, isPlaying]);
 
+    // Media Session API Support
+    useEffect(() => {
+        if ('mediaSession' in navigator && currentEpisode) {
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: currentEpisode.title,
+                artist: 'Mijea Rochi',
+                album: 'THE TALK',
+                artwork: [
+                    { src: currentEpisode.src, sizes: '96x96', type: 'image/jpeg' },
+                    { src: currentEpisode.src, sizes: '128x128', type: 'image/jpeg' },
+                    { src: currentEpisode.src, sizes: '192x192', type: 'image/jpeg' },
+                    { src: currentEpisode.src, sizes: '256x256', type: 'image/jpeg' },
+                    { src: currentEpisode.src, sizes: '384x384', type: 'image/jpeg' },
+                    { src: currentEpisode.src, sizes: '512x512', type: 'image/jpeg' },
+                ]
+            });
+
+            navigator.mediaSession.playbackState = isPlaying ? "playing" : "paused";
+
+            navigator.mediaSession.setActionHandler('play', () => {
+                if (!isPlaying) onTogglePlay();
+            });
+            navigator.mediaSession.setActionHandler('pause', () => {
+                if (isPlaying) onTogglePlay();
+            });
+            navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+                if (audioRef.current) {
+                    const skipTime = details.seekOffset || 10;
+                    audioRef.current.currentTime = Math.max(audioRef.current.currentTime - skipTime, 0);
+                    setProgress(audioRef.current.currentTime);
+                }
+            });
+            navigator.mediaSession.setActionHandler('seekforward', (details) => {
+                if (audioRef.current) {
+                    const skipTime = details.seekOffset || 10;
+                    audioRef.current.currentTime = Math.min(audioRef.current.currentTime + skipTime, audioRef.current.duration);
+                    setProgress(audioRef.current.currentTime);
+                }
+            });
+            navigator.mediaSession.setActionHandler('previoustrack', () => {
+                console.log("Previous Track");
+            });
+            navigator.mediaSession.setActionHandler('nexttrack', () => {
+                console.log("Next Track");
+            });
+        }
+    }, [currentEpisode, isPlaying, onTogglePlay]);
+
     const handleTimeUpdate = () => {
         if (audioRef.current) {
             setProgress(audioRef.current.currentTime);

@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, Play, Clock, Calendar, Share2, Sparkles, Loader2, BrainCircuit } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
+import LazyImage from '../components/LazyImage';
 import CommentsSection from '../components/CommentsSection';
 import Rating from '../components/Rating';
 import { useAuth } from '../context/AuthContext';
@@ -367,7 +368,7 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                                 {relatedEpisodes.map(item => (
                                     <Link to={`/episode/${item.id}`} key={item.id} className="group block" onClick={() => window.scrollTo(0, 0)}>
                                         <div className="aspect-square rounded-xl overflow-hidden mb-4 border border-gray-200 dark:border-[#333]">
-                                            <img
+                                            <LazyImage
                                                 src={item.fullSrc}
                                                 alt={item.title}
                                                 className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
