@@ -12,6 +12,9 @@ export default defineConfig({
         name: 'THE TALK',
         short_name: 'The Talk',
         theme_color: '#000000',
+        background_color: '#000000',
+        display: 'standalone',
+        start_url: '/',
         icons: [
           {
             src: '/pwa-192x192.png',
@@ -21,8 +24,18 @@ export default defineConfig({
           {
             src: '/pwa-512x512.png',
             sizes: '512x512',
+            type: 'image/png'
+          },
+          {
+            src: '/pwa-512x512.png',
+            sizes: '512x512',
             type: 'image/png',
-            purpose: 'any maskable'
+            purpose: 'maskable'
+          },
+          {
+            src: '/apple-touch-icon.png',
+            sizes: '180x180',
+            type: 'image/png'
           }
         ]
       }

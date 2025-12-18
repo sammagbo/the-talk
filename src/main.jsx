@@ -23,6 +23,7 @@ Sentry.init({
 });
 
 // Fallback UI component for error boundary
+// eslint-disable-next-line react-refresh/only-export-components
 const FallbackComponent = () => (
   <div style={{
     display: 'flex',

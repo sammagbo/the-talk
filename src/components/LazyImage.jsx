@@ -17,7 +17,7 @@ const LazyImage = ({ src, alt, className, placeholder, ...props }) => {
                                 !didCancel &&
                                 (entry.intersectionRatio > 0 || entry.isIntersecting)
                             ) {
-                                setImageSrc(src);
+                                setImageSrc(src);  
                                 observer.unobserve(imageRef);
                             }
                         });
@@ -30,7 +30,7 @@ const LazyImage = ({ src, alt, className, placeholder, ...props }) => {
                 observer.observe(imageRef);
             } else {
                 // Fallback for older browsers
-                setImageSrc(src);
+                setImageSrc(src); // eslint-disable-line react-hooks/set-state-in-effect
             }
         }
         return () => {
