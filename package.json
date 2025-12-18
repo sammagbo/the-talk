@@ -13,6 +13,7 @@
   "dependencies": {
     "@sanity/client": "^7.13.1",
     "@sanity/image-url": "^2.0.2",
+    "@sentry/react": "^10.32.0",
     "@stripe/stripe-js": "^8.5.3",
     "firebase": "^12.6.0",
     "i18next": "^25.7.2",

@@ -6,6 +6,7 @@ import { Loader2 } from 'lucide-react';
 const Home = lazy(() => import('./pages/Home'));
 const EpisodePage = lazy(() => import('./pages/EpisodePage'));
 const StorePage = lazy(() => import('./pages/StorePage'));
+const AdminPage = lazy(() => import('./pages/AdminPage'));
 import { useAuth } from './context/AuthContext';
 import { db } from './firebase';
 import SponsorBanner from './components/SponsorBanner';
@@ -127,6 +128,7 @@ export default function App() {
           <Route path="/" element={<Home items={items} onPlay={handlePlay} favorites={favorites} toggleFavorite={toggleFavorite} />} />
           <Route path="/episode/:id" element={<EpisodePage items={items} onPlay={handlePlay} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
           <Route path="/store" element={<StorePage />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </Suspense>
 

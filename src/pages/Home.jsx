@@ -224,8 +224,17 @@ export default function Home({ items, favorites, toggleFavorite }) {
                         <button onClick={() => scrollToSection('ai-lab')} className="py-2 hover:text-[#007BFF]">{t('nav.ai_lab')}</button>
                         <button onClick={() => scrollToSection('apropos')} className="py-2 hover:text-[#007BFF]">{t('nav.about')}</button>
                         <button onClick={() => scrollToSection('contact')} className="py-2 hover:text-[#007BFF]">{t('nav.contact')}</button>
-                        <div className="flex justify-center pt-4">
+                        <div className="flex justify-center pt-4 gap-4">
                             <ThemeToggle />
+                            {deferredPrompt && (
+                                <button
+                                    onClick={handleInstallClick}
+                                    className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full font-bold transition-transform hover:scale-105"
+                                >
+                                    <Download size={16} />
+                                    Instalar App
+                                </button>
+                            )}
                         </div>
                     </div>
                 )}

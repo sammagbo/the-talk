@@ -56,11 +56,31 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                 }
             });
             navigator.mediaSession.setActionHandler('previoustrack', () => {
-                console.log("Previous Track");
+                // Rewind 10 seconds
+                if (audioRef.current) {
+                    audioRef.current.currentTime = Math.max(audioRef.current.currentTime - 10, 0);
+                    setProgress(audioRef.current.currentTime);
+                }
             });
             navigator.mediaSession.setActionHandler('nexttrack', () => {
-                console.log("Next Track");
+                // Skip forward 10 seconds
+                if (audioRef.current) {
+                    audioRef.current.currentTime = Math.min(audioRef.current.currentTime + 10, audioRef.current.duration || 0);
+                    setProgress(audioRef.current.currentTime);
+                }
             });
+
+            // Cleanup: remove action handlers on unmount
+            return () => {
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.setActionHandler('play', null);
+                    navigator.mediaSession.setActionHandler('pause', null);
+                    navigator.mediaSession.setActionHandler('seekbackward', null);
+                    navigator.mediaSession.setActionHandler('seekforward', null);
+                    navigator.mediaSession.setActionHandler('previoustrack', null);
+                    navigator.mediaSession.setActionHandler('nexttrack', null);
+                }
+            };
         }
     }, [currentEpisode, isPlaying, onTogglePlay]);
 
