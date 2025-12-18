@@ -9,7 +9,7 @@
         "back_gallery": "Back to gallery"
     },
     "hero": {
-        "subtitle": "By Mijea Rochi",
+        "subtitle": "By Mijean Rochus",
         "new_episode": "New Episode Available",
         "description": "Exploring creativity and digital innovation through authentic conversations.",
         "listen_now": "Listen Now",
@@ -29,7 +29,7 @@
     "ai_lab": {
         "badge": "Gemini AI Powered",
         "title": "Creative Lab",
-        "description": "Use our AI assistant to instantly generate episode concepts inspired by Mijea Rochi's editorial style.",
+        "description": "Use our AI assistant to instantly generate episode concepts inspired by Mijean Rochus's editorial style.",
         "generator_title": "Generator",
         "generator_subtitle": "Enter a theme, a keyword, or an emotion.",
         "placeholder": "Ex: Future of Fashion, AI and Art...",
@@ -73,7 +73,7 @@
     },
     "footer": {
         "support": "Support",
-        "rights": "© 2025 Mijea Rochi. All Rights Reserved."
+        "rights": "© 2025 Mijean Rochus. All Rights Reserved."
     },
     "episode": {
         "not_found": "Episode not found",

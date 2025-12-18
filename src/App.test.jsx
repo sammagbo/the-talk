@@ -24,7 +24,7 @@ vi.mock('./pages/Home', () => ({
     default: () => (
         <div>
             <h1>THE TALK</h1>
-            <p>By Mijea Rochi</p>
+            <p>By Mijean Rochus</p>
         </div>
     )
 }));
@@ -76,8 +76,8 @@ describe('App', () => {
         const logoText = await screen.findByText(/THE TALK/i);
         expect(logoText).toBeDefined();
 
-        // Check for "By Mijea Rochi"
-        const subText = await screen.findByText(/By Mijea Rochi/i);
+        // Check for "By Mijean Rochus"
+        const subText = await screen.findByText(/By Mijean Rochus/i);
         expect(subText).toBeDefined();
     });
 });

@@ -92,7 +92,7 @@ export default function Home({ items, favorites, toggleFavorite }) {
                     body: JSON.stringify({
                         contents: [{
                             parts: [{
-                                text: `Atue como Mijea Rochi, Diretora Criativa e Host do podcast THE TALK. O tom deve ser: Sofisticado, minimalista, encorajador e técnico. O utilizador tem este bloqueio criativo: "${aiPrompt}". Dê um conselho curto (máx 3 frases), prático e inspirador para resolver isso.`
+                                text: `Atue como Mijean Rochus, Diretora Criativa e Host do podcast THE TALK. O tom deve ser: Sofisticado, minimalista, encorajador e técnico. O utilizador tem este bloqueio criativo: "${aiPrompt}". Dê um conselho curto (máx 3 frases), prático e inspirador para resolver isso.`
                             }]
                         }]
                     }),
@@ -124,9 +124,9 @@ export default function Home({ items, favorites, toggleFavorite }) {
     return (
         <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-[#007BFF] selection:text-white transition-colors duration-300">
             <Helmet>
-                <title>THE TALK | Podcast by Mijea Rochi</title>
-                <meta name="description" content="Explorer la créativité et l'innovation digitale à travers des conversations authentiques. Un podcast visionnaire par Mijea Rochi." />
-                <meta property="og:title" content="THE TALK | Podcast by Mijea Rochi" />
+                <title>THE TALK | Podcast by Mijean Rochus</title>
+                <meta name="description" content="Explorer la créativité et l'innovation digitale à travers des conversations authentiques. Un podcast visionnaire par Mijean Rochus." />
+                <meta property="og:title" content="THE TALK | Podcast by Mijean Rochus" />
                 <meta property="og:description" content="Explorer la créativité et l'innovation digitale à travers des conversations authentiques." />
                 <meta property="og:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80" />
                 <meta property="og:type" content="website" />
@@ -153,12 +153,10 @@ export default function Home({ items, favorites, toggleFavorite }) {
                 <div className="container mx-auto px-6 flex justify-between items-center">
                     <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo(0, 0)}>
                         {/* Logo Icon */}
-                        <div className="bg-[#007BFF] p-2 rounded-lg">
-                            <Mic className="w-5 h-5 text-white" />
-                        </div>
+                        <img src="/logo.png" alt="THE TALK Logo" className="w-10 h-10 rounded-lg object-cover" />
                         <div className="flex flex-col">
                             <span className="text-xl font-creativo font-bold tracking-tight leading-none">THE TALK</span>
-                            <span className="text-[10px] font-minimal text-[#A9A9F5] tracking-widest uppercase">By Mijea Rochi</span>
+                            <span className="text-[10px] font-minimal text-[#A9A9F5] tracking-widest uppercase">By Mijean Rochus</span>
                         </div>
                     </div>
 
@@ -265,7 +263,7 @@ export default function Home({ items, favorites, toggleFavorite }) {
                     </h1>
 
                     <p className="text-xl md:text-2xl font-minimal text-gray-600 dark:text-[#6C757D] mb-4 max-w-2xl mx-auto font-light">
-                        A Podcast by <span className="text-black dark:text-white font-medium">Mijea Rochi</span>
+                        A Podcast by <span className="text-black dark:text-white font-medium">Mijean Rochus</span>
                     </p>
 
                     <p className="text-lg text-gray-800 dark:text-white/80 mb-10 max-w-xl mx-auto font-minimal">
@@ -448,7 +446,7 @@ export default function Home({ items, favorites, toggleFavorite }) {
                 </div>
             </section>
 
-            {/* About Section - Updated with Mijea Rochi Identity */}
+            {/* About Section - Updated with Mijean Rochus Identity */}
             <section id="apropos" className="py-24 bg-white dark:bg-[#020202] border-t border-gray-200 dark:border-[#333]">
                 <div className="container mx-auto px-6 max-w-6xl">
                     <div className="flex flex-col md:flex-row items-center gap-16">
@@ -456,7 +454,7 @@ export default function Home({ items, favorites, toggleFavorite }) {
                             <div className="absolute inset-0 bg-gradient-to-tr from-[#007BFF] to-[#A9A9F5] rounded-2xl transform rotate-3 blur-sm opacity-30"></div>
                             <LazyImage
                                 src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80"
-                                alt="Mijea Rochi"
+                                alt="Mijean Rochus"
                                 className="w-full rounded-2xl relative z-10 grayscale hover:grayscale-0 transition-all duration-700 object-cover"
                             />
 
@@ -472,7 +470,7 @@ export default function Home({ items, favorites, toggleFavorite }) {
                         <div className="w-full md:w-1/2 space-y-8">
                             <div>
                                 <h4 className="text-[#007BFF] font-creativo font-bold text-lg mb-2">{t('about.title')}</h4>
-                                <h2 className="text-4xl md:text-5xl font-creativo font-bold text-black dark:text-white mb-4">Mijea Rochi</h2>
+                                <h2 className="text-4xl md:text-5xl font-creativo font-bold text-black dark:text-white mb-4">Mijean Rochus</h2>
                                 <p className="text-[#007BFF] dark:text-[#A9A9F5] font-minimal text-xl">{t('about.role')}</p>
                             </div>
 
@@ -633,7 +631,7 @@ export default function Home({ items, favorites, toggleFavorite }) {
                             <Mic className="w-5 h-5 text-[#007BFF]" />
                             <span className="text-black dark:text-white font-creativo font-bold tracking-tight">THE TALK</span>
                         </div>
-                        <p className="text-gray-500 dark:text-[#6C757D] text-xs font-minimal">A Podcast by Mijea Rochi. Innovation & Creativity.</p>
+                        <p className="text-gray-500 dark:text-[#6C757D] text-xs font-minimal">A Podcast by Mijean Rochus. Innovation & Creativity.</p>
                         <div className="mt-4">
                             <LanguageSwitcher />
                         </div>
@@ -649,7 +647,7 @@ export default function Home({ items, favorites, toggleFavorite }) {
                         <a href="#" className="text-[#6C757D] hover:text-[#007BFF] transition-colors"><Instagram className="w-5 h-5" /></a>
                     </div>
 
-                    <p className="text-[#6C757D] text-xs font-minimal opacity-50">© 2025 Mijea Rochi. All Rights Reserved.</p>
+                    <p className="text-[#6C757D] text-xs font-minimal opacity-50">© 2025 Mijean Rochus. All Rights Reserved.</p>
                 </div>
             </footer>
         </div>

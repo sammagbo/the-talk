@@ -21,7 +21,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
         if ('mediaSession' in navigator && currentEpisode) {
             navigator.mediaSession.metadata = new MediaMetadata({
                 title: currentEpisode.title,
-                artist: 'Mijea Rochi',
+                artist: 'Mijean Rochus',
                 album: 'THE TALK',
                 artwork: [
                     { src: currentEpisode.src, sizes: '96x96', type: 'image/jpeg' },

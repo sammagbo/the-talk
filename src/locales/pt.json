@@ -9,7 +9,7 @@
         "back_gallery": "Voltar para galeria"
     },
     "hero": {
-        "subtitle": "Por Mijea Rochi",
+        "subtitle": "Por Mijean Rochus",
         "new_episode": "Novo Episódio Disponível",
         "description": "Explorando a criatividade e a inovação digital através de conversas autênticas.",
         "listen_now": "Ouvir Agora",
@@ -29,7 +29,7 @@
     "ai_lab": {
         "badge": "Portado por Gemini AI",
         "title": "Laboratório Criativo",
-        "description": "Use nosso assistente de IA para gerar instantaneamente conceitos de episódios inspirados no estilo editorial de Mijea Rochi.",
+        "description": "Use nosso assistente de IA para gerar instantaneamente conceitos de episódios inspirados no estilo editorial de Mijean Rochus.",
         "generator_title": "Gerador",
         "generator_subtitle": "Digite um tema, uma palavra-chave ou uma emoção.",
         "placeholder": "Ex: Futuro da Moda, IA e Arte...",
@@ -73,7 +73,7 @@
     },
     "footer": {
         "support": "Apoiar",
-        "rights": "© 2025 Mijea Rochi. Todos os direitos reservados."
+        "rights": "© 2025 Mijean Rochus. Todos os direitos reservados."
     },
     "episode": {
         "not_found": "Episódio não encontrado",
