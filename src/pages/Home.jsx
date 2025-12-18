@@ -125,9 +125,9 @@ export default function Home({ items, favorites, toggleFavorite }) {
         <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-[#007BFF] selection:text-white transition-colors duration-300">
             <Helmet>
                 <title>THE TALK | Podcast by Mijean Rochus</title>
-                <meta name="description" content="Explorer la créativité et l'innovation digitale à travers des conversations authentiques. Un podcast visionnaire par Mijean Rochus." />
+                <meta name="description" content="Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives. Un podcast mode par Mijean Rochus." />
                 <meta property="og:title" content="THE TALK | Podcast by Mijean Rochus" />
-                <meta property="og:description" content="Explorer la créativité et l'innovation digitale à travers des conversations authentiques." />
+                <meta property="og:description" content="Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives." />
                 <meta property="og:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80" />
                 <meta property="og:type" content="website" />
             </Helmet>
@@ -267,7 +267,7 @@ export default function Home({ items, favorites, toggleFavorite }) {
                     </p>
 
                     <p className="text-lg text-gray-800 dark:text-white/80 mb-10 max-w-xl mx-auto font-minimal">
-                        Explorer la créativité et l'innovation digitale à travers des conversations authentiques.
+                        Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives.
                     </p>
 
                     <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
