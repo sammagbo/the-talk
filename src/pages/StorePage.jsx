@@ -1,5 +1,5 @@
 import React from 'react';
-import { redirectToCheckout } from '../utils/stripe';
+import { handleBuy } from '../lib/stripe';
 import { ShoppingBag, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -69,7 +69,7 @@ export default function StorePage() {
                                     {product.description}
                                 </p>
                                 <button
-                                    onClick={() => redirectToCheckout(product.id)}
+                                    onClick={() => handleBuy(product.id)}
                                     className="w-full bg-[#007BFF] hover:bg-[#0069d9] text-white py-3 rounded-xl font-bold font-creativo transition-colors flex items-center justify-center gap-2"
                                 >
                                     <ShoppingBag size={18} />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Newsletter from '../Newsletter';
-import { Mic, Instagram, Mail, X, Menu, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, LogOut, Bell, Download } from 'lucide-react';
+import { Mic, Instagram, Mail, X, Menu, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, LogOut, Bell, Download, ShoppingBag } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { useAuth } from '../context/AuthContext';
@@ -163,9 +163,10 @@ export default function Home({ items, favorites, toggleFavorite }) {
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center gap-8 text-sm font-minimal font-medium tracking-wide">
                         <button onClick={() => scrollToSection('galerie')} className="hover:text-[#007BFF] transition-colors">{t('nav.episodes')}</button>
-                        <button onClick={() => scrollToSection('ai-lab')} className="hover:text-[#007BFF] transition-colors flex items-center gap-1"><Sparkles size={14} /> {t('nav.ai_lab')}</button>
                         <button onClick={() => scrollToSection('apropos')} className="hover:text-[#007BFF] transition-colors">{t('nav.about')}</button>
                         <button onClick={() => scrollToSection('contact')} className="hover:text-[#007BFF] transition-colors">{t('nav.contact')}</button>
+                        <button onClick={() => scrollToSection('ai-lab')} className="hover:text-[#007BFF] transition-colors flex items-center gap-1"><Sparkles size={14} /> {t('nav.ai_lab')}</button>
+                        <Link to="/store" className="hover:text-[#007BFF] transition-colors flex items-center gap-1"><ShoppingBag size={14} /> Boutique</Link>
 
                         {user ? (
                             <div className="flex items-center gap-3 ml-2">
@@ -219,9 +220,10 @@ export default function Home({ items, favorites, toggleFavorite }) {
                 {isMenuOpen && (
                     <div className="md:hidden absolute top-full left-0 w-full bg-black border-b border-[#6C757D]/20 p-6 flex flex-col gap-4 text-center font-minimal">
                         <button onClick={() => scrollToSection('galerie')} className="py-2 hover:text-[#007BFF]">{t('nav.episodes')}</button>
-                        <button onClick={() => scrollToSection('ai-lab')} className="py-2 hover:text-[#007BFF]">{t('nav.ai_lab')}</button>
                         <button onClick={() => scrollToSection('apropos')} className="py-2 hover:text-[#007BFF]">{t('nav.about')}</button>
                         <button onClick={() => scrollToSection('contact')} className="py-2 hover:text-[#007BFF]">{t('nav.contact')}</button>
+                        <button onClick={() => scrollToSection('ai-lab')} className="py-2 hover:text-[#007BFF]">{t('nav.ai_lab')}</button>
+                        <Link to="/store" onClick={() => setIsMenuOpen(false)} className="py-2 hover:text-[#007BFF] flex items-center justify-center gap-2"><ShoppingBag size={16} /> Boutique</Link>
                         <div className="flex justify-center pt-4 gap-4">
                             <ThemeToggle />
                             {deferredPrompt && (
@@ -366,83 +368,6 @@ export default function Home({ items, favorites, toggleFavorite }) {
                             </div>
                         </div>
                     ))}
-                </div>
-            </section>
-
-            {/* NEW: AI Creative Lab Section */}
-            <section id="ai-lab" className="py-24 bg-gray-50 dark:bg-[#020202] border-t border-gray-200 dark:border-[#333]">
-                <div className="container mx-auto px-6 max-w-5xl">
-                    <div className="text-center mb-12">
-                        <div className="inline-flex items-center gap-2 bg-[#007BFF]/10 text-[#007BFF] px-4 py-1 rounded-full mb-4 border border-[#007BFF]/20">
-                            <Sparkles size={16} />
-                            <span className="text-xs font-bold uppercase tracking-widest font-minimal">Mentoria Criativa</span>
-                        </div>
-                        <h2 className="text-4xl md:text-5xl font-creativo font-bold mb-4 text-black dark:text-white">Desbloqueio Criativo</h2>
-                        <p className="text-gray-600 dark:text-[#6C757D] font-minimal text-lg max-w-2xl mx-auto">
-                            Está travado num projeto? Conte-nos o seu desafio e receba um conselho estratégico da nossa IA.
-                        </p>
-                    </div>
-
-                    <div className="bg-white dark:bg-[#111] rounded-3xl border border-gray-200 dark:border-[#333] p-1 overflow-hidden shadow-2xl relative">
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#007BFF]/10 rounded-full blur-[80px]"></div>
-
-                        <div className="grid md:grid-cols-5 gap-0">
-                            {/* Input Area */}
-                            <div className="md:col-span-2 p-8 border-b md:border-b-0 md:border-r border-gray-200 dark:border-[#333] flex flex-col justify-center">
-                                <div className="mb-6">
-                                    <Bot className="w-10 h-10 text-[#007BFF] dark:text-[#A9A9F5] mb-4" />
-                                    <h3 className="text-2xl font-creativo font-bold text-black dark:text-white mb-2">Générateur</h3>
-                                    <p className="text-gray-500 dark:text-[#6C757D] text-sm">Entrez un thème, un mot-clé ou une émotion.</p>
-                                </div>
-
-                                <form onSubmit={handleCreativeAdvice} className="space-y-4">
-                                    <input
-                                        type="text"
-                                        value={aiPrompt}
-                                        onChange={(e) => setAiPrompt(e.target.value)}
-                                        placeholder="Ex: Não consigo escolher a paleta de cores para uma marca de luxo..."
-                                        className="w-full bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded-xl px-4 py-4 text-black dark:text-white focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal placeholder:text-gray-400 dark:placeholder:text-[#444]"
-                                    />
-                                    <button
-                                        type="submit"
-                                        disabled={isGenerating || !aiPrompt.trim()}
-                                        className="w-full bg-gradient-to-r from-[#007BFF] to-[#0056b3] text-white font-creativo font-bold py-4 rounded-xl transition-all hover:shadow-[0_0_20px_rgba(0,123,255,0.3)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                                    >
-                                        {isGenerating ? (
-                                            <>
-                                                <Loader2 className="animate-spin" size={18} /> Génération...
-                                            </>
-                                        ) : (
-                                            <>
-                                                Receber Insight 💡
-                                            </>
-                                        )}
-                                    </button>
-                                </form>
-                            </div>
-
-                            {/* Output Area */}
-                            <div className="md:col-span-3 p-8 bg-gray-50/50 dark:bg-[#020202]/50 min-h-[400px] flex flex-col relative">
-                                {aiResponse ? (
-                                    <div className="animate-fade-in h-full overflow-y-auto custom-scrollbar">
-                                        <div className="flex items-center gap-2 mb-6 border-b border-gray-200 dark:border-[#333] pb-4">
-                                            <BrainCircuit className="text-[#007BFF]" size={20} />
-                                            <span className="text-sm font-bold text-gray-500 dark:text-[#6C757D] uppercase tracking-wider">Insight da Mijea</span>
-                                        </div>
-                                        <div className="prose prose-invert prose-p:text-gray-700 dark:prose-p:text-[#A0A0A0] prose-headings:text-black dark:prose-headings:text-white max-w-none font-minimal whitespace-pre-wrap leading-relaxed">
-                                            {aiResponse}
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="flex flex-col items-center justify-center h-full text-gray-400 dark:text-[#333] text-center p-8">
-                                        <Sparkles className="w-16 h-16 mb-4 opacity-20" />
-                                        <p className="font-creativo text-xl font-bold opacity-30">En attente d'inspiration...</p>
-                                        <p className="font-minimal text-sm opacity-30 mt-2">Le résultat apparaîtra ici.</p>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </section>
 
@@ -608,6 +533,83 @@ export default function Home({ items, favorites, toggleFavorite }) {
                                 ENVOYER LE MESSAGE
                             </button>
                         </form>
+                    </div>
+                </div>
+            </section>
+
+            {/* NEW: AI Creative Lab Section */}
+            <section id="ai-lab" className="py-24 bg-gray-50 dark:bg-[#020202] border-t border-gray-200 dark:border-[#333]">
+                <div className="container mx-auto px-6 max-w-5xl">
+                    <div className="text-center mb-12">
+                        <div className="inline-flex items-center gap-2 bg-[#007BFF]/10 text-[#007BFF] px-4 py-1 rounded-full mb-4 border border-[#007BFF]/20">
+                            <Sparkles size={16} />
+                            <span className="text-xs font-bold uppercase tracking-widest font-minimal">Mentoria Criativa</span>
+                        </div>
+                        <h2 className="text-4xl md:text-5xl font-creativo font-bold mb-4 text-black dark:text-white">Desbloqueio Criativo</h2>
+                        <p className="text-gray-600 dark:text-[#6C757D] font-minimal text-lg max-w-2xl mx-auto">
+                            Está travado num projeto? Conte-nos o seu desafio e receba um conselho estratégico da nossa IA.
+                        </p>
+                    </div>
+
+                    <div className="bg-white dark:bg-[#111] rounded-3xl border border-gray-200 dark:border-[#333] p-1 overflow-hidden shadow-2xl relative">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#007BFF]/10 rounded-full blur-[80px]"></div>
+
+                        <div className="grid md:grid-cols-5 gap-0">
+                            {/* Input Area */}
+                            <div className="md:col-span-2 p-8 border-b md:border-b-0 md:border-r border-gray-200 dark:border-[#333] flex flex-col justify-center">
+                                <div className="mb-6">
+                                    <Bot className="w-10 h-10 text-[#007BFF] dark:text-[#A9A9F5] mb-4" />
+                                    <h3 className="text-2xl font-creativo font-bold text-black dark:text-white mb-2">Générateur</h3>
+                                    <p className="text-gray-500 dark:text-[#6C757D] text-sm">Entrez un thème, un mot-clé ou une émotion.</p>
+                                </div>
+
+                                <form onSubmit={handleCreativeAdvice} className="space-y-4">
+                                    <input
+                                        type="text"
+                                        value={aiPrompt}
+                                        onChange={(e) => setAiPrompt(e.target.value)}
+                                        placeholder="Ex: Não consigo escolher a paleta de cores para uma marca de luxo..."
+                                        className="w-full bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded-xl px-4 py-4 text-black dark:text-white focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal placeholder:text-gray-400 dark:placeholder:text-[#444]"
+                                    />
+                                    <button
+                                        type="submit"
+                                        disabled={isGenerating || !aiPrompt.trim()}
+                                        className="w-full bg-gradient-to-r from-[#007BFF] to-[#0056b3] text-white font-creativo font-bold py-4 rounded-xl transition-all hover:shadow-[0_0_20px_rgba(0,123,255,0.3)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                    >
+                                        {isGenerating ? (
+                                            <>
+                                                <Loader2 className="animate-spin" size={18} /> Génération...
+                                            </>
+                                        ) : (
+                                            <>
+                                                Receber Insight 💡
+                                            </>
+                                        )}
+                                    </button>
+                                </form>
+                            </div>
+
+                            {/* Output Area */}
+                            <div className="md:col-span-3 p-8 bg-gray-50/50 dark:bg-[#020202]/50 min-h-[400px] flex flex-col relative">
+                                {aiResponse ? (
+                                    <div className="animate-fade-in h-full overflow-y-auto custom-scrollbar">
+                                        <div className="flex items-center gap-2 mb-6 border-b border-gray-200 dark:border-[#333] pb-4">
+                                            <BrainCircuit className="text-[#007BFF]" size={20} />
+                                            <span className="text-sm font-bold text-gray-500 dark:text-[#6C757D] uppercase tracking-wider">Insight da Mijea</span>
+                                        </div>
+                                        <div className="prose prose-invert prose-p:text-gray-700 dark:prose-p:text-[#A0A0A0] prose-headings:text-black dark:prose-headings:text-white max-w-none font-minimal whitespace-pre-wrap leading-relaxed">
+                                            {aiResponse}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="flex flex-col items-center justify-center h-full text-gray-400 dark:text-[#333] text-center p-8">
+                                        <Sparkles className="w-16 h-16 mb-4 opacity-20" />
+                                        <p className="font-creativo text-xl font-bold opacity-30">En attente d'inspiration...</p>
+                                        <p className="font-minimal text-sm opacity-30 mt-2">Le résultat apparaîtra ici.</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
