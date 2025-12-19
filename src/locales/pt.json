@@ -71,6 +71,16 @@
         "title": "Mantenha-se Inspirado",
         "description": "Junte-se à nossa comunidade criativa e receba os últimos episódios e insights diretamente na sua caixa de entrada."
     },
+    "subscribe": {
+        "title": "Mantenha-se Inspirado",
+        "description": "Receba os últimos episódios e insights diretamente na sua caixa de entrada.",
+        "placeholder": "seu@email.com",
+        "button": "Inscrever-se",
+        "loading": "Inscrevendo...",
+        "success": "Obrigado! Você está inscrito.",
+        "error": "Ocorreu um erro. Tente novamente.",
+        "privacy": "Respeitamos sua privacidade. Cancele a qualquer momento."
+    },
     "footer": {
         "support": "Apoiar",
         "rights": "© 2025 Mijean Rochus. Todos os direitos reservados."

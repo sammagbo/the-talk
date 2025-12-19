@@ -71,6 +71,16 @@
         "title": "Stay Inspired",
         "description": "Join our creative community and receive the latest episodes and insights directly in your inbox."
     },
+    "subscribe": {
+        "title": "Stay Inspired",
+        "description": "Receive the latest episodes and insights directly in your inbox.",
+        "placeholder": "your@email.com",
+        "button": "Subscribe",
+        "loading": "Subscribing...",
+        "success": "Thank you! You are subscribed.",
+        "error": "An error occurred. Please try again.",
+        "privacy": "We respect your privacy. Unsubscribe at any time."
+    },
     "footer": {
         "support": "Support",
         "rights": "© 2025 Mijean Rochus. All Rights Reserved."

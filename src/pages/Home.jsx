@@ -9,6 +9,7 @@ import { useAuth } from '../context/AuthContext';
 import ThemeToggle from '../components/ThemeToggle';
 import { usePushNotifications } from '../hooks/usePushNotifications';
 import LazyImage from '../components/LazyImage';
+import SubscribeModal from '../components/SubscribeModal';
 
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
 
@@ -23,6 +24,7 @@ export default function Home({ items, favorites, toggleFavorite }) {
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const [formStatus, setFormStatus] = useState('');
     const [deferredPrompt, setDeferredPrompt] = useState(null);
+    const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
 
     useEffect(() => {
         const handler = (e) => {
@@ -181,6 +183,12 @@ Responda sempre de forma clara e elegante.`
                         <button onClick={() => scrollToSection('contact')} className="hover:text-[#007BFF] transition-colors">{t('nav.contact')}</button>
                         <button onClick={() => scrollToSection('ai-lab')} className="hover:text-[#007BFF] transition-colors flex items-center gap-1"><Sparkles size={14} /> {t('nav.ai_lab')}</button>
                         <Link to="/store" className="hover:text-[#007BFF] transition-colors flex items-center gap-1"><ShoppingBag size={14} /> Boutique</Link>
+                        <button
+                            onClick={() => setIsSubscribeOpen(true)}
+                            className="bg-[#007BFF]/10 text-[#007BFF] px-4 py-2 rounded-full hover:bg-[#007BFF]/20 transition-colors font-bold text-xs flex items-center gap-1"
+                        >
+                            <Mail size={14} /> {t('subscribe.button')}
+                        </button>
 
                         {user ? (
                             <div className="flex items-center gap-3 ml-2">
@@ -666,6 +674,12 @@ Responda sempre de forma clara e elegante.`
                     <p className="text-[#6C757D] text-xs font-minimal opacity-50">© 2025 Mijean Rochus. All Rights Reserved.</p>
                 </div>
             </footer>
+
+            {/* Subscribe Modal */}
+            <SubscribeModal
+                isOpen={isSubscribeOpen}
+                onClose={() => setIsSubscribeOpen(false)}
+            />
         </div>
     );
 }
