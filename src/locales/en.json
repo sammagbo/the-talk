@@ -111,6 +111,10 @@
         "login_comment": "Log in to join the discussion.",
         "loading_comments": "Loading comments...",
         "first_comment": "Be the first to comment on this episode.",
-        "placeholder_comment": "Share your thoughts on this episode..."
+        "placeholder_comment": "Share your thoughts on this episode...",
+        "locked_title": "Premium Content",
+        "locked_description": "This content is reserved for members. Log in or upgrade to premium to access it.",
+        "login_button": "Log In",
+        "upgrade_button": "Upgrade to Premium"
     }
 }

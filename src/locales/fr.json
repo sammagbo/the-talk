@@ -111,6 +111,10 @@
         "login_comment": "Connectez-vous pour participer à la discussion.",
         "loading_comments": "Chargement des commentaires...",
         "first_comment": "Soyez le premier à commenter cet épisode.",
-        "placeholder_comment": "Partagez votre avis sur cet épisode..."
+        "placeholder_comment": "Partagez votre avis sur cet épisode...",
+        "locked_title": "Contenu Premium",
+        "locked_description": "Ce contenu est réservé aux membres. Connectez-vous ou passez au premium pour y accéder.",
+        "login_button": "Se Connecter",
+        "upgrade_button": "Passer au Premium"
     }
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, Play, Clock, Calendar, Share2, Sparkles, Loader2, BrainCircuit } from 'lucide-react';
+import { ArrowLeft, Play, Clock, Calendar, Share2, Sparkles, Loader2, BrainCircuit, Lock } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
 import LazyImage from '../components/LazyImage';
 import CommentsSection from '../components/CommentsSection';
@@ -45,6 +45,7 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                     audioUrl,
                     transcript,
                     slug,
+                    isPremium,
                     "related": *[_type == "episode" && category->title == ^.category->title && _id != ^._id][0...3]{
                         _id, 
                         title, 
@@ -69,7 +70,8 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                         src: result.src ? urlFor(result.src).width(800).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=800&q=80',
                         fullSrc: result.fullSrc ? urlFor(result.fullSrc).width(1600).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=1600&q=80',
                         transcript: result.transcript,
-                        slug: result.slug?.current
+                        slug: result.slug?.current,
+                        isPremium: result.isPremium || false
                     });
 
                     // Set related episodes from the same query result
@@ -238,28 +240,59 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
 
                             {/* Player Action */}
                             <div className="mb-12">
-                                <button
-                                    onClick={() => onPlay({ ...episode, id: episode.id })}
-                                    className="w-full md:w-auto bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(0,123,255,0.3)] hover:shadow-[0_0_30px_rgba(0,123,255,0.5)] transition-all transform hover:scale-105 flex items-center justify-center gap-3"
-                                >
-                                    {currentEpisode?.id === episode.id && isPlaying ? (
-                                        <>
-                                            <div className="relative">
-                                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75"></span>
-                                                <Play className="relative inline-flex" fill="currentColor" />
-                                            </div>
-                                            {t('episode.playing')}
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Play fill="currentColor" />
-                                            {t('episode.play')}
-                                        </>
-                                    )}
-                                </button>
-                                <p className="mt-4 text-sm text-gray-500 dark:text-[#6C757D] italic">
-                                    {t('episode.play_hint')}
-                                </p>
+                                {/* Locked Content Banner */}
+                                {episode.isPremium && !user ? (
+                                    <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl p-8 text-center">
+                                        <div className="inline-flex items-center justify-center w-16 h-16 bg-amber-500/20 rounded-full mb-4">
+                                            <Lock className="w-8 h-8 text-amber-500" />
+                                        </div>
+                                        <h3 className="text-2xl font-creativo font-bold text-black dark:text-white mb-2">
+                                            {t('episode.locked_title', 'Contenu Premium')}
+                                        </h3>
+                                        <p className="text-gray-600 dark:text-[#A0A0A0] font-minimal mb-6">
+                                            {t('episode.locked_description', 'Ce contenu est réservé aux membres. Connectez-vous ou passez au premium pour y accéder.')}
+                                        </p>
+                                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                            <button
+                                                onClick={() => window.location.href = '/'}
+                                                className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-3 rounded-full font-bold transition-all flex items-center justify-center gap-2"
+                                            >
+                                                {t('episode.login_button', 'Se Connecter')}
+                                            </button>
+                                            <Link
+                                                to="/store"
+                                                className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-8 py-3 rounded-full font-bold transition-all flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(245,158,11,0.3)]"
+                                            >
+                                                {t('episode.upgrade_button', 'Passer au Premium')}
+                                            </Link>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <button
+                                            onClick={() => onPlay({ ...episode, id: episode.id })}
+                                            className="w-full md:w-auto bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(0,123,255,0.3)] hover:shadow-[0_0_30px_rgba(0,123,255,0.5)] transition-all transform hover:scale-105 flex items-center justify-center gap-3"
+                                        >
+                                            {currentEpisode?.id === episode.id && isPlaying ? (
+                                                <>
+                                                    <div className="relative">
+                                                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75"></span>
+                                                        <Play className="relative inline-flex" fill="currentColor" />
+                                                    </div>
+                                                    {t('episode.playing')}
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Play fill="currentColor" />
+                                                    {t('episode.play')}
+                                                </>
+                                            )}
+                                        </button>
+                                        <p className="mt-4 text-sm text-gray-500 dark:text-[#6C757D] italic">
+                                            {t('episode.play_hint')}
+                                        </p>
+                                    </>
+                                )}
                             </div>
 
                             {/* TABS Navigation */}
