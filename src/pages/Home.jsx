@@ -83,7 +83,7 @@ export default function Home({ items, favorites, toggleFavorite }) {
             }
 
             const response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent?key=${apiKey}`,
                 {
                     method: "POST",
                     headers: {
@@ -92,9 +92,23 @@ export default function Home({ items, favorites, toggleFavorite }) {
                     body: JSON.stringify({
                         contents: [{
                             parts: [{
-                                text: `Atue como Mijean Rochus, Diretora Criativa e Host do podcast THE TALK. O tom deve ser: Sofisticado, minimalista, encorajador e técnico. O utilizador tem este bloqueio criativo: "${aiPrompt}". Dê um conselho curto (máx 3 frases), prático e inspirador para resolver isso.`
+                                text: `Você é Mijean Rochus, uma consultora de moda e estilo renomada, host do podcast THE TALK sobre moda e tendências. Seu tom é: elegante, sofisticado, direto e inspirador.
+
+O usuário precisa de ajuda com: "${aiPrompt}"
+
+Dê um conselho de moda ESPECÍFICO e PRÁTICO em no máximo 4-5 frases. Seja precisa com:
+- Cores específicas (ex: "bordeaux", "nude rosé", "azul petróleo")
+- Peças específicas (ex: "blazer oversized", "calça palazzo", "vestido midi")
+- Combinações concretas
+- Dicas de styling aplicáveis
+
+Responda sempre de forma clara e elegante.`
                             }]
-                        }]
+                        }],
+                        generationConfig: {
+                            temperature: 0.7,
+                            maxOutputTokens: 500
+                        }
                     }),
                 }
             );
@@ -543,11 +557,11 @@ export default function Home({ items, favorites, toggleFavorite }) {
                     <div className="text-center mb-12">
                         <div className="inline-flex items-center gap-2 bg-[#007BFF]/10 text-[#007BFF] px-4 py-1 rounded-full mb-4 border border-[#007BFF]/20">
                             <Sparkles size={16} />
-                            <span className="text-xs font-bold uppercase tracking-widest font-minimal">Mentoria Criativa</span>
+                            <span className="text-xs font-bold uppercase tracking-widest font-minimal">Consultoria de Moda</span>
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-creativo font-bold mb-4 text-black dark:text-white">Desbloqueio Criativo</h2>
+                        <h2 className="text-4xl md:text-5xl font-creativo font-bold mb-4 text-black dark:text-white">Sua Consultora de Estilo</h2>
                         <p className="text-gray-600 dark:text-[#6C757D] font-minimal text-lg max-w-2xl mx-auto">
-                            Está travado num projeto? Conte-nos o seu desafio e receba um conselho estratégico da nossa IA.
+                            Precisa de ajuda com looks, combinações ou tendências? Pergunte à nossa IA especialista em moda.
                         </p>
                     </div>
 
@@ -559,8 +573,8 @@ export default function Home({ items, favorites, toggleFavorite }) {
                             <div className="md:col-span-2 p-8 border-b md:border-b-0 md:border-r border-gray-200 dark:border-[#333] flex flex-col justify-center">
                                 <div className="mb-6">
                                     <Bot className="w-10 h-10 text-[#007BFF] dark:text-[#A9A9F5] mb-4" />
-                                    <h3 className="text-2xl font-creativo font-bold text-black dark:text-white mb-2">Générateur</h3>
-                                    <p className="text-gray-500 dark:text-[#6C757D] text-sm">Entrez un thème, un mot-clé ou une émotion.</p>
+                                    <h3 className="text-2xl font-creativo font-bold text-black dark:text-white mb-2">Pergunte sobre Moda</h3>
+                                    <p className="text-gray-500 dark:text-[#6C757D] text-sm">Descreva sua dúvida de estilo ou look.</p>
                                 </div>
 
                                 <form onSubmit={handleCreativeAdvice} className="space-y-4">
@@ -568,7 +582,7 @@ export default function Home({ items, favorites, toggleFavorite }) {
                                         type="text"
                                         value={aiPrompt}
                                         onChange={(e) => setAiPrompt(e.target.value)}
-                                        placeholder="Ex: Não consigo escolher a paleta de cores para uma marca de luxo..."
+                                        placeholder="Ex: O que vestir em um casamento ao ar livre no verão?"
                                         className="w-full bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded-xl px-4 py-4 text-black dark:text-white focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal placeholder:text-gray-400 dark:placeholder:text-[#444]"
                                     />
                                     <button
@@ -582,7 +596,7 @@ export default function Home({ items, favorites, toggleFavorite }) {
                                             </>
                                         ) : (
                                             <>
-                                                Receber Insight 💡
+                                                Receber Conselho �
                                             </>
                                         )}
                                     </button>
@@ -604,8 +618,8 @@ export default function Home({ items, favorites, toggleFavorite }) {
                                 ) : (
                                     <div className="flex flex-col items-center justify-center h-full text-gray-400 dark:text-[#333] text-center p-8">
                                         <Sparkles className="w-16 h-16 mb-4 opacity-20" />
-                                        <p className="font-creativo text-xl font-bold opacity-30">En attente d'inspiration...</p>
-                                        <p className="font-minimal text-sm opacity-30 mt-2">Le résultat apparaîtra ici.</p>
+                                        <p className="font-creativo text-xl font-bold opacity-30">Aguardando sua pergunta...</p>
+                                        <p className="font-minimal text-sm opacity-30 mt-2">O conselho de moda aparecerá aqui.</p>
                                     </div>
                                 )}
                             </div>
