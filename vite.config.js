@@ -42,7 +42,10 @@ export default defineConfig({
     })
   ],
   build: {
-    target: 'es2020'
+    target: ['es2018', 'safari12'],
+  },
+  esbuild: {
+    target: 'es2018'
   },
   test: {
     environment: 'jsdom',

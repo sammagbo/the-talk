@@ -22,18 +22,27 @@ export function AuthProvider({ children }) {
     };
 
     useEffect(() => {
-        if (!auth) {
-            console.error("Auth is not initialized");
-            // eslint-disable-next-line react-hooks/set-state-in-effect
-            setLoading(false);
-            return;
-        }
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-            setLoading(false);
-        });
+        try {
+            if (!auth) {
+                console.error("Auth is not initialized");
+                // eslint-disable-next-line react-hooks/set-state-in-effect
+                setLoading(false);
+                return;
+            }
+            const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+                setUser(currentUser);
+                setLoading(false);
+            }, (error) => {
+                // Handle auth state errors gracefully (prevents iOS Safari blocking)
+                console.warn('Auth state change error:', error);
+                setLoading(false);
+            });
 
-        return unsubscribe;
+            return unsubscribe;
+        } catch (error) {
+            console.warn('Firebase auth setup failed:', error);
+            setLoading(false);
+        }
     }, []);
 
     const value = {

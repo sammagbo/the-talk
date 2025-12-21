@@ -8,19 +8,23 @@ import './index.css'
 import './i18n'; // Import i18n configuration
 import App from './App.jsx'
 
-// Initialize Sentry
-Sentry.init({
-  dsn: import.meta.env.VITE_SENTRY_DSN || '',
-  integrations: [
-    Sentry.browserTracingIntegration(),
-    Sentry.replayIntegration(),
-  ],
-  // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-  tracesSampleRate: 1.0,
-  // Capture Replay for 10% of all sessions, plus 100% of sessions with errors
-  replaysSessionSampleRate: 0.1,
-  replaysOnErrorSampleRate: 1.0,
-});
+// Initialize Sentry only if DSN is provided (prevents iOS Safari blocking issues)
+if (import.meta.env.VITE_SENTRY_DSN) {
+  try {
+    Sentry.init({
+      dsn: import.meta.env.VITE_SENTRY_DSN,
+      integrations: [
+        Sentry.browserTracingIntegration(),
+        Sentry.replayIntegration(),
+      ],
+      tracesSampleRate: 1.0,
+      replaysSessionSampleRate: 0.1,
+      replaysOnErrorSampleRate: 1.0,
+    });
+  } catch (e) {
+    console.warn('Sentry initialization failed:', e);
+  }
+}
 
 // Fallback UI component for error boundary
 // eslint-disable-next-line react-refresh/only-export-components
