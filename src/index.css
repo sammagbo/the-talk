@@ -2,11 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Remove iOS grey tap highlight */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
 /* Prevent iOS auto-zoom on input focus (requires 16px minimum font-size) */
 @media screen and (max-width: 768px) {
-  input,
-  textarea,
-  select {
-    font-size: 16px !important;
-  }
+
+    input,
+    textarea,
+    select {
+        font-size: 16px !important;
+    }
 }
