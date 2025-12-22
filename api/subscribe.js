@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 export default async function handler(request) {
     // Only allow POST requests
     if (request.method !== 'POST') {
@@ -38,7 +39,7 @@ export default async function handler(request) {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Authorization': `Basic ${Buffer.from(`anystring:${apiKey}`).toString('base64')}`,
+                'Authorization': `Basic ${btoa(`anystring:${apiKey}`)}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
