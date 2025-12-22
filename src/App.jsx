@@ -15,6 +15,7 @@ import SponsorBanner from './components/SponsorBanner';
 import ExitIntentPopup from './components/ExitIntentPopup';
 import { doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { client, urlFor } from './sanity';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 export default function App() {
   const [items, setItems] = useState([]);
@@ -145,6 +146,7 @@ export default function App() {
         onClose={handleClosePlayer}
         onTogglePlay={() => setIsPlaying(!isPlaying)}
       />
+      <SpeedInsights />
     </div >
   );
 }
