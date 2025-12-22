@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>iOS Test</title>
+    <style>
+        body {
+            font-family: -apple-system, system-ui, sans-serif;
+            background: #000;
+            color: #fff;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        h1 {
+            color: #007BFF;
+        }
+
+        .success {
+            color: #0f0;
+        }
+
+        .error {
+            color: #f00;
+        }
+
+        #log {
+            background: #111;
+            padding: 20px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>📱 iOS Safari Test</h1>
+    <div id="log">Checking...</div>
+
+    <script>
+        var log = document.getElementById('log');
+        var results = [];
+
+        function addResult(test, passed, detail) {
+            results.push((passed ? '✅' : '❌') + ' ' + test + (detail ? ': ' + detail : ''));
+            log.innerHTML = results.join('\n');
+        }
+
+        // Test 1: Basic JS
+        addResult('JavaScript works', true);
+
+        // Test 2: User Agent
+        addResult('User Agent', true, navigator.userAgent);
+
+        // Test 3: globalThis
+        try {
+            var x = globalThis;
+            addResult('globalThis', true);
+        } catch (e) {
+            addResult('globalThis', false, e.message);
+        }
+
+        // Test 4: Promise
+        try {
+            Promise.resolve().then(function () {
+                addResult('Promise', true);
+            });
+        } catch (e) {
+            addResult('Promise', false, e.message);
+        }
+
+        // Test 5: Fetch
+        try {
+            fetch('/').then(function (r) {
+                addResult('Fetch API', true, 'status ' + r.status);
+            }).catch(function (e) {
+                addResult('Fetch API', false, e.message);
+            });
+        } catch (e) {
+            addResult('Fetch API', false, e.message);
+        }
+
+        // Test 6: Arrow functions and const
+        try {
+            var fn = function () { return 'ok'; };
+            addResult('Functions', true);
+        } catch (e) {
+            addResult('Functions', false, e.message);
+        }
+
+        // Test 7: Object spread
+        try {
+            var a = { x: 1 };
+            var b = Object.assign({}, a, { y: 2 });
+            addResult('Object.assign', true);
+        } catch (e) {
+            addResult('Object.assign', false, e.message);
+        }
+
+        // Test 8: Optional chaining simulation
+        try {
+            var obj = { a: { b: 1 } };
+            var val = obj && obj.a && obj.a.b;
+            addResult('Deep access', true);
+        } catch (e) {
+            addResult('Deep access', false, e.message);
+        }
+
+        // Test 9: iOS version
+        var match = navigator.userAgent.match(/OS (\d+)_(\d+)/);
+        if (match) {
+            addResult('iOS Version', true, match[1] + '.' + match[2]);
+        } else {
+            addResult('iOS Version', true, 'Not iOS');
+        }
+
+        // Test 10: WebKit version
+        var webkit = navigator.userAgent.match(/AppleWebKit\/(\d+)/);
+        if (webkit) {
+            addResult('WebKit Version', true, webkit[1]);
+        }
+
+        addResult('All tests complete', true);
+    </script>
+</body>
+
+</html>
