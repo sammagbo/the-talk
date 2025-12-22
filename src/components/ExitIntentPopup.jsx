@@ -74,6 +74,7 @@ export default function ExitIntentPopup() {
                 {/* Close Button */}
                 <button
                     onClick={handleDismiss}
+                    aria-label="Fermer"
                     className="absolute top-4 right-4 text-gray-400 hover:text-black dark:hover:text-white transition-colors z-10"
                 >
                     <X size={20} />

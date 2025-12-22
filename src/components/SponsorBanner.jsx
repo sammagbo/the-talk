@@ -76,6 +76,7 @@ export default function SponsorBanner() {
 
                 <button
                     onClick={handleDismiss}
+                    aria-label="Fermer"
                     className="absolute top-2 right-2 text-gray-400 hover:text-black dark:hover:text-white transition-colors"
                 >
                     <X size={14} />

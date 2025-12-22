@@ -132,6 +132,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                             <div className="flex items-center gap-6 mb-2">
                                 <button
                                     onClick={onTogglePlay}
+                                    aria-label={isPlaying ? 'Pause' : 'Play'}
                                     className="w-10 h-10 bg-[#007BFF] hover:bg-[#0069d9] rounded-full flex items-center justify-center text-white transition-transform hover:scale-105 shadow-lg shadow-[#007BFF]/20"
                                 >
                                     {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" className="ml-0.5" />}
@@ -159,6 +160,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                     ) : currentEpisode.spotifyEmbedUrl ? (
                         <div className="w-full max-w-md">
                             <iframe
+                                title="Spotify Player"
                                 style={{ borderRadius: '12px' }}
                                 src={currentEpisode.spotifyEmbedUrl}
                                 width="100%"
@@ -177,11 +179,12 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
 
                 {/* Actions (Right) */}
                 <div className="flex items-center justify-end gap-4 w-1/3">
-                    <button className="text-gray-400 hover:text-black dark:hover:text-white transition-colors hidden md:block">
+                    <button aria-label="Volume" className="text-gray-400 hover:text-black dark:hover:text-white transition-colors hidden md:block">
                         <Volume2 size={20} />
                     </button>
                     <button
                         onClick={onClose}
+                        aria-label="Fermer le lecteur"
                         className="p-2 hover:bg-gray-100 dark:hover:bg-[#222] rounded-full text-gray-500 dark:text-[#6C757D] transition-colors"
                     >
                         <X size={20} />

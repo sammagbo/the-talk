@@ -72,6 +72,7 @@ export default function SubscribeModal({ isOpen, onClose }) {
                 {/* Close Button */}
                 <button
                     onClick={onClose}
+                    aria-label="Fermer"
                     className="absolute top-4 right-4 text-gray-400 hover:text-black dark:hover:text-white transition-colors"
                 >
                     <X size={24} />
