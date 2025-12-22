@@ -1,10 +1,15 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import legacy from '@vitejs/plugin-legacy'
 
 export default defineConfig({
   plugins: [
     react(),
+    // O segredo para o iPhone: cria polyfills para iOS 12+
+    legacy({
+      targets: ['defaults', 'not IE 11', 'iOS >= 12'],
+    }),
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
@@ -32,12 +37,7 @@ export default defineConfig({
     })
   ],
   build: {
-    target: 'es2015', // <--- CRÍTICO: Garante compatibilidade com iOS antigo
+    target: 'es2015', // Garante base compatível
     outDir: 'dist',
-    sourcemap: true,
-  },
-  // Previne erro de bibliotecas que esperam Node.js
-  define: {
-    'process.env': {}
   }
 })
