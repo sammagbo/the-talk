@@ -26,6 +26,22 @@ export default function SubscribeModal({ isOpen, onClose }) {
                 source: 'navbar_modal'
             });
 
+            // Also send to Mailchimp via API route
+            try {
+                const response = await fetch('/api/subscribe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email.trim() }),
+                });
+                const data = await response.json();
+                if (!response.ok && !data.success) {
+                    console.warn('Mailchimp subscription warning:', data.error);
+                }
+            } catch (mailchimpError) {
+                console.warn('Mailchimp API error:', mailchimpError);
+                // Don't fail if Mailchimp fails - Firebase already saved
+            }
+
             setStatus('success');
             setEmail('');
 
