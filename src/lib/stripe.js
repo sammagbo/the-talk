@@ -1,13 +1,18 @@
 import { loadStripe } from '@stripe/stripe-js';
 
-// Initialize Stripe with the public key from environment variables
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
+// Lazy-load Stripe only on first interaction (improves Core Web Vitals)
+let stripePromise = null;
 
 /**
- * Get the Stripe instance
+ * Get the Stripe instance (lazy-loaded on first call)
  * @returns {Promise} Stripe instance
  */
-export const getStripe = () => stripePromise;
+export const getStripe = () => {
+    if (!stripePromise) {
+        stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
+    }
+    return stripePromise;
+};
 
 /**
  * Redirect to Stripe Checkout for a specific product

@@ -5,6 +5,16 @@
   <meta charset="UTF-8" />
   <!-- Polyfill for globalThis (Safari < 12.1) -->
   <script>if (typeof globalThis === 'undefined') { window.globalThis = window; }</script>
+
+  <!-- Preconnect to external domains for faster loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.sanity.io" />
+
+  <!-- Preload LCP image for faster Largest Contentful Paint -->
+  <link rel="preload" as="image"
+    href="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=2000&q=80" />
+
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <meta name="viewport"
