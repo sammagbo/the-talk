@@ -32,14 +32,14 @@ export default function SponsorBanner() {
     };
 
     const handleClick = () => {
-        if (sponsor) {
-            console.log("Analytics log: select_content", sponsor);
-            // logEvent(analytics, 'select_content', {
-            //     content_type: 'sponsor',
-            //     item_id: sponsor.name,
-            //     destination: sponsor.url
-            // });
-        }
+        // Analytics tracking disabled
+        // if (sponsor) {
+        //     logEvent(analytics, 'select_content', {
+        //         content_type: 'sponsor',
+        //         item_id: sponsor.name,
+        //         destination: sponsor.url
+        //     });
+        // }
     };
 
     if (!sponsor || !isVisible) return null;
