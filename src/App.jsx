@@ -13,6 +13,7 @@ import { useAuth } from './context/AuthContext';
 import { db } from './firebase';
 import SponsorBanner from './components/SponsorBanner';
 import ExitIntentPopup from './components/ExitIntentPopup';
+import OfflineAlert from './components/OfflineAlert';
 import { doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { client, urlFor } from './sanity';
 import { SpeedInsights } from '@vercel/speed-insights/react';
@@ -122,6 +123,7 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen">
+      <OfflineAlert />
       <Suspense fallback={
         <div className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
           <Loader2 className="w-10 h-10 animate-spin text-[#007BFF]" />
