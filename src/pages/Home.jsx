@@ -165,7 +165,7 @@ Responda sempre de forma clara e elegante.`
             </style>
 
             {/* Navigation */}
-            <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/90 backdrop-blur-md border-b border-[#6C757D]/20 py-4' : 'bg-transparent py-6'}`}>
+            <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/90 backdrop-blur-md border-b border-[#6C757D]/20 py-4' : 'bg-transparent py-6'}`} style={{ paddingTop: 'env(safe-area-inset-top)' }}>
                 <div className="container mx-auto px-6 flex justify-between items-center">
                     <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo(0, 0)}>
                         {/* Logo Icon */}

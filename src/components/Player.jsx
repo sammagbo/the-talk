@@ -109,7 +109,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
     if (!currentEpisode) return null;
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-[#111]/95 backdrop-blur-xl border-t border-gray-200 dark:border-[#333] p-4 z-[100] transition-all duration-300 shadow-[0_-5px_20px_rgba(0,0,0,0.1)]">
+        <div className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-[#111]/95 backdrop-blur-xl border-t border-gray-200 dark:border-[#333] p-4 z-[100] transition-all duration-300 shadow-[0_-5px_20px_rgba(0,0,0,0.1)]" style={{ paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))' }}>
             <div className="container mx-auto flex items-center justify-between gap-4">
 
                 {/* Info */}
