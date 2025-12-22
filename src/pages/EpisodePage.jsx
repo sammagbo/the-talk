@@ -180,7 +180,7 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                 <meta name="description" content={`Écoutez ${episode.title} - ${episode.category}. Une conversation exclusive sur THE TALK.`} />
                 <meta property="og:title" content={`${episode.title} | THE TALK`} />
                 <meta property="og:description" content={`Découvrez les coulisses et l'innovation derrière cet épisode spécial : ${episode.title}.`} />
-                <meta property="og:image" content={episode.fullSrc} />
+                <meta property="og:image" content={`${window.location.origin}/api/og?title=${encodeURIComponent(episode.title)}&image=${encodeURIComponent(episode.fullSrc)}`} />
                 <meta property="og:type" content="article" />
             </Helmet>
             {/* Navigation */}

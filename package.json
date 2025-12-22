@@ -16,6 +16,7 @@
     "@sanity/image-url": "^2.0.2",
     "@sentry/react": "^10.32.0",
     "@stripe/stripe-js": "^8.6.0",
+    "@vercel/og": "^0.8.6",
     "firebase": "^12.6.0",
     "i18next": "^25.7.2",
     "i18next-browser-languagedetector": "^8.2.0",
