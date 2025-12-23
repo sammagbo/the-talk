@@ -182,6 +182,7 @@ Responda sempre de forma clara e elegante.`
                         <button onClick={() => scrollToSection('apropos')} className="hover:text-[#007BFF] transition-colors">{t('nav.about')}</button>
                         <button onClick={() => scrollToSection('contact')} className="hover:text-[#007BFF] transition-colors">{t('nav.contact')}</button>
                         <button onClick={() => scrollToSection('ai-lab')} className="hover:text-[#007BFF] transition-colors flex items-center gap-1"><Sparkles size={14} /> {t('nav.ai_lab')}</button>
+                        <Link to="/blog" className="hover:text-[#007BFF] transition-colors flex items-center gap-1"><BookOpen size={14} /> Blog</Link>
                         <Link to="/store" className="hover:text-[#007BFF] transition-colors flex items-center gap-1"><ShoppingBag size={14} /> Boutique</Link>
                         <button
                             onClick={() => setIsSubscribeOpen(true)}
@@ -245,6 +246,7 @@ Responda sempre de forma clara e elegante.`
                         <button onClick={() => scrollToSection('apropos')} className="py-2 hover:text-[#007BFF]">{t('nav.about')}</button>
                         <button onClick={() => scrollToSection('contact')} className="py-2 hover:text-[#007BFF]">{t('nav.contact')}</button>
                         <button onClick={() => scrollToSection('ai-lab')} className="py-2 hover:text-[#007BFF]">{t('nav.ai_lab')}</button>
+                        <Link to="/blog" onClick={() => setIsMenuOpen(false)} className="py-2 hover:text-[#007BFF] flex items-center justify-center gap-2"><BookOpen size={16} /> Blog</Link>
                         <Link to="/store" onClick={() => setIsMenuOpen(false)} className="py-2 hover:text-[#007BFF] flex items-center justify-center gap-2"><ShoppingBag size={16} /> Boutique</Link>
                         <div className="flex justify-center pt-4 gap-4">
                             <ThemeToggle />
