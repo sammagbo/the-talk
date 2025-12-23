@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, ArrowRight } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import ThemeToggle from '../components/ThemeToggle';
+import LazyImage from '../components/LazyImage';
 import { client, urlFor } from '../sanity';
 
 export default function BlogPage() {
@@ -16,9 +17,10 @@ export default function BlogPage() {
                     _id,
                     title,
                     slug,
+                    excerpt,
                     mainImage,
                     publishedAt,
-                    "excerpt": array::join(string::split(pt::text(body), "")[0..200], "") + "..."
+                    "imageUrl": mainImage.asset->url
                 }`;
                 const data = await client.fetch(query);
                 setPosts(data);
@@ -84,9 +86,11 @@ export default function BlogPage() {
                             >
                                 <div className="aspect-video overflow-hidden">
                                     {post.mainImage ? (
-                                        <img
-                                            src={urlFor(post.mainImage).width(600).url()}
-                                            alt={post.title}
+                                        <LazyImage
+                                            item={{
+                                                src: urlFor(post.mainImage).width(600).url(),
+                                                title: post.title
+                                            }}
                                             className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                                         />
                                     ) : (
@@ -105,6 +109,11 @@ export default function BlogPage() {
                                     <h2 className="text-xl font-creativo font-bold mb-3 group-hover:text-[#007BFF] transition-colors">
                                         {post.title}
                                     </h2>
+                                    {post.excerpt && (
+                                        <p className="text-gray-600 dark:text-[#6C757D] text-sm mb-4 line-clamp-2">
+                                            {post.excerpt}
+                                        </p>
+                                    )}
                                     <div className="flex items-center gap-2 text-[#007BFF] font-minimal text-sm uppercase tracking-wider">
                                         <span>Lire l'article</span>
                                         <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
