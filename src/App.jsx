@@ -3,7 +3,38 @@ import { Routes, Route } from 'react-router-dom';
 import Player from './components/Player';
 import { Loader2 } from 'lucide-react';
 
-const Home = lazy(() => import('./pages/Home'));
+// Error Boundary Component for catching lazy load errors
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error('ErrorBoundary caught:', error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ padding: '40px', background: '#000', color: '#fff', minHeight: '100vh' }}>
+          <h1 style={{ color: '#f00' }}>Something went wrong</h1>
+          <p>{this.state.error?.message || 'Unknown error'}</p>
+          <button onClick={() => window.location.reload()} style={{ padding: '10px 20px', marginTop: '20px' }}>
+            Reload
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+const Home = lazy(() => import('./pages/Home').catch(err => {
+  console.error('Failed to load Home:', err);
+  return { default: () => <div style={{ color: '#fff', padding: '40px' }}>Failed to load Home: {err.message}</div> };
+}));
 const EpisodePage = lazy(() => import('./pages/EpisodePage'));
 const StorePage = lazy(() => import('./pages/StorePage'));
 const AdminPage = lazy(() => import('./pages/AdminPage'));
@@ -122,22 +153,24 @@ export default function App() {
   }, []);
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen bg-black">
       <OfflineAlert />
-      <Suspense fallback={
-        <div className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
-          <Loader2 className="w-10 h-10 animate-spin text-[#007BFF]" />
-        </div>
-      }>
-        <Routes>
-          <Route path="/" element={<Home items={items} onPlay={handlePlay} favorites={favorites} toggleFavorite={toggleFavorite} />} />
-          <Route path="/episode/:id" element={<EpisodePage items={items} onPlay={handlePlay} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
-          <Route path="/store" element={<StorePage />} />
-          <Route path="/admin" element={<AdminPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-        </Routes>
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={
+          <div className="flex items-center justify-center min-h-screen bg-black">
+            <Loader2 className="w-10 h-10 animate-spin text-[#007BFF]" />
+          </div>
+        }>
+          <Routes>
+            <Route path="/" element={<Home items={items} onPlay={handlePlay} favorites={favorites} toggleFavorite={toggleFavorite} />} />
+            <Route path="/episode/:id" element={<EpisodePage items={items} onPlay={handlePlay} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
+            <Route path="/store" element={<StorePage />} />
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
 
       <SponsorBanner />
       <ExitIntentPopup />
