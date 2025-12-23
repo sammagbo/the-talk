@@ -407,7 +407,7 @@ Responda sempre de forma clara e elegante.`
                                 className="w-full rounded-2xl relative z-10 object-cover aspect-[3/4]"
                                 poster="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80"
                             >
-                                <source src="https://cdn.coverr.co/videos/coverr-model-walking-on-a-runway-5765/1080p.mp4" type="video/mp4" />
+                                <source src="https://videos.pexels.com/video-files/3048184/3048184-uhd_2560_1440_25fps.mp4" type="video/mp4" />
                                 {/* Fallback image if video doesn't load */}
                                 <img
                                     src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80"
