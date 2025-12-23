@@ -48,12 +48,31 @@ export default function ExitIntentPopup() {
         if (!email) return;
 
         setStatus('loading');
+
         try {
-            await addDoc(collection(db, 'leads'), {
+            // Check if Firebase is available
+            if (!db) {
+                console.warn('Firebase not available, skipping database save');
+                // Still show success since we can't save
+                setStatus('success');
+                localStorage.setItem('exit_popup_closed', 'true');
+                setTimeout(() => setIsVisible(false), 3000);
+                return;
+            }
+
+            // Add timeout to prevent infinite loading
+            const timeoutPromise = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error('Timeout')), 10000)
+            );
+
+            const savePromise = addDoc(collection(db, 'leads'), {
                 email: email,
                 source: 'exit_intent',
                 timestamp: serverTimestamp()
             });
+
+            await Promise.race([savePromise, timeoutPromise]);
+
             setStatus('success');
             localStorage.setItem('exit_popup_closed', 'true');
             setTimeout(() => {
@@ -61,7 +80,12 @@ export default function ExitIntentPopup() {
             }, 3000);
         } catch (error) {
             console.error("Error saving lead:", error);
+            // Even on error, close the popup after showing error briefly
             setStatus('error');
+            setTimeout(() => {
+                setIsVisible(false);
+                localStorage.setItem('exit_popup_closed', 'true');
+            }, 3000);
         }
     };
 
