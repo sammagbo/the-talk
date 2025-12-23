@@ -393,24 +393,24 @@ Responda sempre de forma clara e elegante.`
                 </div>
             </section>
 
-            {/* About Section - Updated with Mijean Rochus Identity */}
+            {/* About Section */}
             <section id="apropos" className="py-24 bg-white dark:bg-[#020202] border-t border-gray-200 dark:border-[#333]">
                 <div className="container mx-auto px-6 max-w-6xl">
                     <div className="flex flex-col md:flex-row items-center gap-16">
                         <div className="w-full md:w-1/2 relative">
                             <div className="absolute inset-0 bg-gradient-to-tr from-[#007BFF] to-[#A9A9F5] rounded-2xl transform rotate-3 blur-sm opacity-30"></div>
                             <LazyImage
-                                src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80"
-                                alt="Mijean Rochus"
+                                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80"
+                                alt="Mijean Rochus - Fashion Podcast Host"
                                 className="w-full rounded-2xl relative z-10 grayscale hover:grayscale-0 transition-all duration-700 object-cover"
                             />
 
-                            {/* Floating Icons */}
+                            {/* Floating Icons - Fashion themed */}
                             <div className="absolute -left-6 top-10 bg-white dark:bg-black border border-gray-200 dark:border-[#333] p-4 rounded-xl shadow-xl z-20">
-                                <Camera className="w-6 h-6 text-[#007BFF]" />
+                                <Mic className="w-6 h-6 text-[#007BFF]" />
                             </div>
                             <div className="absolute -right-6 bottom-10 bg-white dark:bg-black border border-gray-200 dark:border-[#333] p-4 rounded-xl shadow-xl z-20">
-                                <BrainCircuit className="w-6 h-6 text-[#A9A9F5]" />
+                                <Sparkles className="w-6 h-6 text-[#A9A9F5]" />
                             </div>
                         </div>
 
@@ -427,17 +427,17 @@ Responda sempre de forma clara e elegante.`
 
                             <div className="grid grid-cols-2 gap-6">
                                 <div className="flex items-start gap-3">
-                                    <div className="bg-gray-100 dark:bg-[#111] p-2 rounded text-black dark:text-white"><ImageIcon size={20} /></div>
+                                    <div className="bg-gray-100 dark:bg-[#111] p-2 rounded text-black dark:text-white"><ShoppingBag size={20} /></div>
                                     <div>
-                                        <h5 className="text-black dark:text-white font-bold font-creativo">Curated</h5>
-                                        <p className="text-sm text-gray-500 dark:text-[#6C757D]">Contenu sélectionné</p>
+                                        <h5 className="text-black dark:text-white font-bold font-creativo">{t('about.curated')}</h5>
+                                        <p className="text-sm text-gray-500 dark:text-[#6C757D]">{t('about.curated_sub')}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-3">
-                                    <div className="bg-gray-100 dark:bg-[#111] p-2 rounded text-black dark:text-white"><BookOpen size={20} /></div>
+                                    <div className="bg-gray-100 dark:bg-[#111] p-2 rounded text-black dark:text-white"><Mic size={20} /></div>
                                     <div>
-                                        <h5 className="text-black dark:text-white font-bold font-creativo">Storytelling</h5>
-                                        <p className="text-sm text-gray-500 dark:text-[#6C757D]">Narrations profondes</p>
+                                        <h5 className="text-black dark:text-white font-bold font-creativo">{t('about.storytelling')}</h5>
+                                        <p className="text-sm text-gray-500 dark:text-[#6C757D]">{t('about.storytelling_sub')}</p>
                                     </div>
                                 </div>
                             </div>

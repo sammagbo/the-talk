@@ -41,12 +41,12 @@
     },
     "about": {
         "title": "ABOUT",
-        "role": "Creative Director & Photographer",
-        "description": "THE TALK is more than a podcast; it's a space for exploration. As a visual creator, I seek to deconstruct the processes behind digital innovation and art.",
-        "curated": "Curated",
-        "curated_sub": "Selected content",
-        "storytelling": "Storytelling",
-        "storytelling_sub": "Deep narratives"
+        "role": "Model & Podcast Host",
+        "description": "THE TALK is the podcast that takes you behind the scenes of fashion. Mijean Rochus, professional model, shares exclusive conversations with designers, stylists, photographers and creatives shaping the fashion industry. From haute couture runways to emerging trends, discover the untold stories behind the glamour.",
+        "curated": "Fashion",
+        "curated_sub": "Trends & Runways",
+        "storytelling": "Exclusives",
+        "storytelling_sub": "Unique interviews"
     },
     "contact": {
         "title": "Let's Work Together",
