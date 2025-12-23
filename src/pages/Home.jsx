@@ -399,19 +399,22 @@ Responda sempre de forma clara e elegante.`
                     <div className="flex flex-col md:flex-row items-center gap-16">
                         <div className="w-full md:w-1/2 relative">
                             <div className="absolute inset-0 bg-gradient-to-tr from-[#007BFF] to-[#A9A9F5] rounded-2xl transform rotate-3 blur-sm opacity-30"></div>
-                            <LazyImage
-                                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80"
-                                alt="Mijean Rochus - Fashion Podcast Host"
-                                className="w-full rounded-2xl relative z-10 grayscale hover:grayscale-0 transition-all duration-700 object-cover"
-                            />
-
-                            {/* Floating Icons - Fashion themed */}
-                            <div className="absolute -left-6 top-10 bg-white dark:bg-black border border-gray-200 dark:border-[#333] p-4 rounded-xl shadow-xl z-20">
-                                <Mic className="w-6 h-6 text-[#007BFF]" />
-                            </div>
-                            <div className="absolute -right-6 bottom-10 bg-white dark:bg-black border border-gray-200 dark:border-[#333] p-4 rounded-xl shadow-xl z-20">
-                                <Sparkles className="w-6 h-6 text-[#A9A9F5]" />
-                            </div>
+                            <video
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                className="w-full rounded-2xl relative z-10 object-cover aspect-[3/4]"
+                                poster="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80"
+                            >
+                                <source src="https://cdn.coverr.co/videos/coverr-model-walking-on-a-runway-5765/1080p.mp4" type="video/mp4" />
+                                {/* Fallback image if video doesn't load */}
+                                <img
+                                    src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80"
+                                    alt="Fashion Runway"
+                                    className="w-full rounded-2xl object-cover"
+                                />
+                            </video>
                         </div>
 
                         <div className="w-full md:w-1/2 space-y-8">
