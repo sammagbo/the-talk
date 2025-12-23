@@ -33,6 +33,13 @@ export default {
             type: 'datetime',
         },
         {
+            name: 'excerpt',
+            title: 'Excerpt',
+            type: 'text',
+            rows: 3,
+            description: 'A short summary of the post for previews and SEO',
+        },
+        {
             name: 'body',
             title: 'Body',
             type: 'array',
