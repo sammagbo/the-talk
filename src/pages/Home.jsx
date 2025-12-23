@@ -302,8 +302,11 @@ Responda sempre de forma clara e elegante.`
                             Écouter Maintenant
                             <ChevronRight className="w-5 h-5" />
                         </button>
-                        <button className="px-8 py-4 rounded-lg border border-gray-400 dark:border-[#6C757D] text-black dark:text-white hover:border-black dark:hover:border-white transition-all font-minimal">
-                            {t('hero.portfolio')}
+                        <button
+                            onClick={() => scrollToSection('apropos')}
+                            className="px-8 py-4 rounded-lg border border-gray-400 dark:border-[#6C757D] text-black dark:text-white hover:border-black dark:hover:border-white transition-all font-minimal"
+                        >
+                            {t('hero.about_host')}
                         </button>
                     </div>
                 </div>
