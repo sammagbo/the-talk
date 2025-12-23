@@ -1,21 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import { Sun, Moon } from 'lucide-react';
 
+// Safe localStorage access for iOS Safari
+function getStoredTheme() {
+    try {
+        return localStorage.getItem('theme') || 'dark';
+    } catch (e) {
+        return 'dark';
+    }
+}
+
+function setStoredTheme(theme) {
+    try {
+        localStorage.setItem('theme', theme);
+    } catch (e) {
+        // Ignore storage errors on iOS
+    }
+}
+
 export default function ThemeToggle() {
-    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+    const [theme, setTheme] = useState('dark');
+    const [mounted, setMounted] = useState(false);
+
+    // Initialize theme after mount (avoid SSR issues)
+    useEffect(() => {
+        setTheme(getStoredTheme());
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
+        if (!mounted) return;
+
         if (theme === 'dark') {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
         }
-        localStorage.setItem('theme', theme);
-    }, [theme]);
+        setStoredTheme(theme);
+    }, [theme, mounted]);
 
     const toggleTheme = () => {
         setTheme(theme === 'dark' ? 'light' : 'dark');
     };
+
+    // Don't render until mounted to avoid hydration mismatch
+    if (!mounted) return null;
 
     return (
         <button
