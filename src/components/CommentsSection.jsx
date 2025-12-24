@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { collection, addDoc, query, where, onSnapshot, orderBy, serverTimestamp, deleteDoc, doc } from 'firebase/firestore';
 import { Send, Trash2, User } from 'lucide-react';
+import { checkAchievements } from '../utils/badges';
 
 export default function CommentsSection({ episodeId, user }) {
     const [comments, setComments] = useState([]);
@@ -46,6 +47,9 @@ export default function CommentsSection({ episodeId, user }) {
                 createdAt: serverTimestamp()
             });
             setNewComment('');
+
+            // Check achievements for commenting
+            checkAchievements(user.uid, 'comment');
         } catch (error) {
             console.error("Error adding comment:", error);
         }

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, Play, Clock, Calendar, Share2, Sparkles, Loader2, BrainCircuit, Lock } from 'lucide-react';
+import { ArrowLeft, Play, Clock, Calendar, Share2, Sparkles, Loader2, BrainCircuit, Lock, Check, Link as LinkIcon } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
 import LazyImage from '../components/LazyImage';
 import CommentsSection from '../components/CommentsSection';
+import PollComponent from '../components/PollComponent';
 import Rating from '../components/Rating';
 import { useAuth } from '../context/AuthContext';
 import { client, urlFor } from '../sanity';
 import { useTranslation } from 'react-i18next';
+import { shareContent, getEpisodeShareUrl } from '../utils/share';
 
 export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
     const { id } = useParams();
@@ -23,6 +25,7 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
     const [aiSummary, setAiSummary] = useState('');
     const [isGenerating, setIsGenerating] = useState(false);
     const [activeTab, setActiveTab] = useState('description');
+    const [shareToast, setShareToast] = useState(null);
 
     const [relatedEpisodes, setRelatedEpisodes] = useState([]);
 
@@ -45,6 +48,7 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                     transcript,
                     slug,
                     isPremium,
+                    poll,
                     "related": *[_type == "episode" && category->title == ^.category->title && _id != ^._id][0...3]{
                         _id, 
                         title, 
@@ -70,7 +74,8 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                         fullSrc: result.fullSrc ? urlFor(result.fullSrc).width(1600).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=1600&q=80',
                         transcript: result.transcript,
                         slug: result.slug?.current,
-                        isPremium: result.isPremium || false
+                        isPremium: result.isPremium || false,
+                        poll: result.poll || null
                     });
 
                     // Set related episodes from the same query result
@@ -231,7 +236,21 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                                     <Clock size={16} />
                                     <span>45 min</span>
                                 </div>
-                                <button className="flex items-center gap-2 hover:text-black dark:hover:text-white transition-colors">
+                                <button
+                                    onClick={async () => {
+                                        const shareUrl = getEpisodeShareUrl(episode.id);
+                                        const result = await shareContent({
+                                            title: `${episode.title} | THE TALK`,
+                                            text: `Écoute cet épisode de THE TALK: ${episode.title}`,
+                                            url: shareUrl
+                                        });
+                                        if (result.success && result.method === 'clipboard') {
+                                            setShareToast('Link Copied!');
+                                            setTimeout(() => setShareToast(null), 3000);
+                                        }
+                                    }}
+                                    className="flex items-center gap-2 hover:text-black dark:hover:text-white transition-colors"
+                                >
                                     <Share2 size={16} />
                                     <span>{t('episode.share')}</span>
                                 </button>
@@ -382,7 +401,16 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                                 )}
 
                                 {activeTab === 'comments' && (
-                                    <div className="animate-fade-in">
+                                    <div className="animate-fade-in space-y-8">
+                                        {/* Poll Section */}
+                                        {episode.poll && (
+                                            <PollComponent
+                                                episodeId={episode.id}
+                                                poll={episode.poll}
+                                            />
+                                        )}
+
+                                        {/* Comments */}
                                         <CommentsSection episodeId={episode.id} user={user} />
                                     </div>
                                 )}
@@ -419,6 +447,16 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                     )}
                 </div>
             </div>
+
+            {/* Share Toast Notification */}
+            {shareToast && (
+                <div className="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-[200] animate-fade-in-up">
+                    <div className="flex items-center gap-3 px-5 py-3 bg-[#007BFF] text-white rounded-xl shadow-lg">
+                        <Check size={18} />
+                        <span className="font-minimal text-sm">{shareToast}</span>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

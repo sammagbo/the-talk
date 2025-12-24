@@ -40,6 +40,7 @@ const StorePage = lazy(() => import('./pages/StorePage'));
 const AdminPage = lazy(() => import('./pages/AdminPage'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
+const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 import { useAuth } from './context/AuthContext';
 import { db } from './firebase';
 import SponsorBanner from './components/SponsorBanner';
@@ -48,6 +49,8 @@ import OfflineAlert from './components/OfflineAlert';
 import { doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { client, urlFor } from './sanity';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { checkAchievements, initializeUserStats } from './utils/badges';
+import { NewBadgeNotification } from './components/BadgesDisplay';
 
 export default function App() {
   const [items, setItems] = useState([]);
@@ -55,6 +58,7 @@ export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const { user } = useAuth();
   const [favorites, setFavorites] = useState([]);
+  const [newBadge, setNewBadge] = useState(null);
 
   // Firestore Favorites Logic
   useEffect(() => {
@@ -87,22 +91,44 @@ export default function App() {
         await updateDoc(userRef, {
           favorites: arrayRemove(episodeId)
         });
+        // Check achievements for unlike
+        checkAchievements(user.uid, 'unlike');
       } else {
         await updateDoc(userRef, {
           favorites: arrayUnion(episodeId)
         });
+        // Check achievements for like
+        const newBadges = await checkAchievements(user.uid, 'like');
+        if (newBadges.length > 0) {
+          // Show notification for first new badge
+          const { getBadgeById } = await import('./utils/badges');
+          const badge = getBadgeById(newBadges[0]);
+          if (badge) setNewBadge(badge);
+        }
       }
     } catch (error) {
       console.error("Error updating favorites:", error);
     }
   };
 
-  const handlePlay = (episode) => {
+  const handlePlay = async (episode) => {
     if (currentEpisode?.id === episode.id) {
       setIsPlaying(!isPlaying);
     } else {
       setCurrentEpisode(episode);
       setIsPlaying(true);
+
+      // Check achievements for listening
+      if (user) {
+        const newBadges = await checkAchievements(user.uid, 'listen', {
+          category: episode.category
+        });
+        if (newBadges.length > 0) {
+          const { getBadgeById } = await import('./utils/badges');
+          const badge = getBadgeById(newBadges[0]);
+          if (badge) setNewBadge(badge);
+        }
+      }
     }
   };
 
@@ -168,6 +194,7 @@ export default function App() {
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/profile/:uid" element={<ProfilePage />} />
           </Routes>
         </Suspense>
       </ErrorBoundary>
@@ -181,6 +208,14 @@ export default function App() {
         onClose={handleClosePlayer}
         onTogglePlay={() => setIsPlaying(!isPlaying)}
       />
+
+      {/* New Badge Notification */}
+      {newBadge && (
+        <NewBadgeNotification
+          badge={newBadge}
+          onClose={() => setNewBadge(null)}
+        />
+      )}
       <SpeedInsights />
     </div >
   );

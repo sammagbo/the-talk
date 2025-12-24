@@ -1,10 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, X, Volume2, Maximize2 } from 'lucide-react';
+import { Play, Pause, X, Volume2, Share2, Check } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { savePlaybackProgress, getSavedPosition } from '../utils/playbackHistory';
+import { shareContent, getEpisodeShareUrl } from '../utils/share';
 
 export default function Player({ currentEpisode, isPlaying, onClose, onTogglePlay }) {
     const audioRef = useRef(null);
     const [progress, setProgress] = useState(0);
     const [duration, setDuration] = useState(0);
+    const [shareToast, setShareToast] = useState(null);
+    const { user } = useAuth();
+    const lastSaveTimeRef = useRef(0);
+    const saveIntervalRef = useRef(null);
+
+    // Restore saved position when episode changes
+    useEffect(() => {
+        const restoreSavedPosition = async () => {
+            if (currentEpisode?.id && user && audioRef.current) {
+                const savedPosition = await getSavedPosition(user.uid, currentEpisode.id);
+                if (savedPosition > 0) {
+                    audioRef.current.currentTime = savedPosition;
+                    setProgress(savedPosition);
+                }
+            }
+        };
+
+        if (currentEpisode?.audioUrl) {
+            restoreSavedPosition();
+        }
+    }, [currentEpisode?.id, user]);
 
     useEffect(() => {
         if (currentEpisode?.audioUrl && audioRef.current) {
@@ -15,6 +39,44 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
             }
         }
     }, [currentEpisode, isPlaying]);
+
+    // Save progress every 10 seconds while playing
+    useEffect(() => {
+        if (isPlaying && user && currentEpisode?.id) {
+            saveIntervalRef.current = setInterval(() => {
+                if (audioRef.current && audioRef.current.currentTime > 0) {
+                    const currentTime = audioRef.current.currentTime;
+                    const audioDuration = audioRef.current.duration || 0;
+
+                    // Only save if we've moved at least 5 seconds since last save
+                    if (Math.abs(currentTime - lastSaveTimeRef.current) >= 5) {
+                        savePlaybackProgress(user.uid, currentEpisode, currentTime, audioDuration);
+                        lastSaveTimeRef.current = currentTime;
+                    }
+                }
+            }, 10000); // Every 10 seconds
+
+            return () => {
+                if (saveIntervalRef.current) {
+                    clearInterval(saveIntervalRef.current);
+                }
+            };
+        }
+    }, [isPlaying, user, currentEpisode]);
+
+    // Save progress when pausing or closing
+    useEffect(() => {
+        return () => {
+            // Save on unmount/close
+            if (user && currentEpisode?.id && audioRef.current) {
+                const currentTime = audioRef.current.currentTime;
+                const audioDuration = audioRef.current.duration || 0;
+                if (currentTime > 0) {
+                    savePlaybackProgress(user.uid, currentEpisode, currentTime, audioDuration);
+                }
+            }
+        };
+    }, [user, currentEpisode]);
 
     // Media Session API Support
     useEffect(() => {
@@ -179,6 +241,25 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
 
                 {/* Actions (Right) */}
                 <div className="flex items-center justify-end gap-4 w-1/3">
+                    <button
+                        aria-label="Share"
+                        onClick={async () => {
+                            if (!currentEpisode?.id) return;
+                            const shareUrl = getEpisodeShareUrl(currentEpisode.id);
+                            const result = await shareContent({
+                                title: `${currentEpisode.title} | THE TALK`,
+                                text: `Écoute cet épisode de THE TALK: ${currentEpisode.title}`,
+                                url: shareUrl
+                            });
+                            if (result.success && result.method === 'clipboard') {
+                                setShareToast('Link Copied!');
+                                setTimeout(() => setShareToast(null), 3000);
+                            }
+                        }}
+                        className="text-gray-400 hover:text-black dark:hover:text-white transition-colors hidden md:block"
+                    >
+                        <Share2 size={20} />
+                    </button>
                     <button aria-label="Volume" className="text-gray-400 hover:text-black dark:hover:text-white transition-colors hidden md:block">
                         <Volume2 size={20} />
                     </button>
@@ -191,6 +272,16 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                     </button>
                 </div>
             </div>
+
+            {/* Share Toast Notification */}
+            {shareToast && (
+                <div className="fixed bottom-32 left-1/2 transform -translate-x-1/2 z-[201] animate-fade-in-up">
+                    <div className="flex items-center gap-3 px-5 py-3 bg-[#007BFF] text-white rounded-xl shadow-lg">
+                        <Check size={18} />
+                        <span className="font-minimal text-sm">{shareToast}</span>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

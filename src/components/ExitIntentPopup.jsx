@@ -50,28 +50,47 @@ export default function ExitIntentPopup() {
         setStatus('loading');
 
         try {
-            // Check if Firebase is available
-            if (!db) {
-                console.warn('Firebase not available, skipping database save');
-                // Still show success since we can't save
-                setStatus('success');
-                localStorage.setItem('exit_popup_closed', 'true');
-                setTimeout(() => setIsVisible(false), 3000);
-                return;
-            }
-
             // Add timeout to prevent infinite loading
             const timeoutPromise = new Promise((_, reject) =>
                 setTimeout(() => reject(new Error('Timeout')), 10000)
             );
 
-            const savePromise = addDoc(collection(db, 'leads'), {
-                email: email,
-                source: 'exit_intent',
-                timestamp: serverTimestamp()
-            });
+            const promises = [];
 
-            await Promise.race([savePromise, timeoutPromise]);
+            // Save to Firebase if available
+            if (db) {
+                const savePromise = addDoc(collection(db, 'leads'), {
+                    email: email,
+                    source: 'exit_intent',
+                    timestamp: serverTimestamp()
+                });
+                promises.push(savePromise);
+            }
+
+            // Also send to Mailchimp via API
+            const mailchimpPromise = fetch('/api/subscribe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email.trim() }),
+            }).then(res => {
+                if (!res.ok) {
+                    console.warn('Mailchimp subscription failed, but continuing...');
+                }
+                return res;
+            }).catch(err => {
+                console.warn('Mailchimp API error:', err);
+                // Don't fail the whole operation if Mailchimp fails
+                return null;
+            });
+            promises.push(mailchimpPromise);
+
+            // Wait for all promises with timeout
+            await Promise.race([
+                Promise.all(promises),
+                timeoutPromise
+            ]);
 
             setStatus('success');
             localStorage.setItem('exit_popup_closed', 'true');

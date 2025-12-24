@@ -10,10 +10,11 @@ import ThemeToggle from '../components/ThemeToggle';
 import { usePushNotifications } from '../hooks/usePushNotifications';
 import LazyImage from '../components/LazyImage';
 import SubscribeModal from '../components/SubscribeModal';
+import ContinueListening from '../components/ContinueListening';
 
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
 
-export default function Home({ items, favorites, toggleFavorite }) {
+export default function Home({ items, favorites, toggleFavorite, onPlay }) {
     const { t } = useTranslation();
     const { user, signInWithGoogle, logout } = useAuth();
     const { requestPermission, notificationPermission } = usePushNotifications();
@@ -69,8 +70,8 @@ export default function Home({ items, favorites, toggleFavorite }) {
         if (element) element.scrollIntoView({ behavior: 'smooth' });
     };
 
-    // Fonction pour appeler l'API Gemini
-    const handleCreativeAdvice = async (e) => {
+    // Fonction pour appeler l'API Gemini - Fashion Advice
+    const handleFashionAdvice = async (e) => {
         e.preventDefault();
         if (!aiPrompt.trim()) return;
 
@@ -94,22 +95,22 @@ export default function Home({ items, favorites, toggleFavorite }) {
                     body: JSON.stringify({
                         contents: [{
                             parts: [{
-                                text: `Você é Mijean Rochus, uma consultora de moda e estilo renomada, host do podcast THE TALK sobre moda e tendências. Seu tom é: elegante, sofisticado, direto e inspirador.
+                                text: `You are Mijean Rochus, a sophisticated Fashion Director and Podcast Host of THE TALK. The user needs style advice.
 
-O usuário precisa de ajuda com: "${aiPrompt}"
+User Query: "${aiPrompt}"
 
-Dê um conselho de moda ESPECÍFICO e PRÁTICO em no máximo 4-5 frases. Seja precisa com:
-- Cores específicas (ex: "bordeaux", "nude rosé", "azul petróleo")
-- Peças específicas (ex: "blazer oversized", "calça palazzo", "vestido midi")
-- Combinações concretas
-- Dicas de styling aplicáveis
+Provide a short, elegant, and trendy recommendation (max 3 sentences). Be specific about:
+- Specific colors (e.g., "bordeaux", "nude rosé", "bleu pétrole")
+- Specific pieces (e.g., "blazer oversize", "pantalon palazzo", "robe midi")
+- Concrete styling tips
 
-Responda sempre de forma clara e elegante.`
+Tone: Professional, Chic, Visionary.
+Language: French only.`
                             }]
                         }],
                         generationConfig: {
                             temperature: 0.7,
-                            maxOutputTokens: 500
+                            maxOutputTokens: 300
                         }
                     }),
                 }
@@ -193,11 +194,17 @@ Responda sempre de forma clara e elegante.`
 
                         {user ? (
                             <div className="flex items-center gap-3 ml-2">
-                                <img
-                                    src={user.photoURL}
-                                    alt={user.displayName}
-                                    className="w-8 h-8 rounded-full border border-[#333]"
-                                />
+                                <Link
+                                    to={`/profile/${user.uid}`}
+                                    title="View Profile"
+                                    className="hover:ring-2 hover:ring-[#007BFF] rounded-full transition-all"
+                                >
+                                    <img
+                                        src={user.photoURL}
+                                        alt={user.displayName}
+                                        className="w-8 h-8 rounded-full border border-[#333]"
+                                    />
+                                </Link>
                                 <button
                                     onClick={logout}
                                     title="Se déconnecter"
@@ -314,6 +321,9 @@ Responda sempre de forma clara e elegante.`
                 </div>
             </header>
 
+            {/* Continue Listening Section */}
+            <ContinueListening onPlay={onPlay} />
+
             {/* Gallery Section (Episodes) */}
             <section id="galerie" className="py-24 px-4 md:px-8 max-w-7xl mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
@@ -410,12 +420,12 @@ Responda sempre de forma clara e elegante.`
                                 muted
                                 playsInline
                                 className="w-full rounded-2xl relative z-10 object-cover aspect-[3/4]"
-                                poster="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80"
+                                poster="https://images.pexels.com/videos/9512045/pexels-photo-9512045.jpeg?auto=compress&cs=tinysrgb&w=800"
                             >
-                                <source src="https://videos.pexels.com/video-files/3048184/3048184-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+                                <source src="https://videos.pexels.com/video-files/9512045/9512045-uhd_2560_1440_25fps.mp4" type="video/mp4" />
                                 {/* Fallback image if video doesn't load */}
                                 <img
-                                    src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80"
+                                    src="https://images.pexels.com/videos/9512045/pexels-photo-9512045.jpeg?auto=compress&cs=tinysrgb&w=800"
                                     alt="Fashion Runway"
                                     className="w-full rounded-2xl object-cover"
                                 />
@@ -567,17 +577,17 @@ Responda sempre de forma clara e elegante.`
                 </div>
             </section>
 
-            {/* NEW: AI Creative Lab Section */}
+            {/* Fashion Consultant AI Section */}
             <section id="ai-lab" className="py-24 bg-gray-50 dark:bg-[#020202] border-t border-gray-200 dark:border-[#333]">
                 <div className="container mx-auto px-6 max-w-5xl">
                     <div className="text-center mb-12">
                         <div className="inline-flex items-center gap-2 bg-[#007BFF]/10 text-[#007BFF] px-4 py-1 rounded-full mb-4 border border-[#007BFF]/20">
                             <Sparkles size={16} />
-                            <span className="text-xs font-bold uppercase tracking-widest font-minimal">Consultoria de Moda</span>
+                            <span className="text-xs font-bold uppercase tracking-widest font-minimal">Consultante de Mode</span>
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-creativo font-bold mb-4 text-black dark:text-white">Sua Consultora de Estilo</h2>
+                        <h2 className="text-4xl md:text-5xl font-creativo font-bold mb-4 text-black dark:text-white">Conseil de Style & Tendances</h2>
                         <p className="text-gray-600 dark:text-[#6C757D] font-minimal text-lg max-w-2xl mx-auto">
-                            Precisa de ajuda com looks, combinações ou tendências? Pergunte à nossa IA especialista em moda.
+                            Une question de style ? Un doute sur une tenue ? Demandez l'avis de notre IA experte en mode.
                         </p>
                     </div>
 
@@ -588,17 +598,17 @@ Responda sempre de forma clara e elegante.`
                             {/* Input Area */}
                             <div className="md:col-span-2 p-8 border-b md:border-b-0 md:border-r border-gray-200 dark:border-[#333] flex flex-col justify-center">
                                 <div className="mb-6">
-                                    <Bot className="w-10 h-10 text-[#007BFF] dark:text-[#A9A9F5] mb-4" />
-                                    <h3 className="text-2xl font-creativo font-bold text-black dark:text-white mb-2">Pergunte sobre Moda</h3>
-                                    <p className="text-gray-500 dark:text-[#6C757D] text-sm">Descreva sua dúvida de estilo ou look.</p>
+                                    <Sparkles className="w-10 h-10 text-[#007BFF] dark:text-[#A9A9F5] mb-4" />
+                                    <h3 className="text-2xl font-creativo font-bold text-black dark:text-white mb-2">Posez votre question</h3>
+                                    <p className="text-gray-500 dark:text-[#6C757D] text-sm">Décrivez votre défi mode ou look.</p>
                                 </div>
 
-                                <form onSubmit={handleCreativeAdvice} className="space-y-4">
+                                <form onSubmit={handleFashionAdvice} className="space-y-4">
                                     <input
                                         type="text"
                                         value={aiPrompt}
                                         onChange={(e) => setAiPrompt(e.target.value)}
-                                        placeholder="Ex: O que vestir em um casamento ao ar livre no verão?"
+                                        placeholder="Ex: Quelle tenue pour un vernissage ?"
                                         className="w-full bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded-xl px-4 py-4 text-black dark:text-white focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal placeholder:text-gray-400 dark:placeholder:text-[#444]"
                                     />
                                     <button
@@ -612,7 +622,7 @@ Responda sempre de forma clara e elegante.`
                                             </>
                                         ) : (
                                             <>
-                                                Receber Conselho �
+                                                <Sparkles size={18} /> Obtenir Conseil
                                             </>
                                         )}
                                     </button>
@@ -625,7 +635,7 @@ Responda sempre de forma clara e elegante.`
                                     <div className="animate-fade-in h-full overflow-y-auto custom-scrollbar">
                                         <div className="flex items-center gap-2 mb-6 border-b border-gray-200 dark:border-[#333] pb-4">
                                             <BrainCircuit className="text-[#007BFF]" size={20} />
-                                            <span className="text-sm font-bold text-gray-500 dark:text-[#6C757D] uppercase tracking-wider">Insight da Mijea</span>
+                                            <span className="text-sm font-bold text-gray-500 dark:text-[#6C757D] uppercase tracking-wider">Conseil de Mijean</span>
                                         </div>
                                         <div className="prose prose-invert prose-p:text-gray-700 dark:prose-p:text-[#A0A0A0] prose-headings:text-black dark:prose-headings:text-white max-w-none font-minimal whitespace-pre-wrap leading-relaxed">
                                             {aiResponse}
@@ -634,8 +644,8 @@ Responda sempre de forma clara e elegante.`
                                 ) : (
                                     <div className="flex flex-col items-center justify-center h-full text-gray-400 dark:text-[#333] text-center p-8">
                                         <Sparkles className="w-16 h-16 mb-4 opacity-20" />
-                                        <p className="font-creativo text-xl font-bold opacity-30">Aguardando sua pergunta...</p>
-                                        <p className="font-minimal text-sm opacity-30 mt-2">O conselho de moda aparecerá aqui.</p>
+                                        <p className="font-creativo text-xl font-bold opacity-30">En attente de votre question...</p>
+                                        <p className="font-minimal text-sm opacity-30 mt-2">Le conseil de mode apparaîtra ici.</p>
                                     </div>
                                 )}
                             </div>
@@ -679,7 +689,20 @@ Responda sempre de forma clara e elegante.`
                         <a href="#" className="text-[#6C757D] hover:text-[#007BFF] transition-colors"><Instagram className="w-5 h-5" /></a>
                     </div>
 
-                    <p className="text-[#6C757D] text-xs font-minimal opacity-50">© 2025 Mijean Rochus. All Rights Reserved.</p>
+                    <div className="text-center md:text-right">
+                        <p className="text-[#6C757D] text-xs font-minimal opacity-50">© 2025 Mijean Rochus. All Rights Reserved.</p>
+                        <p className="text-[#6C757D] text-xs font-minimal opacity-40 mt-1 flex items-center justify-center md:justify-end gap-1">
+                            Developed with <span className="text-red-500">♥</span> by{' '}
+                            <a
+                                href="https://www.linkedin.com/in/sam-magbo-02086555/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#007BFF] hover:text-[#A9A9F5] transition-colors font-medium"
+                            >
+                                Magbo Studio
+                            </a>
+                        </p>
+                    </div>
                 </div>
             </footer>
 
