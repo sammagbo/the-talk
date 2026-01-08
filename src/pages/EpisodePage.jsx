@@ -30,6 +30,27 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
     const [relatedEpisodes, setRelatedEpisodes] = useState([]);
 
     useEffect(() => {
+        // Function to convert Spotify URL to embed format
+        const convertToSpotifyEmbed = (url) => {
+            if (!url) return null;
+
+            // If already in embed format, return as is
+            if (url.includes('/embed/')) {
+                return url;
+            }
+
+            // Convert normal Spotify URLs to embed format
+            // Supports: /intl-xx/, episode, show, track, playlist, album
+            const spotifyRegex = /https:\/\/open\.spotify\.com\/(?:intl-[a-z]{2}\/)?(episode|show|track|playlist|album)\/([a-zA-Z0-9]+)/;
+            const match = url.match(spotifyRegex);
+
+            if (match) {
+                return `https://open.spotify.com/embed/${match[1]}/${match[2]}?utm_source=generator&theme=0`;
+            }
+
+            return null;
+        };
+
         const fetchEpisode = async () => {
             setLoading(true);
             setError(null);
@@ -45,6 +66,7 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                     "src": mainImage.asset->url, 
                     "fullSrc": mainImage.asset->url, 
                     audioUrl,
+                    spotifyEmbedUrl,
                     transcript,
                     slug,
                     isPremium,
@@ -69,6 +91,7 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                         date: result.date,
                         duration: result.duration,
                         audioUrl: result.audioUrl,
+                        spotifyEmbedUrl: convertToSpotifyEmbed(result.spotifyEmbedUrl),
                         mainImage: result.src,
                         src: result.src ? urlFor(result.src).width(800).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=800&q=80',
                         fullSrc: result.fullSrc ? urlFor(result.fullSrc).width(1600).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=1600&q=80',

@@ -408,10 +408,11 @@ Language: French only.`
                 </div>
             </section>
 
-            {/* About Section */}
+            {/* About Section - Complete Biography */}
             <section id="apropos" className="py-24 bg-white dark:bg-[#020202] border-t border-gray-200 dark:border-[#333]">
                 <div className="container mx-auto px-6 max-w-6xl">
-                    <div className="flex flex-col md:flex-row items-center gap-16">
+                    {/* Hero Section */}
+                    <div className="flex flex-col md:flex-row items-center gap-16 mb-24">
                         <div className="w-full md:w-1/2 relative">
                             <div className="absolute inset-0 bg-gradient-to-tr from-[#007BFF] to-[#A9A9F5] rounded-2xl transform rotate-3 blur-sm opacity-30"></div>
                             <video
@@ -423,7 +424,6 @@ Language: French only.`
                                 poster="https://images.pexels.com/videos/9512045/pexels-photo-9512045.jpeg?auto=compress&cs=tinysrgb&w=800"
                             >
                                 <source src="https://videos.pexels.com/video-files/9512045/9512045-uhd_2560_1440_25fps.mp4" type="video/mp4" />
-                                {/* Fallback image if video doesn't load */}
                                 <img
                                     src="https://images.pexels.com/videos/9512045/pexels-photo-9512045.jpeg?auto=compress&cs=tinysrgb&w=800"
                                     alt="Fashion Runway"
@@ -436,37 +436,192 @@ Language: French only.`
                             <div>
                                 <h4 className="text-[#007BFF] font-creativo font-bold text-lg mb-2">{t('about.title')}</h4>
                                 <h2 className="text-4xl md:text-5xl font-creativo font-bold text-black dark:text-white mb-4">Mijean Rochus</h2>
-                                <p className="text-[#007BFF] dark:text-[#A9A9F5] font-minimal text-xl">{t('about.role')}</p>
+                                <p className="text-[#007BFF] dark:text-[#A9A9F5] font-minimal text-xl">Fashion Photographer | Podcast Host | Creative Visionary</p>
                             </div>
 
                             <p className="text-gray-600 dark:text-[#6C757D] leading-relaxed text-lg font-minimal">
-                                {t('about.description')}
+                                Mijean Rochus is a Brussels-based fashion photographer specializing in conceptual fashion, reportage, editorial, and runway photography. Through a distinctive lens, he captures the essence of fashion in all its vibrant diversity, documenting the industry's multifaceted beauty across the globe.
                             </p>
 
                             <div className="grid grid-cols-2 gap-6">
                                 <div className="flex items-start gap-3">
-                                    <div className="bg-gray-100 dark:bg-[#111] p-2 rounded text-black dark:text-white"><ShoppingBag size={20} /></div>
+                                    <div className="bg-gray-100 dark:bg-[#111] p-2 rounded text-black dark:text-white"><Camera size={20} /></div>
                                     <div>
-                                        <h5 className="text-black dark:text-white font-bold font-creativo">{t('about.curated')}</h5>
-                                        <p className="text-sm text-gray-500 dark:text-[#6C757D]">{t('about.curated_sub')}</p>
+                                        <h5 className="text-black dark:text-white font-bold font-creativo">Fashion Photography</h5>
+                                        <p className="text-sm text-gray-500 dark:text-[#6C757D]">Runway & Editorial</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-3">
                                     <div className="bg-gray-100 dark:bg-[#111] p-2 rounded text-black dark:text-white"><Mic size={20} /></div>
                                     <div>
-                                        <h5 className="text-black dark:text-white font-bold font-creativo">{t('about.storytelling')}</h5>
-                                        <p className="text-sm text-gray-500 dark:text-[#6C757D]">{t('about.storytelling_sub')}</p>
+                                        <h5 className="text-black dark:text-white font-bold font-creativo">The Talk Podcast</h5>
+                                        <p className="text-sm text-gray-500 dark:text-[#6C757D]">Fashion & Lifestyle</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="pt-4">
                                 <LazyImage
-                                    src="https://fakeimg.pl/200x60/000000/ffffff/?text=Mijea+Rochi&font=lobster"
+                                    src="https://fakeimg.pl/200x60/000000/ffffff/?text=Mijean+Rochus&font=lobster"
                                     alt="Signature"
-                                    className="h-12 opacity-50 invert"
+                                    className="h-12 opacity-50 dark:invert"
                                 />
                             </div>
+                        </div>
+                    </div>
+
+                    {/* Biography Timeline Header */}
+                    <div className="text-center mb-16">
+                        <div className="inline-flex items-center gap-2 bg-[#007BFF]/10 text-[#007BFF] px-4 py-1 rounded-full mb-4 border border-[#007BFF]/20">
+                            <BookOpen size={16} />
+                            <span className="text-xs font-bold uppercase tracking-widest font-minimal">Biography</span>
+                        </div>
+                        <h2 className="text-4xl md:text-5xl font-creativo font-bold mb-4 text-black dark:text-white">The Journey of Mijean Rochus</h2>
+                        <p className="text-gray-600 dark:text-[#6C757D] font-minimal text-lg max-w-2xl mx-auto">
+                            From model to photographer, TV presenter to podcast host — a story of passion, creativity, and transformation.
+                        </p>
+                    </div>
+
+                    {/* Timeline */}
+                    <div className="space-y-12 max-w-5xl mx-auto">
+                        {/* Early Influences */}
+                        <div className="bg-gray-50 dark:bg-[#111] rounded-3xl border border-gray-200 dark:border-[#333] p-8 md:p-10 relative overflow-hidden group hover:border-[#007BFF]/50 transition-all duration-300">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#007BFF]/10 rounded-full blur-[60px] group-hover:w-48 group-hover:h-48 transition-all duration-500"></div>
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="bg-gradient-to-tr from-[#007BFF] to-[#A9A9F5] p-3 rounded-xl text-white">
+                                    <Sparkles size={24} />
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-creativo font-bold text-black dark:text-white">Early Influences</h3>
+                                    <p className="text-[#007BFF] text-sm font-minimal">Where it all began</p>
+                                </div>
+                            </div>
+                            <p className="text-gray-600 dark:text-[#6C757D] leading-relaxed font-minimal text-lg">
+                                Mijean's journey into the world of photography began with an unexpected twist. At the age of 19, while seeking assistance with a school project at a local Photoshop, Mijean caught the eye of a seasoned photographer who also happened to be a former model for Flair Magazine. Intrigued by Mijean's presence, this photographer turned the camera towards him, capturing captivating images. This encounter sparked a dialogue that would change the course of Mijean's life.
+                            </p>
+                        </div>
+
+                        {/* Modeling Career */}
+                        <div className="bg-gray-50 dark:bg-[#111] rounded-3xl border border-gray-200 dark:border-[#333] p-8 md:p-10 relative overflow-hidden group hover:border-[#A9A9F5]/50 transition-all duration-300">
+                            <div className="absolute top-0 left-0 w-32 h-32 bg-[#A9A9F5]/10 rounded-full blur-[60px] group-hover:w-48 group-hover:h-48 transition-all duration-500"></div>
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="bg-gradient-to-tr from-[#A9A9F5] to-[#007BFF] p-3 rounded-xl text-white">
+                                    <ArrowUpRight size={24} />
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-creativo font-bold text-black dark:text-white">The Modeling Years</h3>
+                                    <p className="text-[#A9A9F5] text-sm font-minimal">A decade on the runway</p>
+                                </div>
+                            </div>
+                            <p className="text-gray-600 dark:text-[#6C757D] leading-relaxed font-minimal text-lg">
+                                Months later, Mijean gave modeling a try. For over a decade he booked jobs in Belgium and on occasions more international jobs. He did not only grace runways but he also did commercial work. At Models Inc. International, one of his agencies, Mijean could also been seen passing his expertise to aspiring models. His commitment to excellence and a deep understanding of the modeling world were evident in his dedication to maintaining his body as a precision tool for his craft.
+                            </p>
+                        </div>
+
+                        {/* The Shift to Photography */}
+                        <div className="bg-gray-50 dark:bg-[#111] rounded-3xl border border-gray-200 dark:border-[#333] p-8 md:p-10 relative overflow-hidden group hover:border-[#007BFF]/50 transition-all duration-300">
+                            <div className="absolute bottom-0 right-0 w-32 h-32 bg-[#007BFF]/10 rounded-full blur-[60px] group-hover:w-48 group-hover:h-48 transition-all duration-500"></div>
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="bg-gradient-to-tr from-[#007BFF] to-[#A9A9F5] p-3 rounded-xl text-white">
+                                    <Camera size={24} />
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-creativo font-bold text-black dark:text-white">The Shift to the Creative Lens</h3>
+                                    <p className="text-[#007BFF] text-sm font-minimal">Transformation into a photographer</p>
+                                </div>
+                            </div>
+                            <p className="text-gray-600 dark:text-[#6C757D] leading-relaxed font-minimal text-lg mb-4">
+                                Behind the allure of the camera, Mijean's curiosity about the mechanics of photography began to grow. He longed to be part of the creative process, learning the intricate details of image selection, lighting, and more. As more people sought his expertise in photo selection, they encouraged him to consider formal study in photography.
+                            </p>
+                            <p className="text-gray-600 dark:text-[#6C757D] leading-relaxed font-minimal text-lg">
+                                Life took Mijean on a different path, leading him to obtain a professional bachelor's degree in social cultural studies. However, the spark for photography remained ignited.
+                            </p>
+                        </div>
+
+                        {/* Television & MI Casting */}
+                        <div className="grid md:grid-cols-2 gap-8">
+                            <div className="bg-gray-50 dark:bg-[#111] rounded-3xl border border-gray-200 dark:border-[#333] p-8 relative overflow-hidden group hover:border-[#A9A9F5]/50 transition-all duration-300">
+                                <div className="flex items-center gap-4 mb-6">
+                                    <div className="bg-gradient-to-tr from-[#A9A9F5] to-[#007BFF] p-3 rounded-xl text-white">
+                                        <Mic size={24} />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-xl font-creativo font-bold text-black dark:text-white">Television Career</h3>
+                                        <p className="text-[#A9A9F5] text-sm font-minimal">2008 - Bel'Afrika TV</p>
+                                    </div>
+                                </div>
+                                <p className="text-gray-600 dark:text-[#6C757D] leading-relaxed font-minimal">
+                                    In 2008, Mijean became a television presenter for Bel'Afrika TV on TV Brussels, reigniting his passion for photography as he conducted research, wrote articles, conducted interviews, and captured striking images of guests. He interviewed Belgian singer Kate Ryan who represented Belgium at the Eurosong contest, and footballers of African descent for the Ebbenhouten Schoen awards.
+                                </p>
+                            </div>
+
+                            <div className="bg-gray-50 dark:bg-[#111] rounded-3xl border border-gray-200 dark:border-[#333] p-8 relative overflow-hidden group hover:border-[#007BFF]/50 transition-all duration-300">
+                                <div className="flex items-center gap-4 mb-6">
+                                    <div className="bg-gradient-to-tr from-[#007BFF] to-[#A9A9F5] p-3 rounded-xl text-white">
+                                        <BrainCircuit size={24} />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-xl font-creativo font-bold text-black dark:text-white">MI Casting</h3>
+                                        <p className="text-[#007BFF] text-sm font-minimal">2011 - Multicultural Identity</p>
+                                    </div>
+                                </div>
+                                <p className="text-gray-600 dark:text-[#6C757D] leading-relaxed font-minimal">
+                                    In 2011, Mijean co-founded the MI Casting (Multicultural Identity Casting) association. The platform became a nurturing ground for diverse talent, fostering collaborations with industry icons such as Romain Brau, Walter Van Beirendonck, Mientus, and Label M UK. Under his guidance, several models went on to walk the runways of London, Milan, and Paris Fashion Weeks.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* MIRO 4 You Magazine */}
+                        <div className="bg-gradient-to-br from-[#007BFF]/5 to-[#A9A9F5]/5 dark:from-[#007BFF]/10 dark:to-[#A9A9F5]/10 rounded-3xl border border-gray-200 dark:border-[#333] p-8 md:p-10 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-[#007BFF]/10 rounded-full blur-[100px]"></div>
+                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#A9A9F5]/10 rounded-full blur-[100px]"></div>
+                            <div className="relative z-10">
+                                <div className="flex items-center gap-4 mb-6">
+                                    <div className="bg-gradient-to-tr from-[#007BFF] to-[#A9A9F5] p-3 rounded-xl text-white">
+                                        <ImageIcon size={24} />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-2xl font-creativo font-bold text-black dark:text-white">MIRO 4 You Magazine</h3>
+                                        <p className="text-[#007BFF] text-sm font-minimal">2019 - Present | Global Fashion Coverage</p>
+                                    </div>
+                                </div>
+                                <p className="text-gray-600 dark:text-[#6C757D] leading-relaxed font-minimal text-lg mb-6">
+                                    Out of these diverse experiences, MIRO for You Magazine by Marc Vanderbiesen & Mijean Rochus was born. Under this banner, Mijean captures fashion's multifaceted beauty and diversity. Since 2019, he has embarked on a journey across Europe, documenting the glamour and innovation of fashion weeks in London, Pitti Uomo, Milan, Alta Roma, Paris, Amsterdam, Maastricht and Copenhagen fashion week.
+                                </p>
+                                <div className="flex flex-wrap gap-3">
+                                    {['London', 'Milan', 'Paris', 'Amsterdam', 'Copenhagen', 'Alta Roma', 'Pitti Uomo', 'Maastricht'].map((city) => (
+                                        <span key={city} className="bg-white dark:bg-[#050505] px-4 py-2 rounded-full text-sm font-minimal text-gray-600 dark:text-[#6C757D] border border-gray-200 dark:border-[#333]">
+                                            {city}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* The Talk Podcast */}
+                        <div className="bg-black dark:bg-[#111] rounded-3xl border border-[#333] p-8 md:p-10 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-[#007BFF]/20 rounded-full blur-[100px]"></div>
+                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#A9A9F5]/20 rounded-full blur-[100px]"></div>
+                            <div className="relative z-10">
+                                <div className="inline-flex items-center gap-2 bg-[#007BFF]/20 text-[#007BFF] px-4 py-1 rounded-full mb-6 border border-[#007BFF]/30">
+                                    <span className="w-2 h-2 rounded-full bg-[#007BFF] animate-pulse"></span>
+                                    <span className="text-xs font-bold uppercase tracking-widest font-minimal">New Chapter • 2025</span>
+                                </div>
+                                <h3 className="text-3xl md:text-4xl font-creativo font-bold text-white mb-4">The Talk Podcast</h3>
+                                <p className="text-[#6C757D] leading-relaxed font-minimal text-lg mb-6">
+                                    In 2025, Mijean expanded his creative reach into the audio-visual space. While hosting fashion conversations at Galeries Lafayette, he met his future colleague, Gleid. Their immediate dynamic led to the creation of "The Talk," a fashion and lifestyle audio-video podcast.
+                                </p>
+                                <p className="text-white/80 leading-relaxed font-minimal text-lg italic border-l-4 border-[#007BFF] pl-6">
+                                    "As a passport to cutting-edge fashion and cultural shifts, The Talk brings the world of high fashion and city secrets directly to the audience. With no filters and a sharp lens, Mijean continues to illuminate the narratives and emotions that define modern lifestyle and culture."
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Legacy Quote */}
+                        <div className="text-center py-12">
+                            <p className="text-2xl md:text-3xl font-creativo font-bold text-black dark:text-white max-w-3xl mx-auto leading-relaxed">
+                                "Mijean Rochus's photographic journey is a testament to the <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#007BFF] to-[#A9A9F5]">transformative power of passion and dedication</span>. With every click of the shutter, he illuminates and captures not just images but the emotions and narratives that lie within them."
+                            </p>
                         </div>
                     </div>
                 </div>

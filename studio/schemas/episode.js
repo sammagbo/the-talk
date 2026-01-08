@@ -49,8 +49,15 @@ export default {
         },
         {
             name: 'audioUrl',
-            title: 'Link do MP3/Spotify',
+            title: 'Link do MP3 (arquivo de áudio)',
             type: 'url',
+            description: 'URL direta do arquivo MP3 para reprodução nativa',
+        },
+        {
+            name: 'spotifyEmbedUrl',
+            title: 'Link do Spotify (Embed)',
+            type: 'url',
+            description: 'Cole o link do Spotify. Ex: https://open.spotify.com/episode/xxx ou https://open.spotify.com/embed/episode/xxx',
         },
         {
             name: 'poll',

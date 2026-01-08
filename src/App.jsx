@@ -150,10 +150,35 @@ export default function App() {
           duration,
           category->{title},
           mainImage,
-          audioUrl
+          audioUrl,
+          spotifyEmbedUrl
         }`;
 
         const data = await client.fetch(query);
+
+        // Function to convert Spotify URL to embed format
+        const convertToSpotifyEmbed = (url) => {
+          if (!url) return null;
+
+          // If already in embed format, return as is
+          if (url.includes('/embed/')) {
+            return url;
+          }
+
+          // Convert normal Spotify URLs to embed format
+          // Supports multiple formats:
+          // https://open.spotify.com/episode/xxx
+          // https://open.spotify.com/intl-fr/track/xxx (with locale)
+          // https://open.spotify.com/show/xxx?si=xxx (with query params)
+          const spotifyRegex = /https:\/\/open\.spotify\.com\/(?:intl-[a-z]{2}\/)?(episode|show|track|playlist|album)\/([a-zA-Z0-9]+)/;
+          const match = url.match(spotifyRegex);
+
+          if (match) {
+            return `https://open.spotify.com/embed/${match[1]}/${match[2]}?utm_source=generator&theme=0`;
+          }
+
+          return null;
+        };
 
         const mappedItems = data.map(item => ({
           id: item._id,
@@ -161,7 +186,7 @@ export default function App() {
           title: item.title,
           src: item.mainImage ? urlFor(item.mainImage).width(800).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=800&q=80',
           fullSrc: item.mainImage ? urlFor(item.mainImage).width(1600).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=1600&q=80',
-          spotifyEmbedUrl: null,
+          spotifyEmbedUrl: convertToSpotifyEmbed(item.spotifyEmbedUrl),
           audioUrl: item.audioUrl,
           description: item.description,
           date: item.date,
