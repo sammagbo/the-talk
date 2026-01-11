@@ -571,6 +571,15 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 ## 📝 Changelog
 
+### v1.2.0 (11/01/2026) - EMMPO Upgrade
+
+**Inspirado por EMMPO (emmpo.com)**
+
+- ✅ **Bracket CTAs**: Botões com colchetes `[ÉCOUTER]`, `[S'ABONNER]`
+- ✅ **Film Grain Overlay**: Textura granulada sutil no Hero
+- ✅ **Edge Glow**: Brilho azul/roxo nas bordas
+- ✅ **Pinned Corner Links**: `[NEW EPISODE]` e `[SUBSCRIBE]` fixos
+
 ### v1.1.0 (11/01/2026) - Design Upgrade
 
 **Inspirado por DICH Fashion (dich-fashion.webflow.io)**
@@ -579,6 +588,7 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 - ✅ **Industrial Typography**: Hero com tracking 0.08em e uppercase
 - ✅ **Full-Screen Menu**: Menu numerado (00. HOME, 01. VIDÉOS...) com indicadores HUD
 - ✅ **Corner Indicators**: "MENU // NAVIGATION" e "THE_TALK.FM" no menu
+
 
 ### v1.0.0 (11/01/2026)
 

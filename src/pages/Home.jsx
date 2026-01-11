@@ -211,6 +211,13 @@ Language: French only.`
                         className="w-full h-full object-cover opacity-10 dark:opacity-20 mix-blend-overlay"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white/50 dark:from-black dark:via-transparent dark:to-black/50"></div>
+                    {/* Film Grain Overlay */}
+                    <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }}></div>
+                    {/* Edge Glow Effect */}
+                    <div className="absolute inset-0 pointer-events-none">
+                        <div className="absolute top-0 left-0 w-64 h-64 bg-[#007BFF]/20 blur-[120px]"></div>
+                        <div className="absolute bottom-0 right-0 w-64 h-64 bg-[#A9A9F5]/20 blur-[120px]"></div>
+                    </div>
                 </div>
 
                 <div className="relative z-10 text-center px-4 animate-fade-in-up max-w-4xl mx-auto">
@@ -234,17 +241,17 @@ Language: French only.`
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                         <button
                             onClick={() => scrollToSection('galerie')}
-                            className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-creativo font-bold text-lg hover:shadow-[0_0_20px_rgba(0,123,255,0.4)] w-full sm:w-auto justify-center"
+                            className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider hover:shadow-[0_0_20px_rgba(0,123,255,0.4)] w-full sm:w-auto justify-center uppercase"
                         >
-                            Écouter Maintenant
-                            <ChevronRight className="w-5 h-5" />
+                            [ ÉCOUTER ]
+                            <ChevronRight className="w-4 h-4" />
                         </button>
                         <button
                             onClick={() => setIsSubscribeOpen(true)}
-                            className="bg-gradient-to-r from-[#A9A9F5] to-[#007BFF] hover:opacity-90 text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-creativo font-bold text-lg w-full sm:w-auto justify-center"
+                            className="bg-gradient-to-r from-[#A9A9F5] to-[#007BFF] hover:opacity-90 text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
                         >
-                            <Mail className="w-5 h-5" />
-                            S'abonner
+                            <Mail className="w-4 h-4" />
+                            [ S'ABONNER ]
                         </button>
                     </div>
 
@@ -995,7 +1002,32 @@ Language: French only.`
                 isOpen={isSubscribeOpen}
                 onClose={() => setIsSubscribeOpen(false)}
             />
+
+            {/* Pinned Corner Links - EMMPO Style */}
+            <div className="fixed bottom-6 left-6 z-40 hidden md:block">
+                <button
+                    onClick={() => scrollToSection('galerie')}
+                    className="group flex items-center gap-2 px-4 py-2 bg-black/80 dark:bg-white/10 backdrop-blur-sm rounded-full border border-white/10 hover:border-[#007BFF] transition-all"
+                >
+                    <span className="w-2 h-2 rounded-full bg-[#007BFF] animate-pulse"></span>
+                    <span className="text-xs font-mono text-white/80 tracking-wider uppercase group-hover:text-[#007BFF] transition-colors">
+                        [NEW EPISODE]
+                    </span>
+                </button>
+            </div>
+            <div className="fixed bottom-6 right-6 z-40 hidden md:block">
+                <button
+                    onClick={() => setIsSubscribeOpen(true)}
+                    className="group flex items-center gap-2 px-4 py-2 bg-black/80 dark:bg-white/10 backdrop-blur-sm rounded-full border border-white/10 hover:border-[#A9A9F5] transition-all"
+                >
+                    <span className="text-xs font-mono text-white/80 tracking-wider uppercase group-hover:text-[#A9A9F5] transition-colors">
+                        [SUBSCRIBE]
+                    </span>
+                    <Mail className="w-3 h-3 text-white/60 group-hover:text-[#A9A9F5] transition-colors" />
+                </button>
+            </div>
         </div>
+
     );
 }
 
