@@ -3,6 +3,7 @@ import { Play, Pause, X, Volume2, Share2, Check } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { savePlaybackProgress, getSavedPosition } from '../utils/playbackHistory';
 import { shareContent, getEpisodeShareUrl } from '../utils/share';
+import LazySpotifyEmbed from './LazySpotifyEmbed';
 
 export default function Player({ currentEpisode, isPlaying, onClose, onTogglePlay }) {
     const audioRef = useRef(null);
@@ -221,18 +222,11 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                         </>
                     ) : currentEpisode.spotifyEmbedUrl ? (
                         <div className="w-full max-w-md">
-                            <iframe
-                                title="Spotify Player"
-                                style={{ borderRadius: '12px' }}
-                                src={currentEpisode.spotifyEmbedUrl}
-                                width="100%"
-                                height="80"
-                                frameBorder="0"
-                                allowFullScreen=""
-                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                                loading="lazy"
-                                className="shadow-sm"
-                            ></iframe>
+                            <LazySpotifyEmbed
+                                embedUrl={currentEpisode.spotifyEmbedUrl}
+                                height={80}
+                                title={`Spotify - ${currentEpisode.title}`}
+                            />
                         </div>
                     ) : (
                         <p className="text-xs text-red-500">Audio non disponible</p>

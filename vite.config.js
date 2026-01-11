@@ -32,7 +32,34 @@ export default defineConfig({
   ],
   build: {
     target: 'es2015',
-    minify: 'terser', // Force terser for safer minification on iOS
+    minify: 'terser',
     cssCodeSplit: true,
-  }
+    // Manual chunk splitting for better caching and parallel loading
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Core React ecosystem
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          // Firebase SDK (large, rarely changes)
+          'vendor-firebase': ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+          // Sanity client
+          'vendor-sanity': ['@sanity/client', '@sanity/image-url'],
+          // i18n (translations)
+          'vendor-i18n': ['i18next', 'react-i18next', 'i18next-browser-languagedetector'],
+          // UI utilities
+          'vendor-ui': ['lucide-react'],
+        }
+      }
+    },
+    // Terser options for better compression
+    terserOptions: {
+      compress: {
+        drop_console: true, // Remove console.log in production
+        drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info'],
+      },
+      mangle: true,
+    },
+  },
 })
+

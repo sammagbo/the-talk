@@ -2,30 +2,50 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Newsletter from '../Newsletter';
-import { Mic, Instagram, Mail, X, Menu, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, LogOut, Bell, Download, ShoppingBag } from 'lucide-react';
+import { Mic, Instagram, Mail, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, ArrowRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, Calendar, Video, Headphones, Play } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { useAuth } from '../context/AuthContext';
-import ThemeToggle from '../components/ThemeToggle';
-import { usePushNotifications } from '../hooks/usePushNotifications';
 import LazyImage from '../components/LazyImage';
 import SubscribeModal from '../components/SubscribeModal';
 import ContinueListening from '../components/ContinueListening';
+import Navbar from '../components/Navbar';
+import { client, urlFor } from '../sanity';
 
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
 
 export default function Home({ items, favorites, toggleFavorite, onPlay }) {
     const { t } = useTranslation();
-    const { user, signInWithGoogle, logout } = useAuth();
-    const { requestPermission, notificationPermission } = usePushNotifications();
+    const { user } = useAuth();
     const [activeCategory, setActiveCategory] = useState('Tous');
     const [searchQuery, setSearchQuery] = useState('');
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const [formStatus, setFormStatus] = useState('');
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
+    const [blogPosts, setBlogPosts] = useState([]);
+
+    // Fetch latest blog posts for homepage preview
+    useEffect(() => {
+        const fetchBlogPosts = async () => {
+            try {
+                const query = `*[_type == "post"] | order(publishedAt desc)[0...3] {
+                    _id,
+                    title,
+                    slug,
+                    excerpt,
+                    mainImage,
+                    publishedAt,
+                    "imageUrl": mainImage.asset->url
+                }`;
+                const data = await client.fetch(query);
+                setBlogPosts(data);
+            } catch (error) {
+                console.error("Error fetching blog posts:", error);
+            }
+        };
+        fetchBlogPosts();
+    }, []);
 
     useEffect(() => {
         const handler = (e) => {
@@ -50,13 +70,6 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
     const [aiResponse, setAiResponse] = useState('');
     const [isGenerating, setIsGenerating] = useState(false);
 
-    // Gestion du scroll
-    useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 50);
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
     const handleFormSubmit = (e) => {
         e.preventDefault();
         setFormStatus('success');
@@ -65,7 +78,6 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
     };
 
     const scrollToSection = (id) => {
-        setIsMenuOpen(false);
         const element = document.getElementById(id);
         if (element) element.scrollIntoView({ behavior: 'smooth' });
     };
@@ -138,6 +150,19 @@ Language: French only.`
         return matchesCategory && matchesSearch;
     });
 
+    // Separate video and audio content
+    const videoCategories = ['Coulisses', 'Interviews', 'Vidéos'];
+    const audioCategories = ['Épisodes'];
+
+    const videoItems = items.filter(item =>
+        videoCategories.some(cat => item.category?.toLowerCase().includes(cat.toLowerCase()))
+    );
+
+    const audioItems = items.filter(item =>
+        audioCategories.some(cat => item.category?.toLowerCase().includes(cat.toLowerCase())) ||
+        !videoCategories.some(cat => item.category?.toLowerCase().includes(cat.toLowerCase()))
+    );
+
     return (
         <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-[#007BFF] selection:text-white transition-colors duration-300">
             <Helmet>
@@ -166,110 +191,13 @@ Language: French only.`
             </style>
 
             {/* Navigation */}
-            <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/90 backdrop-blur-md border-b border-[#6C757D]/20 py-4' : 'bg-transparent py-6'}`} style={{ paddingTop: 'env(safe-area-inset-top)' }}>
-                <div className="container mx-auto px-6 flex justify-between items-center">
-                    <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo(0, 0)}>
-                        {/* Logo Icon */}
-                        <img src="/logo.png" alt="THE TALK Logo" className="w-10 h-10 rounded-lg object-cover" />
-                        <div className="flex flex-col">
-                            <span className="text-xl font-creativo font-bold tracking-tight leading-none">THE TALK</span>
-                            <span className="text-[10px] font-minimal text-[#A9A9F5] tracking-widest uppercase">By Mijean Rochus</span>
-                        </div>
-                    </div>
+            <Navbar
+                onScrollToSection={scrollToSection}
+                onOpenSubscribe={() => setIsSubscribeOpen(true)}
+                deferredPrompt={deferredPrompt}
+                onInstallClick={handleInstallClick}
+            />
 
-                    {/* Desktop Menu */}
-                    <div className="hidden md:flex items-center gap-8 text-sm font-minimal font-medium tracking-wide">
-                        <button onClick={() => scrollToSection('galerie')} className="hover:text-[#007BFF] transition-colors">{t('nav.episodes')}</button>
-                        <button onClick={() => scrollToSection('apropos')} className="hover:text-[#007BFF] transition-colors">{t('nav.about')}</button>
-                        <button onClick={() => scrollToSection('contact')} className="hover:text-[#007BFF] transition-colors">{t('nav.contact')}</button>
-                        <button onClick={() => scrollToSection('ai-lab')} className="hover:text-[#007BFF] transition-colors flex items-center gap-1"><Sparkles size={14} /> {t('nav.ai_lab')}</button>
-                        <Link to="/blog" className="hover:text-[#007BFF] transition-colors flex items-center gap-1"><BookOpen size={14} /> Blog</Link>
-                        <Link to="/store" className="hover:text-[#007BFF] transition-colors flex items-center gap-1"><ShoppingBag size={14} /> Boutique</Link>
-                        <button
-                            onClick={() => setIsSubscribeOpen(true)}
-                            className="bg-[#007BFF]/10 text-[#007BFF] px-4 py-2 rounded-full hover:bg-[#007BFF]/20 transition-colors font-bold text-xs flex items-center gap-1"
-                        >
-                            <Mail size={14} /> {t('subscribe.button')}
-                        </button>
-
-                        {user ? (
-                            <div className="flex items-center gap-3 ml-2">
-                                <Link
-                                    to={`/profile/${user.uid}`}
-                                    title="View Profile"
-                                    className="hover:ring-2 hover:ring-[#007BFF] rounded-full transition-all"
-                                >
-                                    <img
-                                        src={user.photoURL}
-                                        alt={user.displayName}
-                                        className="w-8 h-8 rounded-full border border-[#333]"
-                                    />
-                                </Link>
-                                <button
-                                    onClick={logout}
-                                    title="Se déconnecter"
-                                    className="text-gray-500 hover:text-red-500 transition-colors"
-                                >
-                                    <LogOut size={18} />
-                                </button>
-                            </div>
-                        ) : (
-                            <button
-                                onClick={signInWithGoogle}
-                                className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-6 py-2.5 rounded-full transition-all transform hover:scale-105 font-bold shadow-[0_0_15px_rgba(0,123,255,0.3)]"
-                            >
-                                connexion
-                            </button>
-                        )}
-                        <ThemeToggle />
-                        <button
-                            onClick={requestPermission}
-                            className={`p-2 rounded-full transition-colors ${notificationPermission === 'granted' ? 'text-[#007BFF] bg-[#007BFF]/10' : 'text-gray-500 hover:text-black dark:hover:text-white'}`}
-                            title={notificationPermission === 'granted' ? 'Notifications activées' : 'Activer les notifications'}
-                        >
-                            <Bell size={20} fill={notificationPermission === 'granted' ? 'currentColor' : 'none'} />
-                        </button>
-                        {deferredPrompt && (
-                            <button
-                                onClick={handleInstallClick}
-                                className="flex items-center gap-2 bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-full font-bold transition-transform hover:scale-105 ml-2"
-                            >
-                                <Download size={16} />
-                                Instalar App
-                            </button>
-                        )}
-                    </div>
-
-                    {/* Mobile Menu Button */}
-                    <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                        {isMenuOpen ? <X /> : <Menu />}
-                    </button>
-                </div>
-
-                {/* Mobile Menu Overlay */}
-                {isMenuOpen && (
-                    <div className="md:hidden absolute top-full left-0 w-full bg-black border-b border-[#6C757D]/20 p-6 flex flex-col gap-4 text-center font-minimal">
-                        <button onClick={() => scrollToSection('galerie')} className="py-2 hover:text-[#007BFF]">{t('nav.episodes')}</button>
-                        <button onClick={() => scrollToSection('apropos')} className="py-2 hover:text-[#007BFF]">{t('nav.about')}</button>
-                        <button onClick={() => scrollToSection('contact')} className="py-2 hover:text-[#007BFF]">{t('nav.contact')}</button>
-                        <button onClick={() => scrollToSection('ai-lab')} className="py-2 hover:text-[#007BFF]">{t('nav.ai_lab')}</button>
-                        <Link to="/blog" onClick={() => setIsMenuOpen(false)} className="py-2 hover:text-[#007BFF] flex items-center justify-center gap-2"><BookOpen size={16} /> Blog</Link>
-                        <Link to="/store" onClick={() => setIsMenuOpen(false)} className="py-2 hover:text-[#007BFF] flex items-center justify-center gap-2"><ShoppingBag size={16} /> Boutique</Link>
-                        <div className="flex justify-center pt-4 gap-4">
-                            <ThemeToggle />
-                            {deferredPrompt && (
-                                <button
-                                    onClick={handleInstallClick}
-                                    className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full font-bold transition-transform hover:scale-105"
-                                >
-                                    <Download size={16} />
-                                    Instalar App
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                )}
-            </nav>
 
             {/* Hero Section */}
             <header className="relative h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-black">
@@ -303,20 +231,37 @@ Language: French only.`
                         Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives.
                     </p>
 
-                    <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                         <button
                             onClick={() => scrollToSection('galerie')}
-                            className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-creativo font-bold text-lg hover:shadow-[0_0_20px_rgba(0,123,255,0.4)]"
+                            className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-creativo font-bold text-lg hover:shadow-[0_0_20px_rgba(0,123,255,0.4)] w-full sm:w-auto justify-center"
                         >
                             Écouter Maintenant
                             <ChevronRight className="w-5 h-5" />
                         </button>
                         <button
-                            onClick={() => scrollToSection('apropos')}
-                            className="px-8 py-4 rounded-lg border border-gray-400 dark:border-[#6C757D] text-black dark:text-white hover:border-black dark:hover:border-white transition-all font-minimal"
+                            onClick={() => setIsSubscribeOpen(true)}
+                            className="bg-gradient-to-r from-[#A9A9F5] to-[#007BFF] hover:opacity-90 text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-creativo font-bold text-lg w-full sm:w-auto justify-center"
                         >
-                            {t('hero.about_host')}
+                            <Mail className="w-5 h-5" />
+                            S'abonner
                         </button>
+                    </div>
+
+                    {/* Quick Stats */}
+                    <div className="flex flex-wrap justify-center gap-8 mt-10 text-center">
+                        <div>
+                            <p className="text-3xl font-creativo font-bold text-[#007BFF]">50+</p>
+                            <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">Épisodes</p>
+                        </div>
+                        <div>
+                            <p className="text-3xl font-creativo font-bold text-[#A9A9F5]">10K+</p>
+                            <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">Auditeurs</p>
+                        </div>
+                        <div>
+                            <p className="text-3xl font-creativo font-bold text-[#007BFF]">5★</p>
+                            <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">Évaluation</p>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -324,68 +269,171 @@ Language: French only.`
             {/* Continue Listening Section */}
             <ContinueListening onPlay={onPlay} />
 
-            {/* Gallery Section (Episodes) */}
-            <section id="galerie" className="py-24 px-4 md:px-8 max-w-7xl mx-auto">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-                    <div>
-                        <h2 className="text-4xl md:text-5xl font-creativo font-bold mb-4">Épisodes Récents</h2>
-                        <div className="h-1.5 w-24 bg-gradient-to-r from-[#007BFF] to-[#A9A9F5] rounded-full"></div>
+            {/* Featured Episode - Latest Highlight */}
+            {items.length > 0 && (
+                <section className="py-16 px-4 md:px-8 max-w-7xl mx-auto">
+                    <div className="mb-8">
+                        <span className="inline-flex items-center gap-2 px-3 py-1 bg-[#007BFF]/10 text-[#007BFF] text-xs font-bold rounded-full uppercase tracking-wider mb-4">
+                            <span className="w-2 h-2 rounded-full bg-[#007BFF] animate-pulse"></span>
+                            Dernier Épisode
+                        </span>
+                        <h2 className="text-3xl md:text-4xl font-creativo font-bold">En Vedette</h2>
                     </div>
 
-                    {/* Search Bar */}
-                    <div className="flex flex-col md:flex-row gap-4 items-center">
-                        <div className="relative">
-                            <input
-                                type="text"
-                                placeholder="Rechercher un épisode..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-full px-5 py-2.5 pl-10 text-black dark:text-white focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal w-full md:w-64"
-                            />
-                            <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-[#6C757D] w-4 h-4" />
-                        </div>
+                    <Link
+                        to={`/episode/${items[0].id}`}
+                        className="block group"
+                    >
+                        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#007BFF]/10 to-[#A9A9F5]/10 border border-gray-200 dark:border-[#333] hover:border-[#007BFF] transition-all">
+                            <div className="flex flex-col md:flex-row">
+                                {/* Image */}
+                                <div className="md:w-1/2 aspect-video md:aspect-auto overflow-hidden">
+                                    <LazyImage
+                                        src={items[0].src}
+                                        alt={items[0].title}
+                                        className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+                                    />
+                                </div>
 
-                        {/* Categories Filter */}
-                        <div className="flex flex-wrap gap-2">
-                            {categories.map((cat) => (
-                                <button
-                                    key={cat}
-                                    onClick={() => setActiveCategory(cat)}
-                                    className={`px-5 py-2.5 rounded-full text-sm font-minimal transition-all duration-300 border ${activeCategory === cat
-                                        ? 'bg-black text-white border-black dark:bg-white dark:text-black dark:border-white font-bold'
-                                        : 'bg-transparent text-gray-500 border-gray-300 dark:text-[#6C757D] dark:border-[#6C757D]/30 hover:border-black hover:text-black dark:hover:border-white dark:hover:text-white'
-                                        }`}
-                                >
-                                    {cat}
-                                </button>
-                            ))}
+                                {/* Content */}
+                                <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                                    <span className="inline-block px-3 py-1 bg-[#007BFF] text-white text-xs font-bold rounded-full uppercase tracking-wider mb-4 w-fit">
+                                        {items[0].category}
+                                    </span>
+                                    <h3 className="text-2xl md:text-3xl font-creativo font-bold mb-4 group-hover:text-[#007BFF] transition-colors">
+                                        {items[0].title}
+                                    </h3>
+                                    <p className="text-gray-600 dark:text-[#6C757D] mb-6 font-minimal line-clamp-3">
+                                        Découvrez notre dernier épisode et plongez dans une conversation exclusive.
+                                    </p>
+                                    <button
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            onPlay(items[0]);
+                                        }}
+                                        className="inline-flex items-center gap-2 bg-[#007BFF] hover:bg-[#0069d9] text-white px-6 py-3 rounded-lg font-bold w-fit transition-all hover:shadow-[0_0_15px_rgba(0,123,255,0.4)]"
+                                    >
+                                        <Mic className="w-5 h-5" />
+                                        Écouter Maintenant
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+                    </Link>
+                </section>
+            )}
+
+            {/* VIDÉOS Section */}
+            {videoItems.length > 0 && (
+                <section id="videos" className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
+                    <div className="mb-12">
+                        <div className="flex items-center gap-3 mb-4">
+                            <Video className="w-8 h-8 text-[#007BFF]" />
+                            <h2 className="text-3xl md:text-4xl font-creativo font-bold">Vidéos</h2>
+                        </div>
+                        <p className="text-gray-600 dark:text-[#6C757D] font-minimal max-w-xl">
+                            Coulisses, interviews exclusives et contenu visuel.
+                        </p>
+                        <div className="h-1.5 w-16 bg-gradient-to-r from-[#007BFF] to-[#A9A9F5] rounded-full mt-4"></div>
                     </div>
-                </div>
 
-                {/* Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredItems.map((item) => (
-                        <div
-                            key={item.id}
-                            className="group relative overflow-hidden rounded-2xl cursor-pointer bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] hover:border-[#007BFF]/50 transition-all duration-300 block"
-                        >
-                            <Link to={`/episode/${item.id}`} className="block">
-                                <div className="aspect-[4/3] overflow-hidden">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {videoItems.slice(0, 6).map((item) => (
+                            <Link
+                                key={item.id}
+                                to={`/episode/${item.id}`}
+                                className="group relative overflow-hidden rounded-2xl bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] hover:border-[#007BFF] transition-all"
+                            >
+                                <div className="aspect-video overflow-hidden relative">
                                     <LazyImage
                                         src={item.src}
                                         alt={item.title}
-                                        className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                                        className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105"
                                     />
+                                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                                        <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+                                            <Play className="w-8 h-8 text-white ml-1" fill="currentColor" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="p-5">
+                                    <span className="text-[#007BFF] text-xs font-bold uppercase tracking-wider">{item.category}</span>
+                                    <h3 className="text-lg font-creativo font-bold mt-2 group-hover:text-[#007BFF] transition-colors">{item.title}</h3>
                                 </div>
                             </Link>
-                            <div className="p-6 relative">
-                                <Link to={`/episode/${item.id}`} className="block">
-                                    <div className="absolute -top-6 right-6 bg-[#007BFF] p-3 rounded-full text-white shadow-lg opacity-0 group-hover:opacity-100 group-hover:-translate-y-2 transition-all duration-300 pointer-events-none">
-                                        <Upload className="w-5 h-5" />
+                        ))}
+                    </div>
+                </section>
+            )}
+
+            {/* ÉPISODES AUDIO Section */}
+            <section id="galerie" className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
+                <div className="mb-12">
+                    <div className="flex items-center gap-3 mb-4">
+                        <Headphones className="w-8 h-8 text-[#A9A9F5]" />
+                        <h2 className="text-3xl md:text-4xl font-creativo font-bold">Épisodes Audio</h2>
+                    </div>
+                    <p className="text-gray-600 dark:text-[#6C757D] font-minimal max-w-xl">
+                        Conversations exclusives sur la mode et le mannequinat.
+                    </p>
+                    <div className="h-1.5 w-16 bg-gradient-to-r from-[#A9A9F5] to-[#007BFF] rounded-full mt-4"></div>
+                </div>
+
+                {/* Search Bar */}
+                <div className="flex flex-col md:flex-row gap-4 items-start md:items-center mb-10">
+                    <div className="relative">
+                        <input
+                            type="text"
+                            placeholder="Rechercher un épisode..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-full px-5 py-2.5 pl-10 text-black dark:text-white focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal w-full md:w-64"
+                        />
+                        <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-[#6C757D] w-4 h-4" />
+                    </div>
+
+                    {/* Categories Filter */}
+                    <div className="flex flex-wrap gap-2">
+                        {categories.map((cat) => (
+                            <button
+                                key={cat}
+                                onClick={() => setActiveCategory(cat)}
+                                className={`px-4 py-2 rounded-full text-sm font-minimal transition-all border ${activeCategory === cat
+                                    ? 'bg-[#A9A9F5] text-white border-[#A9A9F5] font-bold'
+                                    : 'bg-transparent text-gray-500 border-gray-300 dark:text-[#6C757D] dark:border-[#6C757D]/30 hover:border-[#A9A9F5] hover:text-[#A9A9F5]'
+                                    }`}
+                            >
+                                {cat}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Audio Episodes Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredItems.map((item) => (
+                        <div
+                            key={item.id}
+                            className="group relative overflow-hidden rounded-2xl cursor-pointer bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] hover:border-[#A9A9F5]/50 transition-all duration-300"
+                        >
+                            <Link to={`/episode/${item.id}`} className="block">
+                                <div className="aspect-square overflow-hidden relative">
+                                    <LazyImage
+                                        src={item.src}
+                                        alt={item.title}
+                                        className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                                    />
+                                    <div className="absolute bottom-4 left-4">
+                                        <div className="w-12 h-12 rounded-full bg-[#A9A9F5] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                            <Headphones className="w-6 h-6 text-white" />
+                                        </div>
                                     </div>
-                                    <p className="text-[#007BFF] text-xs font-creativo font-bold uppercase tracking-widest mb-2">{item.category}</p>
-                                    <h3 className="text-xl font-creativo font-bold text-black dark:text-white mb-1 group-hover:text-[#007BFF] dark:group-hover:text-[#A9A9F5] transition-colors">{item.title}</h3>
+                                </div>
+                            </Link>
+                            <div className="p-5 relative">
+                                <Link to={`/episode/${item.id}`} className="block">
+                                    <p className="text-[#A9A9F5] text-xs font-creativo font-bold uppercase tracking-widest mb-2">{item.category}</p>
+                                    <h3 className="text-lg font-creativo font-bold text-black dark:text-white mb-1 group-hover:text-[#A9A9F5] transition-colors">{item.title}</h3>
                                     <p className="text-gray-500 dark:text-[#6C757D] text-sm font-minimal">{t('gallery.available_now')}</p>
                                 </Link>
                                 <button
@@ -394,12 +442,12 @@ Language: French only.`
                                         e.stopPropagation();
                                         toggleFavorite(item.id);
                                     }}
-                                    className="absolute top-6 right-6 p-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:scale-110 transition-transform z-10"
+                                    className="absolute top-5 right-5 p-2 rounded-full bg-white dark:bg-[#222] border border-gray-200 dark:border-[#333] hover:scale-110 transition-transform z-10"
                                 >
                                     <Heart
-                                        size={20}
-                                        fill={favorites.includes(item.id) ? "red" : "none"}
-                                        className={favorites.includes(item.id) ? "text-red-500" : "text-white"}
+                                        size={18}
+                                        fill={favorites.includes(item.id) ? "#A9A9F5" : "none"}
+                                        className={favorites.includes(item.id) ? "text-[#A9A9F5]" : "text-gray-400"}
                                     />
                                 </button>
                             </div>
@@ -408,8 +456,75 @@ Language: French only.`
                 </div>
             </section>
 
+
+            {/* Blog Preview Section */}
+            {blogPosts.length > 0 && (
+                <section className="py-24 px-4 md:px-8 bg-gray-50 dark:bg-[#111]">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+                            <div>
+                                <span className="text-[#007BFF] text-sm font-bold uppercase tracking-wider mb-2 block">Blog</span>
+                                <h2 className="text-3xl md:text-4xl font-creativo font-bold">Derniers Articles</h2>
+                            </div>
+                            <Link
+                                to="/blog"
+                                className="inline-flex items-center gap-2 text-[#007BFF] hover:underline font-medium"
+                            >
+                                Voir tous les articles
+                                <ArrowRight size={16} />
+                            </Link>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            {blogPosts.map((post) => (
+                                <Link
+                                    key={post._id}
+                                    to={`/blog/${post.slug?.current}`}
+                                    className="group bg-white dark:bg-[#0a0a0a] rounded-2xl overflow-hidden border border-gray-200 dark:border-[#333] hover:border-[#007BFF] transition-all hover:shadow-lg"
+                                >
+                                    <div className="aspect-video overflow-hidden">
+                                        {post.mainImage ? (
+                                            <LazyImage
+                                                src={urlFor(post.mainImage).width(600).url()}
+                                                alt={post.title}
+                                                className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full bg-gradient-to-br from-[#007BFF] to-[#A9A9F5] flex items-center justify-center">
+                                                <BookOpen className="w-12 h-12 text-white/50" />
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="p-6">
+                                        {post.publishedAt && (
+                                            <div className="flex items-center gap-2 text-gray-500 dark:text-[#6C757D] text-sm mb-3">
+                                                <Calendar size={14} />
+                                                <span>{new Date(post.publishedAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                                            </div>
+                                        )}
+                                        <h3 className="text-lg font-creativo font-bold mb-2 group-hover:text-[#007BFF] transition-colors line-clamp-2">
+                                            {post.title}
+                                        </h3>
+                                        {post.excerpt && (
+                                            <p className="text-gray-600 dark:text-[#6C757D] text-sm line-clamp-2 mb-4">
+                                                {post.excerpt}
+                                            </p>
+                                        )}
+                                        <span className="inline-flex items-center gap-1 text-[#007BFF] text-sm font-medium">
+                                            Lire l'article
+                                            <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
+                                        </span>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
             {/* About Section - Complete Biography */}
             <section id="apropos" className="py-24 bg-white dark:bg-[#020202] border-t border-gray-200 dark:border-[#333]">
+
                 <div className="container mx-auto px-6 max-w-6xl">
                     {/* Hero Section */}
                     <div className="flex flex-col md:flex-row items-center gap-16 mb-24">

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="fr" class="dark">
 
 <head>
   <meta charset="UTF-8" />
@@ -22,48 +22,335 @@
   <meta name="theme-color" content="#000000" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>THE TALK - Innovation &amp; Creativity</title>
+  <title>THE TALK | Podcast by Mijean Rochus - Fashion & Lifestyle</title>
   <meta name="description"
-    content="A Podcast by Mijea Rochi. Explorer la créativité et l'innovation digitale à travers des conversations authentiques." />
+    content="THE TALK - Un podcast mode et lifestyle par Mijean Rochus. Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives." />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://the-talk.vercel.app/" />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="THE TALK - Innovation & Creativity" />
+  <meta property="og:url" content="https://the-talk.vercel.app/" />
+  <meta property="og:title" content="THE TALK | Podcast by Mijean Rochus" />
   <meta property="og:description"
-    content="A Podcast by Mijea Rochi. Explorer la créativité et l'innovation digitale à travers des conversations authentiques." />
+    content="Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives." />
   <meta property="og:image"
     content="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80" />
+  <meta property="og:locale" content="fr_FR" />
 
-  <!-- Inline critical CSS to prevent white flash on iOS -->
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="THE TALK | Podcast by Mijean Rochus" />
+  <meta name="twitter:description" content="Un podcast mode et lifestyle par Mijean Rochus." />
+  <meta name="twitter:image"
+    content="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://the-talk.vercel.app/#website",
+        "url": "https://the-talk.vercel.app/",
+        "name": "THE TALK",
+        "description": "Un podcast mode et lifestyle par Mijean Rochus",
+        "publisher": { "@id": "https://the-talk.vercel.app/#organization" },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://the-talk.vercel.app/?s={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://the-talk.vercel.app/#organization",
+        "name": "THE TALK",
+        "url": "https://the-talk.vercel.app/",
+        "logo": "https://the-talk.vercel.app/logo.png",
+        "sameAs": [
+          "https://www.instagram.com/thetalk_podcast"
+        ]
+      },
+      {
+        "@type": "PodcastSeries",
+        "@id": "https://the-talk.vercel.app/#podcast",
+        "name": "THE TALK",
+        "description": "Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives avec Mijean Rochus.",
+        "author": {
+          "@type": "Person",
+          "name": "Mijean Rochus",
+          "jobTitle": "Fashion Photographer & Podcast Host",
+          "url": "https://the-talk.vercel.app/"
+        },
+        "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80",
+        "inLanguage": "fr",
+        "genre": ["Fashion", "Lifestyle", "Interview"]
+      }
+    ]
+  }
+  </script>
+
+  <!-- Critical CSS for static fallback -->
   <style>
-    html,
-    body {
+    html, body {
       background-color: #000;
       margin: 0;
       padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #fff;
     }
-
     #root {
       background-color: #000;
       min-height: 100vh;
     }
-
-    .ios-loading {
+    /* Static fallback styles */
+    .static-fallback {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .static-header {
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #222;
+    }
+    .static-logo {
       display: flex;
       align-items: center;
+      gap: 0.75rem;
+    }
+    .static-logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+    }
+    .static-logo-text {
+      font-size: 1.25rem;
+      font-weight: bold;
+      letter-spacing: -0.025em;
+    }
+    .static-logo-sub {
+      font-size: 0.65rem;
+      color: #A9A9F5;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .static-nav {
+      display: flex;
+      gap: 2rem;
+    }
+    .static-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
+    .static-nav a:hover {
+      color: #007BFF;
+    }
+    .static-hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      text-align: center;
+      padding: 4rem 2rem;
+      background: linear-gradient(to bottom, rgba(0,123,255,0.05), transparent);
+    }
+    .static-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.375rem 1rem;
+      border: 1px solid rgba(0,123,255,0.3);
+      border-radius: 9999px;
+      background: rgba(0,123,255,0.1);
+      font-size: 0.75rem;
+      color: #A9A9F5;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+    }
+    .static-badge-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      background: #007BFF;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .static-title {
+      font-size: clamp(3rem, 10vw, 6rem);
+      font-weight: 900;
+      margin: 0 0 1rem;
+      letter-spacing: -0.03em;
+    }
+    .static-title-accent {
+      background: linear-gradient(135deg, #007BFF, #A9A9F5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .static-subtitle {
+      font-size: 1.25rem;
+      color: #6C757D;
+      margin: 0 0 0.5rem;
+    }
+    .static-subtitle strong {
       color: #fff;
-      font-family: -apple-system, system-ui, sans-serif;
+    }
+    .static-desc {
+      font-size: 1.125rem;
+      color: rgba(255,255,255,0.8);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.6;
+    }
+    .static-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #007BFF;
+      color: #fff;
+      padding: 1rem 2rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.125rem;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .static-cta:hover {
+      background: #0069d9;
+      box-shadow: 0 0 20px rgba(0,123,255,0.4);
+    }
+    .static-loading {
+      margin-top: 3rem;
+      color: #444;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .static-spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid #333;
+      border-top-color: #007BFF;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    /* Hide static fallback when React mounts */
+    .static-fallback.hidden { display: none; }
+    /* Noscript styles */
+    .noscript-notice {
+      background: #1a1a2e;
+      border: 1px solid #007BFF;
+      border-radius: 0.5rem;
+      padding: 1.5rem 2rem;
+      margin: 2rem auto;
+      max-width: 600px;
+      text-align: center;
+    }
+    .noscript-notice h3 {
+      color: #007BFF;
+      margin: 0 0 0.5rem;
+    }
+    .noscript-notice p {
+      color: #888;
+      margin: 0;
+    }
+    @media (max-width: 768px) {
+      .static-nav { display: none; }
+      .static-header { padding: 1rem; }
+      .static-hero { padding: 3rem 1rem; }
     }
   </style>
 </head>
 
 <body style="background-color: #000; margin: 0;">
   <div id="root">
-    <div class="ios-loading">Loading...</div>
+    <!-- Static HTML Fallback for SEO & No-JS Users -->
+    <div class="static-fallback" id="static-fallback">
+      <header class="static-header">
+        <div class="static-logo">
+          <img src="/logo.png" alt="THE TALK Logo" width="40" height="40" />
+          <div>
+            <div class="static-logo-text">THE TALK</div>
+            <div class="static-logo-sub">By Mijean Rochus</div>
+          </div>
+        </div>
+        <nav class="static-nav" aria-label="Navigation principale">
+          <a href="#galerie">Épisodes</a>
+          <a href="#apropos">À Propos</a>
+          <a href="/blog">Blog</a>
+          <a href="/store">Boutique</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <main class="static-hero">
+        <div class="static-badge">
+          <span class="static-badge-dot"></span>
+          Nouvel Épisode Disponible
+        </div>
+        <h1 class="static-title">THE <span class="static-title-accent">TALK</span></h1>
+        <p class="static-subtitle">A Podcast by <strong>Mijean Rochus</strong></p>
+        <p class="static-desc">
+          Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives. 
+          Fashion, lifestyle et créativité au rendez-vous.
+        </p>
+        <a href="#galerie" class="static-cta">
+          Écouter Maintenant
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </a>
+        <div class="static-loading">
+          <div class="static-spinner"></div>
+          Chargement de l'application...
+        </div>
+      </main>
+
+      <!-- Noscript fallback for users without JavaScript -->
+      <noscript>
+        <div class="noscript-notice">
+          <h3>JavaScript Requis</h3>
+          <p>
+            Pour une expérience complète, veuillez activer JavaScript dans votre navigateur.
+            Vous pouvez également écouter nos épisodes sur 
+            <a href="https://open.spotify.com" style="color: #1DB954;">Spotify</a>.
+          </p>
+        </div>
+      </noscript>
+    </div>
   </div>
+
   <script type="module" src="/src/main.jsx"></script>
+  
+  <!-- Hide static fallback once React mounts -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Give React a moment to mount, then hide fallback
+      setTimeout(function() {
+        var fallback = document.getElementById('static-fallback');
+        if (fallback && document.querySelector('[data-reactroot], [data-react-root]')) {
+          fallback.style.display = 'none';
+        }
+      }, 100);
+    });
+  </script>
 </body>
 
 </html>
