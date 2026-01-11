@@ -71,7 +71,10 @@
         "url": "https://the-talk.vercel.app/",
         "logo": "https://the-talk.vercel.app/logo.png",
         "sameAs": [
-          "https://www.instagram.com/thetalk_podcast"
+          "https://www.instagram.com/thetalk_podcast",
+          "https://open.spotify.com/show/thetalk",
+          "https://www.youtube.com/@thetalk_podcast",
+          "https://twitter.com/thetalk_podcast"
         ]
       },
       {
@@ -87,7 +90,8 @@
         },
         "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80",
         "inLanguage": "fr",
-        "genre": ["Fashion", "Lifestyle", "Interview"]
+        "genre": ["Fashion", "Lifestyle", "Interview"],
+        "webFeed": "https://anchor.fm/s/thetalk/podcast/rss"
       }
     ]
   }
@@ -95,23 +99,27 @@
 
   <!-- Critical CSS for static fallback -->
   <style>
-    html, body {
+    html,
+    body {
       background-color: #000;
       margin: 0;
       padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       color: #fff;
     }
+
     #root {
       background-color: #000;
       min-height: 100vh;
     }
+
     /* Static fallback styles */
     .static-fallback {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
+
     .static-header {
       padding: 1.5rem 2rem;
       display: flex;
@@ -119,40 +127,48 @@
       align-items: center;
       border-bottom: 1px solid #222;
     }
+
     .static-logo {
       display: flex;
       align-items: center;
       gap: 0.75rem;
     }
+
     .static-logo img {
       width: 40px;
       height: 40px;
       border-radius: 8px;
     }
+
     .static-logo-text {
       font-size: 1.25rem;
       font-weight: bold;
       letter-spacing: -0.025em;
     }
+
     .static-logo-sub {
       font-size: 0.65rem;
       color: #A9A9F5;
       text-transform: uppercase;
       letter-spacing: 0.15em;
     }
+
     .static-nav {
       display: flex;
       gap: 2rem;
     }
+
     .static-nav a {
       color: #888;
       text-decoration: none;
       font-size: 0.875rem;
       transition: color 0.2s;
     }
+
     .static-nav a:hover {
       color: #007BFF;
     }
+
     .static-hero {
       flex: 1;
       display: flex;
@@ -161,22 +177,24 @@
       justify-content: center;
       text-align: center;
       padding: 4rem 2rem;
-      background: linear-gradient(to bottom, rgba(0,123,255,0.05), transparent);
+      background: linear-gradient(to bottom, rgba(0, 123, 255, 0.05), transparent);
     }
+
     .static-badge {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
       padding: 0.375rem 1rem;
-      border: 1px solid rgba(0,123,255,0.3);
+      border: 1px solid rgba(0, 123, 255, 0.3);
       border-radius: 9999px;
-      background: rgba(0,123,255,0.1);
+      background: rgba(0, 123, 255, 0.1);
       font-size: 0.75rem;
       color: #A9A9F5;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       margin-bottom: 1.5rem;
     }
+
     .static-badge-dot {
       width: 0.5rem;
       height: 0.5rem;
@@ -184,37 +202,60 @@
       border-radius: 50%;
       animation: pulse 2s infinite;
     }
+
     @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
     }
+
     .static-title {
       font-size: clamp(3rem, 10vw, 6rem);
       font-weight: 900;
       margin: 0 0 1rem;
       letter-spacing: -0.03em;
     }
+
     .static-title-accent {
       background: linear-gradient(135deg, #007BFF, #A9A9F5);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
+
     .static-subtitle {
       font-size: 1.25rem;
       color: #6C757D;
       margin: 0 0 0.5rem;
     }
+
     .static-subtitle strong {
       color: #fff;
     }
+
     .static-desc {
       font-size: 1.125rem;
-      color: rgba(255,255,255,0.8);
+      color: rgba(255, 255, 255, 0.8);
       max-width: 560px;
-      margin: 0 auto 2.5rem;
+      margin: 0 auto 2rem;
       line-height: 1.6;
     }
+
+    /* CTAs Container */
+    .static-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
     .static-cta {
       display: inline-flex;
       align-items: center;
@@ -225,21 +266,128 @@
       border-radius: 0.5rem;
       text-decoration: none;
       font-weight: bold;
-      font-size: 1.125rem;
-      transition: background 0.2s, box-shadow 0.2s;
+      font-size: 1rem;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
     }
+
     .static-cta:hover {
       background: #0069d9;
-      box-shadow: 0 0 20px rgba(0,123,255,0.4);
+      box-shadow: 0 0 20px rgba(0, 123, 255, 0.4);
+      transform: translateY(-2px);
     }
+
+    .static-cta-secondary {
+      background: linear-gradient(135deg, #A9A9F5, #007BFF);
+    }
+
+    .static-cta-secondary:hover {
+      background: linear-gradient(135deg, #9090e0, #0069d9);
+    }
+
+    /* Streaming Platforms */
+    .streaming-section {
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-top: 1px solid #222;
+    }
+
+    .streaming-title {
+      text-align: center;
+      color: #6C757D;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+    }
+
+    .streaming-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .streaming-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 2rem;
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+
+    .streaming-link:hover {
+      border-color: #007BFF;
+      background: rgba(0, 123, 255, 0.1);
+    }
+
+    .streaming-link svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Social Links */
+    .social-section {
+      padding: 2rem;
+      text-align: center;
+      border-top: 1px solid #222;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 50%;
+      color: #888;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .social-link:hover {
+      border-color: #007BFF;
+      color: #007BFF;
+      transform: translateY(-2px);
+    }
+
+    .social-link svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .footer-text {
+      color: #444;
+      font-size: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    /* Loading indicator */
     .static-loading {
-      margin-top: 3rem;
+      margin-top: 2rem;
       color: #444;
       font-size: 0.875rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
+
     .static-spinner {
       width: 16px;
       height: 16px;
@@ -248,12 +396,82 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
+
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
+
     /* Hide static fallback when React mounts */
-    .static-fallback.hidden { display: none; }
+    .static-fallback.hidden {
+      display: none;
+    }
+
     /* Noscript styles */
+    .noscript-content {
+      background: #0a0a0a;
+      padding: 2rem;
+    }
+
+    .noscript-episode {
+      max-width: 600px;
+      margin: 2rem auto;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+
+    .noscript-episode-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      background: #222;
+    }
+
+    .noscript-episode-content {
+      padding: 1.5rem;
+    }
+
+    .noscript-episode-cat {
+      color: #007BFF;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .noscript-episode-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin: 0 0 0.75rem;
+    }
+
+    .noscript-episode-desc {
+      color: #888;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      margin: 0 0 1rem;
+    }
+
+    .noscript-listen-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #1DB954;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 2rem;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 0.875rem;
+    }
+
+    .noscript-listen-btn:hover {
+      background: #1ed760;
+    }
+
     .noscript-notice {
       background: #1a1a2e;
       border: 1px solid #007BFF;
@@ -263,18 +481,40 @@
       max-width: 600px;
       text-align: center;
     }
+
     .noscript-notice h3 {
       color: #007BFF;
       margin: 0 0 0.5rem;
     }
+
     .noscript-notice p {
       color: #888;
       margin: 0;
     }
+
     @media (max-width: 768px) {
-      .static-nav { display: none; }
-      .static-header { padding: 1rem; }
-      .static-hero { padding: 3rem 1rem; }
+      .static-nav {
+        display: none;
+      }
+
+      .static-header {
+        padding: 1rem;
+      }
+
+      .static-hero {
+        padding: 3rem 1rem;
+      }
+
+      .streaming-links {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .streaming-link {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -293,9 +533,9 @@
         </div>
         <nav class="static-nav" aria-label="Navigation principale">
           <a href="#galerie">Épisodes</a>
+          <a href="#videos">Vidéos</a>
           <a href="#apropos">À Propos</a>
           <a href="/blog">Blog</a>
-          <a href="/store">Boutique</a>
           <a href="#contact">Contact</a>
         </nav>
       </header>
@@ -308,42 +548,150 @@
         <h1 class="static-title">THE <span class="static-title-accent">TALK</span></h1>
         <p class="static-subtitle">A Podcast by <strong>Mijean Rochus</strong></p>
         <p class="static-desc">
-          Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives. 
+          Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives.
           Fashion, lifestyle et créativité au rendez-vous.
         </p>
-        <a href="#galerie" class="static-cta">
-          Écouter Maintenant
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 18l6-6-6-6"/>
-          </svg>
-        </a>
+
+        <!-- Primary CTAs -->
+        <div class="static-ctas">
+          <a href="#galerie" class="static-cta">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+              <line x1="12" x2="12" y1="19" y2="22" />
+            </svg>
+            Écouter Maintenant
+          </a>
+          <a href="https://open.spotify.com/show/thetalk" class="static-cta static-cta-secondary" target="_blank"
+            rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+            </svg>
+            Spotify
+          </a>
+        </div>
+
         <div class="static-loading">
           <div class="static-spinner"></div>
           Chargement de l'application...
         </div>
       </main>
 
+      <!-- Streaming Platforms Section -->
+      <section class="streaming-section">
+        <p class="streaming-title">Écoutez sur votre plateforme préférée</p>
+        <div class="streaming-links">
+          <a href="https://open.spotify.com/show/thetalk" class="streaming-link" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="#1DB954">
+              <path
+                d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+            </svg>
+            Spotify
+          </a>
+          <a href="https://podcasts.apple.com/podcast/the-talk" class="streaming-link" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="#FA57C1">
+              <path
+                d="M5.34 0A5.328 5.328 0 000 5.34v13.32A5.328 5.328 0 005.34 24h13.32A5.328 5.328 0 0024 18.66V5.34A5.328 5.328 0 0018.66 0H5.34zm6.525 2.568c2.336 0 4.448.902 6.056 2.587 1.608 1.685 2.39 3.727 2.39 5.979 0 1.632-.463 3.265-1.39 4.592a7.5 7.5 0 01-2.93 2.656c-.156.078-.463.234-.463.234l-.702-1.685c.156-.078.624-.312.78-.39a5.4 5.4 0 002.092-1.951c.702-1.092 1.092-2.263 1.092-3.456 0-1.795-.624-3.42-1.873-4.748-1.248-1.327-2.873-2.028-4.982-2.028-2.108 0-3.81.701-5.058 2.028-1.248 1.327-1.873 2.953-1.873 4.748 0 1.193.39 2.364 1.092 3.456a5.4 5.4 0 002.092 1.95c.156.079.624.313.78.391l-.702 1.685s-.307-.156-.463-.234a7.5 7.5 0 01-2.93-2.656c-.926-1.327-1.39-2.96-1.39-4.592 0-2.252.78-4.294 2.39-5.979 1.608-1.685 3.72-2.587 6.056-2.587zm-.068 5.503c.78 0 1.482.312 2.029.858.546.546.858 1.248.858 2.028 0 .624-.234 1.17-.624 1.638-.39.468-.936.858-1.56 1.092l1.014 5.439h-3.51l1.014-5.439a2.85 2.85 0 01-1.56-1.092 2.317 2.317 0 01-.624-1.638c0-.78.312-1.482.858-2.028.546-.546 1.248-.858 2.029-.858z" />
+            </svg>
+            Apple Podcasts
+          </a>
+          <a href="https://www.youtube.com/@thetalk_podcast" class="streaming-link" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="#FF0000">
+              <path
+                d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+            </svg>
+            YouTube
+          </a>
+          <a href="https://podcasts.google.com/feed/thetalk" class="streaming-link" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="#8334eb">
+              <path
+                d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm-.228 4.811a2.45 2.45 0 011.229.315c.39.227.705.553.942.978a2.853 2.853 0 01.357 1.43v.126a2.853 2.853 0 01-.357 1.43 2.407 2.407 0 01-.942.978 2.45 2.45 0 01-1.229.315A2.45 2.45 0 0110.543 10a2.407 2.407 0 01-.942-.978 2.853 2.853 0 01-.357-1.43v-.126a2.853 2.853 0 01.357-1.43c.237-.425.552-.751.942-.978.39-.21.797-.315 1.229-.315zm5.766 2.83c.33 0 .609.118.84.354.23.236.345.522.345.857v.063c0 .335-.115.62-.345.857-.231.236-.51.354-.84.354-.33 0-.609-.118-.839-.354a1.186 1.186 0 01-.346-.857v-.063c0-.335.115-.62.346-.857.23-.236.508-.354.839-.354zm-11.532 0c.33 0 .609.118.84.354.23.236.345.522.345.857v.063c0 .335-.115.62-.345.857-.231.236-.51.354-.84.354-.33 0-.608-.118-.839-.354a1.186 1.186 0 01-.345-.857v-.063c0-.335.115-.62.345-.857.231-.236.509-.354.84-.354zm11.532 4.022c.33 0 .609.118.84.354.23.236.345.521.345.857v3.15c0 .335-.115.62-.345.857-.231.236-.51.354-.84.354-.33 0-.609-.118-.839-.354a1.186 1.186 0 01-.346-.857v-3.15c0-.336.115-.621.346-.857.23-.236.508-.354.839-.354zm-11.532 0c.33 0 .609.118.84.354.23.236.345.521.345.857v3.15c0 .335-.115.62-.345.857-.231.236-.51.354-.84.354-.33 0-.608-.118-.839-.354a1.186 1.186 0 01-.345-.857v-3.15c0-.336.115-.621.345-.857.231-.236.509-.354.84-.354zm5.766 0c.432 0 .839.105 1.229.315.39.21.705.536.942.978.238.425.357.894.357 1.43v2.898c0 .537-.119 1.005-.357 1.43a2.407 2.407 0 01-.942.978 2.45 2.45 0 01-1.229.315 2.45 2.45 0 01-1.229-.315 2.407 2.407 0 01-.942-.978 2.853 2.853 0 01-.357-1.43v-2.898c0-.536.119-1.005.357-1.43.237-.442.552-.768.942-.978.39-.21.797-.315 1.229-.315z" />
+            </svg>
+            Google
+          </a>
+        </div>
+      </section>
+
+      <!-- Social Links Section -->
+      <section class="social-section">
+        <div class="social-links">
+          <a href="https://www.instagram.com/thetalk_podcast" class="social-link" target="_blank" rel="noopener"
+            aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+            </svg>
+          </a>
+          <a href="https://twitter.com/thetalk_podcast" class="social-link" target="_blank" rel="noopener"
+            aria-label="Twitter">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+          </a>
+          <a href="https://www.youtube.com/@thetalk_podcast" class="social-link" target="_blank" rel="noopener"
+            aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+            </svg>
+          </a>
+          <a href="mailto:contact@thetalk.fm" class="social-link" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="m22 7-10 7L2 7" />
+            </svg>
+          </a>
+        </div>
+        <p class="footer-text">© 2025 THE TALK by Mijean Rochus. Tous droits réservés.</p>
+      </section>
+
       <!-- Noscript fallback for users without JavaScript -->
       <noscript>
-        <div class="noscript-notice">
-          <h3>JavaScript Requis</h3>
-          <p>
-            Pour une expérience complète, veuillez activer JavaScript dans votre navigateur.
-            Vous pouvez également écouter nos épisodes sur 
-            <a href="https://open.spotify.com" style="color: #1DB954;">Spotify</a>.
-          </p>
+        <div class="noscript-content">
+          <!-- Featured Episode for No-JS users -->
+          <div class="noscript-episode">
+            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80"
+              alt="Dernier épisode THE TALK" class="noscript-episode-img" loading="lazy" />
+            <div class="noscript-episode-content">
+              <p class="noscript-episode-cat">Nouvel Épisode</p>
+              <h2 class="noscript-episode-title">Découvrez notre dernier épisode</h2>
+              <p class="noscript-episode-desc">
+                Plongez dans l'univers de la mode avec Mijean Rochus. Des conversations exclusives,
+                des insights uniques et des histoires inspirantes du monde du mannequinat.
+              </p>
+              <a href="https://open.spotify.com/show/thetalk" class="noscript-listen-btn" target="_blank"
+                rel="noopener">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+                </svg>
+                Écouter sur Spotify
+              </a>
+            </div>
+          </div>
+
+          <div class="noscript-notice">
+            <h3>JavaScript Désactivé</h3>
+            <p>
+              Pour une expérience complète avec tous les épisodes, veuillez activer JavaScript.
+              Vous pouvez également nous écouter directement sur les plateformes ci-dessus.
+            </p>
+          </div>
         </div>
       </noscript>
     </div>
   </div>
 
   <script type="module" src="/src/main.jsx"></script>
-  
+
   <!-- Hide static fallback once React mounts -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       // Give React a moment to mount, then hide fallback
-      setTimeout(function() {
+      setTimeout(function () {
         var fallback = document.getElementById('static-fallback');
         if (fallback && document.querySelector('[data-reactroot], [data-react-root]')) {
           fallback.style.display = 'none';
