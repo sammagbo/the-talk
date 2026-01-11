@@ -218,6 +218,24 @@ Language: French only.`
                         <div className="absolute top-0 left-0 w-64 h-64 bg-[#007BFF]/20 blur-[120px]"></div>
                         <div className="absolute bottom-0 right-0 w-64 h-64 bg-[#A9A9F5]/20 blur-[120px]"></div>
                     </div>
+
+                    {/* Vogue Pixel Decoration - EMMPO/VOGUE Glitch */}
+                    <div className="absolute top-32 right-4 md:right-10 hidden md:block opacity-60 text-[#007BFF] animate-pulse z-20">
+                        <svg width="60" height="60" viewBox="0 0 60 60" fill="currentColor">
+                            <rect x="0" y="0" width="20" height="20" />
+                            <rect x="20" y="20" width="20" height="20" />
+                            <rect x="40" y="0" width="20" height="20" />
+                            <rect x="0" y="40" width="20" height="20" />
+                            <rect x="40" y="40" width="20" height="20" />
+                        </svg>
+                    </div>
+                    <div className="absolute bottom-32 left-4 md:left-10 hidden md:block opacity-60 text-[#A9A9F5] z-20">
+                        <svg width="40" height="40" viewBox="0 0 60 40" fill="currentColor">
+                            <rect x="0" y="20" width="20" height="20" />
+                            <rect x="20" y="0" width="20" height="20" />
+                            <rect x="40" y="20" width="20" height="20" />
+                        </svg>
+                    </div>
                 </div>
 
                 <div className="relative z-10 text-center px-4 animate-fade-in-up max-w-4xl mx-auto">
@@ -230,12 +248,12 @@ Language: French only.`
                         THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#007BFF] to-[#A9A9F5]">TALK</span>
                     </h1>
 
-                    <p className="text-xl md:text-2xl font-minimal text-gray-600 dark:text-[#6C757D] mb-4 max-w-2xl mx-auto font-light">
-                        A Podcast by <span className="text-black dark:text-white font-medium">Mijean Rochus</span>
+                    <p className="text-xl md:text-2xl font-minimal text-gray-600 dark:text-[#6C757D] mb-4 max-w-2xl mx-auto font-light flex items-center justify-center gap-2">
+                        A Podcast by <span className="font-editorial italic text-3xl text-black dark:text-white">Mijean Rochus</span>
                     </p>
 
-                    <p className="text-lg text-gray-800 dark:text-white/80 mb-10 max-w-xl mx-auto font-minimal">
-                        Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives.
+                    <p className="text-lg text-gray-800 dark:text-white/80 mb-10 max-w-xl mx-auto font-minimal leading-relaxed">
+                        Plongez dans l'univers de la <span className="bg-[#007BFF] text-white px-1 font-bold">MODE</span> et du <span className="font-editorial italic text-2xl text-[#A9A9F5] align-middle px-1">mannequinat</span> à travers des <span className="relative inline-block mx-1"><span className="absolute inset-0 bg-[#A9A9F5] transform -skew-x-12"></span><span className="relative font-bold px-1 text-black">CONVERSATIONS</span></span> <span className="font-editorial italic text-2xl align-middle">exclusives</span>.
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

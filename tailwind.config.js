@@ -21,6 +21,9 @@ export default {
         'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
         'fade-in': 'fade-in 0.5s ease-out forwards',
       },
+      fontFamily: {
+        editorial: ['"Playfair Display"', 'serif'],
+      },
     },
   },
   plugins: [],

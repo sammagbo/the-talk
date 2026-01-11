@@ -571,6 +571,14 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 ## 📝 Changelog
 
+### v1.3.0 (11/01/2026) - Vogue Design Upgrade
+
+**Inspirado por VOGUE Business**
+
+- ✅ **Hybrid Typography**: Mistura de Sans (Industrial) e Serif (Editorial/Italic)
+- ✅ **Highlighter Markers**: Destaque estilo "marca-texto" em palavras-chave
+- ✅ **Pixel Glitch Decoration**: Elementos pixelados em cantos opostos
+
 ### v1.2.0 (11/01/2026) - EMMPO Upgrade
 
 **Inspirado por EMMPO (emmpo.com)**
