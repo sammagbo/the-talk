@@ -112,8 +112,8 @@ export default function Navbar({
     return (
         <nav
             className={`fixed w-full z-50 transition-all duration-300 ${scrolled
-                    ? 'bg-white/95 dark:bg-black/95 backdrop-blur-md border-b border-gray-200 dark:border-[#333] py-3'
-                    : 'bg-transparent py-5'
+                ? 'bg-white/95 dark:bg-black/95 backdrop-blur-md border-b border-gray-200 dark:border-[#333] py-3'
+                : 'bg-transparent py-5'
                 }`}
             style={{ paddingTop: 'env(safe-area-inset-top)' }}
         >
@@ -150,8 +150,8 @@ export default function Navbar({
                                     key={item.label}
                                     to={item.to}
                                     className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive
-                                            ? 'bg-[#007BFF]/10 text-[#007BFF]'
-                                            : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5'
+                                        ? 'bg-[#007BFF]/10 text-[#007BFF]'
+                                        : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5'
                                         }`}
                                 >
                                     <Icon size={16} />
@@ -224,8 +224,8 @@ export default function Navbar({
                     <button
                         onClick={requestPermission}
                         className={`p-2 rounded-lg transition-colors ${notificationPermission === 'granted'
-                                ? 'text-[#007BFF] bg-[#007BFF]/10'
-                                : 'text-gray-500 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5'
+                            ? 'text-[#007BFF] bg-[#007BFF]/10'
+                            : 'text-gray-500 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5'
                             }`}
                         title={notificationPermission === 'granted' ? 'Notifications activées' : 'Activer les notifications'}
                     >
@@ -253,105 +253,140 @@ export default function Navbar({
                 </button>
             </div>
 
-            {/* Mobile Menu Overlay */}
+            {/* Full-Screen Menu Overlay */}
             {isMenuOpen && (
-                <div className="lg:hidden absolute top-full left-0 w-full bg-white dark:bg-black border-b border-gray-200 dark:border-[#333] shadow-xl">
-                    <div className="container mx-auto px-4 py-6 flex flex-col gap-2">
-                        {navItems.map((item) => {
-                            const Icon = item.icon;
+                <div className="fixed inset-0 z-40 bg-black">
+                    {/* Close Button */}
+                    <button
+                        onClick={() => setIsMenuOpen(false)}
+                        className="absolute top-6 right-6 p-3 text-white hover:text-[#007BFF] transition-colors z-50"
+                        aria-label="Fermer le menu"
+                    >
+                        <X size={32} />
+                    </button>
 
-                            if (item.type === 'link') {
+                    {/* Full-Screen Menu Content */}
+                    <div className="h-full flex flex-col justify-center items-center px-6">
+                        {/* Numbered Navigation */}
+                        <nav className="flex flex-col gap-4 w-full max-w-md">
+                            {navItems.map((item, index) => {
+                                const Icon = item.icon;
+                                const formattedIndex = String(index).padStart(2, '0');
+
+                                if (item.type === 'link') {
+                                    return (
+                                        <Link
+                                            key={item.label}
+                                            to={item.to}
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="group flex items-center gap-6 py-3 border-b border-white/10 hover:border-[#007BFF] transition-all"
+                                        >
+                                            <span className="text-white/40 font-mono text-sm tracking-wider">
+                                                {formattedIndex}.
+                                            </span>
+                                            <span className="text-3xl md:text-4xl font-creativo font-bold text-white uppercase tracking-[0.1em] group-hover:text-[#007BFF] transition-colors">
+                                                {item.label}
+                                            </span>
+                                            <Icon size={24} className="ml-auto text-white/30 group-hover:text-[#007BFF] transition-colors" />
+                                        </Link>
+                                    );
+                                }
+
                                 return (
-                                    <Link
+                                    <button
                                         key={item.label}
-                                        to={item.to}
-                                        onClick={() => setIsMenuOpen(false)}
-                                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
+                                        onClick={() => handleSectionClick(item.section)}
+                                        className="group flex items-center gap-6 py-3 border-b border-white/10 hover:border-[#007BFF] transition-all text-left w-full"
                                     >
-                                        <Icon size={20} className="text-[#007BFF]" />
-                                        <span className="font-medium">{item.label}</span>
-                                    </Link>
+                                        <span className="text-white/40 font-mono text-sm tracking-wider">
+                                            {formattedIndex}.
+                                        </span>
+                                        <span className="text-3xl md:text-4xl font-creativo font-bold text-white uppercase tracking-[0.1em] group-hover:text-[#007BFF] transition-colors">
+                                            {item.label}
+                                        </span>
+                                        <Icon size={24} className="ml-auto text-white/30 group-hover:text-[#007BFF] transition-colors" />
+                                    </button>
                                 );
-                            }
+                            })}
 
-                            return (
-                                <button
-                                    key={item.label}
-                                    onClick={() => handleSectionClick(item.section)}
-                                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-colors text-left w-full"
-                                >
-                                    <Icon size={20} className="text-[#007BFF]" />
-                                    <span className="font-medium">{item.label}</span>
-                                </button>
-                            );
-                        })}
+                            {/* Store Link */}
+                            <Link
+                                to="/store"
+                                onClick={() => setIsMenuOpen(false)}
+                                className="group flex items-center gap-6 py-3 border-b border-white/10 hover:border-[#A9A9F5] transition-all"
+                            >
+                                <span className="text-white/40 font-mono text-sm tracking-wider">
+                                    {String(navItems.length).padStart(2, '0')}.
+                                </span>
+                                <span className="text-3xl md:text-4xl font-creativo font-bold text-white uppercase tracking-[0.1em] group-hover:text-[#A9A9F5] transition-colors">
+                                    Boutique
+                                </span>
+                                <ShoppingBag size={24} className="ml-auto text-white/30 group-hover:text-[#A9A9F5] transition-colors" />
+                            </Link>
+                        </nav>
 
-                        {/* Separator */}
-                        <div className="h-px bg-gray-200 dark:bg-gray-800 my-2" />
+                        {/* Footer: User & Utilities */}
+                        <div className="absolute bottom-8 left-0 right-0 flex justify-center">
+                            <div className="flex items-center gap-6">
+                                {user ? (
+                                    <Link
+                                        to={`/profile/${user.uid}`}
+                                        onClick={() => setIsMenuOpen(false)}
+                                        className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
+                                    >
+                                        <img
+                                            src={user.photoURL}
+                                            alt={user.displayName}
+                                            className="w-10 h-10 rounded-full border-2 border-white/20"
+                                        />
+                                        <span className="font-mono text-sm tracking-wider">{user.displayName?.split(' ')[0]}</span>
+                                    </Link>
+                                ) : (
+                                    <button
+                                        onClick={() => { signInWithGoogle(); setIsMenuOpen(false); }}
+                                        className="px-6 py-2.5 border border-[#007BFF] text-[#007BFF] rounded-full font-mono text-sm tracking-wider hover:bg-[#007BFF] hover:text-white transition-all"
+                                    >
+                                        CONNEXION
+                                    </button>
+                                )}
 
-                        {/* Store */}
-                        <Link
-                            to="/store"
-                            onClick={() => setIsMenuOpen(false)}
-                            className="flex items-center gap-3 px-4 py-3 rounded-xl text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
-                        >
-                            <ShoppingBag size={20} className="text-[#007BFF]" />
-                            <span className="font-medium">Boutique</span>
-                        </Link>
+                                <div className="w-px h-8 bg-white/20" />
 
-                        {/* Separator */}
-                        <div className="h-px bg-gray-200 dark:bg-gray-800 my-2" />
-
-                        {/* User & Utilities */}
-                        <div className="flex items-center justify-between px-4 py-3">
-                            {user ? (
-                                <Link
-                                    to={`/profile/${user.uid}`}
-                                    onClick={() => setIsMenuOpen(false)}
-                                    className="flex items-center gap-3"
-                                >
-                                    <img
-                                        src={user.photoURL}
-                                        alt={user.displayName}
-                                        className="w-10 h-10 rounded-full border border-gray-300 dark:border-[#333]"
-                                    />
-                                    <span className="font-medium text-black dark:text-white">{user.displayName}</span>
-                                </Link>
-                            ) : (
-                                <button
-                                    onClick={() => { signInWithGoogle(); setIsMenuOpen(false); }}
-                                    className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-6 py-2.5 rounded-lg font-bold"
-                                >
-                                    Connexion
-                                </button>
-                            )}
-
-                            <div className="flex items-center gap-2">
                                 <ThemeToggle />
+
                                 <button
                                     onClick={requestPermission}
-                                    className={`p-2 rounded-lg ${notificationPermission === 'granted'
-                                            ? 'text-[#007BFF] bg-[#007BFF]/10'
-                                            : 'text-gray-500'
-                                        }`}
+                                    className={`p-2 rounded-full border ${notificationPermission === 'granted'
+                                        ? 'border-[#007BFF] text-[#007BFF]'
+                                        : 'border-white/20 text-white/50 hover:text-white hover:border-white/40'
+                                        } transition-all`}
                                 >
                                     <Bell size={20} fill={notificationPermission === 'granted' ? 'currentColor' : 'none'} />
                                 </button>
+
+                                {deferredPrompt && (
+                                    <button
+                                        onClick={() => { onInstallClick?.(); setIsMenuOpen(false); }}
+                                        className="flex items-center gap-2 px-4 py-2 bg-white text-black rounded-full font-mono text-sm tracking-wider hover:scale-105 transition-transform"
+                                    >
+                                        <Download size={16} />
+                                        INSTALL
+                                    </button>
+                                )}
                             </div>
                         </div>
 
-                        {deferredPrompt && (
-                            <button
-                                onClick={() => { onInstallClick?.(); setIsMenuOpen(false); }}
-                                className="flex items-center justify-center gap-2 bg-black dark:bg-white text-white dark:text-black mx-4 py-3 rounded-xl font-bold"
-                            >
-                                <Download size={18} />
-                                Instalar App
-                            </button>
-                        )}
+                        {/* HUD Corner Indicators */}
+                        <div className="absolute top-8 left-8 text-white/20 font-mono text-[10px] tracking-wider">
+                            MENU // NAVIGATION
+                        </div>
+                        <div className="absolute top-8 right-20 text-white/20 font-mono text-[10px] tracking-wider">
+                            THE_TALK.FM
+                        </div>
                     </div>
                 </div>
             )}
         </nav>
+
     );
 }

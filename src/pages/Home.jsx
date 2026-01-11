@@ -219,7 +219,7 @@ Language: French only.`
                         <span className="text-xs font-minimal text-[#A9A9F5] tracking-widest uppercase">Nouvel Épisode Disponible</span>
                     </div>
 
-                    <h1 className="text-6xl md:text-8xl font-creativo font-black mb-6 tracking-tight leading-tight">
+                    <h1 className="text-6xl md:text-8xl font-creativo font-black mb-6 tracking-[0.08em] leading-tight uppercase">
                         THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#007BFF] to-[#A9A9F5]">TALK</span>
                     </h1>
 
@@ -355,7 +355,14 @@ Language: French only.`
                                             <Play className="w-8 h-8 text-white ml-1" fill="currentColor" />
                                         </div>
                                     </div>
+                                    {/* HUD Data Badge */}
+                                    <div className="absolute top-3 left-3 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-full border border-white/20">
+                                        <span className="text-[10px] font-mono text-white/90 tracking-wider">
+                                            VID.{String(videoItems.indexOf(item) + 1).padStart(3, '0')} // {item.duration || '12:30'}
+                                        </span>
+                                    </div>
                                 </div>
+
                                 <div className="p-5">
                                     <span className="text-[#007BFF] text-xs font-bold uppercase tracking-wider">{item.category}</span>
                                     <h3 className="text-lg font-creativo font-bold mt-2 group-hover:text-[#007BFF] transition-colors">{item.title}</h3>
@@ -428,8 +435,15 @@ Language: French only.`
                                             <Headphones className="w-6 h-6 text-white" />
                                         </div>
                                     </div>
+                                    {/* HUD Data Badge */}
+                                    <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-full border border-white/20">
+                                        <span className="text-[10px] font-mono text-white/90 tracking-wider">
+                                            EP.{String(items.indexOf(item) + 1).padStart(3, '0')} // {item.duration || '45:00'}
+                                        </span>
+                                    </div>
                                 </div>
                             </Link>
+
                             <div className="p-5 relative">
                                 <Link to={`/episode/${item.id}`} className="block">
                                     <p className="text-[#A9A9F5] text-xs font-creativo font-bold uppercase tracking-widest mb-2">{item.category}</p>

@@ -571,6 +571,15 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 ## 📝 Changelog
 
+### v1.1.0 (11/01/2026) - Design Upgrade
+
+**Inspirado por DICH Fashion (dich-fashion.webflow.io)**
+
+- ✅ **HUD Data Badges**: Badges técnicos nos cards (EP.XXX // DUR.XX:XX, VID.XXX // DUR.XX:XX)
+- ✅ **Industrial Typography**: Hero com tracking 0.08em e uppercase
+- ✅ **Full-Screen Menu**: Menu numerado (00. HOME, 01. VIDÉOS...) com indicadores HUD
+- ✅ **Corner Indicators**: "MENU // NAVIGATION" e "THE_TALK.FM" no menu
+
 ### v1.0.0 (11/01/2026)
 
 - ✅ Bundle splitting para performance
@@ -582,6 +591,7 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 - ✅ Static HTML fallback para SEO
 - ✅ Streaming platform links
 - ✅ Social media profiles
+
 
 ---
 
