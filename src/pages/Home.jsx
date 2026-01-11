@@ -305,46 +305,53 @@ Language: French only.`
                         <h2 className="text-3xl md:text-4xl font-creativo font-bold">En Vedette</h2>
                     </div>
 
-                    <Link
-                        to={`/episode/${items[0].id}`}
-                        className="block group"
-                    >
-                        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#007BFF]/10 to-[#A9A9F5]/10 border border-gray-200 dark:border-[#333] hover:border-[#007BFF] transition-all">
-                            <div className="flex flex-col md:flex-row">
-                                {/* Image */}
-                                <div className="md:w-1/2 aspect-video md:aspect-auto overflow-hidden">
-                                    <LazyImage
-                                        src={items[0].src}
-                                        alt={items[0].title}
-                                        className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
-                                    />
-                                </div>
+                    <div className="max-w-md mx-auto">
+                        <Link
+                            to={`/episode/${items[0].id}`}
+                            className="block group"
+                        >
+                            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#007BFF]/10 to-[#A9A9F5]/10 border border-gray-200 dark:border-[#333] hover:border-[#007BFF] transition-all">
+                                <div className="flex flex-col">
+                                    {/* Image */}
+                                    <div className="w-full aspect-square overflow-hidden relative">
+                                        <LazyImage
+                                            src={items[0].src}
+                                            alt={items[0].title}
+                                            className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+                                        />
+                                        {/* HUD Data Badge */}
+                                        <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-full border border-white/20">
+                                            <span className="text-[10px] font-mono text-white/90 tracking-wider">
+                                                EP.{String(items[0].id).padStart(3, '0')} // {items[0].duration || '45:00'}
+                                            </span>
+                                        </div>
+                                    </div>
 
-                                {/* Content */}
-                                <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-                                    <span className="inline-block px-3 py-1 bg-[#007BFF] text-white text-xs font-bold rounded-full uppercase tracking-wider mb-4 w-fit">
-                                        {items[0].category}
-                                    </span>
-                                    <h3 className="text-2xl md:text-3xl font-creativo font-bold mb-4 group-hover:text-[#007BFF] transition-colors">
-                                        {items[0].title}
-                                    </h3>
-                                    <p className="text-gray-600 dark:text-[#6C757D] mb-6 font-minimal line-clamp-3">
-                                        Découvrez notre dernier épisode et plongez dans une conversation exclusive.
-                                    </p>
-                                    <button
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            onPlay(items[0]);
-                                        }}
-                                        className="inline-flex items-center gap-2 bg-[#007BFF] hover:bg-[#0069d9] text-white px-6 py-3 rounded-lg font-bold w-fit transition-all hover:shadow-[0_0_15px_rgba(0,123,255,0.4)]"
-                                    >
-                                        <Mic className="w-5 h-5" />
-                                        Écouter Maintenant
-                                    </button>
+                                    {/* Content */}
+                                    <div className="w-full p-6 flex flex-col justify-center">
+                                        <span className="inline-block px-3 py-1 bg-[#007BFF] text-white text-xs font-bold rounded-full uppercase tracking-wider mb-3 w-fit">
+                                            {items[0].category}
+                                        </span>
+                                        <h3 className="text-xl md:text-2xl font-creativo font-bold mb-3 group-hover:text-[#007BFF] transition-colors leading-tight">
+                                            {items[0].title}
+                                        </h3>
+                                        <p className="text-gray-600 dark:text-[#6C757D] mb-5 font-minimal line-clamp-2 text-sm">
+                                            Découvrez notre dernier épisode et plongez dans une conversation exclusive.
+                                        </p>
+                                        <button
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                onPlay(items[0]);
+                                            }}
+                                            className="inline-flex items-center gap-2 bg-[#007BFF] hover:bg-[#0069d9] text-white px-5 py-2.5 rounded-lg font-bold w-full justify-center transition-all hover:shadow-[0_0_15px_rgba(0,123,255,0.4)] text-sm uppercase"
+                                        >
+                                            [ ÉCOUTER MAINTENANT ]
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </Link>
+                        </Link>
+                    </div>
                 </section>
             )}
 

@@ -571,6 +571,10 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 ## 📝 Changelog
 
+### v1.3.1 (11/01/2026) - Layout Adjustments
+
+- ✅ **Resize Featured Episode**: Card "En Vedette" redimensionado para layout vertical e compacto (`max-w-md`).
+
 ### v1.3.0 (11/01/2026) - Vogue Design Upgrade
 
 **Inspirado por VOGUE Business**
