@@ -67,6 +67,7 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                     "fullSrc": mainImage.asset->url, 
                     audioUrl,
                     spotifyEmbedUrl,
+                    videoUrl,
                     transcript,
                     slug,
                     isPremium,
@@ -92,6 +93,7 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                         duration: result.duration,
                         audioUrl: result.audioUrl,
                         spotifyEmbedUrl: convertToSpotifyEmbed(result.spotifyEmbedUrl),
+                        videoUrl: result.videoUrl,
                         mainImage: result.src,
                         src: result.src ? urlFor(result.src).width(800).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=800&q=80',
                         fullSrc: result.fullSrc ? urlFor(result.fullSrc).width(1600).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=1600&q=80',
@@ -225,15 +227,29 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                 <div className="container mx-auto max-w-4xl">
                     <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start opacity-0 animate-fade-in-up" style={{ animationFillMode: 'forwards' }}>
 
-                        {/* Cover Image */}
+                        {/* Cover Image or Video */}
                         <div className="w-full md:w-1/3 shrink-0">
-                            <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl shadow-[#007BFF]/20 border border-gray-200 dark:border-[#333]">
-                                <img
-                                    src={episode.fullSrc}
-                                    alt={episode.title}
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
+                            {episode.videoUrl ? (
+                                /* YouTube Embed */
+                                <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl shadow-[#007BFF]/20 border border-gray-200 dark:border-[#333]">
+                                    <iframe
+                                        src={`https://www.youtube.com/embed/${episode.videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1] || ''}`}
+                                        title={episode.title}
+                                        className="w-full h-full"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    />
+                                </div>
+                            ) : (
+                                /* Cover Image */
+                                <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl shadow-[#007BFF]/20 border border-gray-200 dark:border-[#333]">
+                                    <img
+                                        src={episode.fullSrc}
+                                        alt={episode.title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                            )}
                         </div>
 
                         {/* Details */}

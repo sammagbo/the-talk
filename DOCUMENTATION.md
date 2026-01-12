@@ -571,6 +571,12 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 ## 📝 Changelog
 
+### v1.5.0 (12/01/2026) - Episode Video Support
+
+- ✅ **Sanity Schema Update**: Novo campo `videoUrl` em `episode.js` para links do YouTube.
+- ✅ **YouTube Embed**: `EpisodePage.jsx` agora exibe embed do YouTube quando `videoUrl` existe, caso contrário mostra a imagem de capa.
+- ✅ **Responsive Player**: Iframe responsivo com aspect ratio 16:9 para vídeos.
+
 ### v1.4.1 (12/01/2026) - Video Carousel
 
 - ✅ **Video Carousel**: Hero background agora alterna entre dois vídeos de moda (Pexels e Pixabay) com transição crossfade automática a cada 8 segundos.

@@ -60,6 +60,12 @@ export default {
             description: 'Cole o link do Spotify. Ex: https://open.spotify.com/episode/xxx ou https://open.spotify.com/embed/episode/xxx',
         },
         {
+            name: 'videoUrl',
+            title: 'YouTube Link',
+            type: 'url',
+            description: 'Cole o link do YouTube para exibir o vídeo no lugar da imagem de capa',
+        },
+        {
             name: 'poll',
             title: 'Episode Poll',
             type: 'object',
