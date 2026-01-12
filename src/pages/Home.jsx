@@ -372,85 +372,73 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
             {/* Continue Listening Section */}
             <ContinueListening onPlay={onPlay} />
 
-            {/* Featured Episode - Latest Highlight */}
-            {items.length > 0 && (
-                <section className="py-16 px-4 md:px-8 max-w-7xl mx-auto">
-                    <div className="mb-8">
-                        <span className="inline-flex items-center gap-2 px-3 py-1 bg-[#007BFF]/10 text-[#007BFF] text-xs font-bold rounded-full uppercase tracking-wider mb-4">
-                            <span className="w-2 h-2 rounded-full bg-[#007BFF] animate-pulse"></span>
-                            Dernier Épisode
-                        </span>
+            {/* VIDÉOS Section - Combined with Featured */}
+            <section id="videos" className="py-16 px-4 md:px-8 max-w-7xl mx-auto">
+                <div className="mb-8">
+                    <div className="flex items-center gap-3 mb-4">
+                        <Video className="w-8 h-8 text-[#007BFF]" />
                         <h2 className="text-3xl md:text-4xl font-creativo font-bold">En Vedette</h2>
                     </div>
+                    <p className="text-gray-600 dark:text-[#6C757D] font-minimal max-w-xl">
+                        Découvrez nos derniers épisodes vidéo et contenus exclusifs.
+                    </p>
+                    <div className="h-1.5 w-16 bg-gradient-to-r from-[#007BFF] to-[#A9A9F5] rounded-full mt-4"></div>
+                </div>
 
-                    <div className="max-w-md mx-auto">
+                {/* Horizontal Carousel */}
+                <div
+                    className="flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide"
+                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                >
+                    {/* Featured Episode - First Card (Larger) */}
+                    {items.length > 0 && (
                         <Link
                             to={`/episode/${items[0].id}`}
-                            className="block group"
+                            className="snap-start shrink-0 w-[85vw] md:w-[500px] group"
                         >
-                            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#007BFF]/10 to-[#A9A9F5]/10 border border-gray-200 dark:border-[#333] hover:border-[#007BFF] transition-all">
-                                <div className="flex flex-col">
-                                    {/* Image */}
-                                    <div className="w-full aspect-square overflow-hidden relative">
-                                        <LazyImage
-                                            src={items[0].src}
-                                            alt={items[0].title}
-                                            className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
-                                        />
-                                        {/* HUD Data Badge */}
-                                        <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-full border border-white/20">
-                                            <span className="text-[10px] font-mono text-white/90 tracking-wider">
-                                                EP.{String(items[0].id).padStart(3, '0')} // {items[0].duration || '45:00'}
-                                            </span>
+                            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#007BFF]/10 to-[#A9A9F5]/10 border-2 border-[#007BFF] hover:shadow-xl hover:shadow-[#007BFF]/20 transition-all h-full">
+                                <div className="aspect-video overflow-hidden relative">
+                                    <LazyImage
+                                        src={items[0].src}
+                                        alt={items[0].title}
+                                        className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                                        <div className="w-20 h-20 rounded-full bg-[#007BFF] flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                                            <Play className="w-10 h-10 text-white ml-1" fill="currentColor" />
                                         </div>
                                     </div>
-
-                                    {/* Content */}
-                                    <div className="w-full p-6 flex flex-col justify-center">
-                                        <span className="inline-block px-3 py-1 bg-[#007BFF] text-white text-xs font-bold rounded-full uppercase tracking-wider mb-3 w-fit">
-                                            {items[0].category}
+                                    {/* Featured Badge */}
+                                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-[#007BFF] rounded-full">
+                                        <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                                            <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                                            En Vedette
                                         </span>
-                                        <h3 className="text-xl md:text-2xl font-creativo font-bold mb-3 group-hover:text-[#007BFF] transition-colors leading-tight">
-                                            {items[0].title}
-                                        </h3>
-                                        <p className="text-gray-600 dark:text-[#6C757D] mb-5 font-minimal line-clamp-2 text-sm">
-                                            Découvrez notre dernier épisode et plongez dans une conversation exclusive.
-                                        </p>
-                                        <button
-                                            className="inline-flex items-center gap-2 bg-[#007BFF] hover:bg-[#0069d9] text-white px-5 py-2.5 rounded-lg font-bold w-full justify-center transition-all hover:shadow-[0_0_15px_rgba(0,123,255,0.4)] text-sm uppercase"
-                                        >
-                                            [ ÉCOUTER MAINTENANT ]
-                                        </button>
                                     </div>
+                                    <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-full border border-white/20">
+                                        <span className="text-[10px] font-mono text-white/90 tracking-wider">
+                                            EP.{String(items[0].id).padStart(3, '0')} // {items[0].duration || '45:00'}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="p-6">
+                                    <span className="text-[#007BFF] text-xs font-bold uppercase tracking-wider">{items[0].category}</span>
+                                    <h3 className="text-xl font-creativo font-bold mt-2 group-hover:text-[#007BFF] transition-colors">{items[0].title}</h3>
+                                    <p className="text-gray-500 dark:text-[#6C757D] text-sm mt-2 line-clamp-2">Découvrez notre dernier épisode exclusif.</p>
                                 </div>
                             </div>
                         </Link>
-                    </div>
-                </section>
-            )}
+                    )}
 
-            {/* VIDÉOS Section */}
-            {videoItems.length > 0 && (
-                <section id="videos" className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
-                    <div className="mb-12">
-                        <div className="flex items-center gap-3 mb-4">
-                            <Video className="w-8 h-8 text-[#007BFF]" />
-                            <h2 className="text-3xl md:text-4xl font-creativo font-bold">Vidéos</h2>
-                        </div>
-                        <p className="text-gray-600 dark:text-[#6C757D] font-minimal max-w-xl">
-                            Coulisses, interviews exclusives et contenu visuel.
-                        </p>
-                        <div className="h-1.5 w-16 bg-gradient-to-r from-[#007BFF] to-[#A9A9F5] rounded-full mt-4"></div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {videoItems.slice(0, 6).map((item) => (
-                            <Link
-                                key={item.id}
-                                to={`/episode/${item.id}`}
-                                state={{ mediaMode: 'video' }}
-                                className="group relative overflow-hidden rounded-2xl bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] hover:border-[#007BFF] transition-all"
-                            >
+                    {/* Video Items */}
+                    {videoItems.slice(0, 6).map((item) => (
+                        <Link
+                            key={item.id}
+                            to={`/episode/${item.id}`}
+                            state={{ mediaMode: 'video' }}
+                            className="snap-start shrink-0 w-[75vw] md:w-[380px] group"
+                        >
+                            <div className="relative overflow-hidden rounded-2xl bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] hover:border-[#007BFF] transition-all h-full">
                                 <div className="aspect-video overflow-hidden relative">
                                     <LazyImage
                                         src={item.src}
@@ -458,27 +446,25 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                                         className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105"
                                     />
                                     <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                                        <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
-                                            <Play className="w-8 h-8 text-white ml-1" fill="currentColor" />
+                                        <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+                                            <Play className="w-7 h-7 text-white ml-1" fill="currentColor" />
                                         </div>
                                     </div>
-                                    {/* HUD Data Badge */}
                                     <div className="absolute top-3 left-3 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-full border border-white/20">
                                         <span className="text-[10px] font-mono text-white/90 tracking-wider">
                                             VID.{String(videoItems.indexOf(item) + 1).padStart(3, '0')} // {item.duration || '12:30'}
                                         </span>
                                     </div>
                                 </div>
-
                                 <div className="p-5">
                                     <span className="text-[#007BFF] text-xs font-bold uppercase tracking-wider">{item.category}</span>
                                     <h3 className="text-lg font-creativo font-bold mt-2 group-hover:text-[#007BFF] transition-colors">{item.title}</h3>
                                 </div>
-                            </Link>
-                        ))}
-                    </div>
-                </section>
-            )}
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </section>
             {/* SHORTS Section */}
             {shorts.length > 0 && (
                 <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
@@ -1078,62 +1064,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                 </div>
             </section>
 
-            {/* Official Store Preview Section */}
-            {products.length > 0 && (
-                <section id="store-preview" className="py-24 bg-gray-50 dark:bg-[#020202] border-t border-gray-200 dark:border-[#333]">
-                    <div className="container mx-auto px-6 max-w-7xl">
-                        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-                            <div>
-                                <div className="inline-flex items-center gap-2 bg-[#007BFF]/10 text-[#007BFF] px-4 py-1 rounded-full mb-4 border border-[#007BFF]/20">
-                                    <ShoppingBag size={16} />
-                                    <span className="text-xs font-bold uppercase tracking-widest font-minimal">Boutique Officielle</span>
-                                </div>
-                                <h2 className="text-4xl md:text-5xl font-creativo font-bold text-black dark:text-white mb-4">Limited Edition Merch</h2>
-                                <p className="text-gray-600 dark:text-[#6C757D] font-minimal text-lg max-w-2xl">
-                                    Soutenez le podcast et affichez votre style avec notre collection exclusive.
-                                </p>
-                            </div>
-                            <Link to="/store" className="group inline-flex items-center gap-2 text-[#007BFF] font-creativo font-bold hover:text-[#0056b3] transition-colors bg-white dark:bg-[#111] px-6 py-3 rounded-full border border-gray-200 dark:border-[#333] shadow-sm hover:shadow-md">
-                                Voir toute la collection
-                                <ArrowRight size={18} className="transform group-hover:translate-x-1 transition-transform" />
-                            </Link>
-                        </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            {products.map((product) => (
-                                <div key={product._id} className="group bg-white dark:bg-[#111] rounded-3xl overflow-hidden border border-gray-200 dark:border-[#333] hover:border-[#007BFF] transition-all hover:shadow-2xl hover:shadow-[#007BFF]/10 flex flex-col h-full">
-                                    <div className="aspect-[4/5] overflow-hidden relative">
-                                        <img
-                                            src={product.imageUrl ? urlFor(product.imageUrl).width(600).url() : 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80'}
-                                            alt={product.title}
-                                            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                                        />
-                                        <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-md text-white px-3 py-1.5 rounded-full text-sm font-bold border border-white/20">
-                                            {product.price}€
-                                        </div>
-                                    </div>
-                                    <div className="p-6 flex-grow flex flex-col justify-between">
-                                        <div>
-                                            <h3 className="text-xl font-creativo font-bold text-black dark:text-white mb-2">{product.title}</h3>
-                                            <p className="text-gray-500 dark:text-[#6C757D] text-sm font-minimal line-clamp-2 mb-6">
-                                                {product.description}
-                                            </p>
-                                        </div>
-                                        <button
-                                            onClick={() => handleBuy(product.stripePriceId)}
-                                            disabled={!product.stripePriceId}
-                                            className="w-full bg-gray-100 dark:bg-[#222] hover:bg-[#007BFF] text-black dark:text-white hover:text-white py-3 rounded-xl font-bold font-creativo transition-all flex items-center justify-center gap-2 group-hover:bg-[#007BFF] group-hover:text-white"
-                                        >
-                                            <ShoppingBag size={18} />
-                                            Acheter Maintenant
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
 
             {/* Newsletter Section */}
             <section className="py-24 bg-gray-50 dark:bg-[#050505] border-t border-gray-200 dark:border-[#333]">

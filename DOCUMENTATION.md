@@ -588,6 +588,8 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 - ▶️ **Shorts Auto-Play**: Vídeos curtos agora iniciam automaticamente ao clicar na miniatura.
 - 🔁 **Shorts Auto-Advance**: Ao terminar um vídeo curto, o próximo da lista começa automaticamente (loop infinito).
 - 🧹 **Carousel Cleanup**: Removido vídeo stock quebrado (Pexels), mantendo apenas os funcionais.
+- 🛍️ **Store Highlight**: Seção da Boutique movida para cima (entre Destaque e Vídeos) para preencher o layout e dar mais visibilidade.
+- 🎬 **Video Carousel**: Seção de Vídeos transformada em carrossel horizontal. O episódio em destaque agora aparece como primeiro item do carrossel.
 
 - ✅ **Local AI Engine**: Implementação do WebLLM para rodar LLMs (Phi-3/Llama-3) diretamente no navegador.
 - ✅ **Privacy First**: Processamento 100% offline após download inicial, sem envio de dados para servidores.
