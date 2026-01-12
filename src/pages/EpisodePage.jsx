@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, Play, Clock, Calendar, Share2, Sparkles, Loader2, BrainCircuit, Lock, Check, Link as LinkIcon } from 'lucide-react';
+import { ArrowLeft, Play, Clock, Calendar, Share2, Sparkles, Loader2, BrainCircuit, Lock, Check, Link as LinkIcon, Video, Headphones } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
 import LazyImage from '../components/LazyImage';
 import CommentsSection from '../components/CommentsSection';
@@ -28,6 +28,7 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
     const [shareToast, setShareToast] = useState(null);
 
     const [relatedEpisodes, setRelatedEpisodes] = useState([]);
+    const [mediaMode, setMediaMode] = useState('audio'); // 'video' | 'audio'
 
     useEffect(() => {
         // Function to convert Spotify URL to embed format
@@ -102,6 +103,11 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                         isPremium: result.isPremium || false,
                         poll: result.poll || null
                     });
+
+                    // Set default media mode to 'video' if videoUrl exists
+                    if (result.videoUrl) {
+                        setMediaMode('video');
+                    }
 
                     // Set related episodes from the same query result
                     if (result.related) {
@@ -227,9 +233,37 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                 <div className="container mx-auto max-w-4xl">
                     <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start opacity-0 animate-fade-in-up" style={{ animationFillMode: 'forwards' }}>
 
-                        {/* Cover Image or Video */}
+                        {/* Media Mode Toggle (only show if episode has video) */}
                         <div className="w-full md:w-1/3 shrink-0">
-                            {episode.videoUrl ? (
+                            {episode.videoUrl && (
+                                <div className="flex mb-4 bg-gray-100 dark:bg-[#1a1a1a] rounded-xl p-1 border border-gray-200 dark:border-[#333]">
+                                    <button
+                                        onClick={() => {
+                                            setMediaMode('video');
+                                        }}
+                                        className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${mediaMode === 'video'
+                                                ? 'bg-[#007BFF] text-white shadow-lg'
+                                                : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white'
+                                            }`}
+                                    >
+                                        <Video size={16} />
+                                        Watch
+                                    </button>
+                                    <button
+                                        onClick={() => setMediaMode('audio')}
+                                        className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${mediaMode === 'audio'
+                                                ? 'bg-[#A9A9F5] text-white shadow-lg'
+                                                : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white'
+                                            }`}
+                                    >
+                                        <Headphones size={16} />
+                                        Listen
+                                    </button>
+                                </div>
+                            )}
+
+                            {/* Media Display */}
+                            {episode.videoUrl && mediaMode === 'video' ? (
                                 /* YouTube Embed */
                                 <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl shadow-[#007BFF]/20 border border-gray-200 dark:border-[#333]">
                                     <iframe

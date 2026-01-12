@@ -571,6 +571,13 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 ## 📝 Changelog
 
+### v1.5.1 (12/01/2026) - Watch vs Listen Toggle
+
+- ✅ **Media Mode Toggle**: Novo toggle "Watch" / "Listen" acima da mídia no `EpisodePage`.
+- ✅ **Smart Default**: Modo padrão é 'video' quando `videoUrl` existe, 'audio' caso contrário.
+- ✅ **Toggle UI**: Botões estilizados com ícones (Video, Headphones) e cores distintas.
+- ✅ **Conditional Display**: Toggle só aparece quando o episódio tem link de vídeo.
+
 ### v1.5.0 (12/01/2026) - Episode Video Support
 
 - ✅ **Sanity Schema Update**: Novo campo `videoUrl` em `episode.js` para links do YouTube.
