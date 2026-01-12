@@ -22,13 +22,14 @@ export default function ExitIntentPopup() {
             }
         };
 
-        // Mobile: Timer (30s)
+        // Mobile: Timer (60s)
         const timer = setTimeout(() => {
             if (!hasTriggered) {
-                setIsVisible(true);
-                setHasTriggered(true);
+                // Remove auto-trigger for better UX, or make it very long
+                // setIsVisible(true);
+                // setHasTriggered(true);
             }
-        }, 30000);
+        }, 60000);
 
         document.addEventListener('mouseleave', handleMouseLeave);
 
@@ -41,6 +42,13 @@ export default function ExitIntentPopup() {
     const handleDismiss = () => {
         setIsVisible(false);
         localStorage.setItem('exit_popup_closed', 'true');
+    };
+
+    // Close on click outside
+    const handleOverlayClick = (e) => {
+        if (e.target === e.currentTarget) {
+            handleDismiss();
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -111,7 +119,10 @@ export default function ExitIntentPopup() {
     if (!isVisible) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+        <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+            onClick={handleOverlayClick}
+        >
             <div className="bg-white dark:bg-[#111] max-w-md w-full rounded-2xl border border-gray-200 dark:border-[#333] shadow-2xl overflow-hidden relative animate-scale-up">
 
                 {/* Close Button */}

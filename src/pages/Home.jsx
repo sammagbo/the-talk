@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Newsletter from '../Newsletter';
-import { Mic, Instagram, Mail, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, ArrowRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, Calendar, Video, Headphones, Play, Film, X } from 'lucide-react';
+import { Mic, Instagram, Mail, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, ArrowRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, Calendar, Video, Headphones, Play, Film, X, ShoppingBag } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { useAuth } from '../context/AuthContext';
@@ -11,6 +11,7 @@ import SubscribeModal from '../components/SubscribeModal';
 import ContinueListening from '../components/ContinueListening';
 import Navbar from '../components/Navbar';
 import { client, urlFor } from '../sanity';
+import { handleBuy } from '../lib/stripe';
 
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
 
@@ -162,10 +163,29 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
         }
     };
 
-    // États pour l'IA Gemini
-    const [aiPrompt, setAiPrompt] = useState('');
-    const [aiResponse, setAiResponse] = useState('');
-    const [isGenerating, setIsGenerating] = useState(false);
+    // États pour le Store Preview
+    const [products, setProducts] = useState([]);
+
+    // Fetch limited products for Home
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const query = `*[_type == "product"] | order(_createdAt desc)[0..2] {
+                    _id,
+                    title,
+                    price,
+                    description,
+                    stripePriceId,
+                    "imageUrl": image.asset->url
+                }`;
+                const data = await client.fetch(query);
+                setProducts(data);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+        fetchProducts();
+    }, []);
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -179,65 +199,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
         if (element) element.scrollIntoView({ behavior: 'smooth' });
     };
 
-    // Fonction pour appeler l'API Gemini - Fashion Advice
-    const handleFashionAdvice = async (e) => {
-        e.preventDefault();
-        if (!aiPrompt.trim()) return;
 
-        setIsGenerating(true);
-        setAiResponse('');
-
-        try {
-            const apiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
-
-            if (!apiKey) {
-                throw new Error("Clé API manquante. Vérifiez le fichier .env");
-            }
-
-            const response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `You are Mijean Rochus, a sophisticated Fashion Director and Podcast Host of THE TALK. The user needs style advice.
-
-User Query: "${aiPrompt}"
-
-Provide a short, elegant, and trendy recommendation (max 3 sentences). Be specific about:
-- Specific colors (e.g., "bordeaux", "nude rosé", "bleu pétrole")
-- Specific pieces (e.g., "blazer oversize", "pantalon palazzo", "robe midi")
-- Concrete styling tips
-
-Tone: Professional, Chic, Visionary.
-Language: French only.`
-                            }]
-                        }],
-                        generationConfig: {
-                            temperature: 0.7,
-                            maxOutputTokens: 300
-                        }
-                    }),
-                }
-            );
-
-            const data = await response.json();
-            if (data.error) {
-                throw new Error(data.error.message);
-            }
-            const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-            setAiResponse(text);
-        } catch (error) {
-            console.error("Gemini Error:", error);
-            setAiResponse(`Erreur: ${error.message}. Assurez-vous d'avoir configuré la clé API.`);
-        } finally {
-            setIsGenerating(false);
-        }
-    };
 
     // Update filtering to use `items` prop
     const filteredItems = items.filter(item => {
@@ -1092,82 +1054,62 @@ Language: French only.`
                 </div>
             </section>
 
-            {/* Fashion Consultant AI Section */}
-            <section id="ai-lab" className="py-24 bg-gray-50 dark:bg-[#020202] border-t border-gray-200 dark:border-[#333]">
-                <div className="container mx-auto px-6 max-w-5xl">
-                    <div className="text-center mb-12">
-                        <div className="inline-flex items-center gap-2 bg-[#007BFF]/10 text-[#007BFF] px-4 py-1 rounded-full mb-4 border border-[#007BFF]/20">
-                            <Sparkles size={16} />
-                            <span className="text-xs font-bold uppercase tracking-widest font-minimal">Consultante de Mode</span>
-                        </div>
-                        <h2 className="text-4xl md:text-5xl font-creativo font-bold mb-4 text-black dark:text-white">Conseil de Style & Tendances</h2>
-                        <p className="text-gray-600 dark:text-[#6C757D] font-minimal text-lg max-w-2xl mx-auto">
-                            Une question de style ? Un doute sur une tenue ? Demandez l'avis de notre IA experte en mode.
-                        </p>
-                    </div>
-
-                    <div className="bg-white dark:bg-[#111] rounded-3xl border border-gray-200 dark:border-[#333] p-1 overflow-hidden shadow-2xl relative">
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#007BFF]/10 rounded-full blur-[80px]"></div>
-
-                        <div className="grid md:grid-cols-5 gap-0">
-                            {/* Input Area */}
-                            <div className="md:col-span-2 p-8 border-b md:border-b-0 md:border-r border-gray-200 dark:border-[#333] flex flex-col justify-center">
-                                <div className="mb-6">
-                                    <Sparkles className="w-10 h-10 text-[#007BFF] dark:text-[#A9A9F5] mb-4" />
-                                    <h3 className="text-2xl font-creativo font-bold text-black dark:text-white mb-2">Posez votre question</h3>
-                                    <p className="text-gray-500 dark:text-[#6C757D] text-sm">Décrivez votre défi mode ou look.</p>
+            {/* Official Store Preview Section */}
+            {products.length > 0 && (
+                <section id="store-preview" className="py-24 bg-gray-50 dark:bg-[#020202] border-t border-gray-200 dark:border-[#333]">
+                    <div className="container mx-auto px-6 max-w-7xl">
+                        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                            <div>
+                                <div className="inline-flex items-center gap-2 bg-[#007BFF]/10 text-[#007BFF] px-4 py-1 rounded-full mb-4 border border-[#007BFF]/20">
+                                    <ShoppingBag size={16} />
+                                    <span className="text-xs font-bold uppercase tracking-widest font-minimal">Boutique Officielle</span>
                                 </div>
-
-                                <form onSubmit={handleFashionAdvice} className="space-y-4">
-                                    <input
-                                        type="text"
-                                        value={aiPrompt}
-                                        onChange={(e) => setAiPrompt(e.target.value)}
-                                        placeholder="Ex: Quelle tenue pour un vernissage ?"
-                                        className="w-full bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded-xl px-4 py-4 text-black dark:text-white focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal placeholder:text-gray-400 dark:placeholder:text-[#444]"
-                                    />
-                                    <button
-                                        type="submit"
-                                        disabled={isGenerating || !aiPrompt.trim()}
-                                        className="w-full bg-gradient-to-r from-[#007BFF] to-[#0056b3] text-white font-creativo font-bold py-4 rounded-xl transition-all hover:shadow-[0_0_20px_rgba(0,123,255,0.3)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                                    >
-                                        {isGenerating ? (
-                                            <>
-                                                <Loader2 className="animate-spin" size={18} /> Génération...
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Sparkles size={18} /> Obtenir Conseil
-                                            </>
-                                        )}
-                                    </button>
-                                </form>
+                                <h2 className="text-4xl md:text-5xl font-creativo font-bold text-black dark:text-white mb-4">Limited Edition Merch</h2>
+                                <p className="text-gray-600 dark:text-[#6C757D] font-minimal text-lg max-w-2xl">
+                                    Soutenez le podcast et affichez votre style avec notre collection exclusive.
+                                </p>
                             </div>
+                            <Link to="/store" className="group inline-flex items-center gap-2 text-[#007BFF] font-creativo font-bold hover:text-[#0056b3] transition-colors bg-white dark:bg-[#111] px-6 py-3 rounded-full border border-gray-200 dark:border-[#333] shadow-sm hover:shadow-md">
+                                Voir toute la collection
+                                <ArrowRight size={18} className="transform group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                        </div>
 
-                            {/* Output Area */}
-                            <div className="md:col-span-3 p-8 bg-gray-50/50 dark:bg-[#020202]/50 min-h-[400px] flex flex-col relative">
-                                {aiResponse ? (
-                                    <div className="animate-fade-in h-full overflow-y-auto custom-scrollbar">
-                                        <div className="flex items-center gap-2 mb-6 border-b border-gray-200 dark:border-[#333] pb-4">
-                                            <BrainCircuit className="text-[#007BFF]" size={20} />
-                                            <span className="text-sm font-bold text-gray-500 dark:text-[#6C757D] uppercase tracking-wider">Conseil de Mijean</span>
-                                        </div>
-                                        <div className="prose prose-invert prose-p:text-gray-700 dark:prose-p:text-[#A0A0A0] prose-headings:text-black dark:prose-headings:text-white max-w-none font-minimal whitespace-pre-wrap leading-relaxed">
-                                            {aiResponse}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            {products.map((product) => (
+                                <div key={product._id} className="group bg-white dark:bg-[#111] rounded-3xl overflow-hidden border border-gray-200 dark:border-[#333] hover:border-[#007BFF] transition-all hover:shadow-2xl hover:shadow-[#007BFF]/10 flex flex-col h-full">
+                                    <div className="aspect-[4/5] overflow-hidden relative">
+                                        <img
+                                            src={product.imageUrl ? urlFor(product.imageUrl).width(600).url() : 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80'}
+                                            alt={product.title}
+                                            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                        />
+                                        <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-md text-white px-3 py-1.5 rounded-full text-sm font-bold border border-white/20">
+                                            {product.price}€
                                         </div>
                                     </div>
-                                ) : (
-                                    <div className="flex flex-col items-center justify-center h-full text-gray-400 dark:text-[#333] text-center p-8">
-                                        <Sparkles className="w-16 h-16 mb-4 opacity-20" />
-                                        <p className="font-creativo text-xl font-bold opacity-30">En attente de votre question...</p>
-                                        <p className="font-minimal text-sm opacity-30 mt-2">Le conseil de mode apparaîtra ici.</p>
+                                    <div className="p-6 flex-grow flex flex-col justify-between">
+                                        <div>
+                                            <h3 className="text-xl font-creativo font-bold text-black dark:text-white mb-2">{product.title}</h3>
+                                            <p className="text-gray-500 dark:text-[#6C757D] text-sm font-minimal line-clamp-2 mb-6">
+                                                {product.description}
+                                            </p>
+                                        </div>
+                                        <button
+                                            onClick={() => handleBuy(product.stripePriceId)}
+                                            disabled={!product.stripePriceId}
+                                            className="w-full bg-gray-100 dark:bg-[#222] hover:bg-[#007BFF] text-black dark:text-white hover:text-white py-3 rounded-xl font-bold font-creativo transition-all flex items-center justify-center gap-2 group-hover:bg-[#007BFF] group-hover:text-white"
+                                        >
+                                            <ShoppingBag size={18} />
+                                            Acheter Maintenant
+                                        </button>
                                     </div>
-                                )}
-                            </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            )}
 
             {/* Newsletter Section */}
             <section className="py-24 bg-gray-50 dark:bg-[#050505] border-t border-gray-200 dark:border-[#333]">
@@ -1189,12 +1131,11 @@ Language: French only.`
                             <span className="text-black dark:text-white font-creativo font-bold tracking-tight">THE TALK</span>
                         </div>
                         <p className="text-gray-500 dark:text-[#6C757D] text-xs font-minimal">A Podcast by Mijean Rochus. Innovation & Creativity.</p>
-                        <div className="mt-4">
-                            <LanguageSwitcher />
-                        </div>
                     </div>
 
-                    <div className="flex gap-6 items-center">
+                    <div className="flex flex-col md:flex-row gap-6 items-center">
+                        <LanguageSwitcher />
+                        <div className="h-4 w-[1px] bg-gray-300 dark:bg-[#333] hidden md:block"></div>
                         <a href="https://www.buymeacoffee.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#FFD700] hover:text-[#FFC107] transition-colors font-minimal text-sm font-bold mr-4">
                             <Coffee size={18} />
                             <span>{t('footer.support')}</span>

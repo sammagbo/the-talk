@@ -88,6 +88,12 @@ export default function Navbar({
             description: 'Listen to podcast episodes'
         },
         {
+            label: t('nav.store', 'Boutique'),
+            icon: ShoppingBag,
+            type: 'link',
+            to: '/store'
+        },
+        {
             label: t('nav.blog', 'Blog'),
             icon: BookOpen,
             type: 'link',
@@ -149,7 +155,13 @@ export default function Navbar({
                                 <Link
                                     key={item.label}
                                     to={item.to}
-                                    className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive
+                                    onClick={() => {
+                                        if (item.to === '/') {
+                                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                                        }
+                                        setIsMenuOpen(false);
+                                    }}
+                                    className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider transition-colors ${isActive
                                         ? 'bg-[#007BFF]/10 text-[#007BFF]'
                                         : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5'
                                         }`}
@@ -164,25 +176,13 @@ export default function Navbar({
                             <button
                                 key={item.label}
                                 onClick={() => handleSectionClick(item.section)}
-                                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
+                                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
                             >
                                 <Icon size={16} />
                                 {item.label}
                             </button>
                         );
                     })}
-
-                    {/* Separator */}
-                    <div className="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-2" />
-
-                    {/* Store */}
-                    <Link
-                        to="/store"
-                        className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
-                    >
-                        <ShoppingBag size={16} />
-                        {t('nav.store', 'Boutique')}
-                    </Link>
 
                     {/* Separator */}
                     <div className="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-2" />
@@ -212,7 +212,7 @@ export default function Navbar({
                     ) : (
                         <button
                             onClick={signInWithGoogle}
-                            className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-4 py-2 rounded-lg transition-all text-sm font-bold"
+                            className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-4 py-2 rounded-lg transition-all text-sm font-bold uppercase tracking-wider"
                         >
                             {t('nav.login', 'Connexion')}
                         </button>
@@ -235,7 +235,7 @@ export default function Navbar({
                     {deferredPrompt && (
                         <button
                             onClick={onInstallClick}
-                            className="flex items-center gap-1.5 bg-black dark:bg-white text-white dark:text-black px-3 py-2 rounded-lg font-bold text-sm transition-transform hover:scale-105"
+                            className="flex items-center gap-1.5 bg-black dark:bg-white text-white dark:text-black px-3 py-2 rounded-lg font-bold text-sm uppercase tracking-wider transition-transform hover:scale-105"
                         >
                             <Download size={14} />
                             {t('nav.install', 'Installer')}

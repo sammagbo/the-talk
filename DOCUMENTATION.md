@@ -578,6 +578,11 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 - ✅ **Featured Button**: Botão "Écouter Maintenant" na Home agora navega corretamente para o episódio em vez de apenas tocar no fundo.
 - ⚡ **Build Optimization**: Implementado Lazy Loading para o motor de IA (`web-llm`), reduzindo o bundle inicial e corrigindo falhas de build no Vercel.
 - 🔧 **PWA Config**: Ajustado limite de cache do Service Worker para 10MB para suportar o motor de IA offline.
+- ✨ **Home Refresh**: Removida a seção de IA quebrada ("Conseil de Style") e substituída por uma vitrine dinâmica da **Boutique Officielle**, exibindo os últimos produtos cadastrados.
+- 💄 **Footer UI**: Movido o seletor de idiomas para a direita para não sobrepor o botão flutuante de "New Episode".
+- 🛑 **Popup UX**: Reduzida a agressividade do popup de Exit Intent (não dispara mais por tempo no mobile, e fecha ao clicar fora).
+- 🔠 **Navbar Typography**: Padronizado todo o menu de navegação para **MAIÚSCULO** (Uppercase) + Negrito, com "Boutique" reposicionado entre "Episodes" e "Blog".
+- ⬆️ **Scroll to Top**: O botão "ACCUEIL" agora rola suavemente para o topo da página ao ser clicado.
 
 - ✅ **Local AI Engine**: Implementação do WebLLM para rodar LLMs (Phi-3/Llama-3) diretamente no navegador.
 - ✅ **Privacy First**: Processamento 100% offline após download inicial, sem envio de dados para servidores.

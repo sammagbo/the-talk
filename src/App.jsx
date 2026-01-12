@@ -151,7 +151,8 @@ export default function App() {
           category->{title},
           mainImage,
           audioUrl,
-          spotifyEmbedUrl
+          spotifyEmbedUrl,
+          videoUrl
         }`;
 
         const data = await client.fetch(query);
@@ -188,6 +189,7 @@ export default function App() {
           fullSrc: item.mainImage ? urlFor(item.mainImage).width(1600).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=1600&q=80',
           spotifyEmbedUrl: convertToSpotifyEmbed(item.spotifyEmbedUrl),
           audioUrl: item.audioUrl,
+          videoUrl: item.videoUrl,
           description: item.description,
           date: item.date,
           duration: item.duration,
