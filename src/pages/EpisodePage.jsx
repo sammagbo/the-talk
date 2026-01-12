@@ -11,6 +11,7 @@ import { useAuth } from '../context/AuthContext';
 import { client, urlFor } from '../sanity';
 import { useTranslation } from 'react-i18next';
 import { shareContent, getEpisodeShareUrl } from '../utils/share';
+import AIAssistant from '../components/AI/AIAssistant';
 
 export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying }) {
     const { id } = useParams();
@@ -434,33 +435,40 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                         </div>
 
                                         {/* AI Summary Section */}
+                                        {/* AI Summary Section */}
                                         <div className="bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-2xl p-8">
                                             <div className="flex items-center justify-between mb-6">
                                                 <div className="flex items-center gap-3">
                                                     <Sparkles className="text-[#007BFF]" />
-                                                    <h3 className="text-xl font-creativo font-bold text-black dark:text-white">{t('episode.ai_takeaways')}</h3>
+                                                    <h3 className="font-creativo font-bold text-xl dark:text-white">
+                                                        {t('episode.ai_takeaways')}
+                                                    </h3>
                                                 </div>
-                                                {!aiSummary && (
-                                                    <button
-                                                        onClick={generateSummary}
-                                                        disabled={isGenerating}
-                                                        className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                                                    >
-                                                        {isGenerating ? <Loader2 className="animate-spin w-4 h-4" /> : <BrainCircuit className="w-4 h-4" />}
-                                                        {isGenerating ? t('episode.analyzing') : t('episode.generate_summary')}
-                                                    </button>
-                                                )}
+                                                <span className="text-xs font-mono bg-[#007BFF]/10 text-[#007BFF] px-2 py-1 rounded">
+                                                    BETA
+                                                </span>
                                             </div>
 
-                                            {aiSummary ? (
-                                                <div className="animate-fade-in prose prose-invert prose-p:text-gray-600 dark:prose-p:text-[#A0A0A0] prose-headings:text-black dark:prose-headings:text-white max-w-none font-minimal">
-                                                    <div className="whitespace-pre-wrap">{aiSummary}</div>
-                                                </div>
-                                            ) : (
-                                                <p className="text-gray-500 dark:text-[#6C757D] text-sm italic">
+                                            <div className="text-center py-8">
+                                                <BrainCircuit className="w-12 h-12 text-gray-300 dark:text-[#333] mx-auto mb-4" />
+                                                <p className="text-gray-500 dark:text-[#6C757D] font-minimal mb-6">
                                                     {t('episode.summary_hint')}
                                                 </p>
-                                            )}
+                                                <button
+                                                    onClick={() => setIsGenerating(true)}
+                                                    className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-6 py-3 rounded-full font-bold transition-all flex items-center justify-center gap-2 mx-auto"
+                                                >
+                                                    <Sparkles size={18} />
+                                                    {t('episode.generate_summary')}
+                                                </button>
+                                            </div>
+
+                                            {/* AI Component */}
+                                            <AIAssistant
+                                                isOpen={isGenerating}
+                                                onClose={() => setIsGenerating(false)}
+                                                contextText={episode.transcript || episode.description}
+                                            />
                                         </div>
                                     </div>
                                 )}

@@ -571,6 +571,13 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 ## 📝 Changelog
 
+### v1.10.0 (12/01/2026) - Local AI Integration (WebLLM)
+
+- ✅ **Local AI Engine**: Implementação do WebLLM para rodar LLMs (Phi-3/Llama-3) diretamente no navegador.
+- ✅ **Privacy First**: Processamento 100% offline após download inicial, sem envio de dados para servidores.
+- ✅ **AIAssistant Component**: Interface de chat flutuante e geração de resumos integrada à EpisodePage.
+- ✅ **Performance**: Uso de WebGPU para aceleração de hardware.
+
 ### v1.9.1 (12/01/2026) - ProfilePage Localization
 
 - ✅ **ProfilePage i18n**: Tradução completa da página de perfil (25+ strings).
