@@ -176,6 +176,7 @@ export default function Navbar({
                             <button
                                 key={item.label}
                                 onClick={() => handleSectionClick(item.section)}
+                                aria-label={`Naviguer vers ${item.label}`}
                                 className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
                             >
                                 <Icon size={16} />
@@ -203,6 +204,7 @@ export default function Navbar({
                             </Link>
                             <button
                                 onClick={logout}
+                                aria-label="Se déconnecter"
                                 title="Se déconnecter"
                                 className="p-2 text-gray-500 hover:text-red-500 transition-colors"
                             >
@@ -212,6 +214,7 @@ export default function Navbar({
                     ) : (
                         <button
                             onClick={signInWithGoogle}
+                            aria-label="Se connecter avec Google"
                             className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-4 py-2 rounded-lg transition-all text-sm font-bold uppercase tracking-wider"
                         >
                             {t('nav.login', 'Connexion')}
@@ -223,6 +226,7 @@ export default function Navbar({
 
                     <button
                         onClick={requestPermission}
+                        aria-label={notificationPermission === 'granted' ? 'Notifications activées' : 'Activer les notifications'}
                         className={`p-2 rounded-lg transition-colors ${notificationPermission === 'granted'
                             ? 'text-[#007BFF] bg-[#007BFF]/10'
                             : 'text-gray-500 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5'
@@ -235,6 +239,7 @@ export default function Navbar({
                     {deferredPrompt && (
                         <button
                             onClick={onInstallClick}
+                            aria-label="Installer l'application"
                             className="flex items-center gap-1.5 bg-black dark:bg-white text-white dark:text-black px-3 py-2 rounded-lg font-bold text-sm uppercase tracking-wider transition-transform hover:scale-105"
                         >
                             <Download size={14} />
