@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Newsletter from '../Newsletter';
@@ -17,6 +17,10 @@ const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
 
 // Video Carousel Component for Hero Background
 const videoSources = [
+    {
+        src: "/videos/Carrousel.mp4",
+        poster: "" // Local video, should load fast enough to not need poster
+    },
     {
         src: "https://videos.pexels.com/video-files/9511838/9511838-uhd_2560_1440_25fps.mp4",
         poster: "https://images.pexels.com/videos/9511838/free-video-9511838.jpg?auto=compress&cs=tinysrgb&w=1920"
@@ -102,6 +106,28 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
     const [shorts, setShorts] = useState([]);
     const [selectedShort, setSelectedShort] = useState(null);
     const [hoveredShort, setHoveredShort] = useState(null);
+    const videoRef = useRef(null);
+
+    // Handle video end - Auto advance
+    const handleVideoEnded = () => {
+        if (!selectedShort || shorts.length === 0) return;
+
+        const currentIndex = shorts.findIndex(s => s._id === selectedShort._id);
+        if (currentIndex !== -1 && currentIndex < shorts.length - 1) {
+            // Play next
+            setSelectedShort(shorts[currentIndex + 1]);
+        } else if (currentIndex === shorts.length - 1) {
+            // Loop back to start or close? Let's loop.
+            setSelectedShort(shorts[0]);
+        }
+    };
+
+    // Auto-play short when opened
+    useEffect(() => {
+        if (selectedShort && videoRef.current) {
+            videoRef.current.play().catch(e => console.log("Autoplay blocked:", e));
+        }
+    }, [selectedShort]);
 
     // Fetch latest blog posts for homepage preview
     useEffect(() => {
@@ -550,10 +576,12 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                             />
                         ) : (
                             <video
+                                ref={videoRef}
                                 src={selectedShort.videoUrl}
                                 autoPlay
                                 controls
                                 playsInline
+                                onEnded={handleVideoEnded}
                                 className="w-full h-full object-contain rounded-2xl"
                             />
                         )}
