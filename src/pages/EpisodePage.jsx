@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, Play, Clock, Calendar, Share2, Sparkles, Loader2, BrainCircuit, Lock, Check, Link as LinkIcon, Video, Headphones } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
@@ -16,6 +16,7 @@ import AIAssistant from '../components/AI/AIAssistant';
 export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying }) {
     const { id } = useParams();
     const { t } = useTranslation();
+    const location = useLocation();
 
     const { user } = useAuth();
     const [episode, setEpisode] = useState(null);
@@ -105,8 +106,10 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                         poll: result.poll || null
                     });
 
-                    // Set default media mode to 'video' if videoUrl exists
-                    if (result.videoUrl) {
+                    // Set media mode from navigation state OR default to 'video' if videoUrl exists
+                    if (location.state?.mediaMode) {
+                        setMediaMode(location.state.mediaMode);
+                    } else if (result.videoUrl) {
                         setMediaMode('video');
                     }
 

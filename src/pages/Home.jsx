@@ -433,10 +433,6 @@ Language: French only.`
                                             Découvrez notre dernier épisode et plongez dans une conversation exclusive.
                                         </p>
                                         <button
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                onPlay(items[0]);
-                                            }}
                                             className="inline-flex items-center gap-2 bg-[#007BFF] hover:bg-[#0069d9] text-white px-5 py-2.5 rounded-lg font-bold w-full justify-center transition-all hover:shadow-[0_0_15px_rgba(0,123,255,0.4)] text-sm uppercase"
                                         >
                                             [ ÉCOUTER MAINTENANT ]
@@ -468,6 +464,7 @@ Language: French only.`
                             <Link
                                 key={item.id}
                                 to={`/episode/${item.id}`}
+                                state={{ mediaMode: 'video' }}
                                 className="group relative overflow-hidden rounded-2xl bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] hover:border-[#007BFF] transition-all"
                             >
                                 <div className="aspect-video overflow-hidden relative">
