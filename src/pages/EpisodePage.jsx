@@ -12,7 +12,7 @@ import { client, urlFor } from '../sanity';
 import { useTranslation } from 'react-i18next';
 import { shareContent, getEpisodeShareUrl } from '../utils/share';
 
-export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
+export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying }) {
     const { id } = useParams();
     const { t } = useTranslation();
 
@@ -238,26 +238,28 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                             {episode.videoUrl && (
                                 <div className="flex mb-4 bg-gray-100 dark:bg-[#1a1a1a] rounded-xl p-1 border border-gray-200 dark:border-[#333]">
                                     <button
-                                        onClick={() => {
-                                            setMediaMode('video');
-                                        }}
-                                        className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${mediaMode === 'video'
-                                                ? 'bg-[#007BFF] text-white shadow-lg'
-                                                : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white'
-                                            }`}
-                                    >
-                                        <Video size={16} />
-                                        Watch
-                                    </button>
-                                    <button
                                         onClick={() => setMediaMode('audio')}
                                         className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${mediaMode === 'audio'
-                                                ? 'bg-[#A9A9F5] text-white shadow-lg'
-                                                : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white'
+                                            ? 'bg-[#A9A9F5] text-white shadow-lg'
+                                            : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white'
                                             }`}
                                     >
-                                        <Headphones size={16} />
-                                        Listen
+                                        🎧 {t('episode.listen', 'Ouvir')}
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setMediaMode('video');
+                                            // Pause the audio player when switching to video
+                                            if (isPlaying && onPause) {
+                                                onPause();
+                                            }
+                                        }}
+                                        className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${mediaMode === 'video'
+                                            ? 'bg-[#007BFF] text-white shadow-lg'
+                                            : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white'
+                                            }`}
+                                    >
+                                        👁️ {t('episode.watch', 'Assistir')}
                                     </button>
                                 </div>
                             )}
@@ -361,7 +363,10 @@ export default function EpisodePage({ onPlay, currentEpisode, isPlaying }) {
                                 ) : (
                                     <>
                                         <button
-                                            onClick={() => onPlay({ ...episode, id: episode.id })}
+                                            onClick={() => {
+                                                setMediaMode('audio');
+                                                onPlay({ ...episode, id: episode.id });
+                                            }}
                                             className="w-full md:w-auto bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(0,123,255,0.3)] hover:shadow-[0_0_30px_rgba(0,123,255,0.5)] transition-all transform hover:scale-105 flex items-center justify-center gap-3"
                                         >
                                             {currentEpisode?.id === episode.id && isPlaying ? (

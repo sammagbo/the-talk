@@ -94,6 +94,8 @@
         "share": "Partager",
         "playing": "En cours de lecture...",
         "play": "Écouter l'épisode",
+        "listen": "Écouter",
+        "watch": "Regarder",
         "play_hint": "* La lecture continuera en bas de page pendant votre navigation.",
         "tabs": {
             "description": "Description",

@@ -94,6 +94,8 @@
         "share": "Share",
         "playing": "Now playing...",
         "play": "Listen to episode",
+        "listen": "Listen",
+        "watch": "Watch",
         "play_hint": "* Playback will continue at the bottom of the page while you browse.",
         "tabs": {
             "description": "Description",

@@ -214,7 +214,7 @@ export default function App() {
         }>
           <Routes>
             <Route path="/" element={<Home items={items} onPlay={handlePlay} favorites={favorites} toggleFavorite={toggleFavorite} />} />
-            <Route path="/episode/:id" element={<EpisodePage items={items} onPlay={handlePlay} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
+            <Route path="/episode/:id" element={<EpisodePage items={items} onPlay={handlePlay} onPause={() => setIsPlaying(false)} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
             <Route path="/store" element={<StorePage />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/blog" element={<BlogPage />} />

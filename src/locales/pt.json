@@ -94,6 +94,8 @@
         "share": "Compartilhar",
         "playing": "Reproduzindo...",
         "play": "Ouvir episódio",
+        "listen": "Ouvir",
+        "watch": "Assistir",
         "play_hint": "* A reprodução continuará na parte inferior da página enquanto você navega.",
         "tabs": {
             "description": "Descrição",

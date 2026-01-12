@@ -571,6 +571,13 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 ## 📝 Changelog
 
+### v1.7.1 (12/01/2026) - Media Logic Refinement
+
+- ✅ **onPause Prop**: EpisodePage agora recebe callback `onPause` para pausar player de áudio.
+- ✅ **Toggle UI**: Botões com emojis 🎧 Ouvir / 👁️ Assistir e traduções.
+- ✅ **Coordinated Playback**: Clicar em "Assistir" pausa o player de áudio footer.
+- ✅ **Play Button**: Clicar em "Play" força mediaMode para 'audio'.
+
 ### v1.7.0 (12/01/2026) - i18n Audit
 
 - ✅ **Locale Files Updated**: Adicionadas 52 novas chaves de tradução em fr.json, en.json, pt.json.
