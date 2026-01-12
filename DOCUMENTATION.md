@@ -571,6 +571,13 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 ## 📝 Changelog
 
+### v1.6.1 (12/01/2026) - Sanity Store Integration
+
+- ✅ **Product Schema**: Novo schema `product.js` com title, price, image, description, stripePriceId.
+- ✅ **Dynamic Products**: `StorePage.jsx` agora busca produtos do Sanity em vez de array hardcoded.
+- ✅ **Stripe Integration**: `stripePriceId` é passado para a função de checkout.
+- ✅ **Loading/Empty States**: Estados de carregamento e lista vazia implementados.
+
 ### v1.6.0 (12/01/2026) - Shorts Section
 
 - ✅ **Sanity Schema**: Novo schema `short.js` com title, videoUrl, thumbnail, publishedAt.
