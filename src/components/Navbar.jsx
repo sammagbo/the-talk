@@ -77,7 +77,7 @@ export default function Navbar({
             label: t('nav.videos', 'Vidéos'),
             icon: Video,
             type: 'section',
-            section: 'galerie',
+            section: 'videos',
             description: 'Watch our video content'
         },
         {

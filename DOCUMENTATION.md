@@ -583,6 +583,7 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 - 🛑 **Popup UX**: Reduzida a agressividade do popup de Exit Intent (não dispara mais por tempo no mobile, e fecha ao clicar fora).
 - 🔠 **Navbar Typography**: Padronizado todo o menu de navegação para **MAIÚSCULO** (Uppercase) + Negrito, com "Boutique" reposicionado entre "Episodes" e "Blog".
 - ⬆️ **Scroll to Top**: O botão "ACCUEIL" agora rola suavemente para o topo da página ao ser clicado.
+- 🎯 **Navigação Precisa**: Botões "VIDÉOS" e "ÉPISODES" agora levam exatamente para suas respectivas seções na página.
 
 - ✅ **Local AI Engine**: Implementação do WebLLM para rodar LLMs (Phi-3/Llama-3) diretamente no navegador.
 - ✅ **Privacy First**: Processamento 100% offline após download inicial, sem envio de dados para servidores.
