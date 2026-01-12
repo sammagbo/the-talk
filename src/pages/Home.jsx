@@ -22,10 +22,6 @@ const videoSources = [
         poster: "" // Local video, should load fast enough to not need poster
     },
     {
-        src: "https://videos.pexels.com/video-files/9511838/9511838-uhd_2560_1440_25fps.mp4",
-        poster: "https://images.pexels.com/videos/9511838/free-video-9511838.jpg?auto=compress&cs=tinysrgb&w=1920"
-    },
-    {
         src: "https://cdn.pixabay.com/video/2019/07/14/25245-348376973_large.mp4",
         poster: "https://i.vimeocdn.com/video/799899087-5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e?mw=1920"
     }
