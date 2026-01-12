@@ -218,6 +218,35 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                 <meta property="og:description" content={`Découvrez les coulisses et l'innovation derrière cet épisode spécial : ${episode.title}.`} />
                 <meta property="og:image" content={`${window.location.origin}/api/og?title=${encodeURIComponent(episode.title)}&image=${encodeURIComponent(episode.fullSrc)}`} />
                 <meta property="og:type" content="article" />
+                {/* Schema.org Structured Data for Episode */}
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "PodcastEpisode",
+                        "name": episode.title,
+                        "description": episode.description || `Découvrez ${episode.title} sur THE TALK`,
+                        "url": `https://the-talk-podcast.vercel.app/episode/${episode.id}`,
+                        "datePublished": episode.date,
+                        "duration": episode.duration ? `PT${episode.duration.replace(':', 'M')}S` : undefined,
+                        "image": episode.fullSrc,
+                        "partOfSeries": {
+                            "@type": "PodcastSeries",
+                            "name": "THE TALK",
+                            "url": "https://the-talk-podcast.vercel.app"
+                        },
+                        "author": {
+                            "@type": "Person",
+                            "name": "Mijean Rochus"
+                        },
+                        ...(episode.audioUrl && {
+                            "associatedMedia": {
+                                "@type": "AudioObject",
+                                "contentUrl": episode.audioUrl,
+                                "encodingFormat": "audio/mpeg"
+                            }
+                        })
+                    })}
+                </script>
             </Helmet>
             {/* Navigation */}
             <nav className="fixed w-full z-50 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-200 dark:border-[#333] py-4">

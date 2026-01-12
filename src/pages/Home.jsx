@@ -253,6 +253,32 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                 <meta property="og:description" content="Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives." />
                 <meta property="og:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80" />
                 <meta property="og:type" content="website" />
+                {/* Schema.org Structured Data for Podcast */}
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "PodcastSeries",
+                        "name": "THE TALK",
+                        "description": "Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives.",
+                        "url": "https://the-talk-podcast.vercel.app",
+                        "author": {
+                            "@type": "Person",
+                            "name": "Mijean Rochus",
+                            "jobTitle": "Fashion Photographer & Podcast Host"
+                        },
+                        "image": "https://the-talk-podcast.vercel.app/logo.png",
+                        "inLanguage": "fr-FR",
+                        "genre": ["Fashion", "Lifestyle", "Mode"],
+                        "publisher": {
+                            "@type": "Organization",
+                            "name": "THE TALK Podcast",
+                            "logo": {
+                                "@type": "ImageObject",
+                                "url": "https://the-talk-podcast.vercel.app/logo.png"
+                            }
+                        }
+                    })}
+                </script>
             </Helmet>
 
             {/* Intégration des polices Google Fonts */}
