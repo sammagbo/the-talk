@@ -49,7 +49,7 @@ import OfflineAlert from './components/OfflineAlert';
 import { doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { client, urlFor } from './sanity';
 import { SpeedInsights } from '@vercel/speed-insights/react';
-import { checkAchievements, initializeUserStats } from './utils/badges';
+import { checkAchievements, initializeUserStats, getBadgeById } from './utils/badges';
 import { NewBadgeNotification } from './components/BadgesDisplay';
 
 export default function App() {
@@ -101,7 +101,6 @@ export default function App() {
         const newBadges = await checkAchievements(user.uid, 'like');
         if (newBadges.length > 0) {
           // Show notification for first new badge
-          const { getBadgeById } = await import('./utils/badges');
           const badge = getBadgeById(newBadges[0]);
           if (badge) setNewBadge(badge);
         }
@@ -124,7 +123,6 @@ export default function App() {
           category: episode.category
         });
         if (newBadges.length > 0) {
-          const { getBadgeById } = await import('./utils/badges');
           const badge = getBadgeById(newBadges[0]);
           if (badge) setNewBadge(badge);
         }
