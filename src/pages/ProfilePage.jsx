@@ -22,8 +22,10 @@ import {
 } from 'lucide-react';
 import LazyImage from '../components/LazyImage';
 import BadgesDisplay from '../components/BadgesDisplay';
+import { useTranslation } from 'react-i18next';
 
 export default function ProfilePage() {
+    const { t } = useTranslation();
     const { uid } = useParams();
     const navigate = useNavigate();
     const { user } = useAuth();
@@ -52,7 +54,7 @@ export default function ProfilePage() {
                 const userSnap = await getDoc(userRef);
 
                 if (!userSnap.exists()) {
-                    setError('Profile not found');
+                    setError(t('profile.error_not_found'));
                     setLoading(false);
                     return;
                 }
@@ -61,7 +63,7 @@ export default function ProfilePage() {
 
                 // Check privacy - if private and not own profile, block access
                 if (userData.isPublic === false && !isOwnProfile) {
-                    setError('This profile is private');
+                    setError(t('profile.error_private'));
                     setLoading(false);
                     return;
                 }
@@ -106,7 +108,7 @@ export default function ProfilePage() {
                 setLoading(false);
             } catch (err) {
                 console.error('Error fetching profile:', err);
-                setError('Failed to load profile');
+                setError(t('profile.error_load'));
                 setLoading(false);
             }
         };
@@ -180,16 +182,16 @@ export default function ProfilePage() {
                     {error}
                 </h1>
                 <p className="text-gray-500 dark:text-[#6C757D] mb-6">
-                    {error === 'This profile is private'
-                        ? 'This user has set their profile to private.'
-                        : 'The profile you are looking for does not exist.'}
+                    {error === t('profile.error_private')
+                        ? t('profile.private_description')
+                        : t('profile.not_found_description')}
                 </p>
                 <Link
                     to="/"
                     className="flex items-center gap-2 text-[#007BFF] hover:underline"
                 >
                     <ArrowLeft size={18} />
-                    Back to Home
+                    {t('nav.back_gallery')}
                 </Link>
             </div>
         );
@@ -208,7 +210,7 @@ export default function ProfilePage() {
                     className="flex items-center gap-2 bg-white/80 dark:bg-black/80 backdrop-blur-md px-4 py-2 rounded-full border border-gray-200 dark:border-[#333] text-black dark:text-white hover:border-[#007BFF] transition-colors"
                 >
                     <ArrowLeft size={18} />
-                    <span className="font-minimal text-sm">Back</span>
+                    <span className="font-minimal text-sm">{t('profile.back')}</span>
                 </button>
             </div>
 
@@ -261,7 +263,7 @@ export default function ProfilePage() {
                                 {favoriteEpisodes.length}
                             </p>
                             <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">
-                                Liked Episodes
+                                {t('profile.liked_episodes')}
                             </p>
                         </div>
                         <div className="text-center">
@@ -269,7 +271,7 @@ export default function ProfilePage() {
                                 {userBadges.length}
                             </p>
                             <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">
-                                Badges Earned
+                                {t('profile.badges_earned')}
                             </p>
                         </div>
                         <div className="text-center">
@@ -277,7 +279,7 @@ export default function ProfilePage() {
                                 {userStats.episodesListened || 0}
                             </p>
                             <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">
-                                Episodes Played
+                                {t('profile.episodes_played')}
                             </p>
                         </div>
                     </div>
@@ -289,7 +291,7 @@ export default function ProfilePage() {
                             className="mt-6 inline-flex items-center gap-2 bg-gray-100 dark:bg-[#111] hover:bg-gray-200 dark:hover:bg-[#222] px-5 py-2.5 rounded-full text-black dark:text-white font-minimal text-sm transition-colors border border-gray-200 dark:border-[#333]"
                         >
                             <Settings size={16} />
-                            Profile Settings
+                            {t('profile.settings')}
                         </button>
                     )}
                 </div>
@@ -300,7 +302,7 @@ export default function ProfilePage() {
                 <div className="flex items-center gap-3 mb-8">
                     <Medal className="w-6 h-6 text-yellow-500" />
                     <h2 className="text-2xl font-creativo font-bold text-black dark:text-white">
-                        Achievements
+                        {t('profile.achievements')}
                     </h2>
                 </div>
                 <BadgesDisplay userBadges={userBadges} showAll={isOwnProfile} />
@@ -311,7 +313,7 @@ export default function ProfilePage() {
                 <div className="flex items-center gap-3 mb-8">
                     <Heart className="w-6 h-6 text-red-500" fill="currentColor" />
                     <h2 className="text-2xl font-creativo font-bold text-black dark:text-white">
-                        Liked Episodes
+                        {t('profile.liked_episodes')}
                     </h2>
                 </div>
 
@@ -320,15 +322,15 @@ export default function ProfilePage() {
                         <Heart className="w-12 h-12 text-gray-300 dark:text-[#333] mx-auto mb-4" />
                         <p className="text-gray-500 dark:text-[#6C757D] font-minimal">
                             {isOwnProfile
-                                ? "You haven't liked any episodes yet."
-                                : "This user hasn't liked any episodes yet."}
+                                ? t('profile.no_likes_own')
+                                : t('profile.no_likes_other')}
                         </p>
                         {isOwnProfile && (
                             <Link
                                 to="/"
                                 className="inline-block mt-4 text-[#007BFF] hover:underline"
                             >
-                                Explore Episodes
+                                {t('profile.explore_episodes')}
                             </Link>
                         )}
                     </div>
@@ -399,12 +401,12 @@ export default function ProfilePage() {
                                     )}
                                     <div>
                                         <p className="font-creativo font-bold text-black dark:text-white">
-                                            {isPublic ? 'Public Profile' : 'Private Profile'}
+                                            {isPublic ? t('profile.public_profile') : t('profile.private_profile')}
                                         </p>
                                         <p className="text-sm text-gray-500 dark:text-[#6C757D]">
                                             {isPublic
-                                                ? 'Anyone can view your profile and likes'
-                                                : 'Only you can see your profile'}
+                                                ? t('profile.public_description')
+                                                : t('profile.private_only_you')}
                                         </p>
                                     </div>
                                 </div>
@@ -423,8 +425,8 @@ export default function ProfilePage() {
                             {/* Info */}
                             <p className="text-sm text-gray-500 dark:text-[#6C757D] text-center">
                                 {isPublic
-                                    ? 'Your liked episodes will be visible to other users.'
-                                    : 'Your profile and liked episodes will be hidden from others.'}
+                                    ? t('profile.public_info')
+                                    : t('profile.private_info')}
                             </p>
                         </div>
 
@@ -434,7 +436,7 @@ export default function ProfilePage() {
                                 onClick={() => setIsSettingsOpen(false)}
                                 className="flex-1 px-4 py-3 rounded-xl border border-gray-200 dark:border-[#333] text-black dark:text-white font-minimal hover:bg-gray-50 dark:hover:bg-[#222] transition-colors"
                             >
-                                Cancel
+                                {t('profile.cancel')}
                             </button>
                             <button
                                 onClick={handleSaveSettings}
@@ -446,7 +448,7 @@ export default function ProfilePage() {
                                 ) : (
                                     <>
                                         <Check size={18} />
-                                        Save
+                                        {t('profile.save')}
                                     </>
                                 )}
                             </button>

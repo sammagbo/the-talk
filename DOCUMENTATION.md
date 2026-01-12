@@ -571,6 +571,13 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 ## 📝 Changelog
 
+### v1.9.1 (12/01/2026) - ProfilePage Localization
+
+- ✅ **ProfilePage i18n**: Tradução completa da página de perfil (25+ strings).
+- ✅ **Error Handling**: Mensagens de erro localizadas (Privado, Não Encontrado).
+- ✅ **Settings Modal**: Modal de configurações totalmente traduzido (Public/Private toggle).
+- ✅ **Locale Files**: Sincronização de chaves `profile.*` entre FR, EN, PT.
+
 ### v1.9.0 (12/01/2026) - Complete i18n Polishing
 
 - ✅ **Hero Section**: Traduzido "Nouvel Épisode", "ÉCOUTER", botões e estatísticas (50+ Épisodes, 10K+ Auditeurs).
