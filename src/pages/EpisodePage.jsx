@@ -11,7 +11,8 @@ import { useAuth } from '../context/AuthContext';
 import { client, urlFor } from '../sanity';
 import { useTranslation } from 'react-i18next';
 import { shareContent, getEpisodeShareUrl } from '../utils/share';
-import AIAssistant from '../components/AI/AIAssistant';
+// Lazy load the heavy AI component
+const AIAssistant = React.lazy(() => import('../components/AI/AIAssistant'));
 
 export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying }) {
     const { id } = useParams();

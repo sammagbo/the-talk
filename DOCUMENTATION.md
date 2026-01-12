@@ -576,6 +576,8 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 - ✅ **Navbar Home**: Link "Home" agora rola para o topo suavemente se já estiver na página inicial.
 - ✅ **Vídeo Navigation**: Clicar em thumbnails de vídeo agora força o modo "Assistir" na página do episódio.
 - ✅ **Featured Button**: Botão "Écouter Maintenant" na Home agora navega corretamente para o episódio em vez de apenas tocar no fundo.
+- ⚡ **Build Optimization**: Implementado Lazy Loading para o motor de IA (`web-llm`), reduzindo o bundle inicial e corrigindo falhas de build no Vercel.
+- 🔧 **PWA Config**: Ajustado limite de cache do Service Worker para 10MB para suportar o motor de IA offline.
 
 - ✅ **Local AI Engine**: Implementação do WebLLM para rodar LLMs (Phi-3/Llama-3) diretamente no navegador.
 - ✅ **Privacy First**: Processamento 100% offline após download inicial, sem envio de dados para servidores.
