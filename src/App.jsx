@@ -207,6 +207,13 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-black">
+      {/* Skip to main content link for accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-[#007BFF] focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:font-bold focus:outline-none focus:ring-2 focus:ring-white"
+      >
+        Passer au contenu principal
+      </a>
       <OfflineAlert />
       <ErrorBoundary>
         <Suspense fallback={
