@@ -1,29 +1,62 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Player from './components/Player';
-import { Loader2 } from 'lucide-react';
+import { Loader2, AlertTriangle, RefreshCw, Home as HomeIcon } from 'lucide-react';
 
-// Error Boundary Component for catching lazy load errors
+// Error Boundary Component with elegant fallback UI
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false, error: null };
+    this.state = { hasError: false, error: null, errorInfo: null };
   }
   static getDerivedStateFromError(error) {
     return { hasError: true, error };
   }
   componentDidCatch(error, errorInfo) {
     console.error('ErrorBoundary caught:', error, errorInfo);
+    this.setState({ errorInfo });
   }
   render() {
     if (this.state.hasError) {
       return (
-        <div style={{ padding: '40px', background: '#000', color: '#fff', minHeight: '100vh' }}>
-          <h1 style={{ color: '#f00' }}>Something went wrong</h1>
-          <p>{this.state.error?.message || 'Unknown error'}</p>
-          <button onClick={() => window.location.reload()} style={{ padding: '10px 20px', marginTop: '20px' }}>
-            Reload
-          </button>
+        <div className="min-h-screen bg-black flex items-center justify-center p-6">
+          <div className="max-w-md w-full text-center">
+            {/* Error Icon */}
+            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-red-500/10 flex items-center justify-center">
+              <AlertTriangle className="w-10 h-10 text-red-500" />
+            </div>
+
+            {/* Error Title */}
+            <h1 className="text-2xl font-creativo font-bold text-white mb-3">
+              Oups ! Une erreur s'est produite
+            </h1>
+
+            {/* Error Message */}
+            <p className="text-gray-400 font-minimal mb-2">
+              Nous sommes désolés, quelque chose s'est mal passé.
+            </p>
+            <p className="text-red-400/70 text-sm font-mono mb-8 bg-red-500/10 rounded-lg p-3">
+              {this.state.error?.message || 'Erreur inconnue'}
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <button
+                onClick={() => window.location.reload()}
+                className="inline-flex items-center justify-center gap-2 bg-[#007BFF] hover:bg-[#0069d9] text-white px-6 py-3 rounded-full font-bold transition-all"
+              >
+                <RefreshCw size={18} />
+                Réessayer
+              </button>
+              <a
+                href="/"
+                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-full font-bold transition-all"
+              >
+                <HomeIcon size={18} />
+                Retour à l'accueil
+              </a>
+            </div>
+          </div>
         </div>
       );
     }
