@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Newsletter from '../Newsletter';
-import { Mic, Instagram, Mail, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, ArrowRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, Calendar, Video, Headphones, Play } from 'lucide-react';
+import { Mic, Instagram, Mail, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, ArrowRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, Calendar, Video, Headphones, Play, Film, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { useAuth } from '../context/AuthContext';
@@ -53,8 +53,8 @@ function VideoCarousel() {
                     playsInline
                     poster={video.poster}
                     className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${index === activeIndex && !isTransitioning
-                            ? 'opacity-30 dark:opacity-40'
-                            : 'opacity-0'
+                        ? 'opacity-30 dark:opacity-40'
+                        : 'opacity-0'
                         }`}
                     style={{ zIndex: index === activeIndex ? 1 : 0 }}
                 >
@@ -74,8 +74,8 @@ function VideoCarousel() {
                             }, 500);
                         }}
                         className={`w-2 h-2 rounded-full transition-all duration-300 ${index === activeIndex
-                                ? 'bg-[#007BFF] w-6'
-                                : 'bg-white/30 hover:bg-white/50'
+                            ? 'bg-[#007BFF] w-6'
+                            : 'bg-white/30 hover:bg-white/50'
                             }`}
                         aria-label={`Video ${index + 1}`}
                     />
@@ -97,6 +97,11 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
     const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
     const [blogPosts, setBlogPosts] = useState([]);
 
+    // Shorts state
+    const [shorts, setShorts] = useState([]);
+    const [selectedShort, setSelectedShort] = useState(null);
+    const [hoveredShort, setHoveredShort] = useState(null);
+
     // Fetch latest blog posts for homepage preview
     useEffect(() => {
         const fetchBlogPosts = async () => {
@@ -117,6 +122,26 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
             }
         };
         fetchBlogPosts();
+    }, []);
+
+    // Fetch shorts
+    useEffect(() => {
+        const fetchShorts = async () => {
+            try {
+                const query = `*[_type == "short"] | order(publishedAt desc)[0...10] {
+                    _id,
+                    title,
+                    videoUrl,
+                    "thumbnailUrl": thumbnail.asset->url,
+                    publishedAt
+                }`;
+                const data = await client.fetch(query);
+                setShorts(data);
+            } catch (error) {
+                console.error("Error fetching shorts:", error);
+            }
+        };
+        fetchShorts();
     }, []);
 
     useEffect(() => {
@@ -472,6 +497,114 @@ Language: French only.`
                         ))}
                     </div>
                 </section>
+            )}
+            {/* SHORTS Section */}
+            {shorts.length > 0 && (
+                <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
+                    <div className="mb-8">
+                        <div className="flex items-center gap-3 mb-4">
+                            <Film className="w-8 h-8 text-[#FF0050]" />
+                            <h2 className="text-3xl md:text-4xl font-creativo font-bold">Shorts</h2>
+                        </div>
+                        <p className="text-gray-600 dark:text-[#6C757D] font-minimal max-w-xl">
+                            Vidéos courtes et exclusives des coulisses.
+                        </p>
+                        <div className="h-1.5 w-16 bg-gradient-to-r from-[#FF0050] to-[#FF4500] rounded-full mt-4"></div>
+                    </div>
+
+                    {/* Horizontal Snap Scroll Container */}
+                    <div
+                        className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide"
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                    >
+                        {shorts.map((short) => (
+                            <div
+                                key={short._id}
+                                className="snap-start shrink-0 w-44 md:w-52 cursor-pointer group relative"
+                                onMouseEnter={() => setHoveredShort(short._id)}
+                                onMouseLeave={() => setHoveredShort(null)}
+                                onClick={() => setSelectedShort(short)}
+                            >
+                                {/* 9:16 Vertical Video Card */}
+                                <div className="aspect-[9/16] rounded-2xl overflow-hidden bg-gray-900 border border-gray-200 dark:border-[#333] group-hover:border-[#FF0050] transition-all duration-300 relative">
+                                    {/* Thumbnail or Hover Video */}
+                                    {hoveredShort === short._id && short.videoUrl ? (
+                                        <video
+                                            src={short.videoUrl}
+                                            autoPlay
+                                            loop
+                                            muted
+                                            playsInline
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <img
+                                            src={short.thumbnailUrl || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=400&q=80'}
+                                            alt={short.title}
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                        />
+                                    )}
+
+                                    {/* Play Icon Overlay */}
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
+                                        <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                            <Play className="w-5 h-5 text-black fill-black ml-0.5" />
+                                        </div>
+                                    </div>
+
+                                    {/* Title Gradient */}
+                                    <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black via-black/50 to-transparent">
+                                        <p className="text-white text-sm font-bold line-clamp-2">{short.title}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
+
+            {/* Shorts Full-Screen Modal */}
+            {selectedShort && (
+                <div
+                    className="fixed inset-0 z-[100] bg-black flex items-center justify-center"
+                    onClick={() => setSelectedShort(null)}
+                >
+                    {/* Close Button */}
+                    <button
+                        onClick={() => setSelectedShort(null)}
+                        className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                    >
+                        <X className="w-6 h-6 text-white" />
+                    </button>
+
+                    {/* Video Container */}
+                    <div
+                        className="relative w-full max-w-md h-[90vh] max-h-[800px]"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {selectedShort.videoUrl?.includes('youtube') || selectedShort.videoUrl?.includes('youtu.be') ? (
+                            <iframe
+                                src={`https://www.youtube.com/embed/${selectedShort.videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1] || ''}?autoplay=1`}
+                                className="w-full h-full rounded-2xl"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            />
+                        ) : (
+                            <video
+                                src={selectedShort.videoUrl}
+                                autoPlay
+                                controls
+                                playsInline
+                                className="w-full h-full object-contain rounded-2xl"
+                            />
+                        )}
+
+                        {/* Title Overlay */}
+                        <div className="absolute bottom-4 left-4 right-4 text-white">
+                            <h3 className="text-xl font-bold">{selectedShort.title}</h3>
+                        </div>
+                    </div>
+                </div>
             )}
 
             {/* ÉPISODES AUDIO Section */}

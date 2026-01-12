@@ -571,6 +571,14 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 ## 📝 Changelog
 
+### v1.6.0 (12/01/2026) - Shorts Section
+
+- ✅ **Sanity Schema**: Novo schema `short.js` com title, videoUrl, thumbnail, publishedAt.
+- ✅ **Shorts Section**: Seção de vídeos curtos verticais (9:16) com scroll horizontal snap.
+- ✅ **Hover Preview**: Vídeo reproduz automaticamente (muted) ao passar o mouse.
+- ✅ **Full-Screen Modal**: Clique abre modal com player em tela cheia.
+- ✅ **YouTube Shorts Support**: Suporte a URLs do YouTube Shorts.
+
 ### v1.5.1 (12/01/2026) - Watch vs Listen Toggle
 
 - ✅ **Media Mode Toggle**: Novo toggle "Watch" / "Listen" acima da mídia no `EpisodePage`.
