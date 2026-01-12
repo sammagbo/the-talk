@@ -2,6 +2,14 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import legacy from '@vitejs/plugin-legacy'
+import Sitemap from 'vite-plugin-sitemap'
+
+// Static routes for sitemap
+const staticRoutes = [
+  '/',
+  '/store',
+  '/blog',
+]
 
 export default defineConfig({
   plugins: [
@@ -11,6 +19,14 @@ export default defineConfig({
       additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
       renderLegacyChunks: true,
       polyfills: true,
+    }),
+    Sitemap({
+      hostname: 'https://the-talk-podcast.vercel.app',
+      dynamicRoutes: staticRoutes,
+      changefreq: 'weekly',
+      priority: 0.8,
+      lastmod: new Date(),
+      readable: true,
     }),
     VitePWA({
       registerType: 'autoUpdate',
