@@ -1,7 +1,7 @@
 # THE TALK - Documentação Completa
 
-**Versão:** 1.0.0  
-**Última Atualização:** 11 de Janeiro de 2026  
+**Versão:** 1.10.2  
+**Última Atualização:** 12 de Janeiro de 2026  
 **Repositório:** [github.com/sammagbo/the-talk](https://github.com/sammagbo/the-talk)  
 **Deploy:** [the-talk.vercel.app](https://the-talk.vercel.app)
 
@@ -570,6 +570,37 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 ---
 
 ## 📝 Changelog
+
+### v1.10.2 (12/01/2026) - Performance, SEO & UX Audit
+
+**🚀 Performance (73% Bundle Reduction)**
+- 🗑️ **AI Removed**: Removido AIAssistant, useWebLLM hook e @mlc-ai/web-llm (5.5MB → 0)
+- ⚡ **Build Time**: Reduzido de 24s para 10s
+- 📦 **Bundle Size**: De 14.7MB para 4MB
+
+**♿ Acessibilidade**
+- ⏭️ **Skip Link**: Link "Passer au contenu principal" (invisível, aparece com Tab)
+- 🏷️ **Aria Labels**: Adicionados em botões de navegação, login, logout, notificações
+- 🎹 **Keyboard Navigation**: Suporte completo a navegação por teclado
+
+**🔍 SEO**
+- 📊 **Schema.org**: PodcastSeries (Home) e PodcastEpisode (Episode) com JSON-LD
+- 🗺️ **Sitemap Automático**: vite-plugin-sitemap gera sitemap.xml no build
+- 🏠 **Hostname**: Configurado `the-talk-podcast.vercel.app`
+
+**🔧 Código & Manutenção**
+- 🧹 **Imports Duplicados**: Consolidado `getBadgeById` em import estático
+- 📝 **tsconfig**: Adicionado `noEmit` para reduzir lint warnings
+
+**🎨 UX & Design**
+- 💀 **Skeleton Loaders**: 8 componentes (Episode, Grid, Product, Blog, Hero, Shorts, Text)
+- 📭 **Empty States**: 8 estados amigáveis (NoEpisodes, NoSearch, NoProducts, Error, Offline)
+- 🚨 **Error Boundary**: UI moderna com ícone, botões "Réessayer" e "Retour à l'accueil"
+- ✨ **Shimmer Animation**: CSS keyframes para animação de loading
+
+**Novos Componentes:**
+- `src/components/Skeleton.jsx` (8 exports)
+- `src/components/EmptyState.jsx` (8 exports)
 
 ### v1.10.1 (12/01/2026) - Navegação e UX Fixes
 
