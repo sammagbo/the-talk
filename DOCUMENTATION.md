@@ -571,6 +571,12 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 ## 📝 Changelog
 
+### v1.4.1 (12/01/2026) - Video Carousel
+
+- ✅ **Video Carousel**: Hero background agora alterna entre dois vídeos de moda (Pexels e Pixabay) com transição crossfade automática a cada 8 segundos.
+- ✅ **Indicator Dots**: Dots indicadores na parte inferior para navegação manual entre vídeos.
+- ✅ **Smooth Transitions**: Transições suaves com opacidade e animação de 1 segundo.
+
 ### v1.4.0 (11/01/2026) - Video Integration
 
 - ✅ **Hero Video Background**: Substituição da imagem estática por vídeo de desfile (UHD) com autoplay.

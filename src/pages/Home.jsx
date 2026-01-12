@@ -14,6 +14,78 @@ import { client, urlFor } from '../sanity';
 
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
 
+// Video Carousel Component for Hero Background
+const videoSources = [
+    {
+        src: "https://videos.pexels.com/video-files/9511838/9511838-uhd_2560_1440_25fps.mp4",
+        poster: "https://images.pexels.com/videos/9511838/free-video-9511838.jpg?auto=compress&cs=tinysrgb&w=1920"
+    },
+    {
+        src: "https://cdn.pixabay.com/video/2019/07/14/25245-348376973_large.mp4",
+        poster: "https://i.vimeocdn.com/video/799899087-5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e?mw=1920"
+    }
+];
+
+function VideoCarousel() {
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [isTransitioning, setIsTransitioning] = useState(false);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIsTransitioning(true);
+            setTimeout(() => {
+                setActiveIndex((prev) => (prev + 1) % videoSources.length);
+                setIsTransitioning(false);
+            }, 1000); // Transition duration
+        }, 8000); // Switch every 8 seconds
+
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="absolute inset-0 overflow-hidden">
+            {videoSources.map((video, index) => (
+                <video
+                    key={index}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    poster={video.poster}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${index === activeIndex && !isTransitioning
+                            ? 'opacity-30 dark:opacity-40'
+                            : 'opacity-0'
+                        }`}
+                    style={{ zIndex: index === activeIndex ? 1 : 0 }}
+                >
+                    <source src={video.src} type="video/mp4" />
+                </video>
+            ))}
+            {/* Video Indicators */}
+            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 flex gap-2">
+                {videoSources.map((_, index) => (
+                    <button
+                        key={index}
+                        onClick={() => {
+                            setIsTransitioning(true);
+                            setTimeout(() => {
+                                setActiveIndex(index);
+                                setIsTransitioning(false);
+                            }, 500);
+                        }}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${index === activeIndex
+                                ? 'bg-[#007BFF] w-6'
+                                : 'bg-white/30 hover:bg-white/50'
+                            }`}
+                        aria-label={`Video ${index + 1}`}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+}
+
+
 export default function Home({ items, favorites, toggleFavorite, onPlay }) {
     const { t } = useTranslation();
     const { user } = useAuth();
@@ -205,16 +277,8 @@ Language: French only.`
                 <div className="absolute inset-0 z-0 bg-white dark:bg-black">
                     <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#007BFF]/20 rounded-full blur-[100px] animate-pulse"></div>
                     <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#A9A9F5]/20 rounded-full blur-[100px]"></div>
-                    <video
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        poster="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=2000&q=80"
-                        className="w-full h-full object-cover opacity-30 dark:opacity-40"
-                    >
-                        <source src="https://videos.pexels.com/video-files/9512045/9512045-uhd_2732_1440_25fps.mp4" type="video/mp4" />
-                    </video>
+                    {/* Video Carousel - Crossfade between fashion videos */}
+                    <VideoCarousel />
                     <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white/50 dark:from-black dark:via-transparent dark:to-black/50"></div>
                     {/* Film Grain Overlay */}
                     <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }}></div>
