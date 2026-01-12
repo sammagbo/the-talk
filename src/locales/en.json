@@ -116,5 +116,57 @@
         "locked_description": "This content is reserved for members. Log in or upgrade to premium to access it.",
         "login_button": "Log In",
         "upgrade_button": "Upgrade to Premium"
+    },
+    "comments": {
+        "title": "Discussions",
+        "placeholder": "Share your thoughts on this episode...",
+        "login_prompt": "Log in to join the discussion.",
+        "loading": "Loading comments...",
+        "first_comment": "Be the first to comment on this episode.",
+        "delete": "Delete"
+    },
+    "poll": {
+        "title": "Episode Poll",
+        "vote": "vote",
+        "votes": "votes",
+        "login_prompt": "Login to vote in this poll",
+        "vote_recorded": "Your vote has been recorded!",
+        "submitting": "Submitting your vote..."
+    },
+    "profile": {
+        "title": "Profile",
+        "back": "Back",
+        "liked_episodes": "Liked Episodes",
+        "badges_earned": "Badges Earned",
+        "episodes_played": "Episodes Played",
+        "settings": "Profile Settings",
+        "achievements": "Achievements",
+        "no_likes_own": "You haven't liked any episodes yet.",
+        "no_likes_other": "This user hasn't liked any episodes yet.",
+        "explore": "Explore Episodes",
+        "back_home": "Back to Home",
+        "private_profile": "Private Profile",
+        "profile_not_found": "Profile not found",
+        "private_message": "This user has set their profile to private.",
+        "not_found_message": "The profile you are looking for does not exist.",
+        "privacy_settings": "Privacy Settings",
+        "public_profile": "Public Profile",
+        "public_desc": "Anyone can view your profile and likes",
+        "private_desc": "Only you can see your profile",
+        "public_info": "Your liked episodes will be visible to other users.",
+        "private_info": "Your profile and liked episodes will be hidden from others.",
+        "cancel": "Cancel",
+        "save": "Save"
+    },
+    "shorts": {
+        "title": "Shorts",
+        "description": "Short exclusive behind-the-scenes videos."
+    },
+    "store": {
+        "title": "The Shop",
+        "description": "Exclusive products for the community.",
+        "back": "Back to Home",
+        "no_products": "No products available at the moment.",
+        "buy": "Buy Now"
     }
 }

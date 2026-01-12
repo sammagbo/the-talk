@@ -571,6 +571,15 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 ## 📝 Changelog
 
+### v1.7.0 (12/01/2026) - i18n Audit
+
+- ✅ **Locale Files Updated**: Adicionadas 52 novas chaves de tradução em fr.json, en.json, pt.json.
+- ✅ **Comments Section**: Todas as strings agora usam `t()` hook.
+- ✅ **Poll Component**: Todas as strings agora usam `t()` hook.
+- ✅ **Shorts Section**: Título e descrição agora traduzíveis.
+- ✅ **Store Page**: Título, descrição, botões agora traduzíveis.
+- ✅ **Profile Page**: Novas chaves para settings, achievements, liked episodes.
+
 ### v1.6.1 (12/01/2026) - Sanity Store Integration
 
 - ✅ **Product Schema**: Novo schema `product.js` com title, price, image, description, stripePriceId.

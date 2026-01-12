@@ -116,5 +116,57 @@
         "locked_description": "Este conteúdo é reservado para membros. Faça login ou atualize para premium para acessá-lo.",
         "login_button": "Entrar",
         "upgrade_button": "Atualizar para Premium"
+    },
+    "comments": {
+        "title": "Discussões",
+        "placeholder": "Compartilhe sua opinião sobre este episódio...",
+        "login_prompt": "Faça login para participar da discussão.",
+        "loading": "Carregando comentários...",
+        "first_comment": "Seja o primeiro a comentar este episódio.",
+        "delete": "Excluir"
+    },
+    "poll": {
+        "title": "Enquete do Episódio",
+        "vote": "voto",
+        "votes": "votos",
+        "login_prompt": "Faça login para votar nesta enquete",
+        "vote_recorded": "Seu voto foi registrado!",
+        "submitting": "Enviando seu voto..."
+    },
+    "profile": {
+        "title": "Perfil",
+        "back": "Voltar",
+        "liked_episodes": "Episódios Curtidos",
+        "badges_earned": "Medalhas Conquistadas",
+        "episodes_played": "Episódios Ouvidos",
+        "settings": "Configurações do Perfil",
+        "achievements": "Conquistas",
+        "no_likes_own": "Você ainda não curtiu nenhum episódio.",
+        "no_likes_other": "Este usuário ainda não curtiu nenhum episódio.",
+        "explore": "Explorar Episódios",
+        "back_home": "Voltar ao Início",
+        "private_profile": "Perfil Privado",
+        "profile_not_found": "Perfil não encontrado",
+        "private_message": "Este usuário definiu seu perfil como privado.",
+        "not_found_message": "O perfil que você procura não existe.",
+        "privacy_settings": "Configurações de Privacidade",
+        "public_profile": "Perfil Público",
+        "public_desc": "Qualquer pessoa pode ver seu perfil e curtidas",
+        "private_desc": "Somente você pode ver seu perfil",
+        "public_info": "Seus episódios curtidos serão visíveis para outros usuários.",
+        "private_info": "Seu perfil e episódios curtidos serão ocultados dos outros.",
+        "cancel": "Cancelar",
+        "save": "Salvar"
+    },
+    "shorts": {
+        "title": "Shorts",
+        "description": "Vídeos curtos e exclusivos dos bastidores."
+    },
+    "store": {
+        "title": "A Loja",
+        "description": "Produtos exclusivos para a comunidade.",
+        "back": "Voltar ao Início",
+        "no_products": "Nenhum produto disponível no momento.",
+        "buy": "Comprar Agora"
     }
 }

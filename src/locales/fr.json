@@ -116,5 +116,57 @@
         "locked_description": "Ce contenu est réservé aux membres. Connectez-vous ou passez au premium pour y accéder.",
         "login_button": "Se Connecter",
         "upgrade_button": "Passer au Premium"
+    },
+    "comments": {
+        "title": "Discussions",
+        "placeholder": "Partagez votre avis sur cet épisode...",
+        "login_prompt": "Connectez-vous pour participer à la discussion.",
+        "loading": "Chargement des commentaires...",
+        "first_comment": "Soyez le premier à commenter cet épisode.",
+        "delete": "Supprimer"
+    },
+    "poll": {
+        "title": "Sondage",
+        "vote": "vote",
+        "votes": "votes",
+        "login_prompt": "Connectez-vous pour voter",
+        "vote_recorded": "Votre vote a été enregistré !",
+        "submitting": "Envoi de votre vote..."
+    },
+    "profile": {
+        "title": "Profil",
+        "back": "Retour",
+        "liked_episodes": "Épisodes Aimés",
+        "badges_earned": "Badges Gagnés",
+        "episodes_played": "Épisodes Écoutés",
+        "settings": "Paramètres du Profil",
+        "achievements": "Réalisations",
+        "no_likes_own": "Vous n'avez pas encore aimé d'épisodes.",
+        "no_likes_other": "Cet utilisateur n'a pas encore aimé d'épisodes.",
+        "explore": "Explorer les Épisodes",
+        "back_home": "Retour à l'Accueil",
+        "private_profile": "Profil Privé",
+        "profile_not_found": "Profil non trouvé",
+        "private_message": "Cet utilisateur a défini son profil en privé.",
+        "not_found_message": "Le profil que vous recherchez n'existe pas.",
+        "privacy_settings": "Paramètres de Confidentialité",
+        "public_profile": "Profil Public",
+        "public_desc": "Tout le monde peut voir votre profil et vos likes",
+        "private_desc": "Seul vous pouvez voir votre profil",
+        "public_info": "Vos épisodes aimés seront visibles par les autres utilisateurs.",
+        "private_info": "Votre profil et vos épisodes aimés seront cachés des autres.",
+        "cancel": "Annuler",
+        "save": "Enregistrer"
+    },
+    "shorts": {
+        "title": "Shorts",
+        "description": "Vidéos courtes et exclusives des coulisses."
+    },
+    "store": {
+        "title": "La Boutique",
+        "description": "Produits exclusifs pour la communauté.",
+        "back": "Retour à l'accueil",
+        "no_products": "Aucun produit disponible pour le moment.",
+        "buy": "Acheter Maintenant"
     }
 }

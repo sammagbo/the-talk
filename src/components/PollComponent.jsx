@@ -3,8 +3,10 @@ import { BarChart3, Check, Users, Lock } from 'lucide-react';
 import { db } from '../firebase';
 import { doc, getDoc, setDoc, onSnapshot, increment, runTransaction } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 export default function PollComponent({ episodeId, poll }) {
+    const { t } = useTranslation();
     const { user } = useAuth();
     const [hasVoted, setHasVoted] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
@@ -148,10 +150,10 @@ export default function PollComponent({ episodeId, poll }) {
                 </div>
                 <div>
                     <h3 className="text-lg font-creativo font-bold text-black dark:text-white">
-                        Episode Poll
+                        {t('poll.title')}
                     </h3>
                     <p className="text-sm text-gray-500 dark:text-[#6C757D]">
-                        {totalVotes} {totalVotes === 1 ? 'vote' : 'votes'}
+                        {totalVotes} {totalVotes === 1 ? t('poll.vote') : t('poll.votes')}
                     </p>
                 </div>
             </div>
@@ -190,8 +192,8 @@ export default function PollComponent({ episodeId, poll }) {
                             {hasVoted && (
                                 <div
                                     className={`absolute inset-0 transition-all duration-500 ${isSelected
-                                            ? 'bg-[#007BFF]/20'
-                                            : 'bg-gray-100 dark:bg-[#222]'
+                                        ? 'bg-[#007BFF]/20'
+                                        : 'bg-gray-100 dark:bg-[#222]'
                                         }`}
                                     style={{ width: `${percentage}%` }}
                                 />
@@ -207,8 +209,8 @@ export default function PollComponent({ episodeId, poll }) {
                                         </div>
                                     )}
                                     <span className={`font-minimal ${isSelected
-                                            ? 'font-bold text-[#007BFF]'
-                                            : 'text-black dark:text-white'
+                                        ? 'font-bold text-[#007BFF]'
+                                        : 'text-black dark:text-white'
                                         }`}>
                                         {option.text}
                                     </span>
@@ -236,7 +238,7 @@ export default function PollComponent({ episodeId, poll }) {
             {!user && (
                 <div className="mt-4 flex items-center gap-2 text-sm text-gray-500 dark:text-[#6C757D]">
                     <Lock size={14} />
-                    <span>Login to vote in this poll</span>
+                    <span>{t('poll.login_prompt')}</span>
                 </div>
             )}
 
@@ -244,7 +246,7 @@ export default function PollComponent({ episodeId, poll }) {
             {hasVoted && (
                 <div className="mt-4 flex items-center gap-2 text-sm text-green-500">
                     <Check size={14} />
-                    <span>Your vote has been recorded!</span>
+                    <span>{t('poll.vote_recorded')}</span>
                 </div>
             )}
 
@@ -252,7 +254,7 @@ export default function PollComponent({ episodeId, poll }) {
             {isSubmitting && (
                 <div className="mt-4 flex items-center gap-2 text-sm text-[#007BFF]">
                     <div className="w-4 h-4 border-2 border-[#007BFF] border-t-transparent rounded-full animate-spin" />
-                    <span>Submitting your vote...</span>
+                    <span>{t('poll.submitting')}</span>
                 </div>
             )}
         </div>

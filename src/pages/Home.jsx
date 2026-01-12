@@ -504,10 +504,10 @@ Language: French only.`
                     <div className="mb-8">
                         <div className="flex items-center gap-3 mb-4">
                             <Film className="w-8 h-8 text-[#FF0050]" />
-                            <h2 className="text-3xl md:text-4xl font-creativo font-bold">Shorts</h2>
+                            <h2 className="text-3xl md:text-4xl font-creativo font-bold">{t('shorts.title')}</h2>
                         </div>
                         <p className="text-gray-600 dark:text-[#6C757D] font-minimal max-w-xl">
-                            Vidéos courtes et exclusives des coulisses.
+                            {t('shorts.description')}
                         </p>
                         <div className="h-1.5 w-16 bg-gradient-to-r from-[#FF0050] to-[#FF4500] rounded-full mt-4"></div>
                     </div>

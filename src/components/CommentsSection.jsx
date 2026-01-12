@@ -3,8 +3,10 @@ import { db } from '../firebase';
 import { collection, addDoc, query, where, onSnapshot, orderBy, serverTimestamp, deleteDoc, doc } from 'firebase/firestore';
 import { Send, Trash2, User } from 'lucide-react';
 import { checkAchievements } from '../utils/badges';
+import { useTranslation } from 'react-i18next';
 
 export default function CommentsSection({ episodeId, user }) {
+    const { t } = useTranslation();
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [loading, setLoading] = useState(true);
@@ -66,7 +68,7 @@ export default function CommentsSection({ episodeId, user }) {
     return (
         <div className="mt-12 bg-gray-50 dark:bg-[#111] rounded-2xl p-6 md:p-8 border border-gray-200 dark:border-[#333]">
             <h3 className="text-2xl font-creativo font-bold text-black dark:text-white mb-8">
-                Discussions ({comments.length})
+                {t('comments.title')} ({comments.length})
             </h3>
 
             {/* Comment Form */}
@@ -81,7 +83,7 @@ export default function CommentsSection({ episodeId, user }) {
                         <textarea
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
-                            placeholder="Partagez votre avis sur cet épisode..."
+                            placeholder={t('comments.placeholder')}
                             className="w-full bg-white dark:bg-[#000] border border-gray-200 dark:border-[#333] rounded-xl p-4 pr-12 focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal resize-none h-24 text-black dark:text-white"
                         />
                         <button
@@ -95,16 +97,16 @@ export default function CommentsSection({ episodeId, user }) {
                 </form>
             ) : (
                 <div className="mb-10 p-6 bg-[#007BFF]/10 rounded-xl border border-[#007BFF]/20 text-center">
-                    <p className="text-gray-600 dark:text-[#A9A9F5] font-minimal mb-2">Connectez-vous pour participer à la discussion.</p>
+                    <p className="text-gray-600 dark:text-[#A9A9F5] font-minimal mb-2">{t('comments.login_prompt')}</p>
                 </div>
             )}
 
             {/* Comments List */}
             <div className="space-y-6">
                 {loading ? (
-                    <p className="text-gray-500 text-center py-4">Chargement des commentaires...</p>
+                    <p className="text-gray-500 text-center py-4">{t('comments.loading')}</p>
                 ) : comments.length === 0 ? (
-                    <p className="text-gray-500 dark:text-[#666] text-center italic py-4">Soyez le premier à commenter cet épisode.</p>
+                    <p className="text-gray-500 dark:text-[#666] text-center italic py-4">{t('comments.first_comment')}</p>
                 ) : (
                     comments.map((comment) => (
                         <div key={comment.id} className="flex gap-4 animate-fade-in group">

@@ -5,8 +5,10 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import ThemeToggle from '../components/ThemeToggle';
 import { client, urlFor } from '../sanity';
+import { useTranslation } from 'react-i18next';
 
 export default function StorePage() {
+    const { t } = useTranslation();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -42,7 +44,7 @@ export default function StorePage() {
             <nav className="fixed w-full z-50 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-200 dark:border-[#333] py-4">
                 <div className="container mx-auto px-6 flex justify-between items-center">
                     <Link to="/" className="inline-flex items-center gap-2 text-gray-500 dark:text-[#6C757D] hover:text-[#007BFF] dark:hover:text-white transition-colors font-minimal text-sm uppercase tracking-wider">
-                        <ArrowLeft size={16} /> Retour à l'accueil
+                        <ArrowLeft size={16} /> {t('store.back')}
                     </Link>
                     <ThemeToggle />
                 </div>
@@ -53,8 +55,8 @@ export default function StorePage() {
                     <div className="inline-flex items-center justify-center p-3 bg-[#007BFF]/10 rounded-full mb-4">
                         <ShoppingBag className="w-8 h-8 text-[#007BFF]" />
                     </div>
-                    <h1 className="text-5xl md:text-6xl font-creativo font-bold mb-4">La Boutique</h1>
-                    <p className="text-xl text-gray-500 dark:text-[#6C757D] font-minimal">Produits exclusifs pour la communauté.</p>
+                    <h1 className="text-5xl md:text-6xl font-creativo font-bold mb-4">{t('store.title')}</h1>
+                    <p className="text-xl text-gray-500 dark:text-[#6C757D] font-minimal">{t('store.description')}</p>
                 </div>
 
                 {loading ? (
@@ -63,7 +65,7 @@ export default function StorePage() {
                     </div>
                 ) : products.length === 0 ? (
                     <div className="text-center py-20">
-                        <p className="text-gray-500 dark:text-[#6C757D] font-minimal text-lg">Aucun produit disponible pour le moment.</p>
+                        <p className="text-gray-500 dark:text-[#6C757D] font-minimal text-lg">{t('store.no_products')}</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -92,7 +94,7 @@ export default function StorePage() {
                                         className="w-full bg-[#007BFF] hover:bg-[#0069d9] text-white py-3 rounded-xl font-bold font-creativo transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         <ShoppingBag size={18} />
-                                        Acheter Maintenant
+                                        {t('store.buy')}
                                     </button>
                                 </div>
                             </div>
