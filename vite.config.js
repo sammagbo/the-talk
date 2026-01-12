@@ -61,5 +61,10 @@ export default defineConfig({
       mangle: true,
     },
   },
+  // Vitest configuration
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: ['./src/test/setup.js'],
+  },
 })
-

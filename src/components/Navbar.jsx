@@ -68,40 +68,40 @@ export default function Navbar({
     // Main navigation items with clear structure
     const navItems = [
         {
-            label: 'Home',
+            label: t('nav.home', 'Home'),
             icon: HomeIcon,
             type: 'link',
             to: '/'
         },
         {
-            label: 'Vidéos',
+            label: t('nav.videos', 'Vidéos'),
             icon: Video,
             type: 'section',
             section: 'galerie',
             description: 'Watch our video content'
         },
         {
-            label: 'Épisodes',
+            label: t('nav.episodes', 'Épisodes'),
             icon: Headphones,
             type: 'section',
             section: 'galerie',
             description: 'Listen to podcast episodes'
         },
         {
-            label: 'Blog',
+            label: t('nav.blog', 'Blog'),
             icon: BookOpen,
             type: 'link',
             to: '/blog'
         },
         {
-            label: 'Sobre',
+            label: t('nav.about', 'À propos'),
             icon: Info,
             type: 'section',
             section: 'apropos',
             description: 'About Mijean Rochus'
         },
         {
-            label: 'Contato',
+            label: t('nav.contact', 'Contact'),
             icon: Mail,
             type: 'section',
             section: 'contact',
@@ -181,7 +181,7 @@ export default function Navbar({
                         className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
                     >
                         <ShoppingBag size={16} />
-                        Boutique
+                        {t('nav.store', 'Boutique')}
                     </Link>
 
                     {/* Separator */}
@@ -214,7 +214,7 @@ export default function Navbar({
                             onClick={signInWithGoogle}
                             className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-4 py-2 rounded-lg transition-all text-sm font-bold"
                         >
-                            Connexion
+                            {t('nav.login', 'Connexion')}
                         </button>
                     )}
 
@@ -238,7 +238,7 @@ export default function Navbar({
                             className="flex items-center gap-1.5 bg-black dark:bg-white text-white dark:text-black px-3 py-2 rounded-lg font-bold text-sm transition-transform hover:scale-105"
                         >
                             <Download size={14} />
-                            Instalar
+                            {t('nav.install', 'Installer')}
                         </button>
                     )}
                 </div>
@@ -319,7 +319,7 @@ export default function Navbar({
                                     {String(navItems.length).padStart(2, '0')}.
                                 </span>
                                 <span className="text-3xl md:text-4xl font-creativo font-bold text-white uppercase tracking-[0.1em] group-hover:text-[#A9A9F5] transition-colors">
-                                    Boutique
+                                    {t('nav.store', 'Boutique')}
                                 </span>
                                 <ShoppingBag size={24} className="ml-auto text-white/30 group-hover:text-[#A9A9F5] transition-colors" />
                             </Link>
@@ -346,7 +346,7 @@ export default function Navbar({
                                         onClick={() => { signInWithGoogle(); setIsMenuOpen(false); }}
                                         className="px-6 py-2.5 border border-[#007BFF] text-[#007BFF] rounded-full font-mono text-sm tracking-wider hover:bg-[#007BFF] hover:text-white transition-all"
                                     >
-                                        CONNEXION
+                                        {t('nav.login', 'CONNEXION')}
                                     </button>
                                 )}
 

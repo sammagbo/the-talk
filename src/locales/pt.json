@@ -1,10 +1,15 @@
 {
     "nav": {
+        "home": "Início",
+        "videos": "Vídeos",
         "episodes": "EPISÓDIOS",
+        "blog": "Blog",
         "ai_lab": "LAB IA",
         "about": "SOBRE",
         "contact": "CONTATO",
+        "store": "Loja",
         "login": "ENTRAR",
+        "install": "Instalar",
         "logout": "Sair",
         "back_gallery": "Voltar para galeria"
     },

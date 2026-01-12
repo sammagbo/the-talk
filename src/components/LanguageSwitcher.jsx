@@ -24,10 +24,15 @@ export default function LanguageSwitcher() {
                     <React.Fragment key={lang.code}>
                         {index > 0 && <span className="text-gray-300">|</span>}
                         <button
-                            onClick={() => changeLanguage(lang.code)}
+                            type="button"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                changeLanguage(lang.code);
+                            }}
                             className={`text-xs font-bold uppercase transition-colors flex items-center gap-1 ${i18n.language.startsWith(lang.code)
-                                    ? 'text-[#007BFF]'
-                                    : 'text-gray-500 hover:text-black dark:hover:text-white'
+                                ? 'text-[#007BFF]'
+                                : 'text-gray-500 hover:text-black dark:hover:text-white'
                                 }`}
                             title={lang.label}
                         >

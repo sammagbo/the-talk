@@ -571,6 +571,16 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 ## 📝 Changelog
 
+### v1.8.0 (12/01/2026) - Audit Fixes & Quality Improvements
+
+- ✅ **LanguageSwitcher Fix**: Adicionado `type=button`, `preventDefault`, `stopPropagation` para evitar redirecionamento externo.
+- ✅ **Navbar Full i18n**: 10 chaves de tradução adicionadas (home, videos, blog, store, install, etc.).
+- ✅ **Locale Files Updated**: Novas chaves nav.* em fr.json, en.json, pt.json.
+- ✅ **Vitest Configuration**: Adicionado jsdom environment e setup file.
+- ✅ **Tests Passing**: 1/1 teste passa com sucesso.
+- ✅ **Sanity Image-URL**: Atualizado para usar `createImageUrlBuilder` (named export).
+- ✅ **Dependencies**: Instalado @testing-library/jest-dom e jsdom.
+
 ### v1.7.1 (12/01/2026) - Media Logic Refinement
 
 - ✅ **onPause Prop**: EpisodePage agora recebe callback `onPause` para pausar player de áudio.

@@ -1,10 +1,15 @@
 {
     "nav": {
+        "home": "Home",
+        "videos": "Videos",
         "episodes": "EPISODES",
+        "blog": "Blog",
         "ai_lab": "AI LAB",
         "about": "ABOUT",
         "contact": "CONTACT",
+        "store": "Store",
         "login": "LOGIN",
+        "install": "Install",
         "logout": "Logout",
         "back_gallery": "Back to gallery"
     },
