@@ -571,6 +571,10 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 ## 📝 Changelog
 
+### v1.4.0 (11/01/2026) - Video Integration
+
+- ✅ **Hero Video Background**: Substituição da imagem estática por vídeo de desfile (UHD) com autoplay.
+
 ### v1.3.1 (11/01/2026) - Layout Adjustments
 
 - ✅ **Resize Featured Episode**: Card "En Vedette" redimensionado para layout vertical e compacto (`max-w-md`).
