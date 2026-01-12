@@ -571,6 +571,14 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 ## 📝 Changelog
 
+### v1.9.0 (12/01/2026) - Complete i18n Polishing
+
+- ✅ **Hero Section**: Traduzido "Nouvel Épisode", "ÉCOUTER", botões e estatísticas (50+ Épisodes, 10K+ Auditeurs).
+- ✅ **Newsletter Section**: Traduzido "Restez Inspiré" e descrição.
+- ✅ **BlogPage**: Full i18n - título, subtítulo, "Lire l'article", "Aucun article", data localizada.
+- ✅ **Locale Files**: Adicionadas 12 novas chaves (hero.episodes, hero.listeners, blog.*, subscribe.button).
+- ✅ **Date Localization**: BlogPage agora formata datas por idioma (fr-FR, en-US, pt-BR).
+
 ### v1.8.0 (12/01/2026) - Audit Fixes & Quality Improvements
 
 - ✅ **LanguageSwitcher Fix**: Adicionado `type=button`, `preventDefault`, `stopPropagation` para evitar redirecionamento externo.

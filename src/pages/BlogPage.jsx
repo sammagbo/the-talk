@@ -5,8 +5,10 @@ import { Helmet } from 'react-helmet-async';
 import ThemeToggle from '../components/ThemeToggle';
 import LazyImage from '../components/LazyImage';
 import { client, urlFor } from '../sanity';
+import { useTranslation } from 'react-i18next';
 
 export default function BlogPage() {
+    const { t, i18n } = useTranslation();
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -36,7 +38,8 @@ export default function BlogPage() {
 
     const formatDate = (dateString) => {
         if (!dateString) return '';
-        return new Date(dateString).toLocaleDateString('fr-FR', {
+        const locale = i18n.language === 'pt' ? 'pt-BR' : i18n.language === 'en' ? 'en-US' : 'fr-FR';
+        return new Date(dateString).toLocaleDateString(locale, {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
@@ -46,14 +49,14 @@ export default function BlogPage() {
     return (
         <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-[#007BFF] selection:text-white transition-colors duration-300">
             <Helmet>
-                <title>Blog | THE TALK</title>
-                <meta name="description" content="Articles et insights sur la créativité, l'innovation et le digital." />
+                <title>{t('blog.title', 'Blog')} | THE TALK</title>
+                <meta name="description" content={t('blog.description', "Articles et insights sur la créativité, l'innovation et le digital.")} />
             </Helmet>
 
             <nav className="fixed w-full z-50 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-200 dark:border-[#333] py-4">
                 <div className="container mx-auto px-6 flex justify-between items-center">
                     <Link to="/" className="inline-flex items-center gap-2 text-gray-500 dark:text-[#6C757D] hover:text-[#007BFF] dark:hover:text-white transition-colors font-minimal text-sm uppercase tracking-wider">
-                        <ArrowLeft size={16} /> Retour à l'accueil
+                        <ArrowLeft size={16} /> {t('nav.back_gallery')}
                     </Link>
                     <ThemeToggle />
                 </div>
@@ -61,9 +64,9 @@ export default function BlogPage() {
 
             <div className="pt-32 pb-24 px-6 container mx-auto">
                 <div className="text-center mb-16">
-                    <h1 className="text-5xl md:text-6xl font-creativo font-bold mb-4">Blog</h1>
+                    <h1 className="text-5xl md:text-6xl font-creativo font-bold mb-4">{t('blog.title', 'Blog')}</h1>
                     <p className="text-xl text-gray-500 dark:text-[#6C757D] font-minimal">
-                        Insights, tendances et réflexions
+                        {t('blog.subtitle', 'Insights, tendances et réflexions')}
                     </p>
                 </div>
 
@@ -73,8 +76,8 @@ export default function BlogPage() {
                     </div>
                 ) : posts.length === 0 ? (
                     <div className="text-center text-gray-500 dark:text-[#6C757D]">
-                        <p className="text-xl">Aucun article pour le moment.</p>
-                        <p className="mt-2">Revenez bientôt !</p>
+                        <p className="text-xl">{t('blog.no_posts', 'Aucun article pour le moment.')}</p>
+                        <p className="mt-2">{t('blog.come_back', 'Revenez bientôt !')}</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -115,7 +118,7 @@ export default function BlogPage() {
                                         </p>
                                     )}
                                     <div className="flex items-center gap-2 text-[#007BFF] font-minimal text-sm uppercase tracking-wider">
-                                        <span>Lire l'article</span>
+                                        <span>{t('blog.read_more', "Lire l'article")}</span>
                                         <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
                                     </div>
                                 </div>

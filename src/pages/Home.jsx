@@ -335,7 +335,7 @@ Language: French only.`
                 <div className="relative z-10 text-center px-4 animate-fade-in-up max-w-4xl mx-auto">
                     <div className="mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#007BFF]/30 bg-[#007BFF]/10 backdrop-blur-sm">
                         <span className="w-2 h-2 rounded-full bg-[#007BFF] animate-pulse"></span>
-                        <span className="text-xs font-minimal text-[#A9A9F5] tracking-widest uppercase">Nouvel Épisode Disponible</span>
+                        <span className="text-xs font-minimal text-[#A9A9F5] tracking-widest uppercase">{t('hero.new_episode')}</span>
                     </div>
 
                     <h1 className="text-6xl md:text-8xl font-creativo font-black mb-6 tracking-[0.08em] leading-tight uppercase">
@@ -347,7 +347,7 @@ Language: French only.`
                     </p>
 
                     <p className="text-lg text-gray-800 dark:text-white/80 mb-10 max-w-xl mx-auto font-minimal leading-relaxed">
-                        Plongez dans l'univers de la <span className="bg-[#007BFF] text-white px-1 font-bold">MODE</span> et du <span className="font-editorial italic text-2xl text-[#A9A9F5] align-middle px-1">mannequinat</span> à travers des <span className="relative inline-block mx-1"><span className="absolute inset-0 bg-[#A9A9F5] transform -skew-x-12"></span><span className="relative font-bold px-1 text-black">CONVERSATIONS</span></span> <span className="font-editorial italic text-2xl align-middle">exclusives</span>.
+                        {t('hero.description')}
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -355,7 +355,7 @@ Language: French only.`
                             onClick={() => scrollToSection('galerie')}
                             className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider hover:shadow-[0_0_20px_rgba(0,123,255,0.4)] w-full sm:w-auto justify-center uppercase"
                         >
-                            [ ÉCOUTER ]
+                            [ {t('hero.listen_now', 'ÉCOUTER')} ]
                             <ChevronRight className="w-4 h-4" />
                         </button>
                         <button
@@ -363,7 +363,7 @@ Language: French only.`
                             className="bg-gradient-to-r from-[#A9A9F5] to-[#007BFF] hover:opacity-90 text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
                         >
                             <Mail className="w-4 h-4" />
-                            [ S'ABONNER ]
+                            [ {t('subscribe.button', "S'ABONNER")} ]
                         </button>
                     </div>
 
@@ -371,11 +371,11 @@ Language: French only.`
                     <div className="flex flex-wrap justify-center gap-8 mt-10 text-center">
                         <div>
                             <p className="text-3xl font-creativo font-bold text-[#007BFF]">50+</p>
-                            <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">Épisodes</p>
+                            <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">{t('hero.episodes', 'Épisodes')}</p>
                         </div>
                         <div>
                             <p className="text-3xl font-creativo font-bold text-[#A9A9F5]">10K+</p>
-                            <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">Auditeurs</p>
+                            <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">{t('hero.listeners', 'Auditeurs')}</p>
                         </div>
                         <div>
                             <p className="text-3xl font-creativo font-bold text-[#007BFF]">5★</p>
@@ -1175,9 +1175,9 @@ Language: French only.`
             {/* Newsletter Section */}
             <section className="py-24 bg-gray-50 dark:bg-[#050505] border-t border-gray-200 dark:border-[#333]">
                 <div className="container mx-auto px-6 text-center max-w-3xl">
-                    <h2 className="text-3xl md:text-4xl font-creativo font-bold text-black dark:text-white mb-4">Restez Inspiré</h2>
+                    <h2 className="text-3xl md:text-4xl font-creativo font-bold text-black dark:text-white mb-4">{t('newsletter.title')}</h2>
                     <p className="text-gray-600 dark:text-[#6C757D] font-minimal text-lg mb-10">
-                        Rejoignez notre communauté de créatifs et recevez les derniers épisodes et insights directement dans votre boîte mail.
+                        {t('newsletter.description')}
                     </p>
                     <Newsletter />
                 </div>

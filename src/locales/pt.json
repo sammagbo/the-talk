@@ -17,8 +17,10 @@
         "subtitle": "Por Mijean Rochus",
         "new_episode": "Novo Episódio Disponível",
         "description": "Mergulhe no universo da moda e do mannequinat através de conversas exclusivas.",
-        "listen_now": "Ouvir Agora",
-        "about_host": "Conhecer Mijean"
+        "listen_now": "OUVIR",
+        "about_host": "Conhecer Mijean",
+        "episodes": "Episódios",
+        "listeners": "Ouvintes"
     },
     "gallery": {
         "recent_episodes": "Episódios Recentes",
@@ -43,6 +45,14 @@
         "result_title": "Resultado gerado por IA",
         "waiting_title": "Aguardando inspiração...",
         "waiting_subtitle": "O resultado aparecerá aqui."
+    },
+    "blog": {
+        "title": "Blog",
+        "subtitle": "Insights, tendências e reflexões",
+        "description": "Artigos e insights sobre criatividade, inovação e digital.",
+        "no_posts": "Nenhum artigo no momento.",
+        "come_back": "Volte em breve!",
+        "read_more": "Ler artigo"
     },
     "about": {
         "title": "SOBRE",

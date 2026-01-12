@@ -17,8 +17,10 @@
         "subtitle": "By Mijean Rochus",
         "new_episode": "New Episode Available",
         "description": "Dive into the world of fashion and modeling through exclusive conversations.",
-        "listen_now": "Listen Now",
-        "about_host": "Meet Mijean"
+        "listen_now": "LISTEN",
+        "about_host": "Meet Mijean",
+        "episodes": "Episodes",
+        "listeners": "Listeners"
     },
     "gallery": {
         "recent_episodes": "Recent Episodes",
@@ -43,6 +45,14 @@
         "result_title": "AI Generated Result",
         "waiting_title": "Waiting for inspiration...",
         "waiting_subtitle": "The result will appear here."
+    },
+    "blog": {
+        "title": "Blog",
+        "subtitle": "Insights, trends and reflections",
+        "description": "Articles and insights on creativity, innovation and digital.",
+        "no_posts": "No articles yet.",
+        "come_back": "Come back soon!",
+        "read_more": "Read article"
     },
     "about": {
         "title": "ABOUT",
