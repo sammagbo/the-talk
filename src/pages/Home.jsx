@@ -783,9 +783,9 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                                         className="group bg-white dark:bg-[#0a0a0a] rounded-2xl overflow-hidden border border-gray-200 dark:border-[#333] hover:border-[#007BFF] transition-all hover:shadow-lg"
                                     >
                                         <div className="aspect-video overflow-hidden">
-                                            {post.mainImage ? (
+                                            {post.imageUrl ? (
                                                 <LazyImage
-                                                    src={urlFor(post.mainImage).width(600).url()}
+                                                    src={post.imageUrl}
                                                     alt={post.title}
                                                     className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                                                 />
@@ -836,11 +836,11 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                                     muted
                                     playsInline
                                     className="w-full rounded-2xl relative z-10 object-cover aspect-[3/4]"
-                                    poster="https://images.pexels.com/videos/9512045/pexels-photo-9512045.jpeg?auto=compress&cs=tinysrgb&w=800"
+                                    poster="https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=800"
                                 >
-                                    <source src="https://videos.pexels.com/video-files/9512045/9512045-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+                                    <source src="https://videos.pexels.com/video-files/3015510/3015510-hd_1920_1080_24fps.mp4" type="video/mp4" />
                                     <img
-                                        src="https://images.pexels.com/videos/9512045/pexels-photo-9512045.jpeg?auto=compress&cs=tinysrgb&w=800"
+                                        src="https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=800"
                                         alt="Fashion Runway"
                                         className="w-full rounded-2xl object-cover"
                                     />
