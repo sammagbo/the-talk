@@ -5,6 +5,8 @@ import { Loader2, AlertTriangle, RefreshCw, Home as HomeIcon } from 'lucide-reac
 import CustomCursor from './components/CustomCursor';
 import LoadingScreen from './components/LoadingScreen';
 import TransitionOverlay from './components/TransitionOverlay';
+import ScrollProgress from './components/ScrollProgress';
+import CursorTrail from './components/CursorTrail';
 
 // Error Boundary Component with elegant fallback UI
 class ErrorBoundary extends React.Component {
@@ -251,6 +253,12 @@ export default function App() {
 
       {/* Page Transition Overlay */}
       <TransitionOverlay />
+
+      {/* Scroll Progress Bar */}
+      <ScrollProgress />
+
+      {/* Cursor Trail Effect - Desktop only */}
+      <CursorTrail color="#007BFF" particleCount={15} />
 
       {/* Skip to main content link for accessibility */}
       <a
