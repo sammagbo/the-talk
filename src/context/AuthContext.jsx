@@ -1,7 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { auth, googleProvider } from '../firebase';
-import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
+import { supabase } from '../supabase';
 
 const AuthContext = createContext();
 
@@ -14,50 +13,81 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
 
     const signInWithGoogle = async () => {
-        if (!auth || !googleProvider) {
-            console.warn('Firebase auth not available');
+        if (!supabase) {
+            console.warn('Supabase not available');
             return null;
         }
-        return signInWithPopup(auth, googleProvider);
+
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: window.location.origin,
+            },
+        });
+
+        if (error) {
+            console.error('Google sign-in error:', error);
+            throw error;
+        }
+
+        return data;
     };
 
     const logout = async () => {
-        if (!auth) {
-            console.warn('Firebase auth not available');
+        if (!supabase) {
+            console.warn('Supabase not available');
             return null;
         }
-        return signOut(auth);
+
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+            console.error('Logout error:', error);
+            throw error;
+        }
+
+        setUser(null);
     };
 
     useEffect(() => {
-        // If Firebase auth is not available, render app without auth
-        if (!auth) {
-            console.warn('Firebase auth not initialized, rendering without auth');
+        if (!supabase) {
+            console.warn('Supabase not initialized, rendering without auth');
             setLoading(false);
             return;
         }
 
-        let unsubscribe;
-        try {
-            unsubscribe = onAuthStateChanged(
-                auth,
-                (currentUser) => {
-                    setUser(currentUser);
-                    setLoading(false);
-                },
-                (error) => {
-                    // Handle auth state errors gracefully (prevents iOS Safari blocking)
-                    console.warn('Auth state change error:', error);
-                    setLoading(false);
-                }
-            );
-        } catch (error) {
-            console.warn('Firebase auth setup failed:', error);
+        // Get initial session
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session?.user) {
+                // Map Supabase user to our user format
+                setUser({
+                    uid: session.user.id,
+                    email: session.user.email,
+                    displayName: session.user.user_metadata?.full_name || session.user.user_metadata?.name,
+                    photoURL: session.user.user_metadata?.avatar_url,
+                });
+            }
             setLoading(false);
-        }
+        });
+
+        // Listen for auth changes
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
+            (event, session) => {
+                if (session?.user) {
+                    setUser({
+                        uid: session.user.id,
+                        email: session.user.email,
+                        displayName: session.user.user_metadata?.full_name || session.user.user_metadata?.name,
+                        photoURL: session.user.user_metadata?.avatar_url,
+                    });
+                } else {
+                    setUser(null);
+                }
+                setLoading(false);
+            }
+        );
 
         return () => {
-            if (unsubscribe) unsubscribe();
+            subscription?.unsubscribe();
         };
     }, []);
 
@@ -68,7 +98,6 @@ export function AuthProvider({ children }) {
         loading
     };
 
-    // Always render children, even during loading (prevents white screen)
     return (
         <AuthContext.Provider value={value}>
             {children}

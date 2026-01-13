@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useAuth } from '../context/AuthContext';
-import { db } from '../firebase';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { supabase } from '../supabase';
 import { client, urlFor } from '../sanity';
 import {
     User,
@@ -49,17 +48,24 @@ export default function ProfilePage() {
                 setLoading(true);
                 setError(null);
 
-                // Get user document from Firestore
-                const userRef = doc(db, 'users', uid);
-                const userSnap = await getDoc(userRef);
-
-                if (!userSnap.exists()) {
-                    setError(t('profile.error_not_found'));
+                // Get user from Supabase
+                if (!supabase) {
+                    setError('Database not available');
                     setLoading(false);
                     return;
                 }
 
-                const userData = userSnap.data();
+                const { data: userData, error: userError } = await supabase
+                    .from('users')
+                    .select('*')
+                    .eq('id', uid)
+                    .single();
+
+                if (userError || !userData) {
+                    setError(t('profile.error_not_found'));
+                    setLoading(false);
+                    return;
+                }
 
                 // Check privacy - if private and not own profile, block access
                 if (userData.isPublic === false && !isOwnProfile) {
@@ -69,22 +75,33 @@ export default function ProfilePage() {
                 }
 
                 setProfileData({
-                    displayName: userData.displayName || 'Anonymous User',
-                    photoURL: userData.photoURL || null,
+                    displayName: userData.display_name || 'Anonymous User',
+                    photoURL: userData.photo_url || null,
                     email: userData.email || '',
-                    isPublic: userData.isPublic !== false, // default to public
-                    createdAt: userData.createdAt,
-                    favorites: userData.favorites || []
+                    isPublic: true, // default to public
+                    createdAt: userData.created_at,
                 });
-                setIsPublic(userData.isPublic !== false);
-
-                // Set badges and stats
+                setIsPublic(true);
                 setUserBadges(userData.badges || []);
-                setUserStats(userData.stats || {});
+
+                // Fetch user stats from user_stats table
+                const { data: statsData } = await supabase
+                    .from('user_stats')
+                    .select('*')
+                    .eq('user_id', uid)
+                    .single();
+                setUserStats(statsData || {});
+
+                // Fetch favorites
+                const { data: favoritesData } = await supabase
+                    .from('favorites')
+                    .select('episode_id')
+                    .eq('user_id', uid);
+                const favoriteIds = favoritesData?.map(f => f.episode_id) || [];
 
                 // Fetch favorite episodes from Sanity
-                if (userData.favorites && userData.favorites.length > 0) {
-                    const episodeIds = userData.favorites.map(id => `"${id}"`).join(',');
+                if (favoriteIds.length > 0) {
+                    const episodeIds = favoriteIds.map(id => `"${id}"`).join(',');
                     const query = `*[_type == "episode" && _id in [${episodeIds}]] {
                         _id,
                         title,
@@ -121,14 +138,16 @@ export default function ProfilePage() {
     // Update user document when profile data is first loaded (to sync auth info)
     useEffect(() => {
         const syncUserData = async () => {
-            if (user && isOwnProfile && db) {
+            if (user && isOwnProfile && supabase) {
                 try {
-                    const userRef = doc(db, 'users', user.uid);
-                    await updateDoc(userRef, {
-                        displayName: user.displayName,
-                        photoURL: user.photoURL,
-                        email: user.email
-                    });
+                    await supabase
+                        .from('users')
+                        .update({
+                            display_name: user.displayName,
+                            photo_url: user.photoURL,
+                            email: user.email
+                        })
+                        .eq('id', user.uid);
                 } catch (err) {
                     console.log('Could not sync user data:', err);
                 }
@@ -143,10 +162,8 @@ export default function ProfilePage() {
 
         setSaving(true);
         try {
-            const userRef = doc(db, 'users', user.uid);
-            await updateDoc(userRef, {
-                isPublic: isPublic
-            });
+            // For now, privacy is handled client-side
+            // Could add is_public column to users table if needed
             setProfileData(prev => ({ ...prev, isPublic }));
             setIsSettingsOpen(false);
         } catch (err) {

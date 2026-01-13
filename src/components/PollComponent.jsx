@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart3, Check, Users, Lock } from 'lucide-react';
-import { db } from '../firebase';
-import { doc, getDoc, setDoc, onSnapshot, increment, runTransaction } from 'firebase/firestore';
+import { BarChart3, Check, Lock } from 'lucide-react';
+import { supabase } from '../supabase';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 
@@ -12,7 +11,6 @@ export default function PollComponent({ episodeId, poll }) {
     const [selectedOption, setSelectedOption] = useState(null);
     const [results, setResults] = useState({});
     const [totalVotes, setTotalVotes] = useState(0);
-    const [loading, setLoading] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     // Check if poll is valid
@@ -20,125 +18,117 @@ export default function PollComponent({ episodeId, poll }) {
         return null;
     }
 
+    // Fetch poll results
+    const fetchResults = async () => {
+        if (!episodeId || !supabase) return;
+
+        const { data, error } = await supabase
+            .from('poll_votes')
+            .select('option_index')
+            .eq('poll_id', episodeId);
+
+        if (!error && data) {
+            const voteCounts = {};
+            data.forEach(vote => {
+                voteCounts[vote.option_index] = (voteCounts[vote.option_index] || 0) + 1;
+            });
+            setResults(voteCounts);
+            setTotalVotes(data.length);
+        }
+    };
+
     // Listen to real-time poll results
     useEffect(() => {
-        if (!episodeId || !db) return;
+        if (!episodeId || !supabase) return;
 
-        const pollRef = doc(db, 'polls', episodeId);
+        fetchResults();
 
-        const unsubscribe = onSnapshot(pollRef, (docSnap) => {
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                setResults(data.votes || {});
+        const channel = supabase
+            .channel(`poll-${episodeId}`)
+            .on(
+                'postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
+                    table: 'poll_votes',
+                    filter: `poll_id=eq.${episodeId}`,
+                },
+                () => {
+                    fetchResults();
+                }
+            )
+            .subscribe();
 
-                // Calculate total votes
-                const total = Object.values(data.votes || {}).reduce((sum, count) => sum + count, 0);
-                setTotalVotes(total);
-            } else {
-                setResults({});
-                setTotalVotes(0);
-            }
-        }, (error) => {
-            console.error('Error listening to poll results:', error);
-        });
-
-        return () => unsubscribe();
+        return () => {
+            supabase.removeChannel(channel);
+        };
     }, [episodeId]);
 
     // Check if user has already voted
     useEffect(() => {
         const checkUserVote = async () => {
-            if (!user || !episodeId || !db) return;
+            if (!user || !episodeId || !supabase) return;
 
-            try {
-                const userVoteRef = doc(db, 'poll_votes', `${episodeId}_${user.uid}`);
-                const voteSnap = await getDoc(userVoteRef);
+            const { data, error } = await supabase
+                .from('poll_votes')
+                .select('option_index')
+                .eq('poll_id', episodeId)
+                .eq('user_id', user.uid)
+                .single();
 
-                if (voteSnap.exists()) {
-                    setHasVoted(true);
-                    setSelectedOption(voteSnap.data().optionId);
-                }
-            } catch (error) {
-                console.error('Error checking user vote:', error);
+            if (!error && data) {
+                setHasVoted(true);
+                setSelectedOption(data.option_index);
             }
         };
 
         checkUserVote();
     }, [user, episodeId]);
 
-    const handleVote = async (optionId) => {
+    const handleVote = async (optionIndex) => {
         if (!user) {
             alert('Please login to vote');
             return;
         }
 
-        if (hasVoted || isSubmitting) return;
+        if (hasVoted || isSubmitting || !supabase) return;
 
         setIsSubmitting(true);
-        setLoading(true);
 
         try {
-            const pollRef = doc(db, 'polls', episodeId);
-            const userVoteRef = doc(db, 'poll_votes', `${episodeId}_${user.uid}`);
-
-            // Use transaction to ensure atomic update
-            await runTransaction(db, async (transaction) => {
-                const pollDoc = await transaction.get(pollRef);
-
-                // Check if user already voted (double check in transaction)
-                const userVoteDoc = await transaction.get(userVoteRef);
-                if (userVoteDoc.exists()) {
-                    throw new Error('Already voted');
-                }
-
-                // Initialize or update poll document
-                if (!pollDoc.exists()) {
-                    const initialVotes = {};
-                    poll.options.forEach(opt => {
-                        initialVotes[opt.id] = opt.id === optionId ? 1 : 0;
-                    });
-                    transaction.set(pollRef, {
-                        episodeId,
-                        question: poll.question,
-                        votes: initialVotes,
-                        createdAt: new Date()
-                    });
-                } else {
-                    transaction.update(pollRef, {
-                        [`votes.${optionId}`]: increment(1)
-                    });
-                }
-
-                // Record user's vote
-                transaction.set(userVoteRef, {
-                    odId: user.uid,
-                    episodeId,
-                    optionId,
-                    votedAt: new Date()
+            const { error } = await supabase
+                .from('poll_votes')
+                .insert({
+                    poll_id: episodeId,
+                    user_id: user.uid,
+                    option_index: optionIndex,
                 });
-            });
 
-            setHasVoted(true);
-            setSelectedOption(optionId);
-        } catch (error) {
-            if (error.message === 'Already voted') {
-                setHasVoted(true);
+            if (error) {
+                if (error.code === '23505') {
+                    // Unique constraint violation - already voted
+                    setHasVoted(true);
+                } else {
+                    throw error;
+                }
             } else {
-                console.error('Error voting:', error);
+                setHasVoted(true);
+                setSelectedOption(optionIndex);
             }
+        } catch (error) {
+            console.error('Error voting:', error);
         }
 
         setIsSubmitting(false);
-        setLoading(false);
     };
 
-    const getPercentage = (optionId) => {
+    const getPercentage = (optionIndex) => {
         if (totalVotes === 0) return 0;
-        return Math.round(((results[optionId] || 0) / totalVotes) * 100);
+        return Math.round(((results[optionIndex] || 0) / totalVotes) * 100);
     };
 
-    const getVoteCount = (optionId) => {
-        return results[optionId] || 0;
+    const getVoteCount = (optionIndex) => {
+        return results[optionIndex] || 0;
     };
 
     return (
@@ -165,36 +155,27 @@ export default function PollComponent({ episodeId, poll }) {
 
             {/* Options */}
             <div className="space-y-3">
-                {poll.options.map((option) => {
-                    const percentage = getPercentage(option.id);
-                    const voteCount = getVoteCount(option.id);
-                    const isSelected = selectedOption === option.id;
+                {poll.options.map((option, index) => {
+                    const percentage = getPercentage(index);
+                    const voteCount = getVoteCount(index);
+                    const isSelected = selectedOption === index;
 
                     return (
                         <button
-                            key={option.id}
-                            onClick={() => handleVote(option.id)}
+                            key={index}
+                            onClick={() => handleVote(index)}
                             disabled={hasVoted || !user || isSubmitting}
                             className={`
                                 relative w-full text-left p-4 rounded-xl border transition-all overflow-hidden
-                                ${hasVoted
-                                    ? 'cursor-default'
-                                    : 'cursor-pointer hover:border-[#007BFF]/50 hover:bg-[#007BFF]/5'
-                                }
-                                ${isSelected
-                                    ? 'border-[#007BFF] bg-[#007BFF]/10'
-                                    : 'border-gray-200 dark:border-[#333] bg-white dark:bg-[#111]'
-                                }
+                                ${hasVoted ? 'cursor-default' : 'cursor-pointer hover:border-[#007BFF]/50 hover:bg-[#007BFF]/5'}
+                                ${isSelected ? 'border-[#007BFF] bg-[#007BFF]/10' : 'border-gray-200 dark:border-[#333] bg-white dark:bg-[#111]'}
                                 ${!user ? 'opacity-70' : ''}
                             `}
                         >
                             {/* Progress Bar Background */}
                             {hasVoted && (
                                 <div
-                                    className={`absolute inset-0 transition-all duration-500 ${isSelected
-                                        ? 'bg-[#007BFF]/20'
-                                        : 'bg-gray-100 dark:bg-[#222]'
-                                        }`}
+                                    className={`absolute inset-0 transition-all duration-500 ${isSelected ? 'bg-[#007BFF]/20' : 'bg-gray-100 dark:bg-[#222]'}`}
                                     style={{ width: `${percentage}%` }}
                                 />
                             )}
@@ -202,30 +183,22 @@ export default function PollComponent({ episodeId, poll }) {
                             {/* Content */}
                             <div className="relative flex items-center justify-between gap-4">
                                 <div className="flex items-center gap-3">
-                                    {/* Check mark for selected */}
                                     {isSelected && hasVoted && (
                                         <div className="w-5 h-5 bg-[#007BFF] rounded-full flex items-center justify-center flex-shrink-0">
                                             <Check size={12} className="text-white" />
                                         </div>
                                     )}
-                                    <span className={`font-minimal ${isSelected
-                                        ? 'font-bold text-[#007BFF]'
-                                        : 'text-black dark:text-white'
-                                        }`}>
+                                    <span className={`font-minimal ${isSelected ? 'font-bold text-[#007BFF]' : 'text-black dark:text-white'}`}>
                                         {option.text}
                                     </span>
                                 </div>
 
-                                {/* Results */}
                                 {hasVoted && (
                                     <div className="flex items-center gap-2 text-sm">
-                                        <span className={`font-bold ${isSelected ? 'text-[#007BFF]' : 'text-gray-600 dark:text-[#A0A0A0]'
-                                            }`}>
+                                        <span className={`font-bold ${isSelected ? 'text-[#007BFF]' : 'text-gray-600 dark:text-[#A0A0A0]'}`}>
                                             {percentage}%
                                         </span>
-                                        <span className="text-gray-400 text-xs">
-                                            ({voteCount})
-                                        </span>
+                                        <span className="text-gray-400 text-xs">({voteCount})</span>
                                     </div>
                                 )}
                             </div>

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { db } from '../firebase';
-import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
+import { supabase } from '../supabase';
 import { client } from '../sanity';
 import {
     Shield,
@@ -39,26 +38,39 @@ export default function AdminPage() {
         const fetchStats = async () => {
             setLoading(true);
             try {
+                if (!supabase) {
+                    console.error('Supabase not available');
+                    return;
+                }
+
                 // Fetch total users
-                const usersSnapshot = await getDocs(collection(db, 'users'));
-                const totalUsers = usersSnapshot.size;
+                const { count: totalUsers } = await supabase
+                    .from('users')
+                    .select('*', { count: 'exact', head: true });
 
                 // Fetch total comments
-                const commentsSnapshot = await getDocs(collection(db, 'comments'));
-                const totalComments = commentsSnapshot.size;
+                const { count: totalComments } = await supabase
+                    .from('comments')
+                    .select('*', { count: 'exact', head: true });
 
                 // Fetch recent comments
-                const recentCommentsQuery = query(
-                    collection(db, 'comments'),
-                    orderBy('timestamp', 'desc'),
-                    limit(5)
-                );
-                const recentCommentsSnapshot = await getDocs(recentCommentsQuery);
-                const commentsData = recentCommentsSnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-                setRecentComments(commentsData);
+                const { data: commentsData } = await supabase
+                    .from('comments')
+                    .select(`
+                        id,
+                        content,
+                        created_at,
+                        users (display_name)
+                    `)
+                    .order('created_at', { ascending: false })
+                    .limit(5);
+
+                setRecentComments((commentsData || []).map(c => ({
+                    id: c.id,
+                    text: c.content,
+                    userName: c.users?.display_name || 'Anônimo',
+                    timestamp: { toDate: () => new Date(c.created_at) }
+                })));
 
                 // Fetch episodes from Sanity
                 const episodesQuery = `*[_type == "episode"] | order(date desc) {
@@ -70,8 +82,8 @@ export default function AdminPage() {
                 const episodes = await client.fetch(episodesQuery);
 
                 setStats({
-                    totalUsers,
-                    totalComments,
+                    totalUsers: totalUsers || 0,
+                    totalComments: totalComments || 0,
                     totalEpisodes: episodes.length
                 });
                 setRecentEpisodes(episodes.slice(0, 5));

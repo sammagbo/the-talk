@@ -1,38 +1,31 @@
 /**
- * Playback History - Tracks listening progress for episodes
+ * Playback History - Tracks listening progress for episodes (Supabase Version)
  */
 
-import { doc, getDoc, setDoc, collection, query, where, orderBy, limit, getDocs, serverTimestamp } from 'firebase/firestore';
-import { db } from '../firebase';
+import { supabase } from '../supabase';
 
 /**
- * Save playback progress to Firestore
- * @param {string} userId - Firebase user ID
- * @param {object} episode - Episode object with id, title, src, category
- * @param {number} currentTime - Current playback position in seconds
- * @param {number} duration - Total episode duration in seconds
+ * Save playback progress to Supabase
  */
 export const savePlaybackProgress = async (userId, episode, currentTime, duration) => {
-    if (!userId || !episode?.id || !db) return;
+    if (!userId || !episode?.id || !supabase) return;
 
     try {
-        const historyRef = doc(db, 'listening_history', `${userId}_${episode.id}`);
-
         const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
-        const isCompleted = progressPercent >= 95; // Consider complete at 95%
+        const isCompleted = progressPercent >= 95;
 
-        await setDoc(historyRef, {
-            userId: userId,
-            episodeId: episode.id,
-            episodeTitle: episode.title,
-            episodeImage: episode.src || episode.fullSrc || null,
-            episodeCategory: episode.category || 'Épisodes',
-            currentTime: currentTime,
-            duration: duration,
-            progressPercent: progressPercent,
-            isCompleted: isCompleted,
-            lastPlayedAt: serverTimestamp()
-        }, { merge: true });
+        await supabase
+            .from('playback_history')
+            .upsert({
+                user_id: userId,
+                episode_id: episode.id,
+                progress_seconds: Math.floor(currentTime),
+                duration_seconds: Math.floor(duration),
+                completed: isCompleted,
+                last_played_at: new Date().toISOString(),
+            }, {
+                onConflict: 'user_id,episode_id',
+            });
 
     } catch (error) {
         console.error('Error saving playback progress:', error);
@@ -41,30 +34,31 @@ export const savePlaybackProgress = async (userId, episode, currentTime, duratio
 
 /**
  * Get the most recent unfinished episode for a user
- * @param {string} userId - Firebase user ID
- * @returns {Promise<object|null>} - Most recent unfinished episode or null
  */
 export const getContinueListening = async (userId) => {
-    if (!userId || !db) return null;
+    if (!userId || !supabase) return null;
 
     try {
-        const historyRef = collection(db, 'listening_history');
-        const q = query(
-            historyRef,
-            where('userId', '==', userId),
-            where('isCompleted', '==', false),
-            orderBy('lastPlayedAt', 'desc'),
-            limit(1)
-        );
+        const { data, error } = await supabase
+            .from('playback_history')
+            .select('*')
+            .eq('user_id', userId)
+            .eq('completed', false)
+            .order('last_played_at', { ascending: false })
+            .limit(1)
+            .single();
 
-        const snapshot = await getDocs(q);
+        if (error || !data) return null;
 
-        if (snapshot.empty) return null;
-
-        const doc = snapshot.docs[0];
         return {
-            id: doc.id,
-            ...doc.data()
+            id: data.id,
+            episodeId: data.episode_id,
+            currentTime: data.progress_seconds,
+            duration: data.duration_seconds,
+            progressPercent: data.duration_seconds > 0
+                ? (data.progress_seconds / data.duration_seconds) * 100
+                : 0,
+            lastPlayedAt: data.last_played_at,
         };
     } catch (error) {
         console.error('Error fetching continue listening:', error);
@@ -73,28 +67,31 @@ export const getContinueListening = async (userId) => {
 };
 
 /**
- * Get listening history for a user (multiple episodes)
- * @param {string} userId - Firebase user ID
- * @param {number} maxItems - Maximum number of items to return
- * @returns {Promise<object[]>} - Array of listening history entries
+ * Get listening history for a user
  */
 export const getListeningHistory = async (userId, maxItems = 5) => {
-    if (!userId || !db) return [];
+    if (!userId || !supabase) return [];
 
     try {
-        const historyRef = collection(db, 'listening_history');
-        const q = query(
-            historyRef,
-            where('userId', '==', userId),
-            orderBy('lastPlayedAt', 'desc'),
-            limit(maxItems)
-        );
+        const { data, error } = await supabase
+            .from('playback_history')
+            .select('*')
+            .eq('user_id', userId)
+            .order('last_played_at', { ascending: false })
+            .limit(maxItems);
 
-        const snapshot = await getDocs(q);
+        if (error) throw error;
 
-        return snapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
+        return (data || []).map(item => ({
+            id: item.id,
+            episodeId: item.episode_id,
+            currentTime: item.progress_seconds,
+            duration: item.duration_seconds,
+            progressPercent: item.duration_seconds > 0
+                ? (item.progress_seconds / item.duration_seconds) * 100
+                : 0,
+            isCompleted: item.completed,
+            lastPlayedAt: item.last_played_at,
         }));
     } catch (error) {
         console.error('Error fetching listening history:', error);
@@ -104,24 +101,21 @@ export const getListeningHistory = async (userId, maxItems = 5) => {
 
 /**
  * Get saved playback position for an episode
- * @param {string} userId - Firebase user ID
- * @param {string} episodeId - Episode ID
- * @returns {Promise<number>} - Saved position in seconds, or 0
  */
 export const getSavedPosition = async (userId, episodeId) => {
-    if (!userId || !episodeId || !db) return 0;
+    if (!userId || !episodeId || !supabase) return 0;
 
     try {
-        const historyRef = doc(db, 'listening_history', `${userId}_${episodeId}`);
-        const docSnap = await getDoc(historyRef);
+        const { data, error } = await supabase
+            .from('playback_history')
+            .select('progress_seconds, completed')
+            .eq('user_id', userId)
+            .eq('episode_id', episodeId)
+            .single();
 
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-            // Don't resume if already completed
-            if (data.isCompleted) return 0;
-            return data.currentTime || 0;
-        }
-        return 0;
+        if (error || !data) return 0;
+        if (data.completed) return 0; // Don't resume if completed
+        return data.progress_seconds || 0;
     } catch (error) {
         console.error('Error getting saved position:', error);
         return 0;
@@ -130,19 +124,16 @@ export const getSavedPosition = async (userId, episodeId) => {
 
 /**
  * Mark an episode as completed
- * @param {string} userId - Firebase user ID
- * @param {string} episodeId - Episode ID
  */
 export const markAsCompleted = async (userId, episodeId) => {
-    if (!userId || !episodeId || !db) return;
+    if (!userId || !episodeId || !supabase) return;
 
     try {
-        const historyRef = doc(db, 'listening_history', `${userId}_${episodeId}`);
-        await setDoc(historyRef, {
-            isCompleted: true,
-            progressPercent: 100,
-            completedAt: serverTimestamp()
-        }, { merge: true });
+        await supabase
+            .from('playback_history')
+            .update({ completed: true })
+            .eq('user_id', userId)
+            .eq('episode_id', episodeId);
     } catch (error) {
         console.error('Error marking as completed:', error);
     }

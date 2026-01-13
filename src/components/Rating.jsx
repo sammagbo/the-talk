@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Star, StarHalf } from 'lucide-react';
-import { db } from '../firebase';
-import { collection, doc, setDoc, onSnapshot, query, where, serverTimestamp } from 'firebase/firestore';
+import { Star } from 'lucide-react';
+import { supabase } from '../supabase';
 
 export default function Rating({ episodeId, user }) {
     const [rating, setRating] = useState(0);
@@ -9,46 +8,77 @@ export default function Rating({ episodeId, user }) {
     const [average, setAverage] = useState(0);
     const [count, setCount] = useState(0);
 
-
     // Fetch ratings and calculate average
-    useEffect(() => {
-        if (!episodeId) return;
+    const fetchRatings = async () => {
+        if (!episodeId || !supabase) return;
 
-        const q = query(collection(db, 'ratings'), where('episodeId', '==', episodeId));
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-            const ratings = snapshot.docs.map(doc => doc.data().value);
-            if (ratings.length > 0) {
-                const sum = ratings.reduce((a, b) => a + b, 0);
-                setAverage(sum / ratings.length);
-                setCount(ratings.length);
+        const { data, error } = await supabase
+            .from('ratings')
+            .select('rating')
+            .eq('episode_id', episodeId);
+
+        if (!error && data) {
+            if (data.length > 0) {
+                const sum = data.reduce((a, b) => a + b.rating, 0);
+                setAverage(sum / data.length);
+                setCount(data.length);
             } else {
                 setAverage(0);
                 setCount(0);
             }
-        });
+        }
+    };
 
-        return () => unsubscribe();
+    useEffect(() => {
+        if (!episodeId || !supabase) return;
+
+        fetchRatings();
+
+        // Subscribe to real-time changes
+        const channel = supabase
+            .channel(`ratings-${episodeId}`)
+            .on(
+                'postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
+                    table: 'ratings',
+                    filter: `episode_id=eq.${episodeId}`,
+                },
+                () => {
+                    fetchRatings();
+                }
+            )
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
     }, [episodeId]);
 
     // Check for existing user rating
     useEffect(() => {
-        if (!user || !episodeId) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
+        if (!user || !episodeId || !supabase) {
             setRating(0);
             return;
         }
 
-        // We use a composite ID for the document to easily find/update user's rating
-        const docId = `${episodeId}_${user.uid}`;
-        const unsubscribe = onSnapshot(doc(db, 'ratings', docId), (doc) => {
-            if (doc.exists()) {
-                setRating(doc.data().value);
+        const fetchUserRating = async () => {
+            const { data, error } = await supabase
+                .from('ratings')
+                .select('rating')
+                .eq('episode_id', episodeId)
+                .eq('user_id', user.uid)
+                .single();
+
+            if (!error && data) {
+                setRating(data.rating);
             } else {
                 setRating(0);
             }
-        });
+        };
 
-        return () => unsubscribe();
+        fetchUserRating();
     }, [user, episodeId]);
 
     const handleRate = async (value) => {
@@ -56,15 +86,21 @@ export default function Rating({ episodeId, user }) {
             alert("Veuillez vous connecter pour noter cet épisode.");
             return;
         }
+        if (!supabase) return;
 
-        const docId = `${episodeId}_${user.uid}`;
         try {
-            await setDoc(doc(db, 'ratings', docId), {
-                episodeId,
-                userId: user.uid,
-                value,
-                updatedAt: serverTimestamp()
-            });
+            const { error } = await supabase
+                .from('ratings')
+                .upsert({
+                    user_id: user.uid,
+                    episode_id: episodeId,
+                    rating: value,
+                }, {
+                    onConflict: 'user_id,episode_id',
+                });
+
+            if (error) throw error;
+            setRating(value);
         } catch (error) {
             console.error("Error saving rating:", error);
         }

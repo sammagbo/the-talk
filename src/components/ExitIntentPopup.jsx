@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Mail, Sparkles, Send } from 'lucide-react';
-import { db } from '../firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { supabase } from '../supabase';
 
 export default function ExitIntentPopup() {
     const [isVisible, setIsVisible] = useState(false);
@@ -65,13 +64,14 @@ export default function ExitIntentPopup() {
 
             const promises = [];
 
-            // Save to Firebase if available
-            if (db) {
-                const savePromise = addDoc(collection(db, 'leads'), {
-                    email: email,
-                    source: 'exit_intent',
-                    timestamp: serverTimestamp()
-                });
+            // Save to Supabase if available
+            if (supabase) {
+                const savePromise = supabase
+                    .from('newsletter_subscribers')
+                    .insert({
+                        email: email.trim(),
+                        source: 'exit_intent',
+                    });
                 promises.push(savePromise);
             }
 

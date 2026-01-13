@@ -80,11 +80,10 @@ const BlogPage = lazy(() => import('./pages/BlogPage'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 import { useAuth } from './context/AuthContext';
-import { db } from './firebase';
+import { supabase } from './supabase';
 import SponsorBanner from './components/SponsorBanner';
 import ExitIntentPopup from './components/ExitIntentPopup';
 import OfflineAlert from './components/OfflineAlert';
-import { doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { client, urlFor } from './sanity';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { checkAchievements, initializeUserStats, getBadgeById } from './utils/badges';
@@ -100,24 +99,47 @@ export default function App() {
   const [newBadge, setNewBadge] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Firestore Favorites Logic
+  // Supabase Favorites Logic
   useEffect(() => {
-    if (user) {
-      const userRef = doc(db, 'users', user.uid);
-      const unsubscribe = onSnapshot(userRef, (docSnap) => {
-        if (docSnap.exists()) {
-          setFavorites(docSnap.data().favorites || []);
-        } else {
-          // Initialize user doc if it doesn't exist
-          setDoc(userRef, { favorites: [] });
-          setFavorites([]);
-        }
-      });
-      return unsubscribe;
-    } else {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (!user || !supabase) {
       setFavorites([]);
+      return;
     }
+
+    // Fetch initial favorites
+    const fetchFavorites = async () => {
+      const { data, error } = await supabase
+        .from('favorites')
+        .select('episode_id')
+        .eq('user_id', user.uid);
+
+      if (!error && data) {
+        setFavorites(data.map(f => f.episode_id));
+      }
+    };
+
+    fetchFavorites();
+
+    // Subscribe to real-time changes
+    const channel = supabase
+      .channel('favorites-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'favorites',
+          filter: `user_id=eq.${user.uid}`,
+        },
+        () => {
+          fetchFavorites();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [user]);
 
   const toggleFavorite = async (episodeId) => {
@@ -125,22 +147,31 @@ export default function App() {
       alert("Please login to save favorites.");
       return;
     }
-    const userRef = doc(db, 'users', user.uid);
+    if (!supabase) {
+      console.warn('Supabase not available');
+      return;
+    }
+
     try {
       if (favorites.includes(episodeId)) {
-        await updateDoc(userRef, {
-          favorites: arrayRemove(episodeId)
-        });
-        // Check achievements for unlike
+        // Remove favorite
+        await supabase
+          .from('favorites')
+          .delete()
+          .eq('user_id', user.uid)
+          .eq('episode_id', episodeId);
+
+        setFavorites(prev => prev.filter(id => id !== episodeId));
         checkAchievements(user.uid, 'unlike');
       } else {
-        await updateDoc(userRef, {
-          favorites: arrayUnion(episodeId)
-        });
-        // Check achievements for like
+        // Add favorite
+        await supabase
+          .from('favorites')
+          .insert({ user_id: user.uid, episode_id: episodeId });
+
+        setFavorites(prev => [...prev, episodeId]);
         const newBadges = await checkAchievements(user.uid, 'like');
         if (newBadges.length > 0) {
-          // Show notification for first new badge
           const badge = getBadgeById(newBadges[0]);
           if (badge) setNewBadge(badge);
         }

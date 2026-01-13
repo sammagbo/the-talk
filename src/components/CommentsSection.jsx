@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebase';
-import { collection, addDoc, query, where, onSnapshot, orderBy, serverTimestamp, deleteDoc, doc } from 'firebase/firestore';
+import { supabase } from '../supabase';
 import { Send, Trash2, User } from 'lucide-react';
 import { checkAchievements } from '../utils/badges';
 import { useTranslation } from 'react-i18next';
@@ -11,46 +10,83 @@ export default function CommentsSection({ episodeId, user }) {
     const [newComment, setNewComment] = useState('');
     const [loading, setLoading] = useState(true);
 
+    const fetchComments = async () => {
+        if (!episodeId || !supabase) return;
+
+        const { data, error } = await supabase
+            .from('comments')
+            .select(`
+                id,
+                content,
+                created_at,
+                user_id,
+                users (
+                    display_name,
+                    photo_url
+                )
+            `)
+            .eq('episode_id', episodeId)
+            .order('created_at', { ascending: false });
+
+        if (!error && data) {
+            setComments(data.map(c => ({
+                id: c.id,
+                text: c.content,
+                userId: c.user_id,
+                userName: c.users?.display_name || 'Anonyme',
+                userPhoto: c.users?.photo_url,
+                createdAt: c.created_at,
+            })));
+        }
+        setLoading(false);
+    };
+
     useEffect(() => {
-        if (!episodeId) return;
-
-        const q = query(
-            collection(db, 'comments'),
-            where('episodeId', '==', episodeId),
-            orderBy('createdAt', 'desc')
-        );
-
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-            const commentsData = snapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            }));
-            setComments(commentsData);
+        if (!episodeId || !supabase) {
             setLoading(false);
-        }, (error) => {
-            console.error("Error fetching comments:", error);
-            setLoading(false);
-        });
+            return;
+        }
 
-        return () => unsubscribe();
+        fetchComments();
+
+        // Subscribe to real-time changes
+        const channel = supabase
+            .channel(`comments-${episodeId}`)
+            .on(
+                'postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
+                    table: 'comments',
+                    filter: `episode_id=eq.${episodeId}`,
+                },
+                () => {
+                    fetchComments();
+                }
+            )
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
     }, [episodeId]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!newComment.trim() || !user) return;
+        if (!newComment.trim() || !user || !supabase) return;
 
         try {
-            await addDoc(collection(db, 'comments'), {
-                text: newComment,
-                episodeId,
-                userId: user.uid,
-                userName: user.displayName || 'Anonyme',
-                userPhoto: user.photoURL,
-                createdAt: serverTimestamp()
-            });
-            setNewComment('');
+            const { error } = await supabase
+                .from('comments')
+                .insert({
+                    content: newComment,
+                    episode_id: episodeId,
+                    user_id: user.uid,
+                });
 
-            // Check achievements for commenting
+            if (error) throw error;
+
+            setNewComment('');
             checkAchievements(user.uid, 'comment');
         } catch (error) {
             console.error("Error adding comment:", error);
@@ -58,8 +94,15 @@ export default function CommentsSection({ episodeId, user }) {
     };
 
     const handleDelete = async (commentId) => {
+        if (!supabase) return;
+
         try {
-            await deleteDoc(doc(db, 'comments', commentId));
+            const { error } = await supabase
+                .from('comments')
+                .delete()
+                .eq('id', commentId);
+
+            if (error) throw error;
         } catch (error) {
             console.error("Error deleting comment:", error);
         }
@@ -129,8 +172,7 @@ export default function CommentsSection({ episodeId, user }) {
                                     </h4>
                                     {comment.createdAt && (
                                         <span className="text-xs text-gray-400 dark:text-[#555]">
-                                            {/* Simple relative time or date formatting could go here */}
-                                            {new Date(comment.createdAt?.toDate()).toLocaleDateString()}
+                                            {new Date(comment.createdAt).toLocaleDateString()}
                                         </span>
                                     )}
                                 </div>

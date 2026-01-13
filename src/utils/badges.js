@@ -1,11 +1,10 @@
 /**
- * Gamification System - Badges & Achievements
+ * Gamification System - Badges & Achievements (Supabase Version)
  * 
  * This module defines all badges and the logic to check/award achievements
  */
 
-import { doc, getDoc, updateDoc, arrayUnion, setDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../firebase';
+import { supabase } from '../supabase';
 
 // Badge Definitions
 export const BADGES = {
@@ -96,14 +95,6 @@ export const BADGES = {
     },
 
     // Special Achievements
-    EARLY_ADOPTER: {
-        id: 'early_adopter',
-        name: 'Early Adopter',
-        description: 'Joined during the first month',
-        icon: 'Rocket',
-        color: 'bg-indigo-500',
-        criteria: { special: 'early_adopter' }
-    },
     NIGHT_OWL: {
         id: 'night_owl',
         name: 'Night Owl',
@@ -119,14 +110,6 @@ export const BADGES = {
         icon: 'Zap',
         color: 'bg-yellow-400',
         criteria: { loginStreak: 7 }
-    },
-    PROFILE_COMPLETE: {
-        id: 'profile_complete',
-        name: 'Profile Complete',
-        description: 'Set up your complete profile',
-        icon: 'UserCheck',
-        color: 'bg-emerald-500',
-        criteria: { special: 'profile_complete' }
     },
     EXPLORER: {
         id: 'explorer',
@@ -156,68 +139,66 @@ export const getBadgeById = (id) => {
 
 /**
  * Check and award achievements based on user stats
- * @param {string} userId - Firebase user ID
- * @param {string} action - The action that triggered the check ('listen', 'comment', 'like')
+ * @param {string} userId - User ID
+ * @param {string} action - The action that triggered the check
  * @param {object} metadata - Additional data about the action
  * @returns {Promise<string[]>} - Array of newly awarded badge IDs
  */
 export const checkAchievements = async (userId, action, metadata = {}) => {
-    if (!userId || !db) return [];
+    if (!userId || !supabase) return [];
 
     try {
-        const userRef = doc(db, 'users', userId);
-        const userSnap = await getDoc(userRef);
+        // Get or create user stats
+        let { data: stats, error } = await supabase
+            .from('user_stats')
+            .select('*')
+            .eq('user_id', userId)
+            .single();
 
-        if (!userSnap.exists()) {
-            // Initialize user document if it doesn't exist
-            await setDoc(userRef, {
-                badges: [],
-                stats: {
-                    episodesListened: 0,
-                    commentsPosted: 0,
-                    episodesLiked: 0,
-                    categoriesExplored: [],
-                    loginStreak: 0,
-                    lastLoginDate: null
-                },
-                createdAt: serverTimestamp()
-            });
-            return [];
+        if (error && error.code === 'PGRST116') {
+            // Stats don't exist, create them
+            const { data: newStats, error: createError } = await supabase
+                .from('user_stats')
+                .insert({ user_id: userId })
+                .select()
+                .single();
+
+            if (createError) throw createError;
+            stats = newStats;
+        } else if (error) {
+            throw error;
         }
 
-        const userData = userSnap.data();
-        const currentBadges = userData.badges || [];
-        const stats = userData.stats || {
-            episodesListened: 0,
-            commentsPosted: 0,
-            episodesLiked: 0,
-            categoriesExplored: [],
-            loginStreak: 0
-        };
+        // Get current user badges
+        const { data: userData } = await supabase
+            .from('users')
+            .select('badges')
+            .eq('id', userId)
+            .single();
+
+        const currentBadges = userData?.badges || [];
 
         // Update stats based on action
         let updatedStats = { ...stats };
 
         switch (action) {
             case 'listen':
-                updatedStats.episodesListened = (stats.episodesListened || 0) + 1;
-                if (metadata.category && !stats.categoriesExplored?.includes(metadata.category)) {
-                    updatedStats.categoriesExplored = [...(stats.categoriesExplored || []), metadata.category];
-                }
-                // Check for night owl
-                const hour = new Date().getHours();
-                if (hour >= 0 && hour < 5) {
-                    updatedStats.isNightOwl = true;
+                updatedStats.total_listens = (stats.total_listens || 0) + 1;
+                if (metadata.category) {
+                    const categories = stats.categories_explored || [];
+                    if (!categories.includes(metadata.category)) {
+                        updatedStats.categories_explored = [...categories, metadata.category];
+                    }
                 }
                 break;
             case 'comment':
-                updatedStats.commentsPosted = (stats.commentsPosted || 0) + 1;
+                updatedStats.total_comments = (stats.total_comments || 0) + 1;
                 break;
             case 'like':
-                updatedStats.episodesLiked = (stats.episodesLiked || 0) + 1;
+                updatedStats.total_likes = (stats.total_likes || 0) + 1;
                 break;
             case 'unlike':
-                updatedStats.episodesLiked = Math.max(0, (stats.episodesLiked || 1) - 1);
+                updatedStats.total_likes = Math.max(0, (stats.total_likes || 1) - 1);
                 break;
             default:
                 break;
@@ -227,25 +208,20 @@ export const checkAchievements = async (userId, action, metadata = {}) => {
         const newBadges = [];
 
         for (const badge of Object.values(BADGES)) {
-            // Skip if already earned
             if (currentBadges.includes(badge.id)) continue;
 
             let shouldAward = false;
 
-            // Check criteria
-            if (badge.criteria.episodesListened && updatedStats.episodesListened >= badge.criteria.episodesListened) {
+            if (badge.criteria.episodesListened && updatedStats.total_listens >= badge.criteria.episodesListened) {
                 shouldAward = true;
             }
-            if (badge.criteria.commentsPosted && updatedStats.commentsPosted >= badge.criteria.commentsPosted) {
+            if (badge.criteria.commentsPosted && updatedStats.total_comments >= badge.criteria.commentsPosted) {
                 shouldAward = true;
             }
-            if (badge.criteria.episodesLiked && updatedStats.episodesLiked >= badge.criteria.episodesLiked) {
+            if (badge.criteria.episodesLiked && updatedStats.total_likes >= badge.criteria.episodesLiked) {
                 shouldAward = true;
             }
-            if (badge.criteria.categoriesExplored && updatedStats.categoriesExplored?.length >= badge.criteria.categoriesExplored) {
-                shouldAward = true;
-            }
-            if (badge.criteria.special === 'night_owl' && updatedStats.isNightOwl) {
+            if (badge.criteria.categoriesExplored && (updatedStats.categories_explored?.length || 0) >= badge.criteria.categoriesExplored) {
                 shouldAward = true;
             }
             if (badge.criteria.badgesEarned && (currentBadges.length + newBadges.length) >= badge.criteria.badgesEarned) {
@@ -257,16 +233,25 @@ export const checkAchievements = async (userId, action, metadata = {}) => {
             }
         }
 
-        // Update user document with new stats and badges
-        const updateData = {
-            stats: updatedStats
-        };
+        // Update stats
+        await supabase
+            .from('user_stats')
+            .update({
+                total_listens: updatedStats.total_listens,
+                total_likes: updatedStats.total_likes,
+                total_comments: updatedStats.total_comments,
+                categories_explored: updatedStats.categories_explored,
+                updated_at: new Date().toISOString(),
+            })
+            .eq('user_id', userId);
 
+        // Update badges if new ones earned
         if (newBadges.length > 0) {
-            updateData.badges = arrayUnion(...newBadges);
+            await supabase
+                .from('users')
+                .update({ badges: [...currentBadges, ...newBadges] })
+                .eq('id', userId);
         }
-
-        await updateDoc(userRef, updateData);
 
         return newBadges;
     } catch (error) {
@@ -277,24 +262,19 @@ export const checkAchievements = async (userId, action, metadata = {}) => {
 
 /**
  * Get user's badges and stats
- * @param {string} userId - Firebase user ID
- * @returns {Promise<{badges: string[], stats: object}>}
  */
 export const getUserBadges = async (userId) => {
-    if (!userId || !db) return { badges: [], stats: {} };
+    if (!userId || !supabase) return { badges: [], stats: {} };
 
     try {
-        const userRef = doc(db, 'users', userId);
-        const userSnap = await getDoc(userRef);
+        const [{ data: userData }, { data: stats }] = await Promise.all([
+            supabase.from('users').select('badges').eq('id', userId).single(),
+            supabase.from('user_stats').select('*').eq('user_id', userId).single(),
+        ]);
 
-        if (!userSnap.exists()) {
-            return { badges: [], stats: {} };
-        }
-
-        const userData = userSnap.data();
         return {
-            badges: userData.badges || [],
-            stats: userData.stats || {}
+            badges: userData?.badges || [],
+            stats: stats || {}
         };
     } catch (error) {
         console.error('Error getting user badges:', error);
@@ -304,67 +284,20 @@ export const getUserBadges = async (userId) => {
 
 /**
  * Initialize user stats (call on first login)
- * @param {string} userId - Firebase user ID
- * @param {object} userData - User data from auth
  */
 export const initializeUserStats = async (userId, userData = {}) => {
-    if (!userId || !db) return;
+    if (!userId || !supabase) return;
 
     try {
-        const userRef = doc(db, 'users', userId);
-        const userSnap = await getDoc(userRef);
+        // Check if user stats exist
+        const { data: existing } = await supabase
+            .from('user_stats')
+            .select('user_id')
+            .eq('user_id', userId)
+            .single();
 
-        if (!userSnap.exists()) {
-            await setDoc(userRef, {
-                displayName: userData.displayName || null,
-                email: userData.email || null,
-                photoURL: userData.photoURL || null,
-                badges: [],
-                stats: {
-                    episodesListened: 0,
-                    commentsPosted: 0,
-                    episodesLiked: 0,
-                    categoriesExplored: [],
-                    loginStreak: 0,
-                    lastLoginDate: null
-                },
-                favorites: [],
-                isPublic: true,
-                createdAt: serverTimestamp()
-            });
-        } else {
-            // Update user info and check for login streak
-            const data = userSnap.data();
-            const today = new Date().toDateString();
-            const lastLogin = data.stats?.lastLoginDate;
-
-            let newStreak = data.stats?.loginStreak || 0;
-            if (lastLogin) {
-                const lastDate = new Date(lastLogin);
-                const yesterday = new Date();
-                yesterday.setDate(yesterday.getDate() - 1);
-
-                if (lastDate.toDateString() === yesterday.toDateString()) {
-                    newStreak += 1;
-                } else if (lastDate.toDateString() !== today) {
-                    newStreak = 1;
-                }
-            } else {
-                newStreak = 1;
-            }
-
-            await updateDoc(userRef, {
-                displayName: userData.displayName || data.displayName,
-                email: userData.email || data.email,
-                photoURL: userData.photoURL || data.photoURL,
-                'stats.loginStreak': newStreak,
-                'stats.lastLoginDate': today
-            });
-
-            // Check for streak badge
-            if (newStreak >= 7) {
-                await checkAchievements(userId, 'streak');
-            }
+        if (!existing) {
+            await supabase.from('user_stats').insert({ user_id: userId });
         }
     } catch (error) {
         console.error('Error initializing user stats:', error);
