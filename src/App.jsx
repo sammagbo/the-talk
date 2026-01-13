@@ -4,6 +4,7 @@ import Player from './components/Player';
 import { Loader2, AlertTriangle, RefreshCw, Home as HomeIcon } from 'lucide-react';
 import CustomCursor from './components/CustomCursor';
 import LoadingScreen from './components/LoadingScreen';
+import TransitionOverlay from './components/TransitionOverlay';
 
 // Error Boundary Component with elegant fallback UI
 class ErrorBoundary extends React.Component {
@@ -247,6 +248,9 @@ export default function App() {
 
       {/* Custom Cursor - Desktop only */}
       <CustomCursor />
+
+      {/* Page Transition Overlay */}
+      <TransitionOverlay />
 
       {/* Skip to main content link for accessibility */}
       <a
