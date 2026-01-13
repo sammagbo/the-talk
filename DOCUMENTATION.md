@@ -1,7 +1,7 @@
 # 📘 THE TALK - Documentação Completa
 
 > [!NOTE]
-> **Versão:** 1.10.3 | **Última Atualização:** 12 de Janeiro de 2026
+> **Versão:** 1.10.4 | **Última Atualização:** 12 de Janeiro de 2026
 
 | 🔗 Links Rápidos | |
 |------------------|--|
@@ -59,6 +59,7 @@
 | **Vite** | 7.2.4 | Build tool ultra-rápido |
 | **TailwindCSS** | 3.4.18 | Styling utility-first |
 | **Lucide React** | 0.555.0 | Ícones vetoriais leves |
+| **GSAP** | 3.x | Animações profissionais |
 
 ### 🛠️ Backend & Serviços
 
@@ -139,8 +140,9 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
 VITE_FIREBASE_VAPID_KEY=your_vapid_key
 
-# Integrações
-VITE_STRIPE_PUBLIC_KEY=your_stripe_key
+# Stripe (Pagamentos)
+# Obtenha em: https://dashboard.stripe.com/apikeys
+VITE_STRIPE_KEY=pk_test_your_publishable_key
 ```
 
 ### 🚀 Instalação & Execução
@@ -354,6 +356,14 @@ graph LR
 | `Skeleton.jsx` | 8 variantes de skeleton loaders |
 | `EmptyState.jsx` | 8 variantes de estados vazios |
 
+### 🎬 Animações GSAP
+
+| Componente | Descrição |
+|------------|-----------|
+| `CustomCursor.jsx` | Cursor animado (anel + ponto) com hover effects |
+| `MagneticButton.jsx` | Botões com efeito magnético (puxam ao cursor) |
+| `LoadingScreen.jsx` | Tela de loading com logo reveal e progress bar |
+
 ---
 
 ## 8. Hooks e Context
@@ -383,6 +393,22 @@ const {
 - Gerenciamento de permissões
 - FCM token management
 - Subscribe/unsubscribe
+
+### 🎬 useGSAP
+
+```jsx
+import { useGSAP, gsap, ScrollTrigger } from '../hooks/useGSAP';
+
+useGSAP(() => {
+    gsap.from('.element', { y: 50, opacity: 0, duration: 1 });
+}, []);
+```
+
+**Funcionalidades:**
+- Hook para integrar GSAP com React
+- Cleanup automático de animações
+- ScrollTrigger já registrado
+- Funções utilitárias: `fadeInUp`, `fadeInScale`, `scrollAnimation`, `parallax`
 
 ---
 
@@ -578,6 +604,23 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 ---
 
 ## 15. Changelog
+
+### 🎬 v1.10.4 (12/01/2026) - GSAP Animations
+
+> [!TIP]
+> Esta versão adiciona animações profissionais de "High Fashion" usando GSAP.
+
+**Novos Componentes:**
+- 🎯 **CustomCursor**: Cursor animado com anel + ponto que segue o mouse
+- 🧲 **MagneticButton**: Botões que puxam em direção ao cursor
+- 🎬 **LoadingScreen**: Tela de loading com logo reveal + progress bar
+
+**Animações:**
+- ✨ **Hero Timeline**: Animações sequenciais no título, subtítulo, CTAs e stats
+- 📜 **Scroll Trigger**: Seções aparecem suavemente ao entrar na viewport
+- 🏔️ **Parallax**: Efeito parallax no vídeo do About section
+
+---
 
 ### 🎬 v1.10.3 (12/01/2026) - Carousel Cross-fade
 

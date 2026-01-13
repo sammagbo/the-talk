@@ -12,6 +12,9 @@ import ContinueListening from '../components/ContinueListening';
 import Navbar from '../components/Navbar';
 import { client, urlFor } from '../sanity';
 import { handleBuy } from '../lib/stripe';
+import { useGSAP, gsap, ScrollTrigger } from '../hooks/useGSAP';
+import MagneticButton from '../components/MagneticButton';
+
 
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
 
@@ -92,6 +95,69 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
     const [selectedShort, setSelectedShort] = useState(null);
     const [hoveredShort, setHoveredShort] = useState(null);
     const videoRef = useRef(null);
+    const heroRef = useRef(null);
+
+    // GSAP Animations
+    useGSAP(() => {
+        // Hero section animations
+        const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+        heroTl
+            .from('.gsap-hero-badge', { y: -30, opacity: 0, duration: 0.8 })
+            .from('.gsap-hero-title', { y: 80, opacity: 0, duration: 1.2 }, '-=0.4')
+            .from('.gsap-hero-subtitle', { y: 40, opacity: 0, duration: 0.8 }, '-=0.6')
+            .from('.gsap-hero-description', { y: 30, opacity: 0, duration: 0.8 }, '-=0.5')
+            .from('.gsap-hero-ctas button', { y: 30, opacity: 0, duration: 0.6, stagger: 0.15 }, '-=0.4')
+            .from('.gsap-hero-stats > div', { y: 20, opacity: 0, duration: 0.5, stagger: 0.1 }, '-=0.3');
+
+        // Scroll-triggered section animations
+        const sections = gsap.utils.toArray('.gsap-section');
+        sections.forEach((section) => {
+            gsap.from(section, {
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse',
+                },
+            });
+        });
+
+        // Card stagger animations
+        gsap.utils.toArray('.gsap-cards').forEach((container) => {
+            gsap.from(container.querySelectorAll('.gsap-card'), {
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: container,
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse',
+                },
+            });
+        });
+
+        // Parallax effect for About section
+        gsap.utils.toArray('.gsap-parallax').forEach((element) => {
+            gsap.to(element, {
+                yPercent: -20,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: element,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1,
+                },
+            });
+        });
+
+    }, []);
+
 
     // Handle video end - Auto advance
     const handleVideoEnded = () => {
@@ -331,43 +397,43 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                     </div>
                 </div>
 
-                <div className="relative z-10 text-center px-4 animate-fade-in-up max-w-4xl mx-auto">
-                    <div className="mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#007BFF]/30 bg-[#007BFF]/10 backdrop-blur-sm">
+                <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+                    <div className="gsap-hero-badge mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#007BFF]/30 bg-[#007BFF]/10 backdrop-blur-sm">
                         <span className="w-2 h-2 rounded-full bg-[#007BFF] animate-pulse"></span>
                         <span className="text-xs font-minimal text-[#A9A9F5] tracking-widest uppercase">{t('hero.new_episode')}</span>
                     </div>
 
-                    <h1 className="text-6xl md:text-8xl font-creativo font-black mb-6 tracking-[0.08em] leading-tight uppercase">
+                    <h1 className="gsap-hero-title text-6xl md:text-8xl font-creativo font-black mb-6 tracking-[0.08em] leading-tight uppercase">
                         THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#007BFF] to-[#A9A9F5]">TALK</span>
                     </h1>
 
-                    <p className="text-xl md:text-2xl font-minimal text-gray-600 dark:text-[#6C757D] mb-4 max-w-2xl mx-auto font-light flex items-center justify-center gap-2">
+                    <p className="gsap-hero-subtitle text-xl md:text-2xl font-minimal text-gray-600 dark:text-[#6C757D] mb-4 max-w-2xl mx-auto font-light flex items-center justify-center gap-2">
                         A Podcast by <span className="font-editorial italic text-3xl text-black dark:text-white">Mijean Rochus</span>
                     </p>
 
-                    <p className="text-lg text-gray-800 dark:text-white/80 mb-10 max-w-xl mx-auto font-minimal leading-relaxed">
+                    <p className="gsap-hero-description text-lg text-gray-800 dark:text-white/80 mb-10 max-w-xl mx-auto font-minimal leading-relaxed">
                         {t('hero.description')}
                     </p>
 
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                        <button
+                    <div className="gsap-hero-ctas flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <MagneticButton
                             onClick={() => scrollToSection('galerie')}
                             className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider hover:shadow-[0_0_20px_rgba(0,123,255,0.4)] w-full sm:w-auto justify-center uppercase"
                         >
                             [ {t('hero.listen_now', 'ÉCOUTER')} ]
                             <ChevronRight className="w-4 h-4" />
-                        </button>
-                        <button
+                        </MagneticButton>
+                        <MagneticButton
                             onClick={() => setIsSubscribeOpen(true)}
                             className="bg-gradient-to-r from-[#A9A9F5] to-[#007BFF] hover:opacity-90 text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
                         >
                             <Mail className="w-4 h-4" />
                             [ {t('subscribe.button', "S'ABONNER")} ]
-                        </button>
+                        </MagneticButton>
                     </div>
 
                     {/* Quick Stats */}
-                    <div className="flex flex-wrap justify-center gap-8 mt-10 text-center">
+                    <div className="gsap-hero-stats flex flex-wrap justify-center gap-8 mt-10 text-center">
                         <div>
                             <p className="text-3xl font-creativo font-bold text-[#007BFF]">50+</p>
                             <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">{t('hero.episodes', 'Épisodes')}</p>
@@ -390,7 +456,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
             {/* Main Content - Skip Link Target */}
             <main id="main-content">
                 {/* VIDÉOS Section - Combined with Featured */}
-                <section id="videos" className="py-16 px-4 md:px-8 max-w-7xl mx-auto">
+                <section id="videos" className="gsap-section py-16 px-4 md:px-8 max-w-7xl mx-auto">
                     <div className="mb-8">
                         <div className="flex items-center gap-3 mb-4">
                             <Video className="w-8 h-8 text-[#007BFF]" />
@@ -484,7 +550,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                 </section>
                 {/* SHORTS Section */}
                 {shorts.length > 0 && (
-                    <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
+                    <section className="gsap-section py-20 px-4 md:px-8 max-w-7xl mx-auto">
                         <div className="mb-8">
                             <div className="flex items-center gap-3 mb-4">
                                 <Film className="w-8 h-8 text-[#FF0050]" />
@@ -594,7 +660,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                 )}
 
                 {/* ÉPISODES AUDIO Section */}
-                <section id="galerie" className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
+                <section id="galerie" className="gsap-section py-20 px-4 md:px-8 max-w-7xl mx-auto">
                     <div className="mb-12">
                         <div className="flex items-center gap-3 mb-4">
                             <Headphones className="w-8 h-8 text-[#A9A9F5]" />
@@ -693,7 +759,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
 
                 {/* Blog Preview Section */}
                 {blogPosts.length > 0 && (
-                    <section className="py-24 px-4 md:px-8 bg-gray-50 dark:bg-[#111]">
+                    <section className="gsap-section py-24 px-4 md:px-8 bg-gray-50 dark:bg-[#111]">
                         <div className="max-w-7xl mx-auto">
                             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
                                 <div>
@@ -757,12 +823,12 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                 )}
 
                 {/* About Section - Complete Biography */}
-                <section id="apropos" className="py-24 bg-white dark:bg-[#020202] border-t border-gray-200 dark:border-[#333]">
+                <section id="apropos" className="gsap-section py-24 bg-white dark:bg-[#020202] border-t border-gray-200 dark:border-[#333]">
 
                     <div className="container mx-auto px-6 max-w-6xl">
                         {/* Hero Section */}
                         <div className="flex flex-col md:flex-row items-center gap-16 mb-24">
-                            <div className="w-full md:w-1/2 relative">
+                            <div className="gsap-parallax w-full md:w-1/2 relative">
                                 <div className="absolute inset-0 bg-gradient-to-tr from-[#007BFF] to-[#A9A9F5] rounded-2xl transform rotate-3 blur-sm opacity-30"></div>
                                 <video
                                     autoPlay

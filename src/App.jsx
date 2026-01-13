@@ -2,6 +2,8 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Player from './components/Player';
 import { Loader2, AlertTriangle, RefreshCw, Home as HomeIcon } from 'lucide-react';
+import CustomCursor from './components/CustomCursor';
+import LoadingScreen from './components/LoadingScreen';
 
 // Error Boundary Component with elegant fallback UI
 class ErrorBoundary extends React.Component {
@@ -85,6 +87,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import { checkAchievements, initializeUserStats, getBadgeById } from './utils/badges';
 import { NewBadgeNotification } from './components/BadgesDisplay';
 
+
 export default function App() {
   const [items, setItems] = useState([]);
   const [currentEpisode, setCurrentEpisode] = useState(null);
@@ -92,6 +95,7 @@ export default function App() {
   const { user } = useAuth();
   const [favorites, setFavorites] = useState([]);
   const [newBadge, setNewBadge] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Firestore Favorites Logic
   useEffect(() => {
@@ -238,6 +242,12 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-black">
+      {/* Loading Screen */}
+      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+
+      {/* Custom Cursor - Desktop only */}
+      <CustomCursor />
+
       {/* Skip to main content link for accessibility */}
       <a
         href="#main-content"
