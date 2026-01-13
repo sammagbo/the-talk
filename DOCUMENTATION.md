@@ -1,9 +1,12 @@
-# THE TALK - Documentação Completa
+# 📘 THE TALK - Documentação Completa
 
-**Versão:** 1.10.2  
-**Última Atualização:** 12 de Janeiro de 2026  
-**Repositório:** [github.com/sammagbo/the-talk](https://github.com/sammagbo/the-talk)  
-**Deploy:** [the-talk.vercel.app](https://the-talk.vercel.app)
+> [!NOTE]
+> **Versão:** 1.10.3 | **Última Atualização:** 12 de Janeiro de 2026
+
+| 🔗 Links Rápidos | |
+|------------------|--|
+| **Repositório** | [github.com/sammagbo/the-talk](https://github.com/sammagbo/the-talk) |
+| **Deploy** | [the-talk-podcast.vercel.app](https://the-talk-podcast.vercel.app) |
 
 ---
 
@@ -23,80 +26,87 @@
 12. [SEO e Acessibilidade](#12-seo-e-acessibilidade)
 13. [Testes](#13-testes)
 14. [Deploy](#14-deploy)
+15. [Changelog](#15-changelog)
 
 ---
 
 ## 1. Visão Geral
 
-**THE TALK** é um website de podcast focado em moda e lifestyle, apresentado por Mijean Rochus. O site oferece:
+**THE TALK** é um website de podcast focado em moda e lifestyle, apresentado por **Mijean Rochus**. O site combina design "High Fashion" com tecnologia moderna.
 
-- 🎧 Player de áudio integrado com Spotify
-- 📺 Seção de vídeos (coulisses, interviews)
-- 📝 Blog com artigos
-- 🛒 Loja de produtos
-- 👤 Sistema de autenticação de usuários
-- 🔔 Notificações push
-- 🌐 Suporte multilíngue (FR, EN, PT, ES)
+### ✨ Principais Funcionalidades
+
+| Feature | Descrição |
+|---------|-----------|
+| 🎧 **Player Híbrido** | Áudio integrado com Spotify e vídeo do YouTube |
+| 📺 **Vídeo First** | Carrossel de vídeos no Hero + Shorts verticais |
+| 📝 **Blog Rico** | Artigos com formatação avançada via Portable Text |
+| 🛒 **Boutique** | Loja de produtos integrada com Stripe |
+| 👤 **Comunidade** | Sistema de autenticação, favoritos e comentários |
+| 🔔 **Engajamento** | Notificações push via Firebase Cloud Messaging |
+| 🌐 **Global** | Suporte completo a 4 idiomas (FR, EN, PT, ES) |
 
 ---
 
 ## 2. Stack Tecnológico
 
-### Frontend
+### 🎨 Frontend
+
 | Tecnologia | Versão | Uso |
 |------------|--------|-----|
-| React | 18.3.1 | UI Framework |
-| React Router | 7.10.1 | Roteamento SPA |
-| Vite | 7.2.4 | Build tool |
-| TailwindCSS | 3.4.18 | Styling |
-| Lucide React | 0.555.0 | Ícones |
+| **React** | 18.3.1 | UI Framework |
+| **React Router** | 7.10.1 | Roteamento SPA |
+| **Vite** | 7.2.4 | Build tool ultra-rápido |
+| **TailwindCSS** | 3.4.18 | Styling utility-first |
+| **Lucide React** | 0.555.0 | Ícones vetoriais leves |
 
-### Backend/Serviços
-| Serviço | Uso |
-|---------|-----|
-| Sanity.io | CMS para episódios e blog |
-| Firebase | Auth e Cloud Messaging |
-| Vercel | Hosting e Deploy |
-| Stripe | Pagamentos |
-| Sentry | Error tracking |
+### 🛠️ Backend & Serviços
 
-### DevDependencies
+| Serviço | Propósito |
+|---------|-----------|
+| **Sanity.io** | Headless CMS para gerenciamento de conteúdo (Episódios, Blog, Produtos) |
+| **Firebase** | Autenticação (Auth) e Push Notifications (Cloud Messaging) |
+| **Vercel** | Hospedagem, CI/CD e Serverless Functions |
+| **Stripe** | Processamento de pagamentos seguro |
+| **Sentry** | Monitoramento de erros e performance em tempo real |
+
+### 🧪 DevDependencies
+
 | Ferramenta | Uso |
 |------------|-----|
-| Vitest | Unit testing |
-| Cypress | E2E testing |
-| ESLint | Linting |
-| PWA Plugin | Service Worker |
+| **Vitest** | Unit testing |
+| **Cypress** | E2E testing |
+| **ESLint** | Linting |
+| **vite-plugin-pwa** | Service Worker & PWA |
 
 ---
 
 ## 3. Estrutura do Projeto
 
-```
+```tree
 the-talk/
-├── public/
+├── public/                 # Assets estáticos globais
+│   ├── videos/             # 🎥 Vídeos do carrossel (Carrousel.mp4)
 │   ├── favicon.png
-│   ├── logo.png
-│   └── apple-touch-icon.png
+│   └── logo.png
 ├── src/
-│   ├── assets/
-│   ├── components/        # 17 componentes
-│   ├── context/           # AuthContext
-│   ├── hooks/             # Custom hooks
-│   ├── lib/               # Utilities
-│   ├── locales/           # i18n (fr, en, pt, es)
-│   ├── pages/             # 7 páginas
-│   ├── utils/             # Helper functions
-│   ├── App.jsx            # Root component
-│   ├── main.jsx           # Entry point
-│   ├── firebase.js        # Firebase config
-│   ├── sanity.js          # Sanity client
-│   └── i18n.js            # i18n config
-├── studio/                # Sanity Studio
-├── cypress/               # E2E tests
-├── index.html             # Static fallback + SEO
-├── vite.config.js         # Build config
-├── tailwind.config.js     # Tailwind config
+│   ├── assets/             # Imagens e fontes locais
+│   ├── components/         # 🧩 19 Componentes reutilizáveis
+│   ├── context/            # 🔄 Estado global (AuthContext)
+│   ├── hooks/              # 🪝 Custom hooks (usePushNotifications)
+│   ├── lib/                # Configurações de libs (Stripe)
+│   ├── locales/            # 🌍 Arquivos de tradução i18n (4 idiomas)
+│   ├── pages/              # 📄 7 Páginas da aplicação
+│   ├── utils/              # Funções utilitárias
+│   ├── App.jsx             # Componente Raiz
+│   ├── main.jsx            # Entry point
+│   ├── firebase.js         # Firebase config
+│   ├── sanity.js           # Sanity client
+│   └── i18n.js             # i18n config
+├── studio/                 # 🏗️ Sanity Studio (CMS Config)
+├── cypress/                # 🧪 Testes E2E
+├── index.html              # Static fallback + SEO
+├── vite.config.js          # Build config
 └── package.json
 ```
 
@@ -104,21 +114,24 @@ the-talk/
 
 ## 4. Configuração e Instalação
 
-### 4.1 Pré-requisitos
+### ⚠️ Pré-requisitos
 
 - Node.js 18+
 - npm ou yarn
 - Conta Sanity.io
 - Projeto Firebase
 
-### 4.2 Variáveis de Ambiente
+### 🔑 Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz:
 
 ```env
-# .env
+# Sanity
 VITE_SANITY_PROJECT_ID=your_project_id
 VITE_SANITY_DATASET=production
 VITE_SANITY_API_VERSION=2024-01-01
 
+# Firebase
 VITE_FIREBASE_API_KEY=your_api_key
 VITE_FIREBASE_AUTH_DOMAIN=your_domain
 VITE_FIREBASE_PROJECT_ID=your_project
@@ -126,28 +139,29 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
 VITE_FIREBASE_VAPID_KEY=your_vapid_key
 
-VITE_GEMINI_API_KEY=your_gemini_key
+# Integrações
 VITE_STRIPE_PUBLIC_KEY=your_stripe_key
 ```
 
-### 4.3 Instalação
+### 🚀 Instalação & Execução
 
 ```bash
-# Clone o repositório
+# 1. Clone o repositório
 git clone https://github.com/sammagbo/the-talk.git
 cd the-talk
 
-# Instale dependências
+# 2. Instale dependências
 npm install
 
-# Inicie o servidor de desenvolvimento
+# 3. Inicie o servidor local
 npm run dev
-
-# Build para produção
-npm run build
+# Acessível em: http://localhost:5173
 ```
 
-### 4.4 Scripts Disponíveis
+> [!TIP]
+> Para acessar o CMS localmente, entre na pasta `studio` e rode `npm run dev`.
+
+### 📜 Scripts Disponíveis
 
 | Comando | Descrição |
 |---------|-----------|
@@ -155,122 +169,123 @@ npm run build
 | `npm run build` | Build de produção |
 | `npm run preview` | Preview do build |
 | `npm run lint` | Verificar linting |
-| `npm run test` | Executar testes |
+| `npm run test` | Executar testes unitários |
 
 ---
 
 ## 5. Arquitetura
 
-### 5.1 Fluxo de Dados
+### 🔄 Fluxo de Dados
 
-```
-┌─────────────┐     ┌──────────────┐     ┌─────────────┐
-│   Sanity    │────▶│    App.jsx   │────▶│   Pages     │
-│   (CMS)     │     │  (fetch)     │     │             │
-└─────────────┘     └──────────────┘     └─────────────┘
-                           │
-                           ▼
-                    ┌──────────────┐
-                    │  Components  │
-                    └──────────────┘
-```
-
-### 5.2 Roteamento
-
-```jsx
-<Routes>
-  <Route path="/" element={<Home />} />
-  <Route path="/episode/:id" element={<EpisodePage />} />
-  <Route path="/blog" element={<BlogPage />} />
-  <Route path="/blog/:slug" element={<BlogPost />} />
-  <Route path="/store" element={<StorePage />} />
-  <Route path="/profile" element={<ProfilePage />} />
-  <Route path="/admin" element={<AdminPage />} />
-</Routes>
+```mermaid
+graph LR
+    subgraph External
+        Sanity[("🗄️ Sanity CMS")]
+        Firebase[("🔥 Firebase")]
+    end
+    
+    subgraph Frontend
+        App["⚛️ App.jsx"]
+        Pages["📄 Pages"]
+        Components["🧩 Components"]
+    end
+    
+    Sanity -->|JSON| App
+    Firebase -->|Auth/Token| App
+    App -->|Props| Pages
+    Pages -->|Props| Components
+    Components -->|Events| App
 ```
 
-### 5.3 Bundle Splitting
+### 🗺️ Roteamento Principal
+
+| Rota | Página | Descrição |
+|------|--------|-----------|
+| `/` | **Home** | Landing page com carrossel e destaques |
+| `/episode/:id` | **EpisodePage** | Player de mídia e detalhes |
+| `/blog` | **BlogPage** | Listagem de artigos |
+| `/blog/:slug` | **BlogPost** | Artigo individual |
+| `/store` | **StorePage** | Loja de produtos |
+| `/profile` | **ProfilePage** | Área do usuário |
+| `/admin` | **AdminPage** | Dashboard de administração |
+
+### 📦 Bundle Splitting
 
 | Chunk | Conteúdo | Tamanho |
 |-------|----------|---------|
-| `vendor-react` | React, Router | 56 KB |
-| `vendor-firebase` | Firebase SDK | 104 KB |
-| `vendor-sanity` | Sanity Client | 30 KB |
-| `vendor-i18n` | i18next | 18 KB |
-| `index` | App code | 22 KB |
+| `vendor-react` | React, Router | ~56 KB |
+| `vendor-firebase` | Firebase SDK | ~104 KB |
+| `vendor-sanity` | Sanity Client | ~30 KB |
+| `vendor-i18n` | i18next | ~18 KB |
+| `index` | App code | ~22 KB |
 
 ---
 
 ## 6. Páginas
 
-### 6.1 Home.jsx
+### 6.1 🏠 Home.jsx
 
 **Rota:** `/`
 
+> [!NOTE]
+> Esta é a página principal e mais complexa do site.
+
 **Seções:**
-- Hero com CTAs (Écouter, S'abonner)
+- Hero com Video Carousel e CTAs
 - Quick Stats (Épisodes, Auditeurs, Rating)
 - Featured Episode
 - Continue Listening
-- Vidéos Section
+- Shorts Section
+- Vidéos Section (Carrossel horizontal)
 - Épisodes Audio Section
 - Blog Preview
-- About Section
+- About Section (Biografia de Mijean)
 - Contact Form
-- AI Fashion Consultant
-
-**Props:**
-```typescript
-interface HomeProps {
-  items: Episode[];
-  favorites: string[];
-  toggleFavorite: (id: string) => void;
-  onPlay: (episode: Episode) => void;
-}
-```
+- Boutique Preview
 
 ---
 
-### 6.2 EpisodePage.jsx
+### 6.2 � EpisodePage.jsx
 
 **Rota:** `/episode/:id`
 
 **Features:**
-- Player de áudio/vídeo
-- Embed Spotify
-- Seção de comentários
-- Rating system
-- Badges display
-- Share buttons
-- Episódios relacionados
+- 🎬 Toggle Watch/Listen (Vídeo vs Áudio)
+- 🎵 Embed Spotify para áudio
+- 📺 Embed YouTube para vídeo
+- 💬 Seção de comentários
+- ⭐ Rating system (5 estrelas)
+- 🏆 Badges display
+- 🔗 Share buttons
+- 📋 Episódios relacionados
 
 ---
 
-### 6.3 BlogPage.jsx
+### 6.3 📝 BlogPage.jsx & BlogPost.jsx
 
-**Rota:** `/blog`
+**Rotas:** `/blog` e `/blog/:slug`
 
 **Features:**
 - Lista de posts do Sanity
 - LazyImage para thumbnails
-- Formatação de datas
-- Link para posts individuais
+- Formatação de datas localizada
+- Portable Text rendering
+- SEO meta tags dinâmicas
 
 ---
 
-### 6.4 BlogPost.jsx
+### 6.4 🛒 StorePage.jsx
 
-**Rota:** `/blog/:slug`
+**Rota:** `/store`
 
 **Features:**
-- Portable Text rendering
-- SEO meta tags
-- Share buttons
-- Related posts
+- Lista de produtos do Sanity
+- Integração Stripe Checkout
+- Estados de loading e vazio
 
 ---
 
-### 6.5 ProfilePage.jsx
+### 6.5 👤 ProfilePage.jsx
 
 **Rota:** `/profile`
 
@@ -279,67 +294,54 @@ interface HomeProps {
 - Histórico de escuta
 - Favoritos
 - Badges conquistados
-- Configurações
+- Configurações de privacidade
 
 ---
 
-### 6.6 StorePage.jsx
-
-**Rota:** `/store`
-
-**Features:**
-- Lista de produtos
-- Integração Stripe
-- Carrinho de compras
-
----
-
-### 6.7 AdminPage.jsx
+### 6.6 ⚙️ AdminPage.jsx
 
 **Rota:** `/admin`
+
+> [!WARNING]
+> Esta página requer autenticação de administrador.
 
 **Features:**
 - Dashboard de analytics
 - Gerenciamento de conteúdo
 - Moderação de comentários
-- Envio de notificações
+- Envio de notificações push
 
 ---
 
 ## 7. Componentes
 
-### 7.1 Navegação
+### 🧭 Navegação
 
 | Componente | Descrição |
 |------------|-----------|
-| `Navbar.jsx` | Navegação principal com menu responsivo |
-| `LanguageSwitcher.jsx` | Seletor de idioma |
+| `Navbar.jsx` | Menu principal com navegação responsiva e full-screen |
+| `LanguageSwitcher.jsx` | Seletor de idioma (4 idiomas) |
 | `ThemeToggle.jsx` | Toggle dark/light mode |
 
-### 7.2 Player
+### 🎵 Player & Mídia
 
 | Componente | Descrição |
 |------------|-----------|
 | `Player.jsx` | Player de áudio fixo no footer |
 | `LazySpotifyEmbed.jsx` | Embed Spotify com lazy loading |
 | `ContinueListening.jsx` | Seção "Continue ouvindo" |
-
-### 7.3 Mídia
-
-| Componente | Descrição |
-|------------|-----------|
 | `LazyImage.jsx` | Imagens com srcset e lazy loading |
 
-### 7.4 Interação
+### 💬 Interação
 
 | Componente | Descrição |
 |------------|-----------|
 | `CommentsSection.jsx` | Sistema de comentários |
 | `Rating.jsx` | Sistema de avaliação 5 estrelas |
 | `PollComponent.jsx` | Enquetes interativas |
-| `BadgesDisplay.jsx` | Exibição de badges |
+| `BadgesDisplay.jsx` | Exibição de badges/conquistas |
 
-### 7.5 UI Elements
+### 🎨 UI Elements
 
 | Componente | Descrição |
 |------------|-----------|
@@ -348,24 +350,26 @@ interface HomeProps {
 | `ExitIntentPopup.jsx` | Popup de saída |
 | `SponsorBanner.jsx` | Banner de patrocinadores |
 | `OfflineAlert.jsx` | Alerta de modo offline |
-| `ErrorBoundary.jsx` | Tratamento de erros |
+| `ErrorBoundary.jsx` | Tratamento de erros com UI amigável |
+| `Skeleton.jsx` | 8 variantes de skeleton loaders |
+| `EmptyState.jsx` | 8 variantes de estados vazios |
 
 ---
 
 ## 8. Hooks e Context
 
-### 8.1 AuthContext
+### 🔐 AuthContext
 
 ```jsx
 const { user, login, logout, loading } = useAuth();
 ```
 
 **Funcionalidades:**
-- Login com Firebase Auth
-- Estado de autenticação
-- Dados do usuário
+- Login com Firebase Auth (Google)
+- Estado de autenticação persistente
+- Dados do usuário sincronizados
 
-### 8.2 usePushNotifications
+### 🔔 usePushNotifications
 
 ```jsx
 const { 
@@ -384,13 +388,16 @@ const {
 
 ## 9. Integrações
 
-### 9.1 Sanity CMS
+### �️ Sanity CMS
 
-**Schemas:**
-- `episode` - Episódios do podcast
-- `post` - Artigos do blog
-- `product` - Produtos da loja
-- `sponsor` - Patrocinadores
+**Schemas disponíveis:**
+
+| Schema | Campos principais |
+|--------|-------------------|
+| `episode` | title, slug, description, image, audioUrl, spotifyUrl, videoUrl, duration |
+| `post` | title, slug, mainImage, excerpt, body (Portable Text), publishedAt |
+| `product` | title, price, image, description, stripePriceId |
+| `short` | title, videoUrl, thumbnail, publishedAt |
 
 **Client:**
 ```javascript
@@ -408,85 +415,87 @@ export const client = createClient({
 export const urlFor = (source) => imageUrlBuilder(client).image(source);
 ```
 
-### 9.2 Firebase
+### 🔥 Firebase
 
 **Serviços utilizados:**
-- **Auth** - Autenticação de usuários
+- **Auth** - Autenticação de usuários (Google Sign-In)
 - **Cloud Messaging** - Push notifications
-
-### 9.3 Gemini AI
-
-**Uso:** AI Fashion Consultant na Home
-- Recomendações de estilo personalizadas
-- Respostas em francês
 
 ---
 
 ## 10. Internacionalização
 
-### 10.1 Idiomas Suportados
+### 🌍 Idiomas Suportados
 
-| Código | Idioma |
-|--------|--------|
-| `fr` | Français (default) |
-| `en` | English |
-| `pt` | Português |
-| `es` | Español |
+| Código | Idioma | Status |
+|--------|--------|--------|
+| `fr` | Français | ✅ Default |
+| `en` | English | ✅ Completo |
+| `pt` | Português | ✅ Completo |
+| `es` | Español | ✅ Completo |
 
-### 10.2 Estrutura de Arquivos
+### 📁 Estrutura de Arquivos
 
 ```
 src/locales/
-├── fr.json
+├── fr.json    # ~200 chaves
 ├── en.json
 ├── pt.json
 └── es.json
 ```
 
-### 10.3 Uso
+### 💻 Uso no Código
 
 ```jsx
 import { useTranslation } from 'react-i18next';
 
-const { t } = useTranslation();
+const { t, i18n } = useTranslation();
+
+// Traduzir texto
 <h1>{t('hero.title')}</h1>
+
+// Mudar idioma
+i18n.changeLanguage('pt');
 ```
 
 ---
 
-## 11. PWA e Performance
+## 11. PWA & Performance
 
-### 11.1 Service Worker
-
-Configurado via `vite-plugin-pwa`:
-- Precaching de assets
-- Offline support
-- Background sync
-
-### 11.2 Otimizações
+### ⚡ Estratégias de Otimização
 
 | Otimização | Implementação |
 |------------|---------------|
-| Bundle Splitting | manualChunks no Vite |
-| Lazy Loading | React.lazy() para páginas |
-| Image Optimization | srcset + WebP |
-| Preconnect | DNS prefetch para CDNs |
-| Preload | LCP image preload |
+| **Bundle Splitting** | `manualChunks` no Vite config |
+| **Lazy Loading** | `React.lazy()` para páginas |
+| **Image Optimization** | `srcset` + WebP via LazyImage |
+| **Preconnect** | DNS prefetch para CDNs |
+| **Preload** | LCP image preload |
 
-### 11.3 Métricas
+> [!IMPORTANT]
+> O bundle size foi reduzido em **73%** na versão 1.10.2 removendo dependências pesadas de IA client-side (WebLLM).
 
-| Métrica | Target |
-|---------|--------|
-| LCP | < 2.5s |
-| FID | < 100ms |
-| CLS | < 0.1 |
-| TTI | < 3s (3G) |
+### 📊 Métricas Target (Core Web Vitals)
+
+| Métrica | Target | Status |
+|---------|--------|--------|
+| **LCP** | < 2.5s | ✅ |
+| **FID** | < 100ms | ✅ |
+| **CLS** | < 0.1 | ✅ |
+| **TTI** | < 3s (3G) | ✅ |
+
+### 📱 PWA Features
+
+- Service Worker com precaching
+- Offline support
+- Instalável como app nativo
+- Background sync
 
 ---
 
-## 12. SEO e Acessibilidade
+## 12. SEO & Acessibilidade
 
-### 12.1 Meta Tags
+### 🔍 Meta Tags
 
 ```jsx
 <Helmet>
@@ -498,33 +507,27 @@ Configurado via `vite-plugin-pwa`:
 </Helmet>
 ```
 
-### 12.2 JSON-LD Structured Data
+### 📊 JSON-LD Structured Data
 
-- `WebSite`
-- `Organization`
-- `PodcastSeries`
-- `PodcastEpisode`
+| Schema | Página |
+|--------|--------|
+| `PodcastSeries` | Home |
+| `PodcastEpisode` | EpisodePage |
+| `WebSite` | index.html |
+| `Organization` | index.html |
 
-### 12.3 Static Fallback
+### ♿ Acessibilidade
 
-O `index.html` contém:
-- Conteúdo visível sem JavaScript
-- Links para plataformas de streaming
-- Perfis de redes sociais
-- Fallback noscript com episódio em destaque
-
-### 12.4 Acessibilidade
-
-- Aria labels em todos os links
-- Semantic HTML
-- Keyboard navigation
-- Color contrast compliance
+- ⏭️ Skip Link para navegação por teclado
+- 🏷️ Aria labels em todos os elementos interativos
+- 🎹 Navegação completa por teclado
+- 🎨 Contraste de cores em conformidade
 
 ---
 
 ## 13. Testes
 
-### 13.1 Unit Tests (Vitest)
+### 🧪 Unit Tests (Vitest)
 
 ```bash
 npm run test
@@ -535,14 +538,14 @@ npm run test
 - Hooks
 - Utils
 
-### 13.2 E2E Tests (Cypress)
+### 🌐 E2E Tests (Cypress)
 
 ```bash
 npx cypress open
 ```
 
 **Cenários:**
-- Navegação
+- Navegação entre páginas
 - Player de áudio
 - Formulários
 - Autenticação
@@ -551,27 +554,43 @@ npx cypress open
 
 ## 14. Deploy
 
-### 14.1 Vercel
+### ▲ Vercel
 
 **Configuração automática:**
-- Build command: `npm run build`
-- Output directory: `dist`
-- Framework: Vite
 
-### 14.2 Variáveis de Ambiente
+| Campo | Valor |
+|-------|-------|
+| Build Command | `npm run build` |
+| Output Directory | `dist` |
+| Framework | Vite |
+
+### 🔑 Variáveis de Ambiente
 
 Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
-### 14.3 Domínio
+### 🌐 Domínios
 
-- **Produção:** `the-talk.vercel.app`
-- **Preview:** `the-talk-*.vercel.app`
+| Ambiente | URL |
+|----------|-----|
+| **Produção** | `the-talk-podcast.vercel.app` |
+| **Preview** | `the-talk-*.vercel.app` |
 
 ---
 
-## 📝 Changelog
+## 15. Changelog
 
-### v1.10.2 (12/01/2026) - Performance, SEO & UX Audit
+### 🎬 v1.10.3 (12/01/2026) - Carousel Cross-fade
+
+> [!TIP]
+> Esta versão melhora significativamente a experiência visual do Hero.
+
+- ✅ **Smooth Transition**: Implementado cross-fade no carrossel do Hero, eliminando o "gap" preto entre vídeos
+- ✨ **Visual Polish**: Ajustes finos de animação
+- 📄 **Documentation**: DOCUMENTATION.md atualizado com formatação rica
+
+---
+
+### 🚀 v1.10.2 (12/01/2026) - Performance, SEO & UX Audit
 
 **🚀 Performance (73% Bundle Reduction)**
 - 🗑️ **AI Removed**: Removido AIAssistant, useWebLLM hook e @mlc-ai/web-llm (5.5MB → 0)
@@ -579,181 +598,66 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 - 📦 **Bundle Size**: De 14.7MB para 4MB
 
 **♿ Acessibilidade**
-- ⏭️ **Skip Link**: Link "Passer au contenu principal" (invisível, aparece com Tab)
-- 🏷️ **Aria Labels**: Adicionados em botões de navegação, login, logout, notificações
-- 🎹 **Keyboard Navigation**: Suporte completo a navegação por teclado
+- ⏭️ **Skip Link**: Link "Passer au contenu principal"
+- 🏷️ **Aria Labels**: Adicionados em botões de navegação
+- 🎹 **Keyboard Navigation**: Suporte completo
 
 **🔍 SEO**
-- 📊 **Schema.org**: PodcastSeries (Home) e PodcastEpisode (Episode) com JSON-LD
-- 🗺️ **Sitemap Automático**: vite-plugin-sitemap gera sitemap.xml no build
-- 🏠 **Hostname**: Configurado `the-talk-podcast.vercel.app`
-
-**🔧 Código & Manutenção**
-- 🧹 **Imports Duplicados**: Consolidado `getBadgeById` em import estático
-- 📝 **tsconfig**: Adicionado `noEmit` para reduzir lint warnings
+- 📊 **Schema.org**: PodcastSeries e PodcastEpisode com JSON-LD
+- 🗺️ **Sitemap Automático**: vite-plugin-sitemap gera sitemap.xml
 
 **🎨 UX & Design**
-- 💀 **Skeleton Loaders**: 8 componentes (Episode, Grid, Product, Blog, Hero, Shorts, Text)
-- 📭 **Empty States**: 8 estados amigáveis (NoEpisodes, NoSearch, NoProducts, Error, Offline)
-- 🚨 **Error Boundary**: UI moderna com ícone, botões "Réessayer" e "Retour à l'accueil"
-- ✨ **Shimmer Animation**: CSS keyframes para animação de loading
+- 💀 **Skeleton Loaders**: 8 componentes
+- 📭 **Empty States**: 8 estados amigáveis
+- 🚨 **Error Boundary**: UI moderna
 
-**Novos Componentes:**
-- `src/components/Skeleton.jsx` (8 exports)
-- `src/components/EmptyState.jsx` (8 exports)
+---
 
-### v1.10.1 (12/01/2026) - Navegação e UX Fixes
+### 🎯 v1.10.1 (12/01/2026) - Navegação e UX Fixes
 
-- ✅ **Navbar Home**: Link "Home" agora rola para o topo suavemente se já estiver na página inicial.
-- ✅ **Vídeo Navigation**: Clicar em thumbnails de vídeo agora força o modo "Assistir" na página do episódio.
-- ✅ **Featured Button**: Botão "Écouter Maintenant" na Home agora navega corretamente para o episódio em vez de apenas tocar no fundo.
-- ⚡ **Build Optimization**: Implementado Lazy Loading para o motor de IA (`web-llm`), reduzindo o bundle inicial e corrigindo falhas de build no Vercel.
-- 🔧 **PWA Config**: Ajustado limite de cache do Service Worker para 10MB para suportar o motor de IA offline.
-- ✨ **Home Refresh**: Removida a seção de IA quebrada ("Conseil de Style") e substituída por uma vitrine dinâmica da **Boutique Officielle**, exibindo os últimos produtos cadastrados.
-- 💄 **Footer UI**: Movido o seletor de idiomas para a direita para não sobrepor o botão flutuante de "New Episode".
-- 🛑 **Popup UX**: Reduzida a agressividade do popup de Exit Intent (não dispara mais por tempo no mobile, e fecha ao clicar fora).
-- 🔠 **Navbar Typography**: Padronizado todo o menu de navegação para **MAIÚSCULO** (Uppercase) + Negrito, com "Boutique" reposicionado entre "Episodes" e "Blog".
-- ⬆️ **Scroll to Top**: O botão "ACCUEIL" agora rola suavemente para o topo da página ao ser clicado.
-- 🎯 **Navigação Precisa**: Botões "VIDÉOS" e "ÉPISODES" agora levam exatamente para suas respectivas seções na página.
-- 🎥 **Hero Video**: Adicionado vídeo local `Carrousel.mp4` como destaque principal no topo da página.
-- ▶️ **Shorts Auto-Play**: Vídeos curtos agora iniciam automaticamente ao clicar na miniatura.
-- 🔁 **Shorts Auto-Advance**: Ao terminar um vídeo curto, o próximo da lista começa automaticamente (loop infinito).
-- 🧹 **Carousel Cleanup**: Removido vídeo stock quebrado (Pexels), mantendo apenas os funcionais.
-- 🛍️ **Store Highlight**: Seção da Boutique movida para cima (entre Destaque e Vídeos) para preencher o layout e dar mais visibilidade.
-- 🎬 **Video Carousel**: Seção de Vídeos transformada em carrossel horizontal. O episódio em destaque agora aparece como primeiro item do carrossel.
+- ✅ **Navbar Home**: Scroll suave para o topo
+- ✅ **Video Navigation**: Força modo "Assistir" 
+- 🎥 **Hero Video**: Vídeo local `Carrousel.mp4`
+- ▶️ **Shorts Auto-Play**: Auto-play e auto-advance
+- 🎬 **Video Carousel**: Carrossel horizontal
 
-- ✅ **Local AI Engine**: Implementação do WebLLM para rodar LLMs (Phi-3/Llama-3) diretamente no navegador.
-- ✅ **Privacy First**: Processamento 100% offline após download inicial, sem envio de dados para servidores.
-- ✅ **AIAssistant Component**: Interface de chat flutuante e geração de resumos integrada à EpisodePage.
-- ✅ **Performance**: Uso de WebGPU para aceleração de hardware.
+---
 
-### v1.9.1 (12/01/2026) - ProfilePage Localization
+### 📱 v1.9.x - Internationalization
 
-- ✅ **ProfilePage i18n**: Tradução completa da página de perfil (25+ strings).
-- ✅ **Error Handling**: Mensagens de erro localizadas (Privado, Não Encontrado).
-- ✅ **Settings Modal**: Modal de configurações totalmente traduzido (Public/Private toggle).
-- ✅ **Locale Files**: Sincronização de chaves `profile.*` entre FR, EN, PT.
+- ✅ **ProfilePage i18n**: Tradução completa
+- ✅ **Hero Section**: Traduzido
+- ✅ **BlogPage**: Full i18n
+- ✅ **Date Localization**: Formatação por idioma
 
-### v1.9.0 (12/01/2026) - Complete i18n Polishing
+---
 
-- ✅ **Hero Section**: Traduzido "Nouvel Épisode", "ÉCOUTER", botões e estatísticas (50+ Épisodes, 10K+ Auditeurs).
-- ✅ **Newsletter Section**: Traduzido "Restez Inspiré" e descrição.
-- ✅ **BlogPage**: Full i18n - título, subtítulo, "Lire l'article", "Aucun article", data localizada.
-- ✅ **Locale Files**: Adicionadas 12 novas chaves (hero.episodes, hero.listeners, blog.*, subscribe.button).
-- ✅ **Date Localization**: BlogPage agora formata datas por idioma (fr-FR, en-US, pt-BR).
+### 🛒 v1.6.x - Shorts & Store
 
-### v1.8.0 (12/01/2026) - Audit Fixes & Quality Improvements
+- ✅ **Shorts Section**: Vídeos verticais 9:16
+- ✅ **Product Schema**: Novo schema no Sanity
+- ✅ **Stripe Integration**: Checkout funcional
 
-- ✅ **LanguageSwitcher Fix**: Adicionado `type=button`, `preventDefault`, `stopPropagation` para evitar redirecionamento externo.
-- ✅ **Navbar Full i18n**: 10 chaves de tradução adicionadas (home, videos, blog, store, install, etc.).
-- ✅ **Locale Files Updated**: Novas chaves nav.* em fr.json, en.json, pt.json.
-- ✅ **Vitest Configuration**: Adicionado jsdom environment e setup file.
-- ✅ **Tests Passing**: 1/1 teste passa com sucesso.
-- ✅ **Sanity Image-URL**: Atualizado para usar `createImageUrlBuilder` (named export).
-- ✅ **Dependencies**: Instalado @testing-library/jest-dom e jsdom.
+---
 
-### v1.7.1 (12/01/2026) - Media Logic Refinement
+### 🎨 v1.1.0-v1.4.x - Design Evolution
 
-- ✅ **onPause Prop**: EpisodePage agora recebe callback `onPause` para pausar player de áudio.
-- ✅ **Toggle UI**: Botões com emojis 🎧 Ouvir / 👁️ Assistir e traduções.
-- ✅ **Coordinated Playback**: Clicar em "Assistir" pausa o player de áudio footer.
-- ✅ **Play Button**: Clicar em "Play" força mediaMode para 'audio'.
-
-### v1.7.0 (12/01/2026) - i18n Audit
-
-- ✅ **Locale Files Updated**: Adicionadas 52 novas chaves de tradução em fr.json, en.json, pt.json.
-- ✅ **Comments Section**: Todas as strings agora usam `t()` hook.
-- ✅ **Poll Component**: Todas as strings agora usam `t()` hook.
-- ✅ **Shorts Section**: Título e descrição agora traduzíveis.
-- ✅ **Store Page**: Título, descrição, botões agora traduzíveis.
-- ✅ **Profile Page**: Novas chaves para settings, achievements, liked episodes.
-
-### v1.6.1 (12/01/2026) - Sanity Store Integration
-
-- ✅ **Product Schema**: Novo schema `product.js` com title, price, image, description, stripePriceId.
-- ✅ **Dynamic Products**: `StorePage.jsx` agora busca produtos do Sanity em vez de array hardcoded.
-- ✅ **Stripe Integration**: `stripePriceId` é passado para a função de checkout.
-- ✅ **Loading/Empty States**: Estados de carregamento e lista vazia implementados.
-
-### v1.6.0 (12/01/2026) - Shorts Section
-
-- ✅ **Sanity Schema**: Novo schema `short.js` com title, videoUrl, thumbnail, publishedAt.
-- ✅ **Shorts Section**: Seção de vídeos curtos verticais (9:16) com scroll horizontal snap.
-- ✅ **Hover Preview**: Vídeo reproduz automaticamente (muted) ao passar o mouse.
-- ✅ **Full-Screen Modal**: Clique abre modal com player em tela cheia.
-- ✅ **YouTube Shorts Support**: Suporte a URLs do YouTube Shorts.
-
-### v1.5.1 (12/01/2026) - Watch vs Listen Toggle
-
-- ✅ **Media Mode Toggle**: Novo toggle "Watch" / "Listen" acima da mídia no `EpisodePage`.
-- ✅ **Smart Default**: Modo padrão é 'video' quando `videoUrl` existe, 'audio' caso contrário.
-- ✅ **Toggle UI**: Botões estilizados com ícones (Video, Headphones) e cores distintas.
-- ✅ **Conditional Display**: Toggle só aparece quando o episódio tem link de vídeo.
-
-### v1.5.0 (12/01/2026) - Episode Video Support
-
-- ✅ **Sanity Schema Update**: Novo campo `videoUrl` em `episode.js` para links do YouTube.
-- ✅ **YouTube Embed**: `EpisodePage.jsx` agora exibe embed do YouTube quando `videoUrl` existe, caso contrário mostra a imagem de capa.
-- ✅ **Responsive Player**: Iframe responsivo com aspect ratio 16:9 para vídeos.
-
-### v1.4.1 (12/01/2026) - Video Carousel
-
-- ✅ **Video Carousel**: Hero background agora alterna entre dois vídeos de moda (Pexels e Pixabay) com transição crossfade automática a cada 8 segundos.
-- ✅ **Indicator Dots**: Dots indicadores na parte inferior para navegação manual entre vídeos.
-- ✅ **Smooth Transitions**: Transições suaves com opacidade e animação de 1 segundo.
-
-### v1.4.0 (11/01/2026) - Video Integration
-
-- ✅ **Hero Video Background**: Substituição da imagem estática por vídeo de desfile (UHD) com autoplay.
-
-### v1.3.1 (11/01/2026) - Layout Adjustments
-
-- ✅ **Resize Featured Episode**: Card "En Vedette" redimensionado para layout vertical e compacto (`max-w-md`).
-
-### v1.3.0 (11/01/2026) - Vogue Design Upgrade
-
-**Inspirado por VOGUE Business**
-
-- ✅ **Hybrid Typography**: Mistura de Sans (Industrial) e Serif (Editorial/Italic)
-- ✅ **Highlighter Markers**: Destaque estilo "marca-texto" em palavras-chave
-- ✅ **Pixel Glitch Decoration**: Elementos pixelados em cantos opostos
-
-### v1.2.0 (11/01/2026) - EMMPO Upgrade
-
-**Inspirado por EMMPO (emmpo.com)**
-
-- ✅ **Bracket CTAs**: Botões com colchetes `[ÉCOUTER]`, `[S'ABONNER]`
-- ✅ **Film Grain Overlay**: Textura granulada sutil no Hero
-- ✅ **Edge Glow**: Brilho azul/roxo nas bordas
-- ✅ **Pinned Corner Links**: `[NEW EPISODE]` e `[SUBSCRIBE]` fixos
-
-### v1.1.0 (11/01/2026) - Design Upgrade
-
-**Inspirado por DICH Fashion (dich-fashion.webflow.io)**
-
-- ✅ **HUD Data Badges**: Badges técnicos nos cards (EP.XXX // DUR.XX:XX, VID.XXX // DUR.XX:XX)
-- ✅ **Industrial Typography**: Hero com tracking 0.08em e uppercase
-- ✅ **Full-Screen Menu**: Menu numerado (00. HOME, 01. VIDÉOS...) com indicadores HUD
-- ✅ **Corner Indicators**: "MENU // NAVIGATION" e "THE_TALK.FM" no menu
-
-
-### v1.0.0 (11/01/2026)
-
-- ✅ Bundle splitting para performance
-- ✅ Navbar component reutilizável
-- ✅ Hero section aprimorado
-- ✅ Featured Episode section
-- ✅ Seções separadas (Vidéos vs Audio)
-- ✅ Blog Preview section
-- ✅ Static HTML fallback para SEO
-- ✅ Streaming platform links
-- ✅ Social media profiles
-
+- ✅ **DICH Fashion**: HUD Data Badges
+- ✅ **EMMPO**: Bracket CTAs, Film Grain
+- ✅ **VOGUE**: Hybrid Typography
+- ✅ **Video Carousel**: Hero com vídeos
 
 ---
 
 ## 📞 Suporte
 
-**Desenvolvedor:** Antigravity AI  
-**Email:** contact@thetalk.fm  
-**Instagram:** [@thetalk_podcast](https://instagram.com/thetalk_podcast)
+Para dúvidas técnicas ou comerciais:
+
+| Canal | Contato |
+|-------|---------|
+| 📧 Email | sammagbo@gmail.com |
+| 📸 Instagram | [@the_talk_audiovideopodcast](https://instagram.com/the_talk_audiovideopodcast) |
+
+---
+
+> Documentação gerada por **Sammy Magbo** 🚀

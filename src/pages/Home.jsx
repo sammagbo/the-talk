@@ -29,15 +29,10 @@ const videoSources = [
 
 function VideoCarousel() {
     const [activeIndex, setActiveIndex] = useState(0);
-    const [isTransitioning, setIsTransitioning] = useState(false);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setIsTransitioning(true);
-            setTimeout(() => {
-                setActiveIndex((prev) => (prev + 1) % videoSources.length);
-                setIsTransitioning(false);
-            }, 1000); // Transition duration
+            setActiveIndex((prev) => (prev + 1) % videoSources.length);
         }, 8000); // Switch every 8 seconds
 
         return () => clearInterval(interval);
@@ -53,7 +48,7 @@ function VideoCarousel() {
                     muted
                     playsInline
                     poster={video.poster}
-                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${index === activeIndex && !isTransitioning
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${index === activeIndex
                         ? 'opacity-30 dark:opacity-40'
                         : 'opacity-0'
                         }`}
@@ -67,13 +62,7 @@ function VideoCarousel() {
                 {videoSources.map((_, index) => (
                     <button
                         key={index}
-                        onClick={() => {
-                            setIsTransitioning(true);
-                            setTimeout(() => {
-                                setActiveIndex(index);
-                                setIsTransitioning(false);
-                            }, 500);
-                        }}
+                        onClick={() => setActiveIndex(index)}
                         className={`w-2 h-2 rounded-full transition-all duration-300 ${index === activeIndex
                             ? 'bg-[#007BFF] w-6'
                             : 'bg-white/30 hover:bg-white/50'
