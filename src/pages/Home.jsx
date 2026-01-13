@@ -14,6 +14,10 @@ import { client, urlFor } from '../sanity';
 import { handleBuy } from '../lib/stripe';
 import { useGSAP, gsap, ScrollTrigger } from '../hooks/useGSAP';
 import MagneticButton from '../components/MagneticButton';
+import CountUp from '../components/CountUp';
+import Marquee from '../components/Marquee';
+import TiltCard from '../components/TiltCard';
+import useSmoothScroll from '../hooks/useSmoothScroll';
 
 
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
@@ -96,6 +100,9 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
     const [hoveredShort, setHoveredShort] = useState(null);
     const videoRef = useRef(null);
     const heroRef = useRef(null);
+
+    // Enable smooth scroll
+    useSmoothScroll(true);
 
     // GSAP Animations
     useGSAP(() => {
@@ -432,23 +439,43 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                         </MagneticButton>
                     </div>
 
-                    {/* Quick Stats */}
+                    {/* Quick Stats with Animated Counters */}
                     <div className="gsap-hero-stats flex flex-wrap justify-center gap-8 mt-10 text-center">
                         <div>
-                            <p className="text-3xl font-creativo font-bold text-[#007BFF]">50+</p>
+                            <p className="text-3xl font-creativo font-bold text-[#007BFF]">
+                                <CountUp end={50} duration={2.5} suffix="+" />
+                            </p>
                             <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">{t('hero.episodes', 'Épisodes')}</p>
                         </div>
                         <div>
-                            <p className="text-3xl font-creativo font-bold text-[#A9A9F5]">10K+</p>
+                            <p className="text-3xl font-creativo font-bold text-[#A9A9F5]">
+                                <CountUp end={10} duration={2} suffix="K+" />
+                            </p>
                             <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">{t('hero.listeners', 'Auditeurs')}</p>
                         </div>
                         <div>
-                            <p className="text-3xl font-creativo font-bold text-[#007BFF]">5★</p>
+                            <p className="text-3xl font-creativo font-bold text-[#007BFF]">
+                                <CountUp end={5} duration={1.5} suffix="★" />
+                            </p>
                             <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">Évaluation</p>
                         </div>
                     </div>
                 </div>
             </header>
+
+            {/* Infinite Marquee Banner */}
+            <div className="bg-[#007BFF] py-3 overflow-hidden">
+                <Marquee speed={25} className="text-white">
+                    <span className="flex items-center gap-8 text-sm font-mono uppercase tracking-widest">
+                        <span>✦ THE TALK PODCAST</span>
+                        <span>✦ FASHION & LIFESTYLE</span>
+                        <span>✦ NOUVEAUX ÉPISODES</span>
+                        <span>✦ MIJEAN ROCHUS</span>
+                        <span>✦ BRUSSELS TO PARIS</span>
+                        <span>✦ MODE & CULTURE</span>
+                    </span>
+                </Marquee>
+            </div>
 
             {/* Continue Listening Section */}
             <ContinueListening onPlay={onPlay} />
@@ -705,8 +732,10 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                     {/* Audio Episodes Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredItems.map((item) => (
-                            <div
+                            <TiltCard
                                 key={item.id}
+                                maxTilt={8}
+                                scale={1.02}
                                 className="group relative overflow-hidden rounded-2xl cursor-pointer bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] hover:border-[#A9A9F5]/50 transition-all duration-300"
                             >
                                 <Link to={`/episode/${item.id}`} className="block">
@@ -751,7 +780,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                                         />
                                     </button>
                                 </div>
-                            </div>
+                            </TiltCard>
                         ))}
                     </div>
                 </section>
