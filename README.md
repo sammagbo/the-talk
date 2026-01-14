@@ -162,7 +162,7 @@ MIT © [Mijean Rochus](https://github.com/sammagbo)
 
 <div align="center">
 
-**Made with ❤️ in São Paulo**
+**Made with ❤️ in Rio de Janeiro**
 
 [Website](https://the-talk-podcast.vercel.app) · [Instagram](https://instagram.com/thetalk)
 

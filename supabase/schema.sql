@@ -130,6 +130,19 @@ CREATE TABLE IF NOT EXISTS public.poll_votes (
 );
 
 -- =====================================================
+-- PUSH SUBSCRIPTIONS TABLE
+-- =====================================================
+CREATE TABLE IF NOT EXISTS public.push_subscriptions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
+    endpoint TEXT NOT NULL UNIQUE,
+    p256dh TEXT NOT NULL,
+    auth TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    last_used_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- =====================================================
 -- ROW LEVEL SECURITY (RLS) POLICIES
 -- =====================================================
 
@@ -143,6 +156,7 @@ ALTER TABLE public.playback_history ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.newsletter_subscribers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.polls ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.poll_votes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.push_subscriptions ENABLE ROW LEVEL SECURITY;
 
 -- Users: can read all, update own
 CREATE POLICY "Users are viewable by everyone" ON public.users FOR SELECT USING (true);
@@ -180,6 +194,11 @@ CREATE POLICY "Anyone can subscribe" ON public.newsletter_subscribers FOR INSERT
 CREATE POLICY "Polls are viewable by everyone" ON public.polls FOR SELECT USING (true);
 CREATE POLICY "Poll votes are viewable by everyone" ON public.poll_votes FOR SELECT USING (true);
 CREATE POLICY "Users can vote on polls" ON public.poll_votes FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+-- Push Subscriptions: users can manage their own
+CREATE POLICY "Users can view own push subs" ON public.push_subscriptions FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Users can insert own push subs" ON public.push_subscriptions FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Users can delete own push subs" ON public.push_subscriptions FOR DELETE USING (auth.uid() = user_id);
 
 -- =====================================================
 -- INDEXES FOR PERFORMANCE
