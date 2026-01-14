@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import { savePlaybackProgress, getSavedPosition } from '../utils/playbackHistory';
 import { shareContent, getEpisodeShareUrl } from '../utils/share';
 import LazySpotifyEmbed from './LazySpotifyEmbed';
+import LiveListeners from './LiveListeners';
+import { usePresence } from '../hooks/usePresence';
 
 export default function Player({ currentEpisode, isPlaying, onClose, onTogglePlay }) {
     const audioRef = useRef(null);
@@ -13,6 +15,9 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
     const { user } = useAuth();
     const lastSaveTimeRef = useRef(0);
     const saveIntervalRef = useRef(null);
+
+    // Real-time presence tracking
+    const { listenerCount, isConnected } = usePresence(currentEpisode?.id);
 
     // Restore saved position when episode changes
     useEffect(() => {
@@ -184,7 +189,12 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                     />
                     <div className="min-w-0">
                         <h4 className="font-bold text-sm md:text-base truncate text-black dark:text-white">{currentEpisode.title}</h4>
-                        <p className="text-xs text-gray-500 dark:text-[#6C757D] truncate">{currentEpisode.category}</p>
+                        <div className="flex items-center gap-2">
+                            <p className="text-xs text-gray-500 dark:text-[#6C757D] truncate">{currentEpisode.category}</p>
+                            {listenerCount > 0 && (
+                                <LiveListeners count={listenerCount} isConnected={isConnected} />
+                            )}
+                        </div>
                     </div>
                 </div>
 

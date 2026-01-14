@@ -229,3 +229,100 @@ SELECT
     COUNT(*) as comment_count
 FROM public.comments
 GROUP BY episode_id;
+
+-- =====================================================
+-- PRESENCE TABLE (Real-time Listeners)
+-- =====================================================
+CREATE TABLE IF NOT EXISTS public.presence (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
+    episode_id TEXT,
+    status TEXT DEFAULT 'listening' CHECK (status IN ('listening', 'paused', 'idle')),
+    last_seen TIMESTAMPTZ DEFAULT NOW(),
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Enable RLS on presence
+ALTER TABLE public.presence ENABLE ROW LEVEL SECURITY;
+
+-- Presence policies
+CREATE POLICY "Presence is viewable by everyone" ON public.presence FOR SELECT USING (true);
+CREATE POLICY "Users can insert own presence" ON public.presence FOR INSERT WITH CHECK (auth.uid() = user_id OR user_id IS NULL);
+CREATE POLICY "Users can update own presence" ON public.presence FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "Users can delete own presence" ON public.presence FOR DELETE USING (auth.uid() = user_id);
+
+-- Index for presence queries
+CREATE INDEX IF NOT EXISTS idx_presence_episode_id ON public.presence(episode_id);
+CREATE INDEX IF NOT EXISTS idx_presence_last_seen ON public.presence(last_seen DESC);
+
+-- Auto-cleanup old presence records (function)
+CREATE OR REPLACE FUNCTION public.cleanup_stale_presence()
+RETURNS void AS $$
+BEGIN
+    DELETE FROM public.presence WHERE last_seen < NOW() - INTERVAL '5 minutes';
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- =====================================================
+-- ADMIN ROLE MANAGEMENT
+-- =====================================================
+CREATE TABLE IF NOT EXISTS public.admins (
+    user_id UUID PRIMARY KEY REFERENCES public.users(id) ON DELETE CASCADE,
+    role TEXT DEFAULT 'moderator' CHECK (role IN ('admin', 'moderator', 'analyst')),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    created_by UUID REFERENCES public.users(id)
+);
+
+-- Enable RLS on admins
+ALTER TABLE public.admins ENABLE ROW LEVEL SECURITY;
+
+-- Only admins can see admin table
+CREATE POLICY "Admins can view admin table" ON public.admins FOR SELECT 
+    USING (EXISTS (SELECT 1 FROM public.admins WHERE user_id = auth.uid()));
+CREATE POLICY "Only super admins can modify" ON public.admins FOR ALL 
+    USING (EXISTS (SELECT 1 FROM public.admins WHERE user_id = auth.uid() AND role = 'admin'));
+
+-- =====================================================
+-- ADMIN ANALYTICS VIEWS
+-- =====================================================
+
+-- Live listeners per episode
+CREATE OR REPLACE VIEW public.live_listeners AS
+SELECT 
+    episode_id,
+    COUNT(*) as listener_count,
+    COUNT(DISTINCT user_id) as unique_listeners
+FROM public.presence
+WHERE last_seen > NOW() - INTERVAL '5 minutes'
+GROUP BY episode_id;
+
+-- User growth over time
+CREATE OR REPLACE VIEW public.admin_user_growth AS
+SELECT 
+    DATE_TRUNC('day', created_at) as date,
+    COUNT(*) as new_users,
+    SUM(COUNT(*)) OVER (ORDER BY DATE_TRUNC('day', created_at)) as total_users
+FROM public.users
+GROUP BY DATE_TRUNC('day', created_at)
+ORDER BY date DESC;
+
+-- Episode engagement metrics
+CREATE OR REPLACE VIEW public.admin_episode_engagement AS
+SELECT 
+    r.episode_id,
+    COALESCE(r.rating_count, 0) as rating_count,
+    COALESCE(r.average_rating, 0) as average_rating,
+    COALESCE(c.comment_count, 0) as comment_count,
+    (SELECT COUNT(*) FROM public.favorites f WHERE f.episode_id = r.episode_id) as favorite_count
+FROM public.episode_ratings r
+LEFT JOIN public.episode_comment_counts c ON r.episode_id = c.episode_id;
+
+-- Daily activity summary
+CREATE OR REPLACE VIEW public.admin_daily_activity AS
+SELECT 
+    DATE_TRUNC('day', NOW()) as date,
+    (SELECT COUNT(*) FROM public.comments WHERE created_at > NOW() - INTERVAL '24 hours') as comments_24h,
+    (SELECT COUNT(*) FROM public.ratings WHERE created_at > NOW() - INTERVAL '24 hours') as ratings_24h,
+    (SELECT COUNT(*) FROM public.favorites WHERE created_at > NOW() - INTERVAL '24 hours') as favorites_24h,
+    (SELECT COUNT(*) FROM public.users WHERE created_at > NOW() - INTERVAL '24 hours') as new_users_24h;
+

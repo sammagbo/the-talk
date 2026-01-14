@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import ThemeToggle from './ThemeToggle';
+import SocialAuthButtons from './SocialAuthButtons';
 import { usePushNotifications } from '../hooks/usePushNotifications';
 
 /**
@@ -212,13 +213,22 @@ export default function Navbar({
                             </button>
                         </div>
                     ) : (
-                        <button
-                            onClick={signInWithGoogle}
-                            aria-label="Se connecter avec Google"
-                            className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-4 py-2 rounded-lg transition-all text-sm font-bold uppercase tracking-wider"
-                        >
-                            {t('nav.login', 'Connexion')}
-                        </button>
+                        <div className="relative group">
+                            <button
+                                className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-4 py-2 rounded-lg transition-all text-sm font-bold uppercase tracking-wider"
+                            >
+                                {t('nav.login', 'Connexion')}
+                            </button>
+                            {/* Dropdown with social auth options */}
+                            <div className="absolute right-0 top-full mt-2 w-72 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow-2xl p-4 border border-gray-200 dark:border-[#333]">
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 text-center">
+                                        {t('auth.chooseProvider', 'Escolha como entrar')}
+                                    </p>
+                                    <SocialAuthButtons />
+                                </div>
+                            </div>
+                        </div>
                     )}
 
                     {/* Utilities */}
@@ -347,12 +357,14 @@ export default function Navbar({
                                         <span className="font-mono text-sm tracking-wider">{user.displayName?.split(' ')[0]}</span>
                                     </Link>
                                 ) : (
-                                    <button
-                                        onClick={() => { signInWithGoogle(); setIsMenuOpen(false); }}
-                                        className="px-6 py-2.5 border border-[#007BFF] text-[#007BFF] rounded-full font-mono text-sm tracking-wider hover:bg-[#007BFF] hover:text-white transition-all"
-                                    >
-                                        {t('nav.login', 'CONNEXION')}
-                                    </button>
+                                    <div className="flex flex-col items-center gap-4 w-full max-w-xs">
+                                        <p className="text-white/60 text-sm font-mono">
+                                            {t('auth.chooseProvider', 'Escolha como entrar')}
+                                        </p>
+                                        <SocialAuthButtons
+                                            onSuccess={() => setIsMenuOpen(false)}
+                                        />
+                                    </div>
                                 )}
 
                                 <div className="w-px h-8 bg-white/20" />

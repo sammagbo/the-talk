@@ -33,6 +33,48 @@ export function AuthProvider({ children }) {
         return data;
     };
 
+    const signInWithApple = async () => {
+        if (!supabase) {
+            console.warn('Supabase not available');
+            return null;
+        }
+
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'apple',
+            options: {
+                redirectTo: window.location.origin,
+            },
+        });
+
+        if (error) {
+            console.error('Apple sign-in error:', error);
+            throw error;
+        }
+
+        return data;
+    };
+
+    const signInWithTwitter = async () => {
+        if (!supabase) {
+            console.warn('Supabase not available');
+            return null;
+        }
+
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'twitter',
+            options: {
+                redirectTo: window.location.origin,
+            },
+        });
+
+        if (error) {
+            console.error('Twitter sign-in error:', error);
+            throw error;
+        }
+
+        return data;
+    };
+
     const logout = async () => {
         if (!supabase) {
             console.warn('Supabase not available');
@@ -94,6 +136,8 @@ export function AuthProvider({ children }) {
     const value = {
         user,
         signInWithGoogle,
+        signInWithApple,
+        signInWithTwitter,
         logout,
         loading
     };

@@ -26,9 +26,9 @@ export default function LoadingScreen({ onComplete }) {
         gsap.to(logo, {
             opacity: 1,
             y: 0,
-            duration: 1,
+            duration: 0.5,
             ease: 'power3.out',
-            delay: 0.2,
+            delay: 0.1,
         });
 
         // Simulate loading progress
@@ -37,9 +37,9 @@ export default function LoadingScreen({ onComplete }) {
                 // Exit animation
                 gsap.to(container, {
                     yPercent: -100,
-                    duration: 0.8,
+                    duration: 0.5,
                     ease: 'power4.inOut',
-                    delay: 0.3,
+                    delay: 0.1,
                     onComplete: () => {
                         if (onComplete) onComplete();
                     },
@@ -48,7 +48,7 @@ export default function LoadingScreen({ onComplete }) {
         });
 
         progressTl.to({}, {
-            duration: 2,
+            duration: 0.8,
             ease: 'power1.inOut',
             onUpdate: function () {
                 const prog = Math.round(this.progress() * 100);
