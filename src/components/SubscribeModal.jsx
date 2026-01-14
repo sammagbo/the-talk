@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { X, Mail, Check, Loader2 } from 'lucide-react';
-import { db } from '../firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { supabase } from '../supabase';
 import { useTranslation } from 'react-i18next';
 
 export default function SubscribeModal({ isOpen, onClose }) {
@@ -19,12 +18,15 @@ export default function SubscribeModal({ isOpen, onClose }) {
         setErrorMessage('');
 
         try {
-            // Add email to Firebase 'subscribers' collection
-            await addDoc(collection(db, 'subscribers'), {
-                email: email.trim(),
-                subscribedAt: serverTimestamp(),
-                source: 'navbar_modal'
-            });
+            // Add email to Supabase 'newsletter_subscribers' table
+            if (supabase) {
+                await supabase
+                    .from('newsletter_subscribers')
+                    .insert({
+                        email: email.trim(),
+                        source: 'navbar_modal'
+                    });
+            }
 
             // Also send to Mailchimp via API route
             try {
@@ -39,7 +41,7 @@ export default function SubscribeModal({ isOpen, onClose }) {
                 }
             } catch (mailchimpError) {
                 console.warn('Mailchimp API error:', mailchimpError);
-                // Don't fail if Mailchimp fails - Firebase already saved
+                // Don't fail if Mailchimp fails - Supabase already saved
             }
 
             setStatus('success');

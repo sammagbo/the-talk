@@ -19,7 +19,7 @@ export const usePushNotifications = () => {
             const permission = await Notification.requestPermission();
             setNotificationPermission(permission);
             if (permission === "granted") {
-                console.warn("Messaging not initialized in firebase.js");
+                console.warn("Push notification permission granted");
             }
         } catch (error) {
             console.error("An error occurred while retrieving token. ", error);

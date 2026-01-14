@@ -60,8 +60,8 @@ export default defineConfig({
         manualChunks: {
           // Core React ecosystem
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          // Firebase SDK (large, rarely changes)
-          'vendor-firebase': ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+          // Supabase client
+          'vendor-supabase': ['@supabase/supabase-js'],
           // Sanity client
           'vendor-sanity': ['@sanity/client', '@sanity/image-url'],
           // i18n (translations)

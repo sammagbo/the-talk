@@ -29,23 +29,24 @@ vi.mock('./pages/Home', () => ({
     )
 }));
 
-// Mock Firestore
-vi.mock('./firebase', () => ({
-    db: {},
-    auth: {}
-}));
-
-vi.mock('firebase/firestore', () => ({
-    doc: vi.fn(),
-    onSnapshot: vi.fn(),
-    setDoc: vi.fn(),
-    updateDoc: vi.fn(),
-    arrayUnion: vi.fn(),
-    arrayRemove: vi.fn(),
-    getDoc: vi.fn(),
-    collection: vi.fn(),
-    query: vi.fn(),
-    where: vi.fn()
+// Mock Supabase
+vi.mock('./supabase', () => ({
+    supabase: {
+        from: vi.fn(() => ({
+            select: vi.fn().mockReturnThis(),
+            eq: vi.fn().mockReturnThis(),
+            single: vi.fn(() => Promise.resolve({ data: null, error: null }))
+        })),
+        auth: {
+            getSession: vi.fn(() => Promise.resolve({ data: { session: null } })),
+            onAuthStateChange: vi.fn(() => ({ data: { subscription: { unsubscribe: vi.fn() } } }))
+        },
+        channel: vi.fn(() => ({
+            on: vi.fn().mockReturnThis(),
+            subscribe: vi.fn()
+        })),
+        removeChannel: vi.fn()
+    }
 }));
 
 // Mock global fetch
