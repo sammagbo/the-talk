@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Newsletter from '../Newsletter';
-import { Mic, Instagram, Mail, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, ArrowRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, Calendar, Video, Headphones, Play, Film, X, ShoppingBag } from 'lucide-react';
+import { Mic, Instagram, Mail, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, ArrowRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, Calendar, Video, Headphones, Play, Film, X, ShoppingBag, Code, Shield, Globe, Cpu, Palette, MonitorPlay } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { useAuth } from '../context/AuthContext';
@@ -1070,6 +1070,164 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                         </div>
                     </div>
                 </section>
+
+                {/* Gleid's Section - Creative Engineer */}
+                <section id="gleid" className="gsap-section py-24 bg-gray-50 dark:bg-[#050505] border-t border-gray-200 dark:border-[#333]">
+                    <div className="container mx-auto px-6 max-w-6xl">
+                        {/* Hero Section */}
+                        <div className="flex flex-col md:flex-row-reverse items-center gap-16 mb-24">
+                            <div className="gsap-parallax w-full md:w-1/2 relative">
+                                <div className="absolute inset-0 bg-gradient-to-tl from-[#007BFF] to-[#A9A9F5] rounded-2xl transform -rotate-3 blur-sm opacity-30"></div>
+                                <div className="aspect-[3/4] w-full bg-gray-200 dark:bg-[#111] rounded-2xl relative z-10 overflow-hidden flex items-center justify-center border border-gray-300 dark:border-[#333]">
+                                    {/* Placeholder for Gleid's Image */}
+                                    <div className="text-center p-6">
+                                        <div className="mb-4 inline-block p-4 rounded-full bg-[#007BFF]/10 text-[#007BFF]">
+                                            <Code size={48} />
+                                        </div>
+                                        <p className="font-minimal text-gray-500 dark:text-[#6C757D]">Gleid's Portrait</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="w-full md:w-1/2 space-y-8">
+                                <div>
+                                    <h4 className="text-[#007BFF] font-creativo font-bold text-lg mb-2">Creative Partner</h4>
+                                    <h2 className="text-4xl md:text-5xl font-creativo font-bold text-black dark:text-white mb-4">Gleid</h2>
+                                    <p className="text-[#007BFF] dark:text-[#A9A9F5] font-minimal text-xl">Creative Engineer | Fashion Reporter | Co-Founder</p>
+                                </div>
+
+                                <p className="text-gray-600 dark:text-[#6C757D] leading-relaxed text-lg font-minimal">
+                                    Gleid is a Paris-based creative engineer working at the intersection of digital innovation, fashion, and culture. His work focuses on building digital and software based solutions for creative and service driven projects, while also engaging in writing, reporting, and brand storytelling.
+                                </p>
+
+                                <div className="grid grid-cols-2 gap-6">
+                                    <div className="flex items-start gap-3">
+                                        <div className="bg-white dark:bg-[#111] p-2 rounded text-black dark:text-white shadow-sm border border-gray-100 dark:border-[#333]"><Cpu size={20} /></div>
+                                        <div>
+                                            <h5 className="text-black dark:text-white font-bold font-creativo">Digital Innovation</h5>
+                                            <p className="text-sm text-gray-500 dark:text-[#6C757D]">Creative Tech Solutions</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-3">
+                                        <div className="bg-white dark:bg-[#111] p-2 rounded text-black dark:text-white shadow-sm border border-gray-100 dark:border-[#333]"><Palette size={20} /></div>
+                                        <div>
+                                            <h5 className="text-black dark:text-white font-bold font-creativo">Fashion Culture</h5>
+                                            <p className="text-sm text-gray-500 dark:text-[#6C757D]">Reporting & Storytelling</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Biography Timeline Header */}
+                        <div className="text-center mb-16">
+                            <div className="inline-flex items-center gap-2 bg-[#007BFF]/10 text-[#007BFF] px-4 py-1 rounded-full mb-4 border border-[#007BFF]/20">
+                                <BookOpen size={16} />
+                                <span className="text-xs font-bold uppercase tracking-widest font-minimal">Biography</span>
+                            </div>
+                            <h2 className="text-4xl md:text-5xl font-creativo font-bold mb-4 text-black dark:text-white">Between Digital & The Field</h2>
+                            <p className="text-gray-600 dark:text-[#6C757D] font-minimal text-lg max-w-2xl mx-auto">
+                                A journey from instinctive fashion connection to hands-on experience and digital creativity.
+                            </p>
+                        </div>
+
+                        {/* Timeline / Grid */}
+                        <div className="space-y-12 max-w-5xl mx-auto">
+                            {/* Origins */}
+                            <div className="bg-white dark:bg-[#020202] rounded-3xl border border-gray-200 dark:border-[#333] p-8 md:p-10 relative overflow-hidden group hover:border-[#007BFF]/50 transition-all duration-300">
+                                <div className="absolute top-0 left-0 w-32 h-32 bg-[#A9A9F5]/10 rounded-full blur-[60px] group-hover:w-48 group-hover:h-48 transition-all duration-500"></div>
+                                <div className="flex items-center gap-4 mb-6">
+                                    <div className="bg-gradient-to-tr from-[#A9A9F5] to-[#007BFF] p-3 rounded-xl text-white">
+                                        <Sparkles size={24} />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-2xl font-creativo font-bold text-black dark:text-white">Instinctive Connection</h3>
+                                        <p className="text-[#A9A9F5] text-sm font-minimal">The roots of craftsmanship</p>
+                                    </div>
+                                </div>
+                                <p className="text-gray-600 dark:text-[#6C757D] leading-relaxed font-minimal text-lg">
+                                    Gleid developed an instinctive connection to fashion at a very young age. Introduced to this world by his mother first a passionate creator and seamstress, later a professional he grew up surrounded by fabrics, patterns, and craftsmanship. Observing garments take shape, he learned the language of creation through dialogue and practice, forming an early sensitivity to aesthetics and meaning.
+                                </p>
+                            </div>
+
+                            {/* Evolution */}
+                            <div className="grid md:grid-cols-2 gap-8">
+                                <div className="bg-white dark:bg-[#020202] rounded-3xl border border-gray-200 dark:border-[#333] p-8 relative overflow-hidden group hover:border-[#007BFF]/50 transition-all duration-300">
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <div className="bg-gradient-to-tr from-[#007BFF] to-[#A9A9F5] p-3 rounded-xl text-white">
+                                            <BrainCircuit size={24} />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-xl font-creativo font-bold text-black dark:text-white">Digital Evolution</h3>
+                                            <p className="text-[#007BFF] text-sm font-minimal">Tech as a central force</p>
+                                        </div>
+                                    </div>
+                                    <p className="text-gray-600 dark:text-[#6C757D] leading-relaxed font-minimal">
+                                        As his interests evolved, Gleid oriented his academic path toward computer science and digital technologies. At the same time, his curiosity expanded toward information, market analysis, and event production. He began writing articles, presenting brands, studying trends, and decoding the cultural dynamics shaping the fashion industry.
+                                    </p>
+                                </div>
+
+                                <div className="bg-white dark:bg-[#020202] rounded-3xl border border-gray-200 dark:border-[#333] p-8 relative overflow-hidden group hover:border-[#A9A9F5]/50 transition-all duration-300">
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <div className="bg-gradient-to-tr from-[#A9A9F5] to-[#007BFF] p-3 rounded-xl text-white">
+                                            <Globe size={24} />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-xl font-creativo font-bold text-black dark:text-white">Global Exposure</h3>
+                                            <p className="text-[#A9A9F5] text-sm font-minimal">Tokyo & International</p>
+                                        </div>
+                                    </div>
+                                    <p className="text-gray-600 dark:text-[#6C757D] leading-relaxed font-minimal">
+                                        This curiosity naturally led him from analysis to hands-on experience. He worked as a sales advisor on multiple occasions, collaborating with brands and agencies, notably in Tokyo. There, he developed a deeper appreciation for more conceptual and radical approaches to fashion. Gleid realized his role was not only to observe fashion, but to document, interpret, and transmit it.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Hybrid Vision */}
+                            <div className="bg-white dark:bg-[#020202] rounded-3xl border border-gray-200 dark:border-[#333] p-8 md:p-10 relative overflow-hidden group hover:border-[#007BFF]/50 transition-all duration-300">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-[#007BFF]/10 rounded-full blur-[60px] group-hover:w-48 group-hover:h-48 transition-all duration-500"></div>
+                                <div className="flex items-center gap-4 mb-6">
+                                    <div className="bg-gradient-to-tr from-[#007BFF] to-[#A9A9F5] p-3 rounded-xl text-white">
+                                        <MonitorPlay size={24} />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-2xl font-creativo font-bold text-black dark:text-white">A Hybrid Vision</h3>
+                                        <p className="text-[#007BFF] text-sm font-minimal">Reporter & Engineer</p>
+                                    </div>
+                                </div>
+                                <p className="text-gray-600 dark:text-[#6C757D] leading-relaxed font-minimal text-lg">
+                                    From this realization emerged a clear direction: to become a fashion reporter, while continuing to operate at the crossroads of digital innovation and event-based culture. His ambition is to merge technology, fashion, and contemporary culture, creating narratives that reflect the rhythm, complexity, and authenticity of modern life.
+                                </p>
+                            </div>
+
+                            {/* Meeting Mijean & The Talk */}
+                            <div className="bg-black dark:bg-[#111] rounded-3xl border border-[#333] p-8 md:p-10 relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-[#007BFF]/20 rounded-full blur-[100px]"></div>
+                                <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#A9A9F5]/20 rounded-full blur-[100px]"></div>
+                                <div className="relative z-10">
+                                    <div className="inline-flex items-center gap-2 bg-[#007BFF]/20 text-[#007BFF] px-4 py-1 rounded-full mb-6 border border-[#007BFF]/30">
+                                        <Mic size={14} />
+                                        <span className="text-xs font-bold uppercase tracking-widest font-minimal">Co-Founder</span>
+                                    </div>
+                                    <h3 className="text-3xl md:text-4xl font-creativo font-bold text-white mb-4">Birth of The Talk</h3>
+                                    <p className="text-[#6C757D] leading-relaxed font-minimal text-lg mb-6">
+                                        Gleid’s path crossed with Mijean Rochus during the Tranoï Pop-Up at Galeries Lafayette. Mijean’s experience, vision, and passion for fashion immediately resonated with him, leading to a natural creative alignment. Together, they founded The Talk, a project conceived as an open dialogue, a cultural platform, and a sharp, unfiltered lens on modern fashion and lifestyle.
+                                    </p>
+
+                                    {/* Aesthetic Identity */}
+                                    <div className="mt-8 pt-8 border-t border-white/10">
+                                        <h4 className="text-white font-creativo font-bold text-xl mb-3">Aesthetic Identity</h4>
+                                        <p className="text-white/70 font-minimal">
+                                            Deeply passionate about cinema and photography, Gleid favors aesthetics that are raw, honest, and direct. His strong affinity for denim and Karasu Zoku reflects a deep connection to Japanese fashion culture, while his dedication to streetwear integrates its codes into his daily style.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
 
                 {/* Contact Section */}
                 <section id="contact" className="py-24 relative overflow-hidden bg-white dark:bg-black border-t border-gray-200 dark:border-[#333]">
