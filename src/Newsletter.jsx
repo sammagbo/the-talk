@@ -1,32 +1,65 @@
 import React, { useState } from 'react';
-import { Mail, ArrowRight, Check } from 'lucide-react';
+import { Mail, ArrowRight, Check, Loader2, AlertCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { supabase } from './supabase';
 
-const Newsletter = ({
-    action = "#",
-    placeholder = "Votre email...",
-    buttonText = "S'abonner"
-}) => {
+const Newsletter = () => {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
-    const [status, setStatus] = useState(''); // 'loading', 'success', 'error'
+    const [status, setStatus] = useState('idle'); // 'idle', 'loading', 'success', 'error'
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const handleSubmit = (e) => {
-        if (action === "#") {
-            e.preventDefault();
-            // Simulate submission for demo
-            setStatus('loading');
-            setTimeout(() => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!email.trim()) return;
+
+        setStatus('loading');
+        setErrorMessage('');
+
+        try {
+            // Save to Supabase first (as backup)
+            if (supabase) {
+                await supabase
+                    .from('newsletter_subscribers')
+                    .insert({
+                        email: email.trim(),
+                        source: 'homepage_inline'
+                    });
+            }
+
+            // Send to Mailchimp via API route
+            const response = await fetch('/api/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email.trim() }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok || data.success) {
                 setStatus('success');
                 setEmail('');
-            }, 1500);
+                // Reset after 5 seconds
+                setTimeout(() => setStatus('idle'), 5000);
+            } else {
+                throw new Error(data.error || 'Failed to subscribe');
+            }
+        } catch (error) {
+            console.error('Newsletter subscription error:', error);
+            setStatus('error');
+            setErrorMessage(t('subscribe.error', 'An error occurred. Please try again.'));
+            // Reset error after 4 seconds
+            setTimeout(() => {
+                setStatus('idle');
+                setErrorMessage('');
+            }, 4000);
         }
-        // If action is provided, let the form submit naturally
     };
 
     return (
         <div className="w-full max-w-md mx-auto">
             <form
-                action={action}
-                method="POST"
                 onSubmit={handleSubmit}
                 className="relative flex items-center"
             >
@@ -40,21 +73,29 @@ const Newsletter = ({
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="block w-full pl-11 pr-32 py-4 bg-[#111] border border-[#333] rounded-full text-white placeholder-[#6C757D] focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal"
-                        placeholder={placeholder}
+                        disabled={status === 'loading'}
+                        className="block w-full pl-11 pr-36 py-4 bg-[#111] border border-[#333] rounded-full text-white placeholder-[#6C757D] focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal disabled:opacity-50"
+                        placeholder={t('subscribe.placeholder', 'your@email.com')}
                     />
                     <button
                         type="submit"
                         disabled={status === 'loading' || status === 'success'}
-                        className={`absolute right-1.5 top-1.5 bottom-1.5 bg-[#007BFF] hover:bg-[#0069d9] text-white px-6 rounded-full transition-all transform hover:scale-105 font-bold shadow-[0_0_15px_rgba(0,123,255,0.3)] flex items-center gap-2 ${status === 'success' ? 'bg-green-500 hover:bg-green-600' : ''}`}
+                        className={`absolute right-1.5 top-1.5 bottom-1.5 px-6 rounded-full transition-all transform hover:scale-105 font-bold shadow-[0_0_15px_rgba(0,123,255,0.3)] flex items-center gap-2 disabled:cursor-not-allowed ${status === 'success'
+                            ? 'bg-green-500 hover:bg-green-500'
+                            : status === 'error'
+                                ? 'bg-red-500 hover:bg-red-500'
+                                : 'bg-[#007BFF] hover:bg-[#0069d9]'
+                            } text-white`}
                     >
                         {status === 'loading' ? (
-                            <span className="animate-pulse">...</span>
+                            <Loader2 className="w-5 h-5 animate-spin" />
                         ) : status === 'success' ? (
                             <Check className="w-5 h-5" />
+                        ) : status === 'error' ? (
+                            <AlertCircle className="w-5 h-5" />
                         ) : (
                             <>
-                                {buttonText}
+                                {t('subscribe.button', "Subscribe")}
                                 <ArrowRight className="w-4 h-4" />
                             </>
                         )}
@@ -63,7 +104,12 @@ const Newsletter = ({
             </form>
             {status === 'success' && (
                 <p className="mt-3 text-green-500 text-sm font-minimal text-center animate-fade-in">
-                    Merci ! Vous êtes inscrit à la newsletter.
+                    {t('subscribe.success', 'Thank you! You are subscribed.')}
+                </p>
+            )}
+            {status === 'error' && errorMessage && (
+                <p className="mt-3 text-red-500 text-sm font-minimal text-center animate-fade-in">
+                    {errorMessage}
                 </p>
             )}
         </div>

@@ -11,8 +11,11 @@ import {
     TrendingUp,
     ArrowLeft,
     Loader2,
-    AlertTriangle
+    AlertTriangle,
+    Mail,
+    Activity
 } from 'lucide-react';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 // Admin email whitelist - add your admin emails here
 const ADMIN_EMAILS = ['admin@example.com', 'sammagbo@gmail.com'];
@@ -24,10 +27,13 @@ export default function AdminPage() {
     const [stats, setStats] = useState({
         totalUsers: 0,
         totalComments: 0,
-        totalEpisodes: 0
+        totalEpisodes: 0,
+        totalNewsletterSubs: 0
     });
     const [recentEpisodes, setRecentEpisodes] = useState([]);
     const [recentComments, setRecentComments] = useState([]);
+    const [userGrowth, setUserGrowth] = useState([]);
+    const [dailyActivity, setDailyActivity] = useState(null);
 
     // Check if user is admin
     const isAdmin = user && ADMIN_EMAILS.includes(user.email);
@@ -81,10 +87,39 @@ export default function AdminPage() {
                 }`;
                 const episodes = await client.fetch(episodesQuery);
 
+                // Fetch newsletter subscribers count
+                const { count: totalNewsletterSubs } = await supabase
+                    .from('newsletter_subscribers')
+                    .select('*', { count: 'exact', head: true });
+
+                // Fetch user growth (last 30 days)
+                const thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+                const { data: usersData } = await supabase
+                    .from('users')
+                    .select('created_at')
+                    .gte('created_at', thirtyDaysAgo.toISOString())
+                    .order('created_at', { ascending: true });
+
+                // Process user growth data for chart
+                const growthByDay = {};
+                (usersData || []).forEach(u => {
+                    const day = new Date(u.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+                    growthByDay[day] = (growthByDay[day] || 0) + 1;
+                });
+
+                const growthData = Object.entries(growthByDay).map(([date, count]) => ({
+                    date,
+                    users: count
+                }));
+                setUserGrowth(growthData);
+
                 setStats({
                     totalUsers: totalUsers || 0,
                     totalComments: totalComments || 0,
-                    totalEpisodes: episodes.length
+                    totalEpisodes: episodes.length,
+                    totalNewsletterSubs: totalNewsletterSubs || 0
                 });
                 setRecentEpisodes(episodes.slice(0, 5));
             } catch (error) {
@@ -171,7 +206,7 @@ export default function AdminPage() {
             {/* Main Content */}
             <main className="container mx-auto px-4 py-8">
                 {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <div className="bg-white dark:bg-[#111] rounded-2xl p-6 border border-gray-200 dark:border-[#333] shadow-sm">
                         <div className="flex items-center justify-between mb-4">
                             <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-xl">
@@ -204,7 +239,68 @@ export default function AdminPage() {
                         <h3 className="text-3xl font-bold text-black dark:text-white mb-1">{stats.totalEpisodes}</h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400">Total de Episódios</p>
                     </div>
+
+                    <div className="bg-white dark:bg-[#111] rounded-2xl p-6 border border-gray-200 dark:border-[#333] shadow-sm">
+                        <div className="flex items-center justify-between mb-4">
+                            <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-xl">
+                                <Mail className="w-6 h-6 text-green-600 dark:text-green-400" />
+                            </div>
+                            <TrendingUp className="w-5 h-5 text-green-500" />
+                        </div>
+                        <h3 className="text-3xl font-bold text-black dark:text-white mb-1">{stats.totalNewsletterSubs}</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Assinantes Newsletter</p>
+                    </div>
                 </div>
+
+                {/* User Growth Chart */}
+                {userGrowth.length > 0 && (
+                    <div className="bg-white dark:bg-[#111] rounded-2xl p-6 border border-gray-200 dark:border-[#333] shadow-sm mb-8">
+                        <h2 className="text-lg font-bold text-black dark:text-white mb-4 flex items-center gap-2">
+                            <Activity className="w-5 h-5 text-[#007BFF]" />
+                            Crescimento de Usuários (30 dias)
+                        </h2>
+                        <div className="h-64">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <AreaChart data={userGrowth}>
+                                    <defs>
+                                        <linearGradient id="colorUsers" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="#007BFF" stopOpacity={0.3} />
+                                            <stop offset="95%" stopColor="#007BFF" stopOpacity={0} />
+                                        </linearGradient>
+                                    </defs>
+                                    <XAxis
+                                        dataKey="date"
+                                        stroke="#6C757D"
+                                        fontSize={12}
+                                        tickLine={false}
+                                    />
+                                    <YAxis
+                                        stroke="#6C757D"
+                                        fontSize={12}
+                                        tickLine={false}
+                                        axisLine={false}
+                                    />
+                                    <Tooltip
+                                        contentStyle={{
+                                            backgroundColor: '#111',
+                                            border: '1px solid #333',
+                                            borderRadius: '8px',
+                                            color: '#fff'
+                                        }}
+                                    />
+                                    <Area
+                                        type="monotone"
+                                        dataKey="users"
+                                        stroke="#007BFF"
+                                        fillOpacity={1}
+                                        fill="url(#colorUsers)"
+                                        strokeWidth={2}
+                                    />
+                                </AreaChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
+                )}
 
                 {/* Recent Data */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

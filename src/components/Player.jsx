@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, X, Volume2, Share2, Check } from 'lucide-react';
+import { Play, Pause, X, Volume2, VolumeX, Share2, Check, SkipBack, SkipForward, Gauge } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { savePlaybackProgress, getSavedPosition } from '../utils/playbackHistory';
 import { shareContent, getEpisodeShareUrl } from '../utils/share';
 import LazySpotifyEmbed from './LazySpotifyEmbed';
 import LiveListeners from './LiveListeners';
+import AudioWaveform from './AudioWaveform';
 import { usePresence } from '../hooks/usePresence';
+
+const PLAYBACK_SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
 export default function Player({ currentEpisode, isPlaying, onClose, onTogglePlay }) {
     const audioRef = useRef(null);
@@ -15,6 +18,13 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
     const { user } = useAuth();
     const lastSaveTimeRef = useRef(0);
     const saveIntervalRef = useRef(null);
+
+    // New controls state
+    const [volume, setVolume] = useState(1);
+    const [isMuted, setIsMuted] = useState(false);
+    const [showVolumeSlider, setShowVolumeSlider] = useState(false);
+    const [playbackSpeed, setPlaybackSpeed] = useState(1);
+    const [showSpeedMenu, setShowSpeedMenu] = useState(false);
 
     // Real-time presence tracking
     const { listenerCount, isConnected } = usePresence(currentEpisode?.id);
@@ -83,6 +93,20 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
             }
         };
     }, [user, currentEpisode]);
+
+    // Volume control
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.volume = isMuted ? 0 : volume;
+        }
+    }, [volume, isMuted]);
+
+    // Playback speed control
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.playbackRate = playbackSpeed;
+        }
+    }, [playbackSpeed]);
 
     // Media Session API Support
     useEffect(() => {
@@ -202,15 +226,51 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                 <div className="flex flex-col items-center w-1/3">
                     {currentEpisode.audioUrl ? (
                         <>
-                            <div className="flex items-center gap-6 mb-2">
+                            <div className="flex items-center gap-4 mb-2">
+                                {/* Skip Back */}
+                                <button
+                                    onClick={() => {
+                                        if (audioRef.current) {
+                                            audioRef.current.currentTime = Math.max(audioRef.current.currentTime - 10, 0);
+                                            setProgress(audioRef.current.currentTime);
+                                        }
+                                    }}
+                                    aria-label="Skip back 10 seconds"
+                                    className="p-2 text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+                                >
+                                    <SkipBack size={18} />
+                                </button>
+
+                                {/* Play/Pause */}
                                 <button
                                     onClick={onTogglePlay}
                                     aria-label={isPlaying ? 'Pause' : 'Play'}
-                                    className="w-10 h-10 bg-[#007BFF] hover:bg-[#0069d9] rounded-full flex items-center justify-center text-white transition-transform hover:scale-105 shadow-lg shadow-[#007BFF]/20"
+                                    className="w-12 h-12 bg-[#007BFF] hover:bg-[#0069d9] rounded-full flex items-center justify-center text-white transition-transform hover:scale-105 shadow-lg shadow-[#007BFF]/20"
                                 >
-                                    {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" className="ml-0.5" />}
+                                    {isPlaying ? <Pause size={22} fill="currentColor" /> : <Play size={22} fill="currentColor" className="ml-0.5" />}
+                                </button>
+
+                                {/* Skip Forward */}
+                                <button
+                                    onClick={() => {
+                                        if (audioRef.current) {
+                                            audioRef.current.currentTime = Math.min(audioRef.current.currentTime + 10, audioRef.current.duration || 0);
+                                            setProgress(audioRef.current.currentTime);
+                                        }
+                                    }}
+                                    aria-label="Skip forward 10 seconds"
+                                    className="p-2 text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+                                >
+                                    <SkipForward size={18} />
                                 </button>
                             </div>
+
+                            {/* Waveform */}
+                            {isPlaying && (
+                                <div className="w-full max-w-[200px] mb-1 hidden md:block">
+                                    <AudioWaveform isPlaying={isPlaying} barCount={16} height={20} />
+                                </div>
+                            )}
                             <div className="w-full flex items-center gap-3 text-xs font-minimal text-gray-500 dark:text-[#6C757D]">
                                 <span>{formatTime(progress)}</span>
                                 <input
@@ -244,7 +304,8 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                 </div>
 
                 {/* Actions (Right) */}
-                <div className="flex items-center justify-end gap-4 w-1/3">
+                <div className="flex items-center justify-end gap-2 md:gap-4 w-1/3">
+                    {/* Share Button */}
                     <button
                         aria-label="Share"
                         onClick={async () => {
@@ -264,9 +325,65 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                     >
                         <Share2 size={20} />
                     </button>
-                    <button aria-label="Volume" className="text-gray-400 hover:text-black dark:hover:text-white transition-colors hidden md:block">
-                        <Volume2 size={20} />
-                    </button>
+
+                    {/* Playback Speed */}
+                    <div className="relative hidden md:block">
+                        <button
+                            onClick={() => setShowSpeedMenu(!showSpeedMenu)}
+                            aria-label="Playback speed"
+                            className="flex items-center gap-1 px-2 py-1 text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white bg-gray-100 dark:bg-[#222] rounded-full transition-colors"
+                        >
+                            {playbackSpeed}x
+                        </button>
+                        {showSpeedMenu && (
+                            <div className="absolute bottom-full mb-2 right-0 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#333] rounded-lg shadow-xl py-1 min-w-[80px] z-50">
+                                {PLAYBACK_SPEEDS.map((speed) => (
+                                    <button
+                                        key={speed}
+                                        onClick={() => {
+                                            setPlaybackSpeed(speed);
+                                            setShowSpeedMenu(false);
+                                        }}
+                                        className={`w-full px-4 py-2 text-sm text-left hover:bg-gray-100 dark:hover:bg-[#222] transition-colors ${playbackSpeed === speed ? 'text-[#007BFF] font-bold' : 'text-gray-700 dark:text-gray-300'
+                                            }`}
+                                    >
+                                        {speed}x
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Volume Control */}
+                    <div className="relative hidden md:flex items-center gap-2">
+                        <button
+                            onClick={() => setIsMuted(!isMuted)}
+                            onMouseEnter={() => setShowVolumeSlider(true)}
+                            aria-label={isMuted ? 'Unmute' : 'Mute'}
+                            className="text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+                        >
+                            {isMuted || volume === 0 ? <VolumeX size={20} /> : <Volume2 size={20} />}
+                        </button>
+                        <div
+                            className={`overflow-hidden transition-all duration-200 ${showVolumeSlider ? 'w-20 opacity-100' : 'w-0 opacity-0'}`}
+                            onMouseLeave={() => setShowVolumeSlider(false)}
+                        >
+                            <input
+                                type="range"
+                                min="0"
+                                max="1"
+                                step="0.1"
+                                value={isMuted ? 0 : volume}
+                                onChange={(e) => {
+                                    setVolume(parseFloat(e.target.value));
+                                    if (parseFloat(e.target.value) > 0) setIsMuted(false);
+                                }}
+                                className="w-full h-1 bg-gray-200 dark:bg-[#333] rounded-lg appearance-none cursor-pointer accent-[#007BFF]"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Close Button */}
                     <button
                         onClick={onClose}
                         aria-label="Fermer le lecteur"
