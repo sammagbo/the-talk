@@ -68,6 +68,10 @@ export default defineConfig({
           'vendor-i18n': ['i18next', 'react-i18next', 'i18next-browser-languagedetector'],
           // UI utilities
           'vendor-ui': ['lucide-react'],
+          // Animation library (GSAP)
+          'vendor-gsap': ['gsap'],
+          // Charts library (only loaded on Admin page)
+          'vendor-charts': ['recharts'],
         }
       }
     },
