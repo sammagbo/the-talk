@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { client, urlFor } from '../sanity';
-// import { analytics } from '../firebase'; // Analytics removed from firebase config
 import { X, ExternalLink } from 'lucide-react';
 
 export default function SponsorBanner() {
@@ -32,14 +31,7 @@ export default function SponsorBanner() {
     };
 
     const handleClick = () => {
-        // Analytics tracking disabled
-        // if (sponsor) {
-        //     logEvent(analytics, 'select_content', {
-        //         content_type: 'sponsor',
-        //         item_id: sponsor.name,
-        //         destination: sponsor.url
-        //     });
-        // }
+        // Click handler for sponsor link (analytics removed)
     };
 
     if (!sponsor || !isVisible) return null;
