@@ -18,6 +18,7 @@ import CountUp from '../components/CountUp';
 import Marquee from '../components/Marquee';
 import TiltCard from '../components/TiltCard';
 import useSmoothScroll from '../hooks/useSmoothScroll';
+import RSVPButton from '../components/RSVPButton';
 
 
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
@@ -460,6 +461,9 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                             <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">Évaluation</p>
                         </div>
                     </div>
+
+                    {/* RSVP for upcoming live event */}
+                    <RSVPButton className="mt-8 max-w-xl mx-auto" />
                 </div>
             </header>
 
