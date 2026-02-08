@@ -14,7 +14,8 @@ import {
     Bell,
     Download,
     LogOut,
-    ShoppingBag
+    ShoppingBag,
+    Shield
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import ThemeToggle from './ThemeToggle';
@@ -203,6 +204,16 @@ export default function Navbar({
                                     className="w-8 h-8 rounded-full border border-gray-300 dark:border-[#333]"
                                 />
                             </Link>
+                            {/* Admin Button - only visible for admin users */}
+                            {['admin@example.com', 'sammagbo@gmail.com'].includes(user.email) && (
+                                <Link
+                                    to="/admin"
+                                    title="Painel Admin"
+                                    className="p-2 text-[#A9A9F5] hover:text-[#007BFF] hover:bg-[#007BFF]/10 rounded-lg transition-colors"
+                                >
+                                    <Shield size={18} />
+                                </Link>
+                            )}
                             <button
                                 onClick={logout}
                                 aria-label="Se déconnecter"
@@ -344,18 +355,31 @@ export default function Navbar({
                         <div className="absolute bottom-8 left-0 right-0 flex justify-center">
                             <div className="flex items-center gap-6">
                                 {user ? (
-                                    <Link
-                                        to={`/profile/${user.uid}`}
-                                        onClick={() => setIsMenuOpen(false)}
-                                        className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
-                                    >
-                                        <img
-                                            src={user.photoURL}
-                                            alt={user.displayName}
-                                            className="w-10 h-10 rounded-full border-2 border-white/20"
-                                        />
-                                        <span className="font-mono text-sm tracking-wider">{user.displayName?.split(' ')[0]}</span>
-                                    </Link>
+                                    <>
+                                        <Link
+                                            to={`/profile/${user.uid}`}
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
+                                        >
+                                            <img
+                                                src={user.photoURL}
+                                                alt={user.displayName}
+                                                className="w-10 h-10 rounded-full border-2 border-white/20"
+                                            />
+                                            <span className="font-mono text-sm tracking-wider">{user.displayName?.split(' ')[0]}</span>
+                                        </Link>
+                                        {/* Admin Button - mobile */}
+                                        {['admin@example.com', 'sammagbo@gmail.com'].includes(user.email) && (
+                                            <Link
+                                                to="/admin"
+                                                onClick={() => setIsMenuOpen(false)}
+                                                className="flex items-center gap-2 px-4 py-2 bg-[#A9A9F5]/20 text-[#A9A9F5] rounded-full font-mono text-sm tracking-wider hover:bg-[#A9A9F5]/30 transition-colors"
+                                            >
+                                                <Shield size={16} />
+                                                Admin
+                                            </Link>
+                                        )}
+                                    </>
                                 ) : (
                                     <div className="flex flex-col items-center gap-4 w-full max-w-xs">
                                         <p className="text-white/60 text-sm font-mono">
