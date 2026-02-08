@@ -15,7 +15,8 @@ import {
     Download,
     LogOut,
     ShoppingBag,
-    Shield
+    Shield,
+    Search
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import ThemeToggle from './ThemeToggle';
@@ -31,6 +32,7 @@ import { usePushNotifications } from '../hooks/usePushNotifications';
 export default function Navbar({
     onScrollToSection,
     onOpenSubscribe,
+    onOpenSearch,
     deferredPrompt,
     onInstallClick
 }) {
@@ -243,6 +245,13 @@ export default function Navbar({
                     )}
 
                     {/* Utilities */}
+                    <button
+                        onClick={onOpenSearch}
+                        className="p-2 text-gray-500 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors mr-1"
+                        aria-label="Search"
+                    >
+                        <Search size={20} />
+                    </button>
                     <ThemeToggle />
 
                     <button
@@ -392,6 +401,16 @@ export default function Navbar({
                                 )}
 
                                 <div className="w-px h-8 bg-white/20" />
+
+                                <button
+                                    onClick={() => {
+                                        onOpenSearch?.();
+                                        setIsMenuOpen(false);
+                                    }}
+                                    className="p-2 rounded-full border border-white/20 text-white/50 hover:text-white hover:border-white/40 transition-all"
+                                >
+                                    <Search size={20} />
+                                </button>
 
                                 <ThemeToggle />
 

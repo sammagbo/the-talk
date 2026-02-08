@@ -13,7 +13,12 @@ import {
     Loader2,
     AlertTriangle,
     Mail,
-    Activity
+    Activity,
+    Sparkles,
+    Zap,
+    Copy,
+    Check,
+    FileText
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import Globe, { getUserLocation } from '../components/Globe';
@@ -36,6 +41,15 @@ export default function AdminPage() {
     const [userGrowth, setUserGrowth] = useState([]);
     const [dailyActivity, setDailyActivity] = useState(null);
     const [globeMarkers, setGlobeMarkers] = useState([]);
+
+    // Automation States
+    const [selectedEpisodeId, setSelectedEpisodeId] = useState('');
+    const [newsletterContext, setNewsletterContext] = useState('');
+    const [newsletterResult, setNewsletterResult] = useState('');
+    const [newsletterTone, setNewsletterTone] = useState('engaging');
+    const [showNotesResult, setShowNotesResult] = useState(null);
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [copied, setCopied] = useState(false);
 
     // Check if user is admin
     const isAdmin = user && ADMIN_EMAILS.includes(user.email);
@@ -331,6 +345,151 @@ export default function AdminPage() {
                                 <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-xs">🇧🇷 Brasil</span>
                                 <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded-full text-xs">🇺🇸 EUA</span>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 🤖 Automation Tools Section */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    {/* Auto Show Notes */}
+                    <div className="bg-white dark:bg-[#111] rounded-2xl p-6 border border-gray-200 dark:border-[#333] shadow-sm">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                                <Sparkles className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                            </div>
+                            <h2 className="text-lg font-bold text-black dark:text-white">Gerador de Show Notes</h2>
+                        </div>
+                        <p className="text-sm text-gray-500 mb-4">Selecione um episódio para gerar resumo e tags com IA.</p>
+
+                        <div className="space-y-4">
+                            <select
+                                className="w-full bg-gray-50 dark:bg-[#222] border border-gray-200 dark:border-[#333] rounded-lg p-3 text-sm focus:ring-2 focus:ring-purple-500 outline-none transition-all"
+                                value={selectedEpisodeId}
+                                onChange={(e) => setSelectedEpisodeId(e.target.value)}
+                            >
+                                <option value="">Selecione um episódio...</option>
+                                {recentEpisodes.map(ep => (
+                                    <option key={ep._id} value={ep._id}>{ep.title}</option>
+                                ))}
+                            </select>
+
+                            <button
+                                onClick={async () => {
+                                    if (!selectedEpisodeId) return;
+                                    setIsGenerating(true);
+                                    try {
+                                        const episode = recentEpisodes.find(ep => ep._id === selectedEpisodeId);
+                                        const { data, error } = await supabase.functions.invoke('generate-shownotes', {
+                                            body: { title: episode.title, content: `Episode Title: ${episode.title}. Description: ${episode.description || ''}` }
+                                        });
+                                        if (error) throw error;
+                                        setShowNotesResult(data);
+                                    } catch (err) {
+                                        alert('Error generating: ' + err.message);
+                                    } finally {
+                                        setIsGenerating(false);
+                                    }
+                                }}
+                                disabled={isGenerating || !selectedEpisodeId}
+                                className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                            >
+                                {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
+                                {isGenerating ? 'Gerando...' : 'Gerar com Gemini AI'}
+                            </button>
+
+                            {showNotesResult && (
+                                <div className="mt-4 p-4 bg-gray-50 dark:bg-[#222] rounded-lg border border-gray-200 dark:border-[#333]">
+                                    <h4 className="font-bold text-xs uppercase text-gray-500 mb-2">Resumo Sugerido:</h4>
+                                    <p className="text-sm text-gray-700 dark:text-gray-300 mb-3 whitespace-pre-line">{showNotesResult.summary}</p>
+                                    <h4 className="font-bold text-xs uppercase text-gray-500 mb-2">Tags:</h4>
+                                    <div className="flex flex-wrap gap-2">
+                                        {showNotesResult.tags?.map(tag => (
+                                            <span key={tag} className="text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-700 px-2 py-1 rounded-md">#{tag}</span>
+                                        ))}
+                                    </div>
+                                    <button
+                                        className="mt-3 text-xs text-purple-600 hover:text-purple-500 flex items-center gap-1"
+                                        onClick={() => navigator.clipboard.writeText(JSON.stringify(showNotesResult, null, 2))}
+                                    >
+                                        <Copy className="w-3 h-3" /> Copiar JSON
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Auto Newsletter */}
+                    <div className="bg-white dark:bg-[#111] rounded-2xl p-6 border border-gray-200 dark:border-[#333] shadow-sm">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                                <Mail className="w-5 h-5 text-green-600 dark:text-green-400" />
+                            </div>
+                            <h2 className="text-lg font-bold text-black dark:text-white">Gerador de Newsletter</h2>
+                        </div>
+                        <p className="text-sm text-gray-500 mb-4">Crie um rascunho de email semanal com base em atualizações.</p>
+
+                        <div className="space-y-4">
+                            <textarea
+                                className="w-full bg-gray-50 dark:bg-[#222] border border-gray-200 dark:border-[#333] rounded-lg p-3 text-sm focus:ring-2 focus:ring-green-500 outline-none transition-all h-24"
+                                placeholder="O que aconteceu essa semana? (Ex: Novo episódio com X, mudança no site...)"
+                                value={newsletterContext}
+                                onChange={(e) => setNewsletterContext(e.target.value)}
+                            />
+
+                            <div className="flex gap-2">
+                                <select
+                                    className="bg-gray-50 dark:bg-[#222] border border-gray-200 dark:border-[#333] rounded-lg px-3 py-2 text-sm outline-none"
+                                    value={newsletterTone}
+                                    onChange={(e) => setNewsletterTone(e.target.value)}
+                                >
+                                    <option value="engaging">Engajajador</option>
+                                    <option value="professional">Profissional</option>
+                                    <option value="casual">Casual</option>
+                                    <option value="luxury">Luxo/Moda</option>
+                                </select>
+                                <button
+                                    onClick={async () => {
+                                        setIsGenerating(true);
+                                        try {
+                                            const { data, error } = await supabase.functions.invoke('newsletter-generator', {
+                                                body: { context: newsletterContext, tone: newsletterTone }
+                                            });
+                                            if (error) throw error;
+                                            setNewsletterResult(data);
+                                        } catch (err) {
+                                            alert('Error generating: ' + err.message);
+                                        } finally {
+                                            setIsGenerating(false);
+                                        }
+                                    }}
+                                    disabled={isGenerating || !newsletterContext}
+                                    className="flex-1 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                                >
+                                    {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
+                                    Gerar Rascunho
+                                </button>
+                            </div>
+
+                            {newsletterResult && (
+                                <div className="mt-4 relative">
+                                    <textarea
+                                        className="w-full bg-gray-50 dark:bg-[#222] border border-gray-200 dark:border-[#333] rounded-lg p-3 text-sm font-mono h-48 focus:ring-2 focus:ring-green-500 outline-none"
+                                        readOnly
+                                        value={`Subject: ${newsletterResult.subject}\n\n${newsletterResult.body}`}
+                                    />
+                                    <button
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(`Subject: ${newsletterResult.subject}\n\n${newsletterResult.body}`);
+                                            setCopied(true);
+                                            setTimeout(() => setCopied(false), 2000);
+                                        }}
+                                        className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-md border border-gray-200 dark:border-[#333] hover:bg-gray-100 transition-colors shadow-sm"
+                                        title="Copiar"
+                                    >
+                                        {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-gray-500" />}
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

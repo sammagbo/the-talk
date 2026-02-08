@@ -19,6 +19,7 @@ import Marquee from '../components/Marquee';
 import TiltCard from '../components/TiltCard';
 import useSmoothScroll from '../hooks/useSmoothScroll';
 import RSVPButton from '../components/RSVPButton';
+import SearchOverlay from '../components/SearchOverlay';
 
 
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
@@ -88,7 +89,8 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
     const { t } = useTranslation();
     const { user } = useAuth();
     const [activeCategory, setActiveCategory] = useState('Tous');
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState(''); // Restore local search state
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const [formStatus, setFormStatus] = useState('');
     const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -364,8 +366,14 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
             <Navbar
                 onScrollToSection={scrollToSection}
                 onOpenSubscribe={() => setIsSubscribeOpen(true)}
+                onOpenSearch={() => setIsSearchOpen(true)}
                 deferredPrompt={deferredPrompt}
                 onInstallClick={handleInstallClick}
+            />
+
+            <SearchOverlay
+                isOpen={isSearchOpen}
+                onClose={() => setIsSearchOpen(false)}
             />
 
 

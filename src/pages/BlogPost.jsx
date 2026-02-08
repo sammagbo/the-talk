@@ -1,10 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, Calendar, Clock } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Play, Pause, Square, Volume2, RotateCcw } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { PortableText } from '@portabletext/react';
 import ThemeToggle from '../components/ThemeToggle';
 import { client, urlFor } from '../sanity';
+
+// Helper to convert PortableText blocks to plain text for speech
+function blocksToText(blocks) {
+    if (!blocks || !Array.isArray(blocks)) return '';
+    return blocks
+        .map(block => {
+            if (block._type !== 'block' || !block.children) return '';
+            return block.children.map(child => child.text).join('');
+        })
+        .join('. ');
+}
 
 // Custom components for Portable Text rendering
 const portableTextComponents = {
@@ -67,6 +78,22 @@ export default function BlogPost() {
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    // TTS State
+    const [isSpeaking, setIsSpeaking] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
+    const [speechSupported, setSpeechSupported] = useState(false);
+    const speechRef = useRef(null);
+
+    useEffect(() => {
+        setSpeechSupported('speechSynthesis' in window);
+
+        return () => {
+            if (window.speechSynthesis) {
+                window.speechSynthesis.cancel();
+            }
+        };
+    }, []);
+
     useEffect(() => {
         const fetchPost = async () => {
             try {
@@ -89,6 +116,54 @@ export default function BlogPost() {
 
         fetchPost();
     }, [slug]);
+
+    const handleSpeak = () => {
+        if (!post?.body) return;
+
+        if (isPaused) {
+            window.speechSynthesis.resume();
+            setIsPaused(false);
+            setIsSpeaking(true);
+            return;
+        }
+
+        if (isSpeaking) {
+            window.speechSynthesis.pause();
+            setIsPaused(true);
+            setIsSpeaking(false);
+            return;
+        }
+
+        const text = `${post.title}. ${blocksToText(post.body)}`;
+        const utterance = new SpeechSynthesisUtterance(text);
+
+        // Try to select a good voice
+        const voices = window.speechSynthesis.getVoices();
+        const frenchVoice = voices.find(v => v.lang.includes('fr') && v.name.includes('Google')) ||
+            voices.find(v => v.lang.includes('fr'));
+
+        if (frenchVoice) {
+            utterance.voice = frenchVoice;
+        }
+
+        utterance.rate = 1;
+        utterance.pitch = 1;
+
+        utterance.onend = () => {
+            setIsSpeaking(false);
+            setIsPaused(false);
+        };
+
+        window.speechSynthesis.speak(utterance);
+        setIsSpeaking(true);
+        speechRef.current = utterance;
+    };
+
+    const handleStop = () => {
+        window.speechSynthesis.cancel();
+        setIsSpeaking(false);
+        setIsPaused(false);
+    };
 
     const formatDate = (dateString) => {
         if (!dateString) return '';
@@ -130,7 +205,34 @@ export default function BlogPost() {
                     <Link to="/blog" className="inline-flex items-center gap-2 text-gray-500 dark:text-[#6C757D] hover:text-[#007BFF] dark:hover:text-white transition-colors font-minimal text-sm uppercase tracking-wider">
                         <ArrowLeft size={16} /> Retour au blog
                     </Link>
-                    <ThemeToggle />
+
+                    <div className="flex items-center gap-4">
+                        {/* Audio Player Controls - Top Bar */}
+                        {speechSupported && (
+                            <div className="hidden md:flex items-center gap-2 bg-gray-100 dark:bg-white/10 rounded-full px-3 py-1.5 border border-gray-200 dark:border-white/10">
+                                <button
+                                    onClick={handleSpeak}
+                                    className="p-1.5 rounded-full hover:bg-white dark:hover:bg-black/20 text-[#007BFF] transition-colors"
+                                    title={isSpeaking ? "Pause" : "Lire l'article"}
+                                >
+                                    {isSpeaking ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" />}
+                                </button>
+                                {(isSpeaking || isPaused) && (
+                                    <button
+                                        onClick={handleStop}
+                                        className="p-1.5 rounded-full hover:bg-white dark:hover:bg-black/20 text-red-500 transition-colors"
+                                        title="Arrêter"
+                                    >
+                                        <Square size={14} fill="currentColor" />
+                                    </button>
+                                )}
+                                <span className="text-xs font-mono font-bold text-gray-500 dark:text-gray-400 uppercase">
+                                    {isSpeaking ? 'Lecture en cours...' : 'Écouter'}
+                                </span>
+                            </div>
+                        )}
+                        <ThemeToggle />
+                    </div>
                 </div>
             </nav>
 
@@ -148,17 +250,55 @@ export default function BlogPost() {
                 )}
 
                 <div className="container mx-auto px-6 max-w-3xl">
+                    {/* Floating Audio Player (Mobile/Sticky) */}
+                    {speechSupported && (isSpeaking || isPaused) && (
+                        <div className="fixed bottom-6 right-6 z-40 md:hidden">
+                            <div className="bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#333] shadow-2xl rounded-2xl p-4 flex items-center gap-4 animate-in slide-in-from-bottom-5">
+                                <div className="p-3 bg-[#007BFF]/10 rounded-full text-[#007BFF] animate-pulse">
+                                    <Volume2 size={24} />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-mono text-gray-500 uppercase mb-1">Lecture en cours</p>
+                                    <div className="flex items-center gap-3">
+                                        <button
+                                            onClick={handleSpeak}
+                                            className="p-2 bg-[#007BFF] text-white rounded-full hover:scale-105 transition-transform"
+                                        >
+                                            {isSpeaking ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
+                                        </button>
+                                        <button
+                                            onClick={handleStop}
+                                            className="p-2 bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-white rounded-full hover:bg-gray-200 transition-colors"
+                                        >
+                                            <Square size={16} fill="currentColor" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Title & Meta */}
                     <header className={post.mainImage ? "-mt-32 relative z-10" : "mt-16"}>
                         <h1 className={`text-4xl md:text-5xl font-creativo font-bold mb-6 ${post.mainImage ? 'text-white' : ''}`}>
                             {post.title}
                         </h1>
                         {post.publishedAt && (
-                            <div className={`flex items-center gap-4 ${post.mainImage ? 'text-white/80' : 'text-gray-500 dark:text-[#6C757D]'}`}>
+                            <div className={`flex flex-wrap items-center gap-6 ${post.mainImage ? 'text-white/80' : 'text-gray-500 dark:text-[#6C757D]'}`}>
                                 <div className="flex items-center gap-2">
                                     <Calendar size={16} />
                                     <span>{formatDate(post.publishedAt)}</span>
                                 </div>
+                                <button
+                                    onClick={handleSpeak}
+                                    className={`flex items-center gap-2 text-sm font-bold uppercase tracking-wider px-4 py-2 rounded-full backdrop-blur-md transition-all ${post.mainImage
+                                            ? 'bg-white/10 hover:bg-white/20 text-white'
+                                            : 'bg-[#007BFF]/10 text-[#007BFF] hover:bg-[#007BFF]/20'
+                                        }`}
+                                >
+                                    {isSpeaking ? <Pause size={16} /> : <Play size={16} />}
+                                    {isSpeaking ? 'Pause' : 'Écouter l\'article'}
+                                </button>
                             </div>
                         )}
                     </header>
