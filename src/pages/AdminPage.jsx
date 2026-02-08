@@ -16,6 +16,7 @@ import {
     Activity
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import Globe, { getUserLocation } from '../components/Globe';
 
 // Admin email whitelist - add your admin emails here
 const ADMIN_EMAILS = ['admin@example.com', 'sammagbo@gmail.com'];
@@ -34,6 +35,7 @@ export default function AdminPage() {
     const [recentComments, setRecentComments] = useState([]);
     const [userGrowth, setUserGrowth] = useState([]);
     const [dailyActivity, setDailyActivity] = useState(null);
+    const [globeMarkers, setGlobeMarkers] = useState([]);
 
     // Check if user is admin
     const isAdmin = user && ADMIN_EMAILS.includes(user.email);
@@ -301,6 +303,37 @@ export default function AdminPage() {
                         </div>
                     </div>
                 )}
+
+                {/* Audience Globe */}
+                <div className="bg-white dark:bg-[#111] rounded-2xl p-6 border border-gray-200 dark:border-[#333] shadow-sm mb-8">
+                    <h2 className="text-lg font-bold text-black dark:text-white mb-4 flex items-center gap-2">
+                        🌍 Audiência Global (Visualização)
+                    </h2>
+                    <div className="flex flex-col lg:flex-row items-center gap-6">
+                        <div className="w-full lg:w-64">
+                            <Globe
+                                markers={[
+                                    { lat: 48.8566, lon: 2.3522, size: 0.08 },   // Paris
+                                    { lat: -23.5505, lon: -46.6333, size: 0.06 }, // São Paulo
+                                    { lat: 40.7128, lon: -74.006, size: 0.05 },   // NYC
+                                    { lat: 51.5074, lon: -0.1278, size: 0.04 },   // London
+                                    { lat: 35.6762, lon: 139.6503, size: 0.03 }, // Tokyo
+                                ]}
+                                className="max-w-[250px] mx-auto"
+                            />
+                        </div>
+                        <div className="flex-1 text-center lg:text-left">
+                            <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                                Arraste o globo para explorar. Os pontos azuis representam concentrações de audiência.
+                            </p>
+                            <div className="flex flex-wrap justify-center lg:justify-start gap-3">
+                                <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-xs">🇫🇷 França</span>
+                                <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-xs">🇧🇷 Brasil</span>
+                                <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded-full text-xs">🇺🇸 EUA</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Recent Data */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
