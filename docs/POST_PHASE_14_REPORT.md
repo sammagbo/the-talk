@@ -90,7 +90,7 @@
 - **Bundle Splitting**: GSAP e Recharts como chunks separados (**-97% no AdminPage**)
 - **robots.txt**: Corrigido com URL do sitemap
 - **og:image / twitter:image**: Domínios corretos configurados
-- **Scripts de Teste**: `test-sanity.js`, `test-supabase.js`, `check-database.js`
+- **Scripts de Teste**: `scripts/test-sanity.js`, `scripts/test-supabase.js`, `scripts/check-database.js`
 
 ---
 
@@ -120,7 +120,7 @@ public/
 supabase/functions/
 └── send-notification/index.ts
 
-root/
+scripts/
 ├── check-database.js
 ├── test-sanity.js
 └── test-supabase.js

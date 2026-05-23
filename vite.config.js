@@ -21,7 +21,7 @@ export default defineConfig({
       polyfills: true,
     }),
     Sitemap({
-      hostname: 'https://the-talk-podcast.vercel.app',
+      hostname: 'https://www.thetalkfashion.com',
       dynamicRoutes: staticRoutes,
       changefreq: 'weekly',
       priority: 0.8,

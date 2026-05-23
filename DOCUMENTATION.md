@@ -6,7 +6,7 @@
 | 🔗 Links Rápidos | |
 |------------------|--|
 | **Repositório** | [github.com/sammagbo/the-talk](https://github.com/sammagbo/the-talk) |
-| **Deploy** | [the-talk-podcast.vercel.app](https://the-talk-podcast.vercel.app) |
+| **Deploy** | [www.thetalkfashion.com](https://www.thetalkfashion.com) |
 
 ---
 
@@ -598,7 +598,7 @@ Configurar no dashboard do Vercel todas as variáveis do `.env`.
 
 | Ambiente | URL |
 |----------|-----|
-| **Produção** | `the-talk-podcast.vercel.app` |
+| **Produção** | `www.thetalkfashion.com` |
 | **Preview** | `the-talk-*.vercel.app` |
 
 ---

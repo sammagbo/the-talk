@@ -29,6 +29,9 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
     const [relatedEpisodes, setRelatedEpisodes] = useState([]);
     const [mediaMode, setMediaMode] = useState('audio'); // 'video' | 'audio'
 
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [aiSummary, setAiSummary] = useState('');
+
     useEffect(() => {
         // Function to convert Spotify URL to embed format
         const convertToSpotifyEmbed = (url) => {
@@ -225,14 +228,14 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                         "@type": "PodcastEpisode",
                         "name": episode.title,
                         "description": episode.description || `Découvrez ${episode.title} sur THE TALK`,
-                        "url": `https://the-talk-podcast.vercel.app/episode/${episode.id}`,
+                        "url": `https://www.thetalkfashion.com/episode/${episode.id}`,
                         "datePublished": episode.date,
                         "duration": episode.duration ? `PT${episode.duration.replace(':', 'M')}S` : undefined,
                         "image": episode.fullSrc,
                         "partOfSeries": {
                             "@type": "PodcastSeries",
                             "name": "THE TALK",
-                            "url": "https://the-talk-podcast.vercel.app"
+                            "url": "https://www.thetalkfashion.com"
                         },
                         "author": {
                             "@type": "Person",
