@@ -43,12 +43,61 @@ export default function SearchOverlay({ isOpen, onClose, onPlay }) {
                   try {
                         if (semanticMode) {
                               // Call Edge Function for semantic search
-                              const { data, error } = await supabase.functions.invoke('search-vector', {
-                                    body: { query, threshold: 0.4, count: 6 }
-                              });
+                              let searchResults = [];
 
-                              if (error) throw error;
-                              setResults(data.results || []);
+                              try {
+                                    const { data, error } = await supabase.functions.invoke('search-vector', {
+                                          body: { query, threshold: 0.4, count: 6 }
+                                    });
+
+                                    if (error) throw error;
+                                    searchResults = data.results || [];
+                              } catch (edgeError) {
+                                    console.warn('Edge Function unavailable, using client-side fallback:', edgeError);
+
+                                    // Fallback: Generate embedding + call RPC directly
+                                    try {
+                                          const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+                                          if (!GEMINI_API_KEY) throw new Error('Missing Gemini API Key');
+
+                                          // 1. Generate embedding for query
+                                          const embeddingResponse = await fetch(
+                                                `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_API_KEY}`,
+                                                {
+                                                      method: 'POST',
+                                                      headers: { 'Content-Type': 'application/json' },
+                                                      body: JSON.stringify({
+                                                            model: 'models/gemini-embedding-001',
+                                                            content: { parts: [{ text: query }] }
+                                                      })
+                                                }
+                                          );
+
+                                          if (!embeddingResponse.ok) {
+                                                const errText = await embeddingResponse.text();
+                                                throw new Error(`Gemini Embedding Error: ${errText}`);
+                                          }
+
+                                          const embeddingData = await embeddingResponse.json();
+                                          const embedding = embeddingData.embedding.values;
+
+                                          // 2. Call RPC match_documents
+                                          const { data: rpcData, error: rpcError } = await supabase.rpc('match_documents', {
+                                                query_embedding: embedding,
+                                                match_threshold: 0.4,
+                                                match_count: 6
+                                          });
+
+                                          if (rpcError) throw rpcError;
+                                          searchResults = rpcData || [];
+
+                                    } catch (fallbackError) {
+                                          console.error('Available fallback also failed:', fallbackError);
+                                          // Keep empty results or handle UI error state
+                                    }
+                              }
+
+                              setResults(searchResults);
                         } else {
                               // Fallback to basic text search (if needed later)
                               // For now, we rely on semantic search as primary

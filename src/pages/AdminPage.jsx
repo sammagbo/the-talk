@@ -379,11 +379,53 @@ export default function AdminPage() {
                                     setIsGenerating(true);
                                     try {
                                         const episode = recentEpisodes.find(ep => ep._id === selectedEpisodeId);
-                                        const { data, error } = await supabase.functions.invoke('generate-shownotes', {
-                                            body: { title: episode.title, content: `Episode Title: ${episode.title}. Description: ${episode.description || ''}` }
-                                        });
-                                        if (error) throw error;
-                                        setShowNotesResult(data);
+                                        let result = null;
+
+                                        // Try Edge Function first, fallback to client-side Gemini
+                                        try {
+                                            const { data, error } = await supabase.functions.invoke('generate-shownotes', {
+                                                body: { title: episode.title, content: `Episode Title: ${episode.title}. Description: ${episode.description || ''}` }
+                                            });
+                                            if (error) throw error;
+                                            result = data;
+                                        } catch (edgeFnError) {
+                                            console.warn('Edge Function unavailable, using client-side Gemini:', edgeFnError);
+                                            // Fallback: Call Gemini API directly from client
+                                            const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+                                            if (!GEMINI_API_KEY) throw new Error('VITE_GEMINI_API_KEY not configured');
+
+                                            const prompt = `You are an AI assistant for "THE TALK" podcast by Mijean Rochus.
+Given the following episode information, generate:
+1. A concise summary (2-3 sentences)
+2. 5 relevant tags for SEO and categorization
+
+Episode Title: ${episode.title}
+Episode Description: ${episode.description || 'No description available'}
+
+Output Format: JSON with "summary" (string) and "tags" (array of strings).`;
+
+                                            const response = await fetch(
+                                                `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+                                                {
+                                                    method: 'POST',
+                                                    headers: { 'Content-Type': 'application/json' },
+                                                    body: JSON.stringify({
+                                                        contents: [{ parts: [{ text: prompt }] }]
+                                                    }),
+                                                }
+                                            );
+
+                                            if (!response.ok) {
+                                                const errorText = await response.text();
+                                                throw new Error(`Gemini API error: ${errorText}`);
+                                            }
+
+                                            const data = await response.json();
+                                            const generatedText = data.candidates[0].content.parts[0].text;
+                                            result = JSON.parse(generatedText);
+                                        }
+
+                                        setShowNotesResult(result);
                                     } catch (err) {
                                         alert('Error generating: ' + err.message);
                                     } finally {
@@ -451,11 +493,58 @@ export default function AdminPage() {
                                     onClick={async () => {
                                         setIsGenerating(true);
                                         try {
-                                            const { data, error } = await supabase.functions.invoke('newsletter-generator', {
-                                                body: { context: newsletterContext, tone: newsletterTone }
-                                            });
-                                            if (error) throw error;
-                                            setNewsletterResult(data);
+                                            // Try Edge Function first, fallback to client-side Gemini
+                                            let result = null;
+                                            try {
+                                                const { data, error } = await supabase.functions.invoke('newsletter-generator', {
+                                                    body: { context: newsletterContext, tone: newsletterTone }
+                                                });
+                                                if (error) throw error;
+                                                result = data;
+                                            } catch (edgeFnError) {
+                                                console.warn('Edge Function unavailable, using client-side Gemini:', edgeFnError);
+                                                // Fallback: Call Gemini API directly from client
+                                                const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+                                                if (!GEMINI_API_KEY) throw new Error('VITE_GEMINI_API_KEY not configured');
+
+                                                const prompt = `You are the editor of "THE TALK", a premium fashion and lifestyle newsletter by Mijean Rochus.
+Draft a weekly newsletter based on the following context/updates:
+
+"${newsletterContext || 'No specific updates, write a general engagement email about fashion trends.'}"
+
+Guidelines:
+- Tone: ${newsletterTone} (Options: professional, friendly, high-fashion, casual, engaging, luxury).
+- Structure:
+  - Subject Line: Catchy, short, emoji-friendly.
+  - Greeting: Warm and personal.
+  - Body: Discuss the updates, add value/insight.
+  - CTA: Encourage listening to the latest episode or visiting the blog.
+  - Sign-off: "Best, Mijean".
+
+Output Format: JSON with "subject" and "body" (plain text or markdown).`;
+
+                                                const response = await fetch(
+                                                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+                                                    {
+                                                        method: 'POST',
+                                                        headers: { 'Content-Type': 'application/json' },
+                                                        body: JSON.stringify({
+                                                            contents: [{ parts: [{ text: prompt }] }]
+                                                        }),
+                                                    }
+                                                );
+
+                                                if (!response.ok) {
+                                                    const errorText = await response.text();
+                                                    throw new Error(`Gemini API error: ${errorText}`);
+                                                }
+
+                                                const data = await response.json();
+                                                const generatedText = data.candidates[0].content.parts[0].text;
+                                                result = JSON.parse(generatedText);
+                                            }
+
+                                            setNewsletterResult(result);
                                         } catch (err) {
                                             alert('Error generating: ' + err.message);
                                         } finally {

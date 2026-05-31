@@ -2,11 +2,11 @@
 
 <div align="center">
 
-![THE TALK Logo](https://the-talk-podcast.vercel.app/og-image.png)
+![THE TALK Logo](https://www.thetalkfashion.com/og-image.png)
 
 **🎙️ A Fashion & Culture Podcast by Mijean Rochus**
 
-[![Live Demo](https://img.shields.io/badge/LIVE-Demo-blue?style=for-the-badge)](https://the-talk-podcast.vercel.app)
+[![Live Demo](https://img.shields.io/badge/LIVE-Demo-blue?style=for-the-badge)](https://www.thetalkfashion.com)
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge&logo=supabase)](https://supabase.com)
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
 [![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite)](https://vite.dev)
@@ -164,6 +164,6 @@ MIT © [Mijean Rochus](https://github.com/sammagbo)
 
 **Made with ❤️ in Rio de Janeiro**
 
-[Website](https://the-talk-podcast.vercel.app) · [Instagram](https://instagram.com/thetalk)
+[Website](https://www.thetalkfashion.com) · [Instagram](https://instagram.com/thetalk)
 
 </div>

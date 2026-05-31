@@ -1,6 +1,10 @@
 -- Phase 17: Semantic Search Setup
 -- Enable pgvector extension and create search infrastructure
 
+-- 0. Cleanup (if exists)
+DROP FUNCTION IF EXISTS match_documents;
+DROP TABLE IF EXISTS search_index;
+
 -- 1. Enable the vector extension
 CREATE EXTENSION IF NOT EXISTS vector;
 
@@ -11,23 +15,27 @@ CREATE TABLE IF NOT EXISTS search_index (
   content_id TEXT NOT NULL UNIQUE,
   title TEXT NOT NULL,
   content TEXT,
-  embedding vector(768), -- Gemini text-embedding-004 outputs 768 dimensions
+  embedding vector(3072), -- Gemini text-embedding-004 outputs 768 dimensions
   metadata JSONB DEFAULT '{}',
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- 3. Create index for faster similarity searches
-CREATE INDEX IF NOT EXISTS search_index_embedding_idx 
-ON search_index 
-USING ivfflat (embedding vector_cosine_ops)
-WITH (lists = 100);
+-- CREATE INDEX IF NOT EXISTS search_index_embedding_idx
+-- ON search_index
+-- USING ivfflat (embedding vector_cosine_ops)
+-- WITH (lists = 100);
+
+-- 3. Create index (Optional - HNSW is better for high dimensions, currently skipping to avoid limits)
+-- CREATE INDEX ON search_index USING hnsw (embedding vector_cosine_ops);
+
 
 -- 4. Create the match_documents function for semantic search
 DROP FUNCTION IF EXISTS match_documents(vector, double precision, integer);
 
 CREATE OR REPLACE FUNCTION match_documents(
-  query_embedding vector(768),
+  query_embedding vector(3072),
   match_threshold float DEFAULT 0.5,
   match_count int DEFAULT 10
 ) RETURNS TABLE (

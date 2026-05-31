@@ -325,13 +325,13 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                         "@type": "PodcastSeries",
                         "name": "THE TALK",
                         "description": "Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives.",
-                        "url": "https://the-talk-podcast.vercel.app",
+                        "url": "https://www.thetalkfashion.com",
                         "author": {
                             "@type": "Person",
                             "name": "Mijean Rochus",
                             "jobTitle": "Fashion Photographer & Podcast Host"
                         },
-                        "image": "https://the-talk-podcast.vercel.app/logo.png",
+                        "image": "https://www.thetalkfashion.com/logo.png",
                         "inLanguage": "fr-FR",
                         "genre": ["Fashion", "Lifestyle", "Mode"],
                         "publisher": {
@@ -339,7 +339,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                             "name": "THE TALK Podcast",
                             "logo": {
                                 "@type": "ImageObject",
-                                "url": "https://the-talk-podcast.vercel.app/logo.png"
+                                "url": "https://www.thetalkfashion.com/logo.png"
                             }
                         }
                     })}

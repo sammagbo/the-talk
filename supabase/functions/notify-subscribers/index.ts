@@ -206,7 +206,7 @@ function buildEmailHtml(payload: NotificationPayload): string {
           <!-- CTA Button -->
           <tr>
             <td style="padding: 0 40px 40px; text-align: center;">
-              <a href="${payload.url || 'https://the-talk-podcast.vercel.app'}" 
+              <a href="${payload.url || 'https://www.thetalkfashion.com'}" 
                  style="display: inline-block; background-color: ${accentColor}; color: white; padding: 16px 40px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 14px; letter-spacing: 1px;">
                 ${isLive ? 'JOIN LIVE →' : 'LISTEN NOW →'}
               </a>
