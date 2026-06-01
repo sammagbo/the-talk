@@ -87,7 +87,7 @@ import ExitIntentPopup from './components/ExitIntentPopup';
 import OfflineAlert from './components/OfflineAlert';
 import { client, urlFor } from './sanity';
 import { SpeedInsights } from '@vercel/speed-insights/react';
-import { checkAchievements, initializeUserStats, getBadgeById } from './utils/badges';
+import { checkAchievements, getBadgeById } from './utils/badges';
 import { NewBadgeNotification } from './components/BadgesDisplay';
 
 

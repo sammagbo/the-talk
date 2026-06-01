@@ -285,7 +285,7 @@ export const getUserBadges = async (userId) => {
 /**
  * Initialize user stats (call on first login)
  */
-export const initializeUserStats = async (userId, userData = {}) => {
+export const initializeUserStats = async (userId) => {
     if (!userId || !supabase) return;
 
     try {

@@ -8,8 +8,7 @@ import LiveChat from '../components/LiveChat';
 import { useAuth } from '../context/AuthContext';
 
 export default function LivePage() {
-      const { t } = useTranslation();
-      const { user } = useAuth();
+
       const [event, setEvent] = useState(null);
       const [loading, setLoading] = useState(true);
       const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });

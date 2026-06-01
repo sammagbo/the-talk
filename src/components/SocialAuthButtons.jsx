@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
  * Renders branded sign-in buttons for Google, Apple, and Twitter
  */
 export default function SocialAuthButtons({ onSuccess, onError, className = '' }) {
-    const { signInWithGoogle, signInWithApple, signInWithTwitter } = useAuth();
+    const { signInWithGoogle, signInWithTwitter } = useAuth();
     const { t } = useTranslation();
     const [loading, setLoading] = useState(null);
 

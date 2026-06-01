@@ -10,8 +10,7 @@ import LazyImage from '../components/LazyImage';
 import SubscribeModal from '../components/SubscribeModal';
 import ContinueListening from '../components/ContinueListening';
 import Navbar from '../components/Navbar';
-import { client, urlFor } from '../sanity';
-import { handleBuy } from '../lib/stripe';
+import { client } from '../sanity';
 import { useGSAP, gsap, ScrollTrigger } from '../hooks/useGSAP';
 import MagneticButton from '../components/MagneticButton';
 import CountUp from '../components/CountUp';
@@ -87,7 +86,7 @@ function VideoCarousel() {
 
 export default function Home({ items, favorites, toggleFavorite, onPlay }) {
     const { t } = useTranslation();
-    const { user } = useAuth();
+
     const [activeCategory, setActiveCategory] = useState('Tous');
     const [searchQuery, setSearchQuery] = useState(''); // Restore local search state
     const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -102,7 +101,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
     const [selectedShort, setSelectedShort] = useState(null);
     const [hoveredShort, setHoveredShort] = useState(null);
     const videoRef = useRef(null);
-    const heroRef = useRef(null);
+
 
     // Enable smooth scroll
     useSmoothScroll(true);
@@ -251,7 +250,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
     };
 
     // États pour le Store Preview
-    const [products, setProducts] = useState([]);
+
 
     // Fetch limited products for Home
     useEffect(() => {
@@ -304,10 +303,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
         videoCategories.some(cat => item.category?.toLowerCase().includes(cat.toLowerCase()))
     );
 
-    const audioItems = items.filter(item =>
-        audioCategories.some(cat => item.category?.toLowerCase().includes(cat.toLowerCase())) ||
-        !videoCategories.some(cat => item.category?.toLowerCase().includes(cat.toLowerCase()))
-    );
+
 
     return (
         <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-[#007BFF] selection:text-white transition-colors duration-300">

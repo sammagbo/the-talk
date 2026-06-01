@@ -8,7 +8,7 @@ import { Inbox, Search, ShoppingBag, Headphones, Video, FileText, AlertCircle } 
 
 // Generic empty state
 export function EmptyState({
-    icon: Icon = Inbox,
+
     title = "Rien à afficher",
     description = "Il n'y a pas encore de contenu ici.",
     action = null,

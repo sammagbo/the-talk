@@ -33,7 +33,7 @@ export default function ImageReveal({
 
         // Set initial states based on direction
         let overlayFrom = {};
-        let imageTo = { scale: 1 };
+
 
         switch (direction) {
             case 'left':
@@ -56,7 +56,7 @@ export default function ImageReveal({
                 gsap.set(overlay, { scaleX: 1 });
                 break;
             default:
-                overlayFrom = { xPercent: 0 };
+
         }
 
         gsap.set(image, { scale: 1.3 });

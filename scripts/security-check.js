@@ -59,7 +59,7 @@ console.log('─'.repeat(50));
 console.log(`  ${colors.dim}Attempting to insert a comment WITHOUT authentication...${colors.reset}`);
 
 try {
-      const { data, error } = await supabase
+      const { error } = await supabase
             .from('comments')
             .insert({
                   episode_id: 'test-security-audit',
@@ -100,7 +100,7 @@ console.log('─'.repeat(50));
 console.log(`  ${colors.dim}Attempting to insert a rating WITHOUT authentication...${colors.reset}`);
 
 try {
-      const { data, error } = await supabase
+      const { error } = await supabase
             .from('ratings')
             .insert({
                   episode_id: 'test-security-audit',
@@ -120,7 +120,7 @@ try {
 
             await supabase.from('ratings').delete().eq('episode_id', 'test-security-audit');
       }
-} catch (err) {
+} catch {
       console.log(`  ${colors.green}✅ PASS${colors.reset} - Request was blocked`);
       results.ratingsRLS = 'secure';
 }
@@ -136,7 +136,7 @@ console.log('─'.repeat(50));
 console.log(`  ${colors.dim}Attempting to insert a favorite WITHOUT authentication...${colors.reset}`);
 
 try {
-      const { data, error } = await supabase
+      const { error } = await supabase
             .from('favorites')
             .insert({
                   user_id: 'anonymous-hacker',
@@ -155,7 +155,7 @@ try {
 
             await supabase.from('favorites').delete().eq('episode_id', 'test-security-audit');
       }
-} catch (err) {
+} catch {
       console.log(`  ${colors.green}✅ PASS${colors.reset} - Request was blocked`);
       results.favoritesRLS = 'secure';
 }

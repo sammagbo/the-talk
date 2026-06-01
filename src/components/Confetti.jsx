@@ -32,7 +32,7 @@ export default function Confetti({ active = true, duration = 3000, colors = ['#0
         }
 
         // Animate particles
-        particles.forEach((particle, i) => {
+        particles.forEach((particle) => {
             const startX = Math.random() * window.innerWidth;
             const startY = -50;
             const endX = startX + (Math.random() - 0.5) * 400;

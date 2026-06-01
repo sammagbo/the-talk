@@ -18,7 +18,7 @@ function loadEnv() {
             }
         });
         return env;
-    } catch (e) {
+    } catch {
         return {};
     }
 }

@@ -31,14 +31,14 @@ import { usePushNotifications } from '../hooks/usePushNotifications';
  */
 export default function Navbar({
     onScrollToSection,
-    onOpenSubscribe,
+
     onOpenSearch,
     deferredPrompt,
     onInstallClick
 }) {
     const { t } = useTranslation();
     const location = useLocation();
-    const { user, signInWithGoogle, logout } = useAuth();
+    const { user, logout } = useAuth();
     const { requestPermission, notificationPermission } = usePushNotifications();
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);

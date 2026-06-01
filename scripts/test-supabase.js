@@ -50,7 +50,7 @@ async function testConnection() {
     try {
         // Just checking connection, even if table is empty or permission denied, 
         // we'll get a distinctive error compared to "network error" or "invalid URL"
-        const { data, error } = await supabase.from('users').select('count', { count: 'exact', head: true });
+        const { error } = await supabase.from('users').select('count', { count: 'exact', head: true });
 
         if (error) {
             console.error('Supabase Error:', error);
