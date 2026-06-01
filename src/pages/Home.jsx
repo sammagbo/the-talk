@@ -5,7 +5,7 @@ import Newsletter from '../Newsletter';
 import { Mic, Instagram, Mail, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, ArrowRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, Calendar, Video, Headphones, Play, Film, X, ShoppingBag, Code, Shield, Globe, Cpu, Palette, MonitorPlay } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../components/LanguageSwitcher';
-import { useAuth } from '../context/AuthContext';
+
 import LazyImage from '../components/LazyImage';
 import SubscribeModal from '../components/SubscribeModal';
 import ContinueListening from '../components/ContinueListening';
@@ -252,26 +252,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
     // États pour le Store Preview
 
 
-    // Fetch limited products for Home
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const query = `*[_type == "product"] | order(_createdAt desc)[0..2] {
-                    _id,
-                    title,
-                    price,
-                    description,
-                    stripePriceId,
-                    "imageUrl": image.asset->url
-                }`;
-                const data = await client.fetch(query);
-                setProducts(data);
-            } catch (error) {
-                console.error("Error fetching products:", error);
-            }
-        };
-        fetchProducts();
-    }, []);
+
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -297,7 +278,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
 
     // Separate video and audio content
     const videoCategories = ['Coulisses', 'Interviews', 'Vidéos'];
-    const audioCategories = ['Épisodes'];
+
 
     const videoItems = items.filter(item =>
         videoCategories.some(cat => item.category?.toLowerCase().includes(cat.toLowerCase()))

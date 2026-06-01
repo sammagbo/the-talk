@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
+
 import { client, urlFor } from '../sanity';
 import { Radio, Calendar, Users, Play, Bell } from 'lucide-react';
 import { gsap } from 'gsap';
 import LiveChat from '../components/LiveChat';
-import { useAuth } from '../context/AuthContext';
+
 
 export default function LivePage() {
 
