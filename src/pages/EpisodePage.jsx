@@ -29,8 +29,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
     const [relatedEpisodes, setRelatedEpisodes] = useState([]);
     const [mediaMode, setMediaMode] = useState('audio'); // 'video' | 'audio'
 
-    const [isGenerating, setIsGenerating] = useState(false);
-    const [aiSummary, setAiSummary] = useState('');
+
 
     useEffect(() => {
         // Function to convert Spotify URL to embed format
@@ -141,45 +140,6 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
         }
     }, [id, retryCount, t]);
 
-    const generateSummary = async () => {
-        setIsGenerating(true);
-        try {
-            const apiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
-            if (!apiKey) throw new Error("Clé API manquante");
-
-            const response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `Tu es un assistant intelligent pour le podcast "THE TALK".
-                                Analyse le titre et le contexte suivant de l'épisode :
-                                Titre: "${episode.title}"
-                                Catégorie: "${episode.category}"
-                                
-                                Génère une liste structurée de 3 à 5 "Key Takeaways" (Points Clés) que l'auditeur doit retenir.
-                                Utilisez des emojis pour chaque point. Sois concis et inspirant.
-                                Formatte la réponse en Markdown.`
-                            }]
-                        }]
-                    }),
-                }
-            );
-
-            const data = await response.json();
-            if (data.error) throw new Error(data.error.message);
-            const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-            setAiSummary(text);
-        } catch (error) {
-            console.error("Gemini Error:", error);
-            setAiSummary("Impossible de générer le résumé pour le moment.");
-        } finally {
-            setIsGenerating(false);
-        }
-    };
 
     useEffect(() => {
         window.scrollTo(0, 0);
