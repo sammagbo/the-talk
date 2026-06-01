@@ -32,31 +32,24 @@ export default function ImageReveal({
         if (!container || !overlay || hasAnimated.current) return;
 
         // Set initial states based on direction
-        let overlayFrom = {};
-        let imageTo = { scale: 1 };
-
         switch (direction) {
             case 'left':
-                overlayFrom = { xPercent: 0 };
                 gsap.set(overlay, { xPercent: 0 });
                 break;
             case 'right':
-                overlayFrom = { xPercent: 0 };
                 gsap.set(overlay, { xPercent: 0, right: 0, left: 'auto' });
                 break;
             case 'top':
-                overlayFrom = { yPercent: 0 };
                 gsap.set(overlay, { yPercent: 0 });
                 break;
             case 'bottom':
-                overlayFrom = { yPercent: 0 };
                 gsap.set(overlay, { yPercent: 0, bottom: 0, top: 'auto' });
                 break;
             case 'center':
                 gsap.set(overlay, { scaleX: 1 });
                 break;
             default:
-                overlayFrom = { xPercent: 0 };
+
         }
 
         gsap.set(image, { scale: 1.3 });

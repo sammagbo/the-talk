@@ -9,7 +9,7 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-export default function SearchOverlay({ isOpen, onClose, onPlay }) {
+export default function SearchOverlay({ isOpen, onClose }) {
       const { t } = useTranslation();
       const [query, setQuery] = useState('');
       const [results, setResults] = useState([]);

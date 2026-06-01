@@ -5,7 +5,7 @@ import { Sun, Moon } from 'lucide-react';
 function getStoredTheme() {
     try {
         return localStorage.getItem('theme') || 'dark';
-    } catch (e) {
+    } catch {
         return 'dark';
     }
 }
@@ -13,7 +13,7 @@ function getStoredTheme() {
 function setStoredTheme(theme) {
     try {
         localStorage.setItem('theme', theme);
-    } catch (e) {
+    } catch {
         // Ignore storage errors on iOS
     }
 }

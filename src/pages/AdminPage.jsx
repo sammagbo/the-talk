@@ -16,7 +16,7 @@ import {
     Activity
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import Globe, { getUserLocation } from '../components/Globe';
+import Globe from '../components/Globe';
 
 // Admin email whitelist - add your admin emails here
 const ADMIN_EMAILS = ['admin@example.com', 'sammagbo@gmail.com'];
@@ -34,8 +34,7 @@ export default function AdminPage() {
     const [recentEpisodes, setRecentEpisodes] = useState([]);
     const [recentComments, setRecentComments] = useState([]);
     const [userGrowth, setUserGrowth] = useState([]);
-    const [dailyActivity, setDailyActivity] = useState(null);
-    const [globeMarkers, setGlobeMarkers] = useState([]);
+
 
 
     // Check if user is admin

@@ -13,10 +13,7 @@ export default function PollComponent({ episodeId, poll }) {
     const [totalVotes, setTotalVotes] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Check if poll is valid
-    if (!poll || !poll.isActive || !poll.question || !poll.options?.length) {
-        return null;
-    }
+
 
     // Fetch poll results
     const fetchResults = async () => {
@@ -130,6 +127,11 @@ export default function PollComponent({ episodeId, poll }) {
     const getVoteCount = (optionIndex) => {
         return results[optionIndex] || 0;
     };
+
+    // Check if poll is valid
+    if (!poll || !poll.isActive || !poll.question || !poll.options?.length) {
+        return null;
+    }
 
     return (
         <div className="bg-gradient-to-br from-[#007BFF]/5 to-[#A9A9F5]/5 rounded-2xl border border-[#007BFF]/20 p-6 md:p-8">

@@ -32,7 +32,7 @@ export default function VoiceSearch({ onSearch, onClose, isOpen }) {
                 }
             };
 
-            recognitionRef.current.onerror = (event) => {
+            recognitionRef.current.onerror = () => {
                 setError('Erreur de reconnaissance vocale');
                 setIsListening(false);
             };

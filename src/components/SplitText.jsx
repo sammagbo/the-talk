@@ -33,7 +33,7 @@ export default function SplitText({
 
         if (type === 'chars') {
             // Split into characters
-            elements = text.split('').map((char, i) => {
+            elements = text.split('').map((char) => {
                 const span = document.createElement('span');
                 span.textContent = char === ' ' ? '\u00A0' : char;
                 span.style.display = 'inline-block';

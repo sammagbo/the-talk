@@ -107,7 +107,7 @@ try {
       const supabase = createClient(supabaseUrl, supabaseKey);
 
       // Test 1: Basic connection by fetching from a table
-      const { data, error } = await supabase
+      const { error } = await supabase
             .from('comments')
             .select('id')
             .limit(1);

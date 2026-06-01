@@ -5,7 +5,7 @@
 // import './commands'
 
 // Prevent uncaught exceptions from failing tests
-Cypress.on('uncaught:exception', (err, runnable) => {
+Cypress.on('uncaught:exception', () => {
     // Return false to prevent Cypress from failing the test
     return false;
 });
