@@ -115,7 +115,7 @@ export default function Home({ items, onPlay }) {
             .from('.gsap-hero-title', { y: 80, opacity: 0, duration: 1.2 }, '-=0.4')
             .from('.gsap-hero-subtitle', { y: 40, opacity: 0, duration: 0.8 }, '-=0.6')
             .from('.gsap-hero-description', { y: 30, opacity: 0, duration: 0.8 }, '-=0.5')
-            .from('.gsap-hero-ctas button', { y: 30, opacity: 0, duration: 0.6, stagger: 0.15 }, '-=0.4')
+            .from('.gsap-hero-ctas a', { y: 30, opacity: 0, duration: 0.6, stagger: 0.15 }, '-=0.4')
             .from('.gsap-hero-stats > div', { y: 20, opacity: 0, duration: 0.5, stagger: 0.1 }, '-=0.3');
 
         // Scroll-triggered section animations
@@ -188,27 +188,7 @@ export default function Home({ items, onPlay }) {
         }
     }, [selectedShort]);
 
-    // Fetch latest blog posts for homepage preview
-    useEffect(() => {
-        const fetchBlogPosts = async () => {
-            try {
-                const query = `*[_type == "post"] | order(publishedAt desc)[0...3] {
-                    _id,
-                    title,
-                    slug,
-                    excerpt,
-                    mainImage,
-                    publishedAt,
-                    "imageUrl": mainImage.asset->url
-                }`;
-                const data = await client.fetch(query);
-                setBlogPosts(data);
-            } catch (error) {
-                console.error("Error fetching blog posts:", error);
-            }
-        };
-        fetchBlogPosts();
-    }, []);
+
 
     // Fetch shorts
     useEffect(() => {
