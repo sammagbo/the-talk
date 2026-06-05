@@ -581,21 +581,11 @@ export default function Home({ items, onPlay }) {
                         <div className="flex flex-col md:flex-row items-center gap-16 mb-24">
                             <div className="gsap-parallax w-full md:w-1/2 relative">
                                 <div className="absolute inset-0 bg-gradient-to-tr from-[#007BFF] to-[#A9A9F5] rounded-2xl transform rotate-3 blur-sm opacity-30"></div>
-                                <video
-                                    autoPlay
-                                    loop
-                                    muted
-                                    playsInline
+                                <img
+                                    src="/mijean-placeholder.png"
+                                    alt="Mijean Rochus"
                                     className="w-full rounded-2xl relative z-10 object-cover aspect-[3/4]"
-                                    poster="https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=800"
-                                >
-                                    <source src="https://videos.pexels.com/video-files/3015510/3015510-hd_1920_1080_24fps.mp4" type="video/mp4" />
-                                    <img
-                                        src="https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=800"
-                                        alt="Fashion Runway"
-                                        className="w-full rounded-2xl object-cover"
-                                    />
-                                </video>
+                                />
                             </div>
 
                             <div className="w-full md:w-1/2 space-y-8">
@@ -801,13 +791,7 @@ export default function Home({ items, onPlay }) {
                             <div className="gsap-parallax w-full md:w-1/2 relative">
                                 <div className="absolute inset-0 bg-gradient-to-tl from-[#007BFF] to-[#A9A9F5] rounded-2xl transform -rotate-3 blur-sm opacity-30"></div>
                                 <div className="aspect-[3/4] w-full bg-gray-200 dark:bg-[#111] rounded-2xl relative z-10 overflow-hidden flex items-center justify-center border border-gray-300 dark:border-[#333]">
-                                    {/* Placeholder for Gleid's Image */}
-                                    <div className="text-center p-6">
-                                        <div className="mb-4 inline-block p-4 rounded-full bg-[#007BFF]/10 text-[#007BFF]">
-                                            <Code size={48} />
-                                        </div>
-                                        <p className="font-minimal text-gray-500 dark:text-[#6C757D]">Gleid's Portrait</p>
-                                    </div>
+                                    <img src="/gleid-placeholder.png" alt="Gleid" className="w-full h-full object-cover" />
                                 </div>
                             </div>
 
