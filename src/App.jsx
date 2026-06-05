@@ -74,6 +74,7 @@ const Home = lazy(() => import('./pages/Home').catch(err => {
   return { default: () => <div style={{ color: '#fff', padding: '40px' }}>Failed to load Home: {err.message}</div> };
 }));
 const EpisodePage = lazy(() => import('./pages/EpisodePage'));
+const EpisodesPage = lazy(() => import('./pages/EpisodesPage'));
 const StorePage = lazy(() => import('./pages/StorePage'));
 const AdminPage = lazy(() => import('./pages/AdminPage'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
@@ -87,6 +88,7 @@ import ExitIntentPopup from './components/ExitIntentPopup';
 import OfflineAlert from './components/OfflineAlert';
 import { client, urlFor } from './sanity';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { BACKEND_ENABLED } from './config/features';
 import { checkAchievements, getBadgeById } from './utils/badges';
 import { NewBadgeNotification } from './components/BadgesDisplay';
 
@@ -310,11 +312,12 @@ export default function App() {
             <Route path="/" element={<Home items={items} onPlay={handlePlay} favorites={favorites} toggleFavorite={toggleFavorite} />} />
             <Route path="/episode/:id" element={<EpisodePage items={items} onPlay={handlePlay} onPause={() => setIsPlaying(false)} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
             <Route path="/store" element={<StorePage />} />
-            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/episodes" element={<EpisodesPage items={items} onPlay={handlePlay} />} />
+            {BACKEND_ENABLED && <Route path="/admin" element={<AdminPage />} />}
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/profile/:uid" element={<ProfilePage />} />
-            <Route path="/live" element={<LivePage />} />
+            {BACKEND_ENABLED && <Route path="/profile/:uid" element={<ProfilePage />} />}
+            {BACKEND_ENABLED && <Route path="/live" element={<LivePage />} />}
           </Routes>
         </Suspense>
       </ErrorBoundary>
@@ -329,8 +332,8 @@ export default function App() {
         onTogglePlay={() => setIsPlaying(!isPlaying)}
       />
 
-      {/* New Badge Notification */}
-      {newBadge && (
+      {/* New Badge Notification — gated behind backend flag */}
+      {BACKEND_ENABLED && newBadge && (
         <NewBadgeNotification
           badge={newBadge}
           onClose={() => setNewBadge(null)}

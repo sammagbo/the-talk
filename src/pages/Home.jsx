@@ -5,6 +5,7 @@ import Newsletter from '../Newsletter';
 import { Mic, Instagram, Mail, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, ArrowRight, Camera, Image as ImageIcon, Upload, BookOpen, BrainCircuit, Sparkles, Bot, Loader2, Search, Coffee, Heart, Calendar, Video, Headphones, Play, Film, X, ShoppingBag, Code, Shield, Globe, Cpu, Palette, MonitorPlay } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import { BACKEND_ENABLED } from '../config/features';
 
 import LazyImage from '../components/LazyImage';
 import SubscribeModal from '../components/SubscribeModal';
@@ -363,31 +364,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                     {/* Video Carousel - Crossfade between fashion videos */}
                     <VideoCarousel />
                     <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white/50 dark:from-black dark:via-transparent dark:to-black/50"></div>
-                    {/* Film Grain Overlay */}
-                    <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }}></div>
-                    {/* Edge Glow Effect */}
-                    <div className="absolute inset-0 pointer-events-none">
-                        <div className="absolute top-0 left-0 w-64 h-64 bg-[#007BFF]/20 blur-[120px]"></div>
-                        <div className="absolute bottom-0 right-0 w-64 h-64 bg-[#A9A9F5]/20 blur-[120px]"></div>
-                    </div>
-
-                    {/* Vogue Pixel Decoration - EMMPO/VOGUE Glitch */}
-                    <div className="absolute top-32 right-4 md:right-10 hidden md:block opacity-60 text-[#007BFF] animate-pulse z-20">
-                        <svg width="60" height="60" viewBox="0 0 60 60" fill="currentColor">
-                            <rect x="0" y="0" width="20" height="20" />
-                            <rect x="20" y="20" width="20" height="20" />
-                            <rect x="40" y="0" width="20" height="20" />
-                            <rect x="0" y="40" width="20" height="20" />
-                            <rect x="40" y="40" width="20" height="20" />
-                        </svg>
-                    </div>
-                    <div className="absolute bottom-32 left-4 md:left-10 hidden md:block opacity-60 text-[#A9A9F5] z-20">
-                        <svg width="40" height="40" viewBox="0 0 60 40" fill="currentColor">
-                            <rect x="0" y="20" width="20" height="20" />
-                            <rect x="20" y="0" width="20" height="20" />
-                            <rect x="40" y="20" width="20" height="20" />
-                        </svg>
-                    </div>
+                    {/* Clean Minimalist Fashion Background */}
                 </div>
 
                 <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
@@ -401,7 +378,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                     </h1>
 
                     <p className="gsap-hero-subtitle text-xl md:text-2xl font-minimal text-gray-600 dark:text-[#6C757D] mb-4 max-w-2xl mx-auto font-light flex items-center justify-center gap-2">
-                        A Podcast by <span className="font-editorial italic text-3xl text-black dark:text-white">Mijean Rochus</span>
+                        A Podcast by <span className="font-editorial italic text-3xl text-black dark:text-white">Mijean Rochus & Gleid</span>
                     </p>
 
                     <p className="gsap-hero-description text-lg text-gray-800 dark:text-white/80 mb-10 max-w-xl mx-auto font-minimal leading-relaxed">
@@ -409,20 +386,23 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                     </p>
 
                     <div className="gsap-hero-ctas flex flex-col sm:flex-row gap-4 justify-center items-center">
-                        <MagneticButton
-                            onClick={() => scrollToSection('galerie')}
-                            className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider hover:shadow-[0_0_20px_rgba(0,123,255,0.4)] w-full sm:w-auto justify-center uppercase"
-                        >
-                            [ {t('hero.listen_now', 'ÉCOUTER')} ]
-                            <ChevronRight className="w-4 h-4" />
-                        </MagneticButton>
-                        <MagneticButton
-                            onClick={() => setIsSubscribeOpen(true)}
-                            className="bg-gradient-to-r from-[#A9A9F5] to-[#007BFF] hover:opacity-90 text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
-                        >
-                            <Mail className="w-4 h-4" />
-                            [ {t('subscribe.button', "S'ABONNER")} ]
-                        </MagneticButton>
+                        {items.length > 0 ? (
+                            <Link
+                                to={`/episode/${items[0].id}`}
+                                className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider hover:shadow-[0_0_20px_rgba(0,123,255,0.4)] w-full sm:w-auto justify-center uppercase"
+                            >
+                                [ {t('hero.watch_latest', 'VOIR LE DERNIER ÉPISODE')} ]
+                                <ChevronRight className="w-4 h-4" />
+                            </Link>
+                        ) : (
+                            <MagneticButton
+                                onClick={() => scrollToSection('videos')}
+                                className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider hover:shadow-[0_0_20px_rgba(0,123,255,0.4)] w-full sm:w-auto justify-center uppercase"
+                            >
+                                [ {t('hero.listen_now', 'ÉCOUTER')} ]
+                                <ChevronRight className="w-4 h-4" />
+                            </MagneticButton>
+                        )}
                     </div>
 
                     {/* Quick Stats with Animated Counters */}
@@ -447,27 +427,15 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                         </div>
                     </div>
 
-                    {/* RSVP for upcoming live event */}
-                    <RSVPButton className="mt-8 max-w-xl mx-auto" />
+                    {/* RSVP for upcoming live event — gated behind backend flag */}
+                    {BACKEND_ENABLED && <RSVPButton className="mt-8 max-w-xl mx-auto" />}
                 </div>
             </header>
 
-            {/* Infinite Marquee Banner */}
-            <div className="bg-[#007BFF] py-3 overflow-hidden">
-                <Marquee speed={25} className="text-white">
-                    <span className="flex items-center gap-8 text-sm font-mono uppercase tracking-widest">
-                        <span>✦ THE TALK PODCAST</span>
-                        <span>✦ FASHION & LIFESTYLE</span>
-                        <span>✦ NOUVEAUX ÉPISODES</span>
-                        <span>✦ MIJEAN ROCHUS</span>
-                        <span>✦ BRUSSELS TO PARIS</span>
-                        <span>✦ MODE & CULTURE</span>
-                    </span>
-                </Marquee>
-            </div>
+            {/* Removed Infinite Marquee Banner to keep Home cleaner */}
 
-            {/* Continue Listening Section */}
-            <ContinueListening onPlay={onPlay} />
+            {/* Continue Listening Section — gated behind backend flag */}
+            {BACKEND_ENABLED && <ContinueListening onPlay={onPlay} />}
 
             {/* Main Content - Skip Link Target */}
             <main id="main-content">
@@ -485,20 +453,17 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                     </div>
 
                     {/* Horizontal Carousel */}
-                    <div
-                        className="flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide"
-                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                    >
-                        {/* Featured Episode - First Card (Larger) */}
+                    {/* Featured Episode - Single Large Card */}
+                    <div className="flex justify-center pb-6">
                         {items.length > 0 && (
                             <Link
                                 to={`/episode/${items[0].id}`}
-                                className="snap-start shrink-0 w-[85vw] md:w-[500px] group"
+                                className="w-full max-w-4xl group"
                             >
                                 <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#007BFF]/10 to-[#A9A9F5]/10 border-2 border-[#007BFF] hover:shadow-xl hover:shadow-[#007BFF]/20 transition-all h-full">
                                     <div className="aspect-video overflow-hidden relative">
                                         <LazyImage
-                                            src={items[0].src}
+                                            src={items[0].fullSrc || items[0].src}
                                             alt={items[0].title}
                                             className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
                                         />
@@ -511,7 +476,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                                         <div className="absolute top-4 left-4 px-3 py-1.5 bg-[#007BFF] rounded-full">
                                             <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
                                                 <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-                                                En Vedette
+                                                Dernier Épisode
                                             </span>
                                         </div>
                                         <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-full border border-white/20">
@@ -520,48 +485,14 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                                             </span>
                                         </div>
                                     </div>
-                                    <div className="p-6">
-                                        <span className="text-[#007BFF] text-xs font-bold uppercase tracking-wider">{items[0].category}</span>
-                                        <h3 className="text-xl font-creativo font-bold mt-2 group-hover:text-[#007BFF] transition-colors">{items[0].title}</h3>
-                                        <p className="text-gray-500 dark:text-[#6C757D] text-sm mt-2 line-clamp-2">Découvrez notre dernier épisode exclusif.</p>
+                                    <div className="p-6 md:p-8">
+                                        <span className="text-[#007BFF] text-sm font-bold uppercase tracking-wider">{items[0].category}</span>
+                                        <h3 className="text-2xl md:text-3xl font-creativo font-bold mt-2 group-hover:text-[#007BFF] transition-colors">{items[0].title}</h3>
+                                        <p className="text-gray-500 dark:text-[#6C757D] text-base mt-3 line-clamp-2">{items[0].description || 'Découvrez notre dernier épisode exclusif.'}</p>
                                     </div>
                                 </div>
                             </Link>
                         )}
-
-                        {/* Video Items */}
-                        {videoItems.slice(0, 6).map((item) => (
-                            <Link
-                                key={item.id}
-                                to={`/episode/${item.id}`}
-                                state={{ mediaMode: 'video' }}
-                                className="snap-start shrink-0 w-[75vw] md:w-[380px] group"
-                            >
-                                <div className="relative overflow-hidden rounded-2xl bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] hover:border-[#007BFF] transition-all h-full">
-                                    <div className="aspect-video overflow-hidden relative">
-                                        <LazyImage
-                                            src={item.src}
-                                            alt={item.title}
-                                            className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105"
-                                        />
-                                        <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                                            <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
-                                                <Play className="w-7 h-7 text-white ml-1" fill="currentColor" />
-                                            </div>
-                                        </div>
-                                        <div className="absolute top-3 left-3 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-full border border-white/20">
-                                            <span className="text-[10px] font-mono text-white/90 tracking-wider">
-                                                VID.{String(videoItems.indexOf(item) + 1).padStart(3, '0')} // {item.duration || '12:30'}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div className="p-5">
-                                        <span className="text-[#007BFF] text-xs font-bold uppercase tracking-wider">{item.category}</span>
-                                        <h3 className="text-lg font-creativo font-bold mt-2 group-hover:text-[#007BFF] transition-colors">{item.title}</h3>
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
                     </div>
                 </section>
                 {/* SHORTS Section */}
@@ -675,170 +606,10 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                     </div>
                 )}
 
-                {/* ÉPISODES AUDIO Section */}
-                <section id="galerie" className="gsap-section py-20 px-4 md:px-8 max-w-7xl mx-auto">
-                    <div className="mb-12">
-                        <div className="flex items-center gap-3 mb-4">
-                            <Headphones className="w-8 h-8 text-[#A9A9F5]" />
-                            <h2 className="text-3xl md:text-4xl font-creativo font-bold">Épisodes Audio</h2>
-                        </div>
-                        <p className="text-gray-600 dark:text-[#6C757D] font-minimal max-w-xl">
-                            Conversations exclusives sur la mode et le mannequinat.
-                        </p>
-                        <div className="h-1.5 w-16 bg-gradient-to-r from-[#A9A9F5] to-[#007BFF] rounded-full mt-4"></div>
-                    </div>
-
-                    {/* Search Bar */}
-                    <div className="flex flex-col md:flex-row gap-4 items-start md:items-center mb-10">
-                        <div className="relative">
-                            <input
-                                type="text"
-                                placeholder="Rechercher un épisode..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-full px-5 py-2.5 pl-10 text-black dark:text-white focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal w-full md:w-64"
-                            />
-                            <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-[#6C757D] w-4 h-4" />
-                        </div>
-
-                        {/* Categories Filter */}
-                        <div className="flex flex-wrap gap-2">
-                            {categories.map((cat) => (
-                                <button
-                                    key={cat}
-                                    onClick={() => setActiveCategory(cat)}
-                                    className={`px-4 py-2 rounded-full text-sm font-minimal transition-all border ${activeCategory === cat
-                                        ? 'bg-[#A9A9F5] text-white border-[#A9A9F5] font-bold'
-                                        : 'bg-transparent text-gray-500 border-gray-300 dark:text-[#6C757D] dark:border-[#6C757D]/30 hover:border-[#A9A9F5] hover:text-[#A9A9F5]'
-                                        }`}
-                                >
-                                    {cat}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Audio Episodes Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {filteredItems.map((item) => (
-                            <TiltCard
-                                key={item.id}
-                                maxTilt={8}
-                                scale={1.02}
-                                className="group relative overflow-hidden rounded-2xl cursor-pointer bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] hover:border-[#A9A9F5]/50 transition-all duration-300"
-                            >
-                                <Link to={`/episode/${item.id}`} className="block">
-                                    <div className="aspect-square overflow-hidden relative">
-                                        <LazyImage
-                                            src={item.src}
-                                            alt={item.title}
-                                            className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
-                                        />
-                                        <div className="absolute bottom-4 left-4">
-                                            <div className="w-12 h-12 rounded-full bg-[#A9A9F5] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                                                <Headphones className="w-6 h-6 text-white" />
-                                            </div>
-                                        </div>
-                                        {/* HUD Data Badge */}
-                                        <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-full border border-white/20">
-                                            <span className="text-[10px] font-mono text-white/90 tracking-wider">
-                                                EP.{String(items.indexOf(item) + 1).padStart(3, '0')} // {item.duration || '45:00'}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </Link>
-
-                                <div className="p-5 relative">
-                                    <Link to={`/episode/${item.id}`} className="block">
-                                        <p className="text-[#A9A9F5] text-xs font-creativo font-bold uppercase tracking-widest mb-2">{item.category}</p>
-                                        <h3 className="text-lg font-creativo font-bold text-black dark:text-white mb-1 group-hover:text-[#A9A9F5] transition-colors">{item.title}</h3>
-                                        <p className="text-gray-500 dark:text-[#6C757D] text-sm font-minimal">{t('gallery.available_now')}</p>
-                                    </Link>
-                                    <button
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                            toggleFavorite(item.id);
-                                        }}
-                                        className="absolute top-5 right-5 p-2 rounded-full bg-white dark:bg-[#222] border border-gray-200 dark:border-[#333] hover:scale-110 transition-transform z-10"
-                                    >
-                                        <Heart
-                                            size={18}
-                                            fill={favorites.includes(item.id) ? "#A9A9F5" : "none"}
-                                            className={favorites.includes(item.id) ? "text-[#A9A9F5]" : "text-gray-400"}
-                                        />
-                                    </button>
-                                </div>
-                            </TiltCard>
-                        ))}
-                    </div>
-                </section>
 
 
-                {/* Blog Preview Section */}
-                {blogPosts.length > 0 && (
-                    <section className="gsap-section py-24 px-4 md:px-8 bg-gray-50 dark:bg-[#111]">
-                        <div className="max-w-7xl mx-auto">
-                            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
-                                <div>
-                                    <span className="text-[#007BFF] text-sm font-bold uppercase tracking-wider mb-2 block">Blog</span>
-                                    <h2 className="text-3xl md:text-4xl font-creativo font-bold">Derniers Articles</h2>
-                                </div>
-                                <Link
-                                    to="/blog"
-                                    className="inline-flex items-center gap-2 text-[#007BFF] hover:underline font-medium"
-                                >
-                                    Voir tous les articles
-                                    <ArrowRight size={16} />
-                                </Link>
-                            </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                {blogPosts.map((post) => (
-                                    <Link
-                                        key={post._id}
-                                        to={`/blog/${post.slug?.current}`}
-                                        className="group bg-white dark:bg-[#0a0a0a] rounded-2xl overflow-hidden border border-gray-200 dark:border-[#333] hover:border-[#007BFF] transition-all hover:shadow-lg"
-                                    >
-                                        <div className="aspect-video overflow-hidden">
-                                            {post.imageUrl ? (
-                                                <LazyImage
-                                                    src={post.imageUrl}
-                                                    alt={post.title}
-                                                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                                                />
-                                            ) : (
-                                                <div className="w-full h-full bg-gradient-to-br from-[#007BFF] to-[#A9A9F5] flex items-center justify-center">
-                                                    <BookOpen className="w-12 h-12 text-white/50" />
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="p-6">
-                                            {post.publishedAt && (
-                                                <div className="flex items-center gap-2 text-gray-500 dark:text-[#6C757D] text-sm mb-3">
-                                                    <Calendar size={14} />
-                                                    <span>{new Date(post.publishedAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                                                </div>
-                                            )}
-                                            <h3 className="text-lg font-creativo font-bold mb-2 group-hover:text-[#007BFF] transition-colors line-clamp-2">
-                                                {post.title}
-                                            </h3>
-                                            {post.excerpt && (
-                                                <p className="text-gray-600 dark:text-[#6C757D] text-sm line-clamp-2 mb-4">
-                                                    {post.excerpt}
-                                                </p>
-                                            )}
-                                            <span className="inline-flex items-center gap-1 text-[#007BFF] text-sm font-medium">
-                                                Lire l'article
-                                                <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
-                                            </span>
-                                        </div>
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
-                )}
+
 
                 {/* About Section - Complete Biography */}
                 <section id="apropos" className="gsap-section py-24 bg-white dark:bg-[#020202] border-t border-gray-200 dark:border-[#333]">
@@ -1245,7 +1016,7 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
                                         </div>
                                         <div>
                                             <h4 className="text-black dark:text-white font-creativo font-bold text-lg">Email</h4>
-                                            <p className="text-gray-500 dark:text-[#6C757D]">contact@mijearochi.com</p>
+                                            <p className="text-gray-500 dark:text-[#6C757D]">contact@thetalkfashion.com</p>
                                         </div>
                                     </div>
 

@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { BACKEND_ENABLED } from '../config/features';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
     Menu,
     X,
     Home as HomeIcon,
-    Video,
     Headphones,
     BookOpen,
-    Users,
     Info,
-    Mail,
     Bell,
     Download,
     LogOut,
@@ -69,7 +67,7 @@ export default function Navbar({
         }
     };
 
-    // Main navigation items with clear structure
+    // Main navigation items — streamlined to real destinations only
     const navItems = [
         {
             label: t('nav.home', 'Home'),
@@ -78,24 +76,10 @@ export default function Navbar({
             to: '/'
         },
         {
-            label: t('nav.videos', 'Vidéos'),
-            icon: Video,
-            type: 'section',
-            section: 'videos',
-            description: 'Watch our video content'
-        },
-        {
             label: t('nav.episodes', 'Épisodes'),
             icon: Headphones,
-            type: 'section',
-            section: 'galerie',
-            description: 'Listen to podcast episodes'
-        },
-        {
-            label: t('nav.store', 'Boutique'),
-            icon: ShoppingBag,
             type: 'link',
-            to: '/store'
+            to: '/episodes'
         },
         {
             label: t('nav.blog', 'Blog'),
@@ -108,14 +92,13 @@ export default function Navbar({
             icon: Info,
             type: 'section',
             section: 'apropos',
-            description: 'About Mijean Rochus'
+            description: 'About the hosts'
         },
         {
-            label: t('nav.contact', 'Contact'),
-            icon: Mail,
-            type: 'section',
-            section: 'contact',
-            description: 'Get in touch'
+            label: t('nav.store', 'Boutique'),
+            icon: ShoppingBag,
+            type: 'link',
+            to: '/store'
         },
     ];
 
@@ -192,56 +175,60 @@ export default function Navbar({
                     {/* Separator */}
                     <div className="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-2" />
 
-                    {/* User Section */}
-                    {user ? (
-                        <div className="flex items-center gap-2">
-                            <Link
-                                to={`/profile/${user.uid}`}
-                                title="View Profile"
-                                className="hover:ring-2 hover:ring-[#007BFF] rounded-full transition-all"
-                            >
-                                <img
-                                    src={user.photoURL}
-                                    alt={user.displayName}
-                                    className="w-8 h-8 rounded-full border border-gray-300 dark:border-[#333]"
-                                />
-                            </Link>
-                            {/* Admin Button - only visible for admin users */}
-                            {['admin@example.com', 'sammagbo@gmail.com'].includes(user.email) && (
+                    {/* User Section — gated behind backend flag */}
+                    {BACKEND_ENABLED && (
+                      <>
+                        {user ? (
+                            <div className="flex items-center gap-2">
                                 <Link
-                                    to="/admin"
-                                    title="Painel Admin"
-                                    className="p-2 text-[#A9A9F5] hover:text-[#007BFF] hover:bg-[#007BFF]/10 rounded-lg transition-colors"
+                                    to={`/profile/${user.uid}`}
+                                    title="View Profile"
+                                    className="hover:ring-2 hover:ring-[#007BFF] rounded-full transition-all"
                                 >
-                                    <Shield size={18} />
+                                    <img
+                                        src={user.photoURL}
+                                        alt={user.displayName}
+                                        className="w-8 h-8 rounded-full border border-gray-300 dark:border-[#333]"
+                                    />
                                 </Link>
-                            )}
-                            <button
-                                onClick={logout}
-                                aria-label="Se déconnecter"
-                                title="Se déconnecter"
-                                className="p-2 text-gray-500 hover:text-red-500 transition-colors"
-                            >
-                                <LogOut size={18} />
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="relative group">
-                            <button
-                                className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-4 py-2 rounded-lg transition-all text-sm font-bold uppercase tracking-wider"
-                            >
-                                {t('nav.login', 'Connexion')}
-                            </button>
-                            {/* Dropdown with social auth options */}
-                            <div className="absolute right-0 top-full mt-2 w-72 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                <div className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow-2xl p-4 border border-gray-200 dark:border-[#333]">
-                                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 text-center">
-                                        {t('auth.chooseProvider', 'Escolha como entrar')}
-                                    </p>
-                                    <SocialAuthButtons />
+                                {/* Admin Button - only visible for admin users */}
+                                {['admin@example.com', 'sammagbo@gmail.com'].includes(user.email) && (
+                                    <Link
+                                        to="/admin"
+                                        title="Painel Admin"
+                                        className="p-2 text-[#A9A9F5] hover:text-[#007BFF] hover:bg-[#007BFF]/10 rounded-lg transition-colors"
+                                    >
+                                        <Shield size={18} />
+                                    </Link>
+                                )}
+                                <button
+                                    onClick={logout}
+                                    aria-label="Se déconnecter"
+                                    title="Se déconnecter"
+                                    className="p-2 text-gray-500 hover:text-red-500 transition-colors"
+                                >
+                                    <LogOut size={18} />
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="relative group">
+                                <button
+                                    className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-4 py-2 rounded-lg transition-all text-sm font-bold uppercase tracking-wider"
+                                >
+                                    {t('nav.login', 'Connexion')}
+                                </button>
+                                {/* Dropdown with social auth options */}
+                                <div className="absolute right-0 top-full mt-2 w-72 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                    <div className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow-2xl p-4 border border-gray-200 dark:border-[#333]">
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 text-center">
+                                            {t('auth.chooseProvider', 'Escolha como entrar')}
+                                        </p>
+                                        <SocialAuthButtons />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
+                      </>
                     )}
 
                     {/* Utilities */}
@@ -254,6 +241,7 @@ export default function Navbar({
                     </button>
                     <ThemeToggle />
 
+                    {BACKEND_ENABLED && (
                     <button
                         onClick={requestPermission}
                         aria-label={notificationPermission === 'granted' ? 'Notifications activées' : 'Activer les notifications'}
@@ -265,6 +253,7 @@ export default function Navbar({
                     >
                         <Bell size={18} fill={notificationPermission === 'granted' ? 'currentColor' : 'none'} />
                     </button>
+                    )}
 
                     {deferredPrompt && (
                         <button
@@ -343,61 +332,51 @@ export default function Navbar({
                                     </button>
                                 );
                             })}
-
-                            {/* Store Link */}
-                            <Link
-                                to="/store"
-                                onClick={() => setIsMenuOpen(false)}
-                                className="group flex items-center gap-6 py-3 border-b border-white/10 hover:border-[#A9A9F5] transition-all"
-                            >
-                                <span className="text-white/40 font-mono text-sm tracking-wider">
-                                    {String(navItems.length).padStart(2, '0')}.
-                                </span>
-                                <span className="text-3xl md:text-4xl font-creativo font-bold text-white uppercase tracking-[0.1em] group-hover:text-[#A9A9F5] transition-colors">
-                                    {t('nav.store', 'Boutique')}
-                                </span>
-                                <ShoppingBag size={24} className="ml-auto text-white/30 group-hover:text-[#A9A9F5] transition-colors" />
-                            </Link>
                         </nav>
 
                         {/* Footer: User & Utilities */}
                         <div className="absolute bottom-8 left-0 right-0 flex justify-center">
                             <div className="flex items-center gap-6">
-                                {user ? (
-                                    <>
-                                        <Link
-                                            to={`/profile/${user.uid}`}
-                                            onClick={() => setIsMenuOpen(false)}
-                                            className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
-                                        >
-                                            <img
-                                                src={user.photoURL}
-                                                alt={user.displayName}
-                                                className="w-10 h-10 rounded-full border-2 border-white/20"
-                                            />
-                                            <span className="font-mono text-sm tracking-wider">{user.displayName?.split(' ')[0]}</span>
-                                        </Link>
-                                        {/* Admin Button - mobile */}
-                                        {['admin@example.com', 'sammagbo@gmail.com'].includes(user.email) && (
+                                {/* Auth cluster — gated behind backend flag */}
+                                {BACKEND_ENABLED && (
+                                  <>
+                                    {user ? (
+                                        <>
                                             <Link
-                                                to="/admin"
+                                                to={`/profile/${user.uid}`}
                                                 onClick={() => setIsMenuOpen(false)}
-                                                className="flex items-center gap-2 px-4 py-2 bg-[#A9A9F5]/20 text-[#A9A9F5] rounded-full font-mono text-sm tracking-wider hover:bg-[#A9A9F5]/30 transition-colors"
+                                                className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
                                             >
-                                                <Shield size={16} />
-                                                Admin
+                                                <img
+                                                    src={user.photoURL}
+                                                    alt={user.displayName}
+                                                    className="w-10 h-10 rounded-full border-2 border-white/20"
+                                                />
+                                                <span className="font-mono text-sm tracking-wider">{user.displayName?.split(' ')[0]}</span>
                                             </Link>
-                                        )}
-                                    </>
-                                ) : (
-                                    <div className="flex flex-col items-center gap-4 w-full max-w-xs">
-                                        <p className="text-white/60 text-sm font-mono">
-                                            {t('auth.chooseProvider', 'Escolha como entrar')}
-                                        </p>
-                                        <SocialAuthButtons
-                                            onSuccess={() => setIsMenuOpen(false)}
-                                        />
-                                    </div>
+                                            {/* Admin Button - mobile */}
+                                            {['admin@example.com', 'sammagbo@gmail.com'].includes(user.email) && (
+                                                <Link
+                                                    to="/admin"
+                                                    onClick={() => setIsMenuOpen(false)}
+                                                    className="flex items-center gap-2 px-4 py-2 bg-[#A9A9F5]/20 text-[#A9A9F5] rounded-full font-mono text-sm tracking-wider hover:bg-[#A9A9F5]/30 transition-colors"
+                                                >
+                                                    <Shield size={16} />
+                                                    Admin
+                                                </Link>
+                                            )}
+                                        </>
+                                    ) : (
+                                        <div className="flex flex-col items-center gap-4 w-full max-w-xs">
+                                            <p className="text-white/60 text-sm font-mono">
+                                                {t('auth.chooseProvider', 'Escolha como entrar')}
+                                            </p>
+                                            <SocialAuthButtons
+                                                onSuccess={() => setIsMenuOpen(false)}
+                                            />
+                                        </div>
+                                    )}
+                                  </>
                                 )}
 
                                 <div className="w-px h-8 bg-white/20" />
@@ -414,6 +393,7 @@ export default function Navbar({
 
                                 <ThemeToggle />
 
+                                {BACKEND_ENABLED && (
                                 <button
                                     onClick={requestPermission}
                                     className={`p-2 rounded-full border ${notificationPermission === 'granted'
@@ -423,6 +403,7 @@ export default function Navbar({
                                 >
                                     <Bell size={20} fill={notificationPermission === 'granted' ? 'currentColor' : 'none'} />
                                 </button>
+                                )}
 
                                 {deferredPrompt && (
                                     <button

@@ -11,6 +11,7 @@ import { useAuth } from '../context/AuthContext';
 import { client, urlFor } from '../sanity';
 import { useTranslation } from 'react-i18next';
 import { shareContent, getEpisodeShareUrl } from '../utils/share';
+import { BACKEND_ENABLED } from '../config/features';
 
 export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying }) {
     const { id } = useParams();
@@ -291,9 +292,11 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                 {episode.title}
                             </h1>
 
+                            {BACKEND_ENABLED && (
                             <div className="mb-6">
                                 <Rating episodeId={episode.id} user={user} />
                             </div>
+                            )}
 
                             <div className="flex flex-wrap items-center gap-6 text-gray-500 dark:text-[#6C757D] text-sm font-minimal mb-8">
                                 <div className="flex items-center gap-2">
@@ -404,6 +407,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                 >
                                     {t('episode.tabs.transcript')}
                                 </button>
+                                {BACKEND_ENABLED && (
                                 <button
                                     onClick={() => setActiveTab('comments')}
                                     className={`pb-4 px-4 font-bold text-sm uppercase tracking-wider text-center transition-colors border-b-2 ${activeTab === 'comments'
@@ -413,6 +417,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                 >
                                     {t('episode.tabs.comments')}
                                 </button>
+                                )}
                             </div>
 
                             {/* TAB CONTENT */}
@@ -443,7 +448,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                     </div>
                                 )}
 
-                                {activeTab === 'comments' && (
+                                {activeTab === 'comments' && BACKEND_ENABLED && (
                                     <div className="animate-fade-in space-y-8">
                                         {/* Poll Section */}
                                         {episode.poll && (
