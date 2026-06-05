@@ -7,6 +7,7 @@ import Sitemap from 'vite-plugin-sitemap'
 // Static routes for sitemap
 const staticRoutes = [
   '/',
+  '/episodes',
   '/store',
   '/blog',
 ]
