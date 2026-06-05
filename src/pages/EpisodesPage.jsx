@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
+
 import {
     Headphones,
     Video,
@@ -21,7 +21,7 @@ import { client } from '../sanity';
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
 
 export default function EpisodesPage({ items, onPlay }) {
-    const { t } = useTranslation();
+
 
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState('Tous');

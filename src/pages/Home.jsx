@@ -22,7 +22,6 @@ import RSVPButton from '../components/RSVPButton';
 import SearchOverlay from '../components/SearchOverlay';
 
 
-const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
 
 // Video Carousel Component for Hero Background
 const videoSources = [
@@ -85,17 +84,16 @@ function VideoCarousel() {
 }
 
 
-export default function Home({ items, favorites, toggleFavorite, onPlay }) {
+export default function Home({ items, onPlay }) {
     const { t } = useTranslation();
 
-    const [activeCategory, setActiveCategory] = useState('Tous');
-    const [searchQuery, setSearchQuery] = useState(''); // Restore local search state
+
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const [formStatus, setFormStatus] = useState('');
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
-    const [blogPosts, setBlogPosts] = useState([]);
+
 
     // Shorts state
     const [shorts, setShorts] = useState([]);
@@ -268,22 +266,6 @@ export default function Home({ items, favorites, toggleFavorite, onPlay }) {
     };
 
 
-
-    // Update filtering to use `items` prop
-    const filteredItems = items.filter(item => {
-        const matchesCategory = activeCategory === 'Tous' || item.category === activeCategory;
-        const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item.category.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesCategory && matchesSearch;
-    });
-
-    // Separate video and audio content
-    const videoCategories = ['Coulisses', 'Interviews', 'Vidéos'];
-
-
-    const videoItems = items.filter(item =>
-        videoCategories.some(cat => item.category?.toLowerCase().includes(cat.toLowerCase()))
-    );
 
 
 

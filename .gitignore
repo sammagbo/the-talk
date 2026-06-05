@@ -26,3 +26,6 @@ dist-ssr
 .vercel
 .env*.local
 .env
+google-cloud-sdk/
+google-cloud-sdk/
+*.tar.gz

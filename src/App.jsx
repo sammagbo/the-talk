@@ -309,7 +309,7 @@ export default function App() {
           </div>
         }>
           <Routes>
-            <Route path="/" element={<Home items={items} onPlay={handlePlay} favorites={favorites} toggleFavorite={toggleFavorite} />} />
+            <Route path="/" element={<Home items={items} onPlay={handlePlay} />} />
             <Route path="/episode/:id" element={<EpisodePage items={items} onPlay={handlePlay} onPause={() => setIsPlaying(false)} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
             <Route path="/store" element={<StorePage />} />
             <Route path="/episodes" element={<EpisodesPage items={items} onPlay={handlePlay} />} />
