@@ -90,9 +90,7 @@ export default function Navbar({
         {
             label: t('nav.about', 'À propos'),
             icon: Info,
-            type: 'section',
-            section: 'apropos',
-            description: 'About the hosts'
+            type: 'link', to: '/about', description: 'About the hosts'
         },
         {
             label: t('nav.store', 'Boutique'),

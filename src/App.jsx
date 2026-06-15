@@ -75,6 +75,7 @@ const Home = lazy(() => import('./pages/Home').catch(err => {
 }));
 const EpisodePage = lazy(() => import('./pages/EpisodePage'));
 const EpisodesPage = lazy(() => import('./pages/EpisodesPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
 const StorePage = lazy(() => import('./pages/StorePage'));
 const AdminPage = lazy(() => import('./pages/AdminPage'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
@@ -313,6 +314,7 @@ export default function App() {
             <Route path="/episode/:id" element={<EpisodePage items={items} onPlay={handlePlay} onPause={() => setIsPlaying(false)} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
             <Route path="/store" element={<StorePage />} />
             <Route path="/episodes" element={<EpisodesPage items={items} onPlay={handlePlay} />} />
+            <Route path="/about" element={<AboutPage />} />
             {BACKEND_ENABLED && <Route path="/admin" element={<AdminPage />} />}
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
