@@ -27,21 +27,28 @@ import SearchOverlay from '../components/SearchOverlay';
 const videoSources = [
     {
         src: "/videos/Carrousel.mp4",
-        poster: "" // Local video, should load fast enough to not need poster
+        poster: "/videos/hero-poster.jpg"
     },
     {
         src: "https://cdn.pixabay.com/video/2019/07/14/25245-348376973_large.mp4",
-        poster: "https://i.vimeocdn.com/video/799899087-5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e?mw=1920"
+        poster: ""
     }
 ];
 
 function VideoCarousel() {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [loadedIndexes, setLoadedIndexes] = useState([0]);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setActiveIndex((prev) => (prev + 1) % videoSources.length);
-        }, 8000); // Switch every 8 seconds
+            setActiveIndex((prev) => {
+                const next = (prev + 1) % videoSources.length;
+                setLoadedIndexes((loaded) =>
+                    loaded.includes(next) ? loaded : [...loaded, next]
+                );
+                return next;
+            });
+        }, 8000);
 
         return () => clearInterval(interval);
     }, []);
@@ -55,14 +62,17 @@ function VideoCarousel() {
                     loop
                     muted
                     playsInline
-                    poster={video.poster}
+                    preload="metadata"
+                    poster={video.poster || undefined}
                     className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${index === activeIndex
                         ? 'opacity-30 dark:opacity-40'
                         : 'opacity-0'
                         }`}
                     style={{ zIndex: index === activeIndex ? 1 : 0 }}
                 >
-                    <source src={video.src} type="video/mp4" />
+                    {loadedIndexes.includes(index) && (
+                        <source src={video.src} type="video/mp4" />
+                    )}
                 </video>
             ))}
             {/* Video Indicators */}
@@ -289,8 +299,6 @@ export default function Home({ items, onPlay }) {
             {/* Intégration des polices Google Fonts */}
             <style>
                 {`
-          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;700;900&display=swap');
-          
           .font-creativo { font-family: 'Outfit', sans-serif; }
           .font-minimal { font-family: 'Inter', sans-serif; }
           .animate-fade-in { animation: fadeIn 0.5s ease-out; }

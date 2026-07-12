@@ -119,7 +119,6 @@ export default function EpisodesPage({ items, onPlay }) {
             {/* Fonts */}
             <style>
                 {`
-                    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;700;900&display=swap');
                     .font-creativo { font-family: 'Outfit', sans-serif; }
                     .font-minimal { font-family: 'Inter', sans-serif; }
                 `}

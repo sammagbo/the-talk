@@ -48,6 +48,13 @@ export default defineConfig({
       workbox: {
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
+        globIgnores: [
+          '**/brand_assets/**',
+          '**/brand-*.png',
+          '**/business-card.png',
+          '**/og_image*.png',
+          '**/og-image.png',
+        ],
       }
     })
   ],
