@@ -13,6 +13,13 @@
         "logout": "Se déconnecter",
         "back_gallery": "Retour à la galerie"
     },
+    "notFound": {
+        "tag": "ERREUR 404",
+        "title": "Page introuvable",
+        "description": "La page que vous cherchez n'existe pas ou a été déplacée.",
+        "home": "Retour à l'accueil",
+        "episodes": "Voir les épisodes"
+    },
     "hero": {
         "subtitle": "By Mijean Rochus",
         "new_episode": "Nouvel Épisode Disponible",

@@ -82,6 +82,7 @@ const BlogPage = lazy(() => import('./pages/BlogPage'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const LivePage = lazy(() => import('./pages/LivePage'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 import { useAuth } from './context/AuthContext';
 import { supabase } from './supabase';
 import SponsorBanner from './components/SponsorBanner';
@@ -320,6 +321,7 @@ export default function App() {
             <Route path="/blog/:slug" element={<BlogPost />} />
             {BACKEND_ENABLED && <Route path="/profile/:uid" element={<ProfilePage />} />}
             {BACKEND_ENABLED && <Route path="/live" element={<LivePage />} />}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </ErrorBoundary>

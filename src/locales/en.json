@@ -13,6 +13,13 @@
         "logout": "Logout",
         "back_gallery": "Back to gallery"
     },
+    "notFound": {
+        "tag": "ERROR 404",
+        "title": "Page not found",
+        "description": "The page you're looking for doesn't exist or has been moved.",
+        "home": "Back to home",
+        "episodes": "Browse episodes"
+    },
     "hero": {
         "subtitle": "By Mijean Rochus",
         "new_episode": "New Episode Available",

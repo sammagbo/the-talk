@@ -13,6 +13,13 @@
         "logout": "Sair",
         "back_gallery": "Voltar para galeria"
     },
+    "notFound": {
+        "tag": "ERRO 404",
+        "title": "Página não encontrada",
+        "description": "A página que você procura não existe ou foi movida.",
+        "home": "Voltar ao início",
+        "episodes": "Ver episódios"
+    },
     "hero": {
         "subtitle": "Por Mijean Rochus",
         "new_episode": "Novo Episódio Disponível",
