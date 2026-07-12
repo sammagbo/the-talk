@@ -17,14 +17,10 @@
     rel="stylesheet">
   <link rel="preconnect" href="https://cdn.sanity.io" />
 
-  <!-- Preload LCP image for faster Largest Contentful Paint -->
-  <link rel="preload" as="image"
-    href="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=2000&q=80" />
-
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#000000" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
@@ -63,13 +59,9 @@
         "@id": "https://www.thetalkfashion.com/#website",
         "url": "https://www.thetalkfashion.com/",
         "name": "THE TALK",
-        "description": "Un podcast mode et lifestyle par Mijean Rochus & Gleid",
-        "publisher": { "@id": "https://www.thetalkfashion.com/#organization" },
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://www.thetalkfashion.com/?s={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
+        "description": "Plateforme de médias mode, lifestyle et culture par Mijean Rochus & Gleid",
+        "inLanguage": "fr",
+        "publisher": { "@id": "https://www.thetalkfashion.com/#organization" }
       },
       {
         "@type": "Organization",
@@ -77,28 +69,13 @@
         "name": "THE TALK",
         "url": "https://www.thetalkfashion.com/",
         "logo": "https://www.thetalkfashion.com/logo.png",
+        "founder": [
+          { "@type": "Person", "name": "Mijean Rochus" },
+          { "@type": "Person", "name": "Gleid" }
+        ],
         "sameAs": [
-          "https://www.instagram.com/thetalk_podcast",
-          "https://open.spotify.com/show/thetalk",
-          "https://www.youtube.com/@thetalk_podcast",
-          "https://twitter.com/thetalk_podcast"
+          "https://www.youtube.com/@thetalkpodcastbygleidandmijean"
         ]
-      },
-      {
-        "@type": "PodcastSeries",
-        "@id": "https://www.thetalkfashion.com/#podcast",
-        "name": "THE TALK",
-        "description": "Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives avec Mijean Rochus & Gleid.",
-        "author": {
-          "@type": "Person",
-          "name": "Mijean Rochus & Gleid",
-          "jobTitle": "Podcast Hosts",
-          "url": "https://www.thetalkfashion.com/"
-        },
-        "image": "https://www.thetalkfashion.com/og-image.png",
-        "inLanguage": "fr",
-        "genre": ["Fashion", "Lifestyle", "Interview"],
-        "webFeed": "https://anchor.fm/s/thetalk/podcast/rss"
       }
     ]
   }

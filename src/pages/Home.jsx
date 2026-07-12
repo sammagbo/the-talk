@@ -266,27 +266,20 @@ export default function Home({ items, onPlay }) {
                 <meta name="description" content="Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives. Un podcast mode par Mijean Rochus." />
                 <meta property="og:title" content="THE TALK | Podcast by Mijean Rochus" />
                 <meta property="og:description" content="Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives." />
-                <meta property="og:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80" />
+                <meta property="og:image" content="https://www.thetalkfashion.com/og-image.png" />
                 <meta property="og:type" content="website" />
-                {/* Schema.org Structured Data for Podcast */}
+                {/* Schema.org Structured Data */}
                 <script type="application/ld+json">
                     {JSON.stringify({
                         "@context": "https://schema.org",
-                        "@type": "PodcastSeries",
+                        "@type": "WebSite",
                         "name": "THE TALK",
-                        "description": "Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives.",
+                        "description": "Plateforme de médias mode, lifestyle et culture par Mijean Rochus & Gleid.",
                         "url": "https://www.thetalkfashion.com",
-                        "author": {
-                            "@type": "Person",
-                            "name": "Mijean Rochus",
-                            "jobTitle": "Fashion Photographer & Podcast Host"
-                        },
-                        "image": "https://www.thetalkfashion.com/logo.png",
                         "inLanguage": "fr-FR",
-                        "genre": ["Fashion", "Lifestyle", "Mode"],
                         "publisher": {
                             "@type": "Organization",
-                            "name": "THE TALK Podcast",
+                            "name": "THE TALK",
                             "logo": {
                                 "@type": "ImageObject",
                                 "url": "https://www.thetalkfashion.com/logo.png"
