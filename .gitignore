@@ -27,5 +27,7 @@ dist-ssr
 .env*.local
 .env
 google-cloud-sdk/
-google-cloud-sdk/
 *.tar.gz
+
+# Claude Code session data
+.claude/

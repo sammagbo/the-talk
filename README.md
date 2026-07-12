@@ -1,169 +1,135 @@
-# THE TALK Podcast
+# THE TALK
 
 <div align="center">
 
-![THE TALK Logo](https://www.thetalkfashion.com/og-image.png)
+![THE TALK](https://www.thetalkfashion.com/og-image.png)
 
-**🎙️ A Fashion & Culture Podcast by Mijean Rochus**
+**Plataforma de mídia editorial — moda, lifestyle e cultura**
+Por Mijean Rochus & Gleid
 
-[![Live Demo](https://img.shields.io/badge/LIVE-Demo-blue?style=for-the-badge)](https://www.thetalkfashion.com)
-[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge&logo=supabase)](https://supabase.com)
+[![Live](https://img.shields.io/badge/LIVE-thetalkfashion.com-000000?style=for-the-badge)](https://www.thetalkfashion.com)
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
 [![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite)](https://vite.dev)
+[![Sanity](https://img.shields.io/badge/CMS-Sanity-F03E2F?style=for-the-badge&logo=sanity)](https://sanity.io)
 
 </div>
 
 ---
 
-## ✨ Features
+## Sobre
 
-- 🎧 **Podcast Player** - Stream episodes with Spotify integration
-- ❤️ **Favorites** - Like and save episodes
-- 💬 **Comments** - Real-time discussions on episodes
-- ⭐ **Ratings** - 5-star rating system
-- 🏆 **Gamification** - Badges and achievements
-- 🌍 **i18n** - Multi-language support (FR, EN, PT)
-- 📱 **PWA** - Install as mobile app
-- 🌙 **Dark Mode** - Beautiful dark theme
+THE TALK é uma plataforma de mídia **video-first**: conversas em vídeo, conteúdo curto vertical
+e artigos editoriais sobre moda, imagem pessoal, fotografia, bastidores e cultura. Os vídeos
+principais são publicados no **YouTube** e exibidos no site via player incorporado; o conteúdo
+editorial é gerido no **Sanity**.
 
----
-
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|-------|------------|
-| **Frontend** | React 18, Vite 7, GSAP |
-| **Backend** | Supabase (PostgreSQL + Auth) |
-| **CMS** | Sanity.io |
-| **Styling** | TailwindCSS, Lucide Icons |
-| **Hosting** | Vercel |
+> **Estado atual:** o projeto está em reestruturação rumo ao MVP video-first. O backend social
+> (Supabase) está **pausado** por decisão de produto — recursos de comunidade não estão ativos.
+> Veja o roadmap de fases na documentação interna.
 
 ---
 
-## 🚀 Quick Start
+## Stack
 
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-- Supabase account
-- Sanity account
+| Camada | Tecnologia |
+|--------|------------|
+| **Frontend** | React 18, Vite 7, React Router 7 |
+| **Estilo** | TailwindCSS 3, Lucide Icons |
+| **Animação** | GSAP, Lenis |
+| **CMS** | Sanity (Studio v4) |
+| **Vídeo** | YouTube (embed) |
+| **Newsletter** | Mailchimp (via Vercel Serverless) |
+| **i18n** | i18next — FR (primário), EN, PT |
+| **PWA** | vite-plugin-pwa (Workbox) |
+| **Observabilidade** | Sentry, Vercel Speed Insights |
+| **Hospedagem** | Vercel |
 
-### Installation
+> Supabase (Auth/Postgres) e Stripe permanecem no projeto como infraestrutura **dormente**,
+> reservada para fases futuras (comunidade e loja). Não são necessários para rodar o site.
+
+---
+
+## Requisitos
+
+- Node.js 24 LTS
+- npm 11+
+- Conta Sanity (para conteúdo)
+
+## Instalação
 
 ```bash
-# Clone repository
 git clone https://github.com/sammagbo/the-talk.git
 cd the-talk
-
-# Install dependencies
 npm install
-
-# Copy environment template
-cp .env.example .env
-
-# Start development server
-npm run dev
+cp .env.example .env   # preencha as variáveis do Sanity
+npm run dev            # http://localhost:5173
 ```
 
-### Environment Variables
-
-Create a `.env` file with:
+### Variáveis de ambiente (mínimo para rodar)
 
 ```env
-# Supabase
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_ANON_KEY=your-anon-key
-
-# Sanity
+# Sanity (obrigatório)
 VITE_SANITY_PROJECT_ID=your-project-id
 VITE_SANITY_DATASET=production
 ```
 
+Consulte `.env.example` para as variáveis opcionais (newsletter, observabilidade).
+
 ---
 
-## 📁 Project Structure
+## Scripts
+
+| Comando | Descrição |
+|---------|-----------|
+| `npm run dev` | Servidor de desenvolvimento (Vite) |
+| `npm run build` | Build de produção em `/dist` |
+| `npm run preview` | Pré-visualiza o build |
+| `npm run lint` | ESLint |
+| `npm run test` | Testes unitários (Vitest) |
+
+O CMS fica em `studio/` e roda separadamente:
+
+```bash
+cd studio
+npm install
+npm run dev     # Sanity Studio
+```
+
+---
+
+## Estrutura
 
 ```
 the-talk/
 ├── src/
-│   ├── components/      # React components
-│   ├── context/         # Auth context
-│   ├── hooks/          # Custom hooks
-│   ├── pages/          # Page components
-│   ├── utils/          # Utilities (badges, playback)
-│   ├── supabase.js     # Supabase client
-│   └── App.jsx         # Main app
-├── studio/             # Sanity CMS
-├── supabase/
-│   └── schema.sql      # Database schema
-└── public/             # Static assets
+│   ├── components/     # Componentes React
+│   ├── pages/          # Páginas (Home, Episodes, Episode, Blog, About)
+│   ├── hooks/          # Hooks customizados
+│   ├── locales/        # Traduções (fr, en, pt)
+│   ├── sanity.js       # Cliente Sanity
+│   └── App.jsx         # App e rotas
+├── studio/             # Sanity Studio (CMS)
+├── api/                # Vercel Serverless (newsletter, OG dinâmico)
+└── public/             # Assets estáticos
 ```
 
 ---
 
-## 🗄️ Database Schema
+## Deploy
 
-```mermaid
-erDiagram
-    users ||--o{ favorites : has
-    users ||--o{ comments : posts
-    users ||--o{ ratings : gives
-    users ||--|| user_stats : has
-    polls ||--o{ poll_votes : receives
-```
-
-See [supabase/schema.sql](./supabase/schema.sql) for full schema.
+Deploy contínuo na **Vercel** a cada push. Configure as variáveis de ambiente no painel do
+projeto. Build manual: `npm run build` (saída em `/dist`).
 
 ---
 
-## 🧪 Testing
+## Licença
 
-```bash
-# Run unit tests
-npm run test
-
-# Run tests with coverage
-npm run test:coverage
-```
-
----
-
-## 📦 Deployment
-
-### Vercel (Recommended)
-
-1. Connect GitHub repo to Vercel
-2. Add environment variables
-3. Deploy automatically on push
-
-### Manual Build
-
-```bash
-npm run build
-# Output in /dist
-```
-
----
-
-## 🔐 Supabase Setup
-
-1. Create project at [supabase.com](https://supabase.com)
-2. Run `supabase/schema.sql` in SQL Editor
-3. Enable Google OAuth in Authentication → Providers
-4. Add redirect URI in Google Cloud Console
-
----
-
-## 📄 License
-
-MIT © [Mijean Rochus](https://github.com/sammagbo)
-
----
+MIT © Mijean Rochus & Gleid
 
 <div align="center">
 
-**Made with ❤️ in Rio de Janeiro**
+**Feito no Rio de Janeiro**
 
-[Website](https://www.thetalkfashion.com) · [Instagram](https://instagram.com/thetalk)
+[Website](https://www.thetalkfashion.com) · [YouTube](https://www.youtube.com/@thetalkpodcastbygleidandmijean)
 
 </div>

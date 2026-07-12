@@ -1,7 +1,15 @@
 # 📘 THE TALK - Documentação Completa
 
+> [!WARNING]
+> **Documento em reestruturação (Fase 1 — julho/2026).** O produto está migrando para uma
+> arquitetura **video-first** (YouTube + Sanity). As seções de **Páginas**, **Componentes** e
+> **Integrações** ainda descrevem módulos legados — comunidade (auth, favoritos, comentários,
+> ratings), gamificação/badges, painel admin, player de áudio Spotify e live — que estão sendo
+> **removidos** neste ciclo. Serão atualizadas conforme cada branch é integrada. Trate a Visão
+> Geral e o Stack abaixo como a referência atual; o restante, como histórico transitório.
+
 > [!NOTE]
-> **Versão:** 1.10.4 | **Última Atualização:** 12 de Janeiro de 2026
+> **Versão:** 2.0.0-wip | **Última Atualização:** 12 de Julho de 2026
 
 | 🔗 Links Rápidos | |
 |------------------|--|
@@ -32,19 +40,20 @@
 
 ## 1. Visão Geral
 
-**THE TALK** é um website de podcast focado em moda e lifestyle, apresentado por **Mijean Rochus**. O site combina design "High Fashion" com tecnologia moderna.
+**THE TALK** é uma plataforma de mídia editorial **video-first** focada em moda, lifestyle e cultura, apresentada por **Mijean Rochus & Gleid**. Combina design "High Fashion" com tecnologia moderna.
 
 ### ✨ Principais Funcionalidades
 
 | Feature | Descrição |
 |---------|-----------|
-| 🎧 **Player Híbrido** | Áudio integrado com Spotify e vídeo do YouTube |
-| 📺 **Vídeo First** | Carrossel de vídeos no Hero + Shorts verticais |
-| 📝 **Blog Rico** | Artigos com formatação avançada via Portable Text |
-| 🛒 **Boutique** | Loja de produtos integrada com Stripe |
-| 👤 **Comunidade** | Sistema de autenticação, favoritos e comentários |
-| 🔔 **Engajamento** | Notificações push via Firebase Cloud Messaging |
-| 🌐 **Global** | Suporte completo a 4 idiomas (FR, EN, PT, ES) |
+| 📺 **Vídeo First** | Conversas e episódios em vídeo via YouTube (player incorporado) |
+| 🎬 **Conteúdo curto** | Shorts / vídeos verticais |
+| 📝 **Blog Rico** | Artigos com formatação avançada via Portable Text (Sanity) |
+| 📮 **Newsletter** | Captura de e-mails via Mailchimp (Vercel Serverless) |
+| 🌐 **Multilíngue** | FR (primário), EN, PT via i18next |
+| 📱 **PWA** | Instalável, com suporte offline (Workbox) |
+
+> Loja (Stripe) e comunidade (Supabase) são infraestrutura **dormente**, reservada para fases futuras.
 
 ---
 
@@ -65,11 +74,12 @@
 
 | Serviço | Propósito |
 |---------|-----------|
-| **Sanity.io** | Headless CMS para gerenciamento de conteúdo (Episódios, Blog, Produtos) |
-| **Firebase** | Autenticação (Auth) e Push Notifications (Cloud Messaging) |
-| **Vercel** | Hospedagem, CI/CD e Serverless Functions |
-| **Stripe** | Processamento de pagamentos seguro |
-| **Sentry** | Monitoramento de erros e performance em tempo real |
+| **Sanity.io** | Headless CMS — painel editorial principal (Episódios, Blog, Shorts) |
+| **YouTube** | Hospedagem e player dos vídeos (embed) |
+| **Vercel** | Hospedagem, CI/CD e Serverless Functions (newsletter, OG dinâmico) |
+| **Mailchimp** | Newsletter |
+| **Sentry** | Monitoramento de erros e performance |
+| **Supabase / Stripe** | Dormentes — reservados para comunidade e loja (fases futuras) |
 
 ### 🧪 DevDependencies
 
