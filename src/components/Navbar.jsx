@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { BACKEND_ENABLED } from '../config/features';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -9,35 +8,24 @@ import {
     Headphones,
     BookOpen,
     Info,
-    Bell,
     Download,
-    LogOut,
-    ShoppingBag,
-    Shield,
-    Search
+    ShoppingBag
 } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
 import ThemeToggle from './ThemeToggle';
-import SocialAuthButtons from './SocialAuthButtons';
-import { usePushNotifications } from '../hooks/usePushNotifications';
 
 /**
  * Navbar - Reusable navigation component with clear site structure
- * 
+ *
  * Menu structure:
- * Home → Vidéos → Épisodes → Blog → Sobre → Contato
+ * Home → Épisodes → Blog → À propos → Boutique
  */
 export default function Navbar({
     onScrollToSection,
-
-    onOpenSearch,
     deferredPrompt,
     onInstallClick
 }) {
     const { t } = useTranslation();
     const location = useLocation();
-    const { user, logout } = useAuth();
-    const { requestPermission, notificationPermission } = usePushNotifications();
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
@@ -124,7 +112,7 @@ export default function Navbar({
                             THE TALK
                         </span>
                         <span className="text-[10px] font-minimal text-[#A9A9F5] tracking-widest uppercase">
-                            By Mijean Rochus
+                            By Mijean Rochus &amp; Gleid
                         </span>
                     </div>
                 </Link>
@@ -173,85 +161,8 @@ export default function Navbar({
                     {/* Separator */}
                     <div className="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-2" />
 
-                    {/* User Section — gated behind backend flag */}
-                    {BACKEND_ENABLED && (
-                      <>
-                        {user ? (
-                            <div className="flex items-center gap-2">
-                                <Link
-                                    to={`/profile/${user.uid}`}
-                                    title="View Profile"
-                                    className="hover:ring-2 hover:ring-[#007BFF] rounded-full transition-all"
-                                >
-                                    <img
-                                        src={user.photoURL}
-                                        alt={user.displayName}
-                                        className="w-8 h-8 rounded-full border border-gray-300 dark:border-[#333]"
-                                    />
-                                </Link>
-                                {/* Admin Button - only visible for admin users */}
-                                {['admin@example.com', 'sammagbo@gmail.com'].includes(user.email) && (
-                                    <Link
-                                        to="/admin"
-                                        title="Painel Admin"
-                                        className="p-2 text-[#A9A9F5] hover:text-[#007BFF] hover:bg-[#007BFF]/10 rounded-lg transition-colors"
-                                    >
-                                        <Shield size={18} />
-                                    </Link>
-                                )}
-                                <button
-                                    onClick={logout}
-                                    aria-label="Se déconnecter"
-                                    title="Se déconnecter"
-                                    className="p-2 text-gray-500 hover:text-red-500 transition-colors"
-                                >
-                                    <LogOut size={18} />
-                                </button>
-                            </div>
-                        ) : (
-                            <div className="relative group">
-                                <button
-                                    className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-4 py-2 rounded-lg transition-all text-sm font-bold uppercase tracking-wider"
-                                >
-                                    {t('nav.login', 'Connexion')}
-                                </button>
-                                {/* Dropdown with social auth options */}
-                                <div className="absolute right-0 top-full mt-2 w-72 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                    <div className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow-2xl p-4 border border-gray-200 dark:border-[#333]">
-                                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 text-center">
-                                            {t('auth.chooseProvider', 'Escolha como entrar')}
-                                        </p>
-                                        <SocialAuthButtons />
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                      </>
-                    )}
-
                     {/* Utilities */}
-                    <button
-                        onClick={onOpenSearch}
-                        className="p-2 text-gray-500 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors mr-1"
-                        aria-label="Search"
-                    >
-                        <Search size={20} />
-                    </button>
                     <ThemeToggle />
-
-                    {BACKEND_ENABLED && (
-                    <button
-                        onClick={requestPermission}
-                        aria-label={notificationPermission === 'granted' ? 'Notifications activées' : 'Activer les notifications'}
-                        className={`p-2 rounded-lg transition-colors ${notificationPermission === 'granted'
-                            ? 'text-[#007BFF] bg-[#007BFF]/10'
-                            : 'text-gray-500 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5'
-                            }`}
-                        title={notificationPermission === 'granted' ? 'Notifications activées' : 'Activer les notifications'}
-                    >
-                        <Bell size={18} fill={notificationPermission === 'granted' ? 'currentColor' : 'none'} />
-                    </button>
-                    )}
 
                     {deferredPrompt && (
                         <button
@@ -332,76 +243,10 @@ export default function Navbar({
                             })}
                         </nav>
 
-                        {/* Footer: User & Utilities */}
+                        {/* Footer: Utilities */}
                         <div className="absolute bottom-8 left-0 right-0 flex justify-center">
                             <div className="flex items-center gap-6">
-                                {/* Auth cluster — gated behind backend flag */}
-                                {BACKEND_ENABLED && (
-                                  <>
-                                    {user ? (
-                                        <>
-                                            <Link
-                                                to={`/profile/${user.uid}`}
-                                                onClick={() => setIsMenuOpen(false)}
-                                                className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
-                                            >
-                                                <img
-                                                    src={user.photoURL}
-                                                    alt={user.displayName}
-                                                    className="w-10 h-10 rounded-full border-2 border-white/20"
-                                                />
-                                                <span className="font-mono text-sm tracking-wider">{user.displayName?.split(' ')[0]}</span>
-                                            </Link>
-                                            {/* Admin Button - mobile */}
-                                            {['admin@example.com', 'sammagbo@gmail.com'].includes(user.email) && (
-                                                <Link
-                                                    to="/admin"
-                                                    onClick={() => setIsMenuOpen(false)}
-                                                    className="flex items-center gap-2 px-4 py-2 bg-[#A9A9F5]/20 text-[#A9A9F5] rounded-full font-mono text-sm tracking-wider hover:bg-[#A9A9F5]/30 transition-colors"
-                                                >
-                                                    <Shield size={16} />
-                                                    Admin
-                                                </Link>
-                                            )}
-                                        </>
-                                    ) : (
-                                        <div className="flex flex-col items-center gap-4 w-full max-w-xs">
-                                            <p className="text-white/60 text-sm font-mono">
-                                                {t('auth.chooseProvider', 'Escolha como entrar')}
-                                            </p>
-                                            <SocialAuthButtons
-                                                onSuccess={() => setIsMenuOpen(false)}
-                                            />
-                                        </div>
-                                    )}
-                                  </>
-                                )}
-
-                                <div className="w-px h-8 bg-white/20" />
-
-                                <button
-                                    onClick={() => {
-                                        onOpenSearch?.();
-                                        setIsMenuOpen(false);
-                                    }}
-                                    className="p-2 rounded-full border border-white/20 text-white/50 hover:text-white hover:border-white/40 transition-all"
-                                >
-                                    <Search size={20} />
-                                </button>
-
                                 <ThemeToggle />
-
-                                {BACKEND_ENABLED && (
-                                <button
-                                    onClick={requestPermission}
-                                    className={`p-2 rounded-full border ${notificationPermission === 'granted'
-                                        ? 'border-[#007BFF] text-[#007BFF]'
-                                        : 'border-white/20 text-white/50 hover:text-white hover:border-white/40'
-                                        } transition-all`}
-                                >
-                                    <Bell size={20} fill={notificationPermission === 'granted' ? 'currentColor' : 'none'} />
-                                </button>
-                                )}
 
                                 {deferredPrompt && (
                                     <button

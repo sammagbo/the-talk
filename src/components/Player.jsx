@@ -1,12 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, X, Volume2, VolumeX, Share2, Check, SkipBack, SkipForward, Gauge } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import { savePlaybackProgress, getSavedPosition } from '../utils/playbackHistory';
+import { Play, Pause, X, Volume2, VolumeX, Share2, Check, SkipBack, SkipForward } from 'lucide-react';
 import { shareContent, getEpisodeShareUrl } from '../utils/share';
 import LazySpotifyEmbed from './LazySpotifyEmbed';
-import LiveListeners from './LiveListeners';
 import AudioWaveform from './AudioWaveform';
-import { usePresence } from '../hooks/usePresence';
 
 const PLAYBACK_SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
@@ -15,9 +11,6 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
     const [progress, setProgress] = useState(0);
     const [duration, setDuration] = useState(0);
     const [shareToast, setShareToast] = useState(null);
-    const { user } = useAuth();
-    const lastSaveTimeRef = useRef(0);
-    const saveIntervalRef = useRef(null);
 
     // New controls state
     const [volume, setVolume] = useState(1);
@@ -25,26 +18,6 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
     const [showVolumeSlider, setShowVolumeSlider] = useState(false);
     const [playbackSpeed, setPlaybackSpeed] = useState(1);
     const [showSpeedMenu, setShowSpeedMenu] = useState(false);
-
-    // Real-time presence tracking
-    const { listenerCount, isConnected } = usePresence(currentEpisode?.id);
-
-    // Restore saved position when episode changes
-    useEffect(() => {
-        const restoreSavedPosition = async () => {
-            if (currentEpisode?.id && user && audioRef.current) {
-                const savedPosition = await getSavedPosition(user.uid, currentEpisode.id);
-                if (savedPosition > 0) {
-                    audioRef.current.currentTime = savedPosition;
-                    setProgress(savedPosition);
-                }
-            }
-        };
-
-        if (currentEpisode?.audioUrl) {
-            restoreSavedPosition();
-        }
-    }, [currentEpisode?.id, user]);
 
     useEffect(() => {
         if (currentEpisode?.audioUrl && audioRef.current) {
@@ -55,44 +28,6 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
             }
         }
     }, [currentEpisode, isPlaying]);
-
-    // Save progress every 10 seconds while playing
-    useEffect(() => {
-        if (isPlaying && user && currentEpisode?.id) {
-            saveIntervalRef.current = setInterval(() => {
-                if (audioRef.current && audioRef.current.currentTime > 0) {
-                    const currentTime = audioRef.current.currentTime;
-                    const audioDuration = audioRef.current.duration || 0;
-
-                    // Only save if we've moved at least 5 seconds since last save
-                    if (Math.abs(currentTime - lastSaveTimeRef.current) >= 5) {
-                        savePlaybackProgress(user.uid, currentEpisode, currentTime, audioDuration);
-                        lastSaveTimeRef.current = currentTime;
-                    }
-                }
-            }, 10000); // Every 10 seconds
-
-            return () => {
-                if (saveIntervalRef.current) {
-                    clearInterval(saveIntervalRef.current);
-                }
-            };
-        }
-    }, [isPlaying, user, currentEpisode]);
-
-    // Save progress when pausing or closing
-    useEffect(() => {
-        return () => {
-            // Save on unmount/close
-            if (user && currentEpisode?.id && audioRef.current) {
-                const currentTime = audioRef.current.currentTime;
-                const audioDuration = audioRef.current.duration || 0;
-                if (currentTime > 0) {
-                    savePlaybackProgress(user.uid, currentEpisode, currentTime, audioDuration);
-                }
-            }
-        };
-    }, [user, currentEpisode]);
 
     // Volume control
     useEffect(() => {
@@ -215,9 +150,6 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                         <h4 className="font-bold text-sm md:text-base truncate text-black dark:text-white">{currentEpisode.title}</h4>
                         <div className="flex items-center gap-2">
                             <p className="text-xs text-gray-500 dark:text-[#6C757D] truncate">{currentEpisode.category}</p>
-                            {listenerCount > 0 && (
-                                <LiveListeners count={listenerCount} isConnected={isConnected} />
-                            )}
                         </div>
                     </div>
                 </div>

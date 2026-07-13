@@ -40,19 +40,6 @@
             "backstage": "Backstage"
         }
     },
-    "ai_lab": {
-        "badge": "Gemini AI Powered",
-        "title": "Creative Lab",
-        "description": "Use our AI assistant to instantly generate episode concepts inspired by Mijean Rochus's editorial style.",
-        "generator_title": "Generator",
-        "generator_subtitle": "Enter a theme, a keyword, or an emotion.",
-        "placeholder": "Ex: Future of Fashion, AI and Art...",
-        "generating": "Generating...",
-        "generate_button": "Generate Concept ✨",
-        "result_title": "AI Generated Result",
-        "waiting_title": "Waiting for inspiration...",
-        "waiting_subtitle": "The result will appear here."
-    },
     "blog": {
         "title": "Blog",
         "subtitle": "Insights, trends and reflections",
@@ -161,7 +148,6 @@
         "title": "Profile",
         "back": "Back",
         "liked_episodes": "Liked Episodes",
-        "badges_earned": "Badges Earned",
         "episodes_played": "Episodes Played",
         "settings": "Profile Settings",
         "achievements": "Achievements",
