@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { X, Mail, Sparkles, Send } from 'lucide-react';
-import { supabase } from '../supabase';
 
 export default function ExitIntentPopup() {
     const [isVisible, setIsVisible] = useState(false);
@@ -62,41 +61,18 @@ export default function ExitIntentPopup() {
                 setTimeout(() => reject(new Error('Timeout')), 10000)
             );
 
-            const promises = [];
-
-            // Save to Supabase if available
-            if (supabase) {
-                const savePromise = supabase
-                    .from('newsletter_subscribers')
-                    .insert({
-                        email: email.trim(),
-                        source: 'exit_intent',
-                    });
-                promises.push(savePromise);
-            }
-
-            // Also send to Mailchimp via API
+            // Subscribe via Mailchimp API
             const mailchimpPromise = fetch('/api/subscribe', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email: email.trim() }),
-            }).then(res => {
-                if (!res.ok) {
-                    console.warn('Mailchimp subscription failed, but continuing...');
-                }
-                return res;
-            }).catch(err => {
-                console.warn('Mailchimp API error:', err);
-                // Don't fail the whole operation if Mailchimp fails
-                return null;
             });
-            promises.push(mailchimpPromise);
 
-            // Wait for all promises with timeout
+            // Wait for subscription with timeout
             await Promise.race([
-                Promise.all(promises),
+                mailchimpPromise,
                 timeoutPromise
             ]);
 

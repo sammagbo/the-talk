@@ -15,7 +15,6 @@ import {
 } from 'lucide-react';
 import LazyImage from '../components/LazyImage';
 import Navbar from '../components/Navbar';
-import SearchOverlay from '../components/SearchOverlay';
 import { client } from '../sanity';
 
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
@@ -25,7 +24,6 @@ export default function EpisodesPage({ items, onPlay }) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState('Tous');
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [deferredPrompt, setDeferredPrompt] = useState(null);
 
     // Shorts state
@@ -127,14 +125,8 @@ export default function EpisodesPage({ items, onPlay }) {
             {/* Navigation */}
             <Navbar
                 onScrollToSection={() => {}}
-                onOpenSearch={() => setIsSearchOpen(true)}
                 deferredPrompt={deferredPrompt}
                 onInstallClick={handleInstallClick}
-            />
-
-            <SearchOverlay
-                isOpen={isSearchOpen}
-                onClose={() => setIsSearchOpen(false)}
             />
 
             {/* Page Header */}

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { X, Mail, Check, Loader2 } from 'lucide-react';
-import { supabase } from '../supabase';
 import { useTranslation } from 'react-i18next';
 
 export default function SubscribeModal({ isOpen, onClose }) {
@@ -18,30 +17,15 @@ export default function SubscribeModal({ isOpen, onClose }) {
         setErrorMessage('');
 
         try {
-            // Add email to Supabase 'newsletter_subscribers' table
-            if (supabase) {
-                await supabase
-                    .from('newsletter_subscribers')
-                    .insert({
-                        email: email.trim(),
-                        source: 'navbar_modal'
-                    });
-            }
-
-            // Also send to Mailchimp via API route
-            try {
-                const response = await fetch('/api/subscribe', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: email.trim() }),
-                });
-                const data = await response.json();
-                if (!response.ok && !data.success) {
-                    console.warn('Mailchimp subscription warning:', data.error);
-                }
-            } catch (mailchimpError) {
-                console.warn('Mailchimp API error:', mailchimpError);
-                // Don't fail if Mailchimp fails - Supabase already saved
+            // Subscribe via Mailchimp API route
+            const response = await fetch('/api/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email.trim() }),
+            });
+            const data = await response.json();
+            if (!response.ok && !data.success) {
+                throw new Error(data.error || 'Failed to subscribe');
             }
 
             setStatus('success');

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, ArrowRight, Check, Loader2, AlertCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { supabase } from './supabase';
 
 const Newsletter = () => {
     const { t } = useTranslation();
@@ -18,16 +17,6 @@ const Newsletter = () => {
         setErrorMessage('');
 
         try {
-            // Save to Supabase first (as backup)
-            if (supabase) {
-                await supabase
-                    .from('newsletter_subscribers')
-                    .insert({
-                        email: email.trim(),
-                        source: 'homepage_inline'
-                    });
-            }
-
             // Send to Mailchimp via API route
             const response = await fetch('/api/subscribe', {
                 method: 'POST',

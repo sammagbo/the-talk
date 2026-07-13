@@ -5,11 +5,9 @@ import Newsletter from '../Newsletter';
 import { Mic, Instagram, Mail, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, ArrowRight, Upload, Bot, Loader2, Search, Coffee, Heart, Calendar, Video, Headphones, Play, Film, X, ShoppingBag, Code, Shield } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../components/LanguageSwitcher';
-import { BACKEND_ENABLED } from '../config/features';
 
 import LazyImage from '../components/LazyImage';
 import SubscribeModal from '../components/SubscribeModal';
-import ContinueListening from '../components/ContinueListening';
 import Navbar from '../components/Navbar';
 import { client } from '../sanity';
 import { useGSAP, gsap, ScrollTrigger } from '../hooks/useGSAP';
@@ -18,87 +16,34 @@ import CountUp from '../components/CountUp';
 import Marquee from '../components/Marquee';
 import TiltCard from '../components/TiltCard';
 import useSmoothScroll from '../hooks/useSmoothScroll';
-import RSVPButton from '../components/RSVPButton';
-import SearchOverlay from '../components/SearchOverlay';
 
 
 
-// Video Carousel Component for Hero Background
-const videoSources = [
-    {
-        src: "/videos/Carrousel.mp4",
-        poster: "/videos/hero-poster.jpg"
-    },
-    {
-        src: "https://cdn.pixabay.com/video/2019/07/14/25245-348376973_large.mp4",
-        poster: ""
-    }
-];
-
-function VideoCarousel() {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [loadedIndexes, setLoadedIndexes] = useState([0]);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setActiveIndex((prev) => {
-                const next = (prev + 1) % videoSources.length;
-                setLoadedIndexes((loaded) =>
-                    loaded.includes(next) ? loaded : [...loaded, next]
-                );
-                return next;
-            });
-        }, 8000);
-
-        return () => clearInterval(interval);
-    }, []);
-
+// Hero background video (single local source).
+// A multi-clip carousel can return once real THE TALK footage exists.
+function HeroVideo() {
     return (
         <div className="absolute inset-0 overflow-hidden">
-            {videoSources.map((video, index) => (
-                <video
-                    key={index}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                    poster={video.poster || undefined}
-                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${index === activeIndex
-                        ? 'opacity-30 dark:opacity-40'
-                        : 'opacity-0'
-                        }`}
-                    style={{ zIndex: index === activeIndex ? 1 : 0 }}
-                >
-                    {loadedIndexes.includes(index) && (
-                        <source src={video.src} type="video/mp4" />
-                    )}
-                </video>
-            ))}
-            {/* Video Indicators */}
-            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 flex gap-2">
-                {videoSources.map((_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => setActiveIndex(index)}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${index === activeIndex
-                            ? 'bg-[#007BFF] w-6'
-                            : 'bg-white/30 hover:bg-white/50'
-                            }`}
-                        aria-label={`Video ${index + 1}`}
-                    />
-                ))}
-            </div>
+            <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="metadata"
+                poster="/videos/hero-poster.jpg"
+                className="absolute inset-0 w-full h-full object-cover opacity-30 dark:opacity-40"
+            >
+                <source src="/videos/Carrousel.mp4" type="video/mp4" />
+            </video>
         </div>
     );
 }
 
 
-export default function Home({ items, onPlay }) {
+export default function Home({ items }) {
     const { t } = useTranslation();
 
 
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const [formStatus, setFormStatus] = useState('');
     const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -307,16 +252,9 @@ export default function Home({ items, onPlay }) {
             <Navbar
                 onScrollToSection={scrollToSection}
                 onOpenSubscribe={() => setIsSubscribeOpen(true)}
-                onOpenSearch={() => setIsSearchOpen(true)}
                 deferredPrompt={deferredPrompt}
                 onInstallClick={handleInstallClick}
             />
-
-            <SearchOverlay
-                isOpen={isSearchOpen}
-                onClose={() => setIsSearchOpen(false)}
-            />
-
 
             {/* Hero Section */}
             <header className="relative h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-black">
@@ -325,7 +263,7 @@ export default function Home({ items, onPlay }) {
                     <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#007BFF]/20 rounded-full blur-[100px] animate-pulse"></div>
                     <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#A9A9F5]/20 rounded-full blur-[100px]"></div>
                     {/* Video Carousel - Crossfade between fashion videos */}
-                    <VideoCarousel />
+                    <HeroVideo />
                     <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white/50 dark:from-black dark:via-transparent dark:to-black/50"></div>
                     {/* Clean Minimalist Fashion Background */}
                 </div>
@@ -389,16 +327,8 @@ export default function Home({ items, onPlay }) {
                             <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">Évaluation</p>
                         </div>
                     </div>
-
-                    {/* RSVP for upcoming live event — gated behind backend flag */}
-                    {BACKEND_ENABLED && <RSVPButton className="mt-8 max-w-xl mx-auto" />}
                 </div>
             </header>
-
-            {/* Removed Infinite Marquee Banner to keep Home cleaner */}
-
-            {/* Continue Listening Section — gated behind backend flag */}
-            {BACKEND_ENABLED && <ContinueListening onPlay={onPlay} />}
 
             {/* Main Content - Skip Link Target */}
             <main id="main-content">

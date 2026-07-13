@@ -40,19 +40,6 @@
             "backstage": "Bastidores"
         }
     },
-    "ai_lab": {
-        "badge": "Portado por Gemini AI",
-        "title": "Laboratório Criativo",
-        "description": "Use nosso assistente de IA para gerar instantaneamente conceitos de episódios inspirados no estilo editorial de Mijean Rochus.",
-        "generator_title": "Gerador",
-        "generator_subtitle": "Digite um tema, uma palavra-chave ou uma emoção.",
-        "placeholder": "Ex: Futuro da Moda, IA e Arte...",
-        "generating": "Gerando...",
-        "generate_button": "Gerar Conceito ✨",
-        "result_title": "Resultado gerado por IA",
-        "waiting_title": "Aguardando inspiração...",
-        "waiting_subtitle": "O resultado aparecerá aqui."
-    },
     "blog": {
         "title": "Blog",
         "subtitle": "Insights, tendências e reflexões",
@@ -161,7 +148,6 @@
         "title": "Perfil",
         "back": "Voltar",
         "liked_episodes": "Episódios Curtidos",
-        "badges_earned": "Medalhas Conquistadas",
         "episodes_played": "Episódios Ouvidos",
         "settings": "Configurações do Perfil",
         "achievements": "Conquistas",

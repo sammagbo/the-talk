@@ -1,24 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, Play, Clock, Calendar, Share2, Sparkles, Loader2, BrainCircuit, Lock, Check, Link as LinkIcon, Video, Headphones } from 'lucide-react';
+import { ArrowLeft, Play, Clock, Calendar, Share2, Sparkles, Loader2, BrainCircuit, Check, Video, Headphones } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
 import LazyImage from '../components/LazyImage';
-import CommentsSection from '../components/CommentsSection';
-import PollComponent from '../components/PollComponent';
-import Rating from '../components/Rating';
-import { useAuth } from '../context/AuthContext';
 import { client, urlFor } from '../sanity';
 import { useTranslation } from 'react-i18next';
 import { shareContent, getEpisodeShareUrl } from '../utils/share';
-import { BACKEND_ENABLED } from '../config/features';
 
 export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying }) {
     const { id } = useParams();
     const { t } = useTranslation();
     const location = useLocation();
 
-    const { user } = useAuth();
     const [episode, setEpisode] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -292,12 +286,6 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                 {episode.title}
                             </h1>
 
-                            {BACKEND_ENABLED && (
-                            <div className="mb-6">
-                                <Rating episodeId={episode.id} user={user} />
-                            </div>
-                            )}
-
                             <div className="flex flex-wrap items-center gap-6 text-gray-500 dark:text-[#6C757D] text-sm font-minimal mb-8">
                                 <div className="flex items-center gap-2">
                                     <Calendar size={16} />
@@ -329,62 +317,31 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
 
                             {/* Player Action */}
                             <div className="mb-12">
-                                {/* Locked Content Banner */}
-                                {episode.isPremium && !user ? (
-                                    <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl p-8 text-center">
-                                        <div className="inline-flex items-center justify-center w-16 h-16 bg-amber-500/20 rounded-full mb-4">
-                                            <Lock className="w-8 h-8 text-amber-500" />
-                                        </div>
-                                        <h3 className="text-2xl font-creativo font-bold text-black dark:text-white mb-2">
-                                            {t('episode.locked_title', 'Contenu Premium')}
-                                        </h3>
-                                        <p className="text-gray-600 dark:text-[#A0A0A0] font-minimal mb-6">
-                                            {t('episode.locked_description', 'Ce contenu est réservé aux membres. Connectez-vous ou passez au premium pour y accéder.')}
-                                        </p>
-                                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                            <button
-                                                onClick={() => window.location.href = '/'}
-                                                className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-3 rounded-full font-bold transition-all flex items-center justify-center gap-2"
-                                            >
-                                                {t('episode.login_button', 'Se Connecter')}
-                                            </button>
-                                            <Link
-                                                to="/store"
-                                                className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-8 py-3 rounded-full font-bold transition-all flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(245,158,11,0.3)]"
-                                            >
-                                                {t('episode.upgrade_button', 'Passer au Premium')}
-                                            </Link>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <>
-                                        <button
-                                            onClick={() => {
-                                                setMediaMode('audio');
-                                                onPlay({ ...episode, id: episode.id });
-                                            }}
-                                            className="w-full md:w-auto bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(0,123,255,0.3)] hover:shadow-[0_0_30px_rgba(0,123,255,0.5)] transition-all transform hover:scale-105 flex items-center justify-center gap-3"
-                                        >
-                                            {currentEpisode?.id === episode.id && isPlaying ? (
-                                                <>
-                                                    <div className="relative">
-                                                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75"></span>
-                                                        <Play className="relative inline-flex" fill="currentColor" />
-                                                    </div>
-                                                    {t('episode.playing')}
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <Play fill="currentColor" />
-                                                    {t('episode.play')}
-                                                </>
-                                            )}
-                                        </button>
-                                        <p className="mt-4 text-sm text-gray-500 dark:text-[#6C757D] italic">
-                                            {t('episode.play_hint')}
-                                        </p>
-                                    </>
-                                )}
+                                <button
+                                    onClick={() => {
+                                        setMediaMode('audio');
+                                        onPlay({ ...episode, id: episode.id });
+                                    }}
+                                    className="w-full md:w-auto bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(0,123,255,0.3)] hover:shadow-[0_0_30px_rgba(0,123,255,0.5)] transition-all transform hover:scale-105 flex items-center justify-center gap-3"
+                                >
+                                    {currentEpisode?.id === episode.id && isPlaying ? (
+                                        <>
+                                            <div className="relative">
+                                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75"></span>
+                                                <Play className="relative inline-flex" fill="currentColor" />
+                                            </div>
+                                            {t('episode.playing')}
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Play fill="currentColor" />
+                                            {t('episode.play')}
+                                        </>
+                                    )}
+                                </button>
+                                <p className="mt-4 text-sm text-gray-500 dark:text-[#6C757D] italic">
+                                    {t('episode.play_hint')}
+                                </p>
                             </div>
 
                             {/* TABS Navigation */}
@@ -407,17 +364,6 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                 >
                                     {t('episode.tabs.transcript')}
                                 </button>
-                                {BACKEND_ENABLED && (
-                                <button
-                                    onClick={() => setActiveTab('comments')}
-                                    className={`pb-4 px-4 font-bold text-sm uppercase tracking-wider text-center transition-colors border-b-2 ${activeTab === 'comments'
-                                        ? 'border-[#007BFF] text-[#007BFF]'
-                                        : 'border-transparent text-gray-500 dark:text-[#6C757D] hover:text-black dark:hover:text-white'
-                                        }`}
-                                >
-                                    {t('episode.tabs.comments')}
-                                </button>
-                                )}
                             </div>
 
                             {/* TAB CONTENT */}
@@ -448,20 +394,6 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                     </div>
                                 )}
 
-                                {activeTab === 'comments' && BACKEND_ENABLED && (
-                                    <div className="animate-fade-in space-y-8">
-                                        {/* Poll Section */}
-                                        {episode.poll && (
-                                            <PollComponent
-                                                episodeId={episode.id}
-                                                poll={episode.poll}
-                                            />
-                                        )}
-
-                                        {/* Comments */}
-                                        <CommentsSection episodeId={episode.id} user={user} />
-                                    </div>
-                                )}
                             </div>
                         </div>
                     </div>

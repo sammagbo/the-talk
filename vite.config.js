@@ -79,8 +79,6 @@ export default defineConfig({
           'vendor-ui': ['lucide-react'],
           // Animation library (GSAP)
           'vendor-gsap': ['gsap'],
-          // Charts library (only loaded on Admin page)
-          'vendor-charts': ['recharts'],
         }
       }
     },
