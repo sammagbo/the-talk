@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
 import Navbar from '../components/Navbar';
 import LazyImage from '../components/LazyImage';
 import { useGSAP, gsap } from '../hooks/useGSAP';
 
 export default function AboutPage() {
-    const { t } = useTranslation();
     const [deferredPrompt, setDeferredPrompt] = useState(null);
 
     useEffect(() => {
