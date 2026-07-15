@@ -59,9 +59,9 @@ export default function AboutPage() {
         <div className="min-h-screen bg-white dark:bg-[#050505] text-black dark:text-white selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black transition-colors duration-300">
             <Helmet>
                 <title>À propos | THE TALK</title>
-                <meta name="description" content="Découvrez Mijean Rochus et Gleid, les hôtes de THE TALK." />
+                <meta name="description" content="Découvrez Mijean Rochus, fondateur et hôte de THE TALK." />
                 <meta property="og:title" content="À propos | THE TALK" />
-                <meta property="og:description" content="Découvrez Mijean Rochus et Gleid, les hôtes de THE TALK." />
+                <meta property="og:description" content="Découvrez Mijean Rochus, fondateur et hôte de THE TALK." />
                 <meta property="og:type" content="website" />
             </Helmet>
 
@@ -260,7 +260,7 @@ export default function AboutPage() {
                                 </div>
                                 <div className="md:col-span-8 space-y-6">
                                     <p className="font-minimal text-lg leading-relaxed text-black/80 dark:text-white/80">
-                                        In 2025, Mijean expanded his creative reach into the audio-visual space. While hosting fashion conversations at Galeries Lafayette, he met his future colleague, Gleid. Their immediate dynamic led to the creation of "The Talk," a fashion and lifestyle audio-video podcast.
+                                        In 2025, Mijean expanded his creative reach into the audio-visual space and launched "The Talk," a fashion and lifestyle audio-video podcast built around authentic conversations and creative perspectives.
                                     </p>
                                     <blockquote className="border-l-2 border-black dark:border-white pl-6 italic font-creativo text-2xl leading-relaxed my-8">
                                         "As a passport to cutting-edge fashion and cultural shifts, The Talk brings the world of high fashion and city secrets directly to the audience. With no filters and a sharp lens, Mijean continues to illuminate the narratives and emotions that define modern lifestyle and culture."
@@ -274,138 +274,7 @@ export default function AboutPage() {
                         </div>
                     </section>
 
-                    {/* Spacer */}
-                    <div className="w-full h-px bg-black/10 dark:bg-white/10 my-32"></div>
 
-                    {/* Gleid Section */}
-                    <section id="gleid">
-                        
-                        {/* Gleid Hero */}
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start mb-24">
-                            {/* Content Left */}
-                            <div className="lg:col-span-7 gsap-section order-2 lg:order-1 pt-8">
-                                <h2 className="text-4xl md:text-7xl font-creativo font-bold uppercase tracking-tight mb-4">Gleid</h2>
-                                <p className="text-sm tracking-widest uppercase font-minimal text-black/50 dark:text-white/50 mb-12">
-                                    Creative Engineer | Fashion Reporter | Co-Founder
-                                </p>
-
-                                <p className="text-xl md:text-2xl font-minimal leading-relaxed text-black/80 dark:text-white/80 mb-12">
-                                    Gleid is a Paris-based creative engineer working at the intersection of digital innovation, fashion, and culture. His work focuses on building digital and software based solutions for creative and service driven projects, while also engaging in writing, reporting, and brand storytelling.
-                                </p>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-black/10 dark:border-white/10 pt-8">
-                                    <div>
-                                        <h3 className="font-creativo font-bold text-lg">Digital Innovation</h3>
-                                        <p className="font-minimal text-black/60 dark:text-white/60">Creative Tech Solutions</p>
-                                    </div>
-                                    <div>
-                                        <h3 className="font-creativo font-bold text-lg">Fashion Culture</h3>
-                                        <p className="font-minimal text-black/60 dark:text-white/60">Reporting & Storytelling</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Image Right */}
-                            <div className="lg:col-span-5 gsap-parallax relative order-1 lg:order-2">
-                                <div className="aspect-[3/4] overflow-hidden bg-gray-100 dark:bg-[#111]">
-                                    <LazyImage
-                                        src="/gleid-placeholder.png"
-                                        alt="Gleid"
-                                        className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                                    />
-                                </div>
-                                <div className="absolute top-4 right-4 bg-white/90 dark:bg-black/90 backdrop-blur-sm px-3 py-1 text-xs font-mono border border-black/10 dark:border-white/10 uppercase tracking-wider text-right">
-                                    Gleid // Creative Partner
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Gleid Biography Header */}
-                        <div className="text-center max-w-3xl mx-auto mb-20 gsap-section">
-                            <p className="text-xs tracking-[0.2em] uppercase font-minimal text-black/50 dark:text-white/50 mb-4">[ Biography ]</p>
-                            <h3 className="text-4xl md:text-5xl font-creativo font-bold mb-6">Between Digital & The Field</h3>
-                            <p className="text-xl font-minimal text-black/70 dark:text-white/70">
-                                A journey from instinctive fashion connection to hands-on experience and digital creativity.
-                            </p>
-                        </div>
-
-                        {/* Gleid Timeline */}
-                        <div className="max-w-5xl mx-auto space-y-16">
-                            
-                            {/* Instinctive Connection */}
-                            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 gsap-section border-t border-black/10 dark:border-white/10 pt-12">
-                                <div className="md:col-span-4">
-                                    <h4 className="font-creativo font-bold text-2xl mb-2">Instinctive Connection</h4>
-                                    <p className="font-minimal text-sm text-black/50 dark:text-white/50 uppercase tracking-wider">The roots of craftsmanship</p>
-                                </div>
-                                <div className="md:col-span-8">
-                                    <p className="font-minimal text-lg leading-relaxed text-black/80 dark:text-white/80">
-                                        Gleid developed an instinctive connection to fashion at a very young age. Introduced to this world by his mother first a passionate creator and seamstress, later a professional he grew up surrounded by fabrics, patterns, and craftsmanship. Observing garments take shape, he learned the language of creation through dialogue and practice, forming an early sensitivity to aesthetics and meaning.
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Digital Evolution */}
-                            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 gsap-section border-t border-black/10 dark:border-white/10 pt-12">
-                                <div className="md:col-span-4">
-                                    <h4 className="font-creativo font-bold text-2xl mb-2">Digital Evolution</h4>
-                                    <p className="font-minimal text-sm text-black/50 dark:text-white/50 uppercase tracking-wider">Tech as a central force</p>
-                                </div>
-                                <div className="md:col-span-8">
-                                    <p className="font-minimal text-lg leading-relaxed text-black/80 dark:text-white/80">
-                                        As his interests evolved, Gleid oriented his academic path toward computer science and digital technologies. At the same time, his curiosity expanded toward information, market analysis, and event production. He began writing articles, presenting brands, studying trends, and decoding the cultural dynamics shaping the fashion industry.
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Global Exposure */}
-                            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 gsap-section border-t border-black/10 dark:border-white/10 pt-12">
-                                <div className="md:col-span-4">
-                                    <h4 className="font-creativo font-bold text-2xl mb-2">Global Exposure</h4>
-                                    <p className="font-minimal text-sm text-black/50 dark:text-white/50 uppercase tracking-wider">Tokyo & International</p>
-                                </div>
-                                <div className="md:col-span-8">
-                                    <p className="font-minimal text-lg leading-relaxed text-black/80 dark:text-white/80">
-                                        This curiosity naturally led him from analysis to hands-on experience. He worked as a sales advisor on multiple occasions, collaborating with brands and agencies, notably in Tokyo. There, he developed a deeper appreciation for more conceptual and radical approaches to fashion. Gleid realized his role was not only to observe fashion, but to document, interpret, and transmit it.
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* A Hybrid Vision */}
-                            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 gsap-section border-t border-black/10 dark:border-white/10 pt-12">
-                                <div className="md:col-span-4">
-                                    <h4 className="font-creativo font-bold text-2xl mb-2">A Hybrid Vision</h4>
-                                    <p className="font-minimal text-sm text-black/50 dark:text-white/50 uppercase tracking-wider">Reporter & Engineer</p>
-                                </div>
-                                <div className="md:col-span-8">
-                                    <p className="font-minimal text-lg leading-relaxed text-black/80 dark:text-white/80">
-                                        From this realization emerged a clear direction: to become a fashion reporter, while continuing to operate at the crossroads of digital innovation and event-based culture. His ambition is to merge technology, fashion, and contemporary culture, creating narratives that reflect the rhythm, complexity, and authenticity of modern life.
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Birth of The Talk */}
-                            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 gsap-section border-t border-black/10 dark:border-white/10 pt-12">
-                                <div className="md:col-span-4">
-                                    <h4 className="font-creativo font-bold text-2xl mb-2">Birth of The Talk</h4>
-                                    <p className="font-minimal text-sm text-black/50 dark:text-white/50 uppercase tracking-wider">Co-Founder</p>
-                                </div>
-                                <div className="md:col-span-8 space-y-8">
-                                    <p className="font-minimal text-lg leading-relaxed text-black/80 dark:text-white/80">
-                                        Gleid’s path crossed with Mijean Rochus during the Tranoï Pop-Up at Galeries Lafayette. Mijean’s experience, vision, and passion for fashion immediately resonated with him, leading to a natural creative alignment. Together, they founded The Talk, a project conceived as an open dialogue, a cultural platform, and a sharp, unfiltered lens on modern fashion and lifestyle.
-                                    </p>
-                                    
-                                    <div>
-                                        <h5 className="font-creativo font-bold text-xl mb-3">Aesthetic Identity</h5>
-                                        <p className="font-minimal text-lg leading-relaxed text-black/80 dark:text-white/80">
-                                            Deeply passionate about cinema and photography, Gleid favors aesthetics that are raw, honest, and direct. His strong affinity for denim and Karasu Zoku reflects a deep connection to Japanese fashion culture, while his dedication to streetwear integrates its codes into his daily style.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </section>
                 </div>
             </main>
         </div>
