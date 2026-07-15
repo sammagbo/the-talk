@@ -1,5 +1,5 @@
 {
-  "name": "the-talk",
+  "name": "@the-talk/studio",
   "private": true,
   "version": "1.0.0",
   "main": "package.json",
@@ -8,6 +8,9 @@
     "dev": "sanity dev",
     "start": "sanity start",
     "build": "sanity build",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run lint && npm run typecheck && npm run build",
     "deploy": "sanity deploy",
     "deploy-graphql": "sanity graphql deploy"
   },
@@ -15,18 +18,19 @@
     "sanity"
   ],
   "dependencies": {
-    "@sanity/vision": "^4.22.0",
-    "react": "^19.1",
-    "react-dom": "^19.1",
-    "sanity": "^4.22.0",
+    "@sanity/vision": "^6.5.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "sanity": "^6.5.0",
     "styled-components": "^6.1.18"
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^5.0.2",
-    "@types/react": "^19.1",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
     "eslint": "^9.28",
     "prettier": "^3.5",
-    "typescript": "^5.8"
+    "typescript": "^5.9"
   },
   "prettier": {
     "semi": false,
