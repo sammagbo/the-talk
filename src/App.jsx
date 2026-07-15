@@ -85,11 +85,10 @@ const LivePage = lazy(() => import('./pages/LivePage'));
 import { useAuth } from './context/AuthContext';
 import { supabase } from './supabase';
 import SponsorBanner from './components/SponsorBanner';
-import ExitIntentPopup from './components/ExitIntentPopup';
 import OfflineAlert from './components/OfflineAlert';
 import { client, urlFor } from './sanity';
 import { SpeedInsights } from '@vercel/speed-insights/react';
-import { BACKEND_ENABLED } from './config/features';
+import { BACKEND_ENABLED, STORE_ENABLED } from './config/features';
 import { checkAchievements, getBadgeById } from './utils/badges';
 import { NewBadgeNotification } from './components/BadgesDisplay';
 
@@ -312,7 +311,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home items={items} onPlay={handlePlay} />} />
             <Route path="/episode/:id" element={<EpisodePage items={items} onPlay={handlePlay} onPause={() => setIsPlaying(false)} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
-            <Route path="/store" element={<StorePage />} />
+            {STORE_ENABLED && <Route path="/store" element={<StorePage />} />}
             <Route path="/episodes" element={<EpisodesPage items={items} onPlay={handlePlay} />} />
             <Route path="/about" element={<AboutPage />} />
             {BACKEND_ENABLED && <Route path="/admin" element={<AdminPage />} />}
@@ -325,7 +324,6 @@ export default function App() {
       </ErrorBoundary>
 
       <SponsorBanner />
-      <ExitIntentPopup />
 
       <Player
         currentEpisode={currentEpisode}
