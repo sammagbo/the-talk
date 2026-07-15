@@ -180,7 +180,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                 <meta name="description" content={`Écoutez ${episode.title} - ${episode.category}. Une conversation exclusive sur THE TALK.`} />
                 <meta property="og:title" content={`${episode.title} | THE TALK`} />
                 <meta property="og:description" content={`Découvrez les coulisses et l'innovation derrière cet épisode spécial : ${episode.title}.`} />
-                <meta property="og:image" content={`${window.location.origin}/api/og?title=${encodeURIComponent(episode.title)}&image=${encodeURIComponent(episode.fullSrc)}`} />
+                <meta property="og:image" content={episode.fullSrc} />
                 <meta property="og:type" content="article" />
                 {/* Schema.org Structured Data for Episode */}
                 <script type="application/ld+json">
@@ -301,11 +301,11 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                             <div className="flex flex-wrap items-center gap-6 text-gray-500 dark:text-[#6C757D] text-sm font-minimal mb-8">
                                 <div className="flex items-center gap-2">
                                     <Calendar size={16} />
-                                    <span>{t('episode.published_recently')}</span>
+                                    <span>{episode.date ? new Date(episode.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : t('episode.published_recently')}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <Clock size={16} />
-                                    <span>45 min</span>
+                                    <span>{episode.duration || 'Durée non renseignée'}</span>
                                 </div>
                                 <button
                                     onClick={async () => {
