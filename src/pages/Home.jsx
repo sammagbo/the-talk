@@ -14,7 +14,6 @@ import Navbar from '../components/Navbar';
 import { client } from '../sanity';
 import { useGSAP, gsap, ScrollTrigger } from '../hooks/useGSAP';
 import MagneticButton from '../components/MagneticButton';
-import CountUp from '../components/CountUp';
 import Marquee from '../components/Marquee';
 import TiltCard from '../components/TiltCard';
 import useSmoothScroll from '../hooks/useSmoothScroll';
@@ -125,8 +124,7 @@ export default function Home({ items, onPlay }) {
             .from('.gsap-hero-title', { y: 80, opacity: 0, duration: 1.2 }, '-=0.4')
             .from('.gsap-hero-subtitle', { y: 40, opacity: 0, duration: 0.8 }, '-=0.6')
             .from('.gsap-hero-description', { y: 30, opacity: 0, duration: 0.8 }, '-=0.5')
-            .from('.gsap-hero-ctas a', { y: 30, opacity: 0, duration: 0.6, stagger: 0.15 }, '-=0.4')
-            .from('.gsap-hero-stats > div', { y: 20, opacity: 0, duration: 0.5, stagger: 0.1 }, '-=0.3');
+            .from('.gsap-hero-ctas a', { y: 30, opacity: 0, duration: 0.6, stagger: 0.15 }, '-=0.4');
 
         // Scroll-triggered section animations
         const sections = gsap.utils.toArray('.gsap-section');
@@ -245,9 +243,10 @@ export default function Home({ items, onPlay }) {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        setFormStatus('success');
-        setTimeout(() => setFormStatus(''), 5000);
-        setFormData({ name: '', email: '', message: '' });
+        const subject = encodeURIComponent(`Contact THE TALK — ${formData.name}`);
+        const body = encodeURIComponent(`${formData.message}\n\nNom: ${formData.name}\nEmail: ${formData.email}`);
+        setFormStatus('email-client');
+        window.location.href = `mailto:contact@thetalkfashion.com?subject=${subject}&body=${body}`;
     };
 
     const scrollToSection = (id) => {
@@ -266,7 +265,7 @@ export default function Home({ items, onPlay }) {
                 <meta name="description" content="Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives. Un podcast mode par Mijean Rochus." />
                 <meta property="og:title" content="THE TALK | Podcast by Mijean Rochus" />
                 <meta property="og:description" content="Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives." />
-                <meta property="og:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80" />
+                <meta property="og:image" content="https://www.thetalkfashion.com/og-image.png" />
                 <meta property="og:type" content="website" />
                 {/* Schema.org Structured Data for Podcast */}
                 <script type="application/ld+json">
@@ -373,28 +372,6 @@ export default function Home({ items, onPlay }) {
                                 <ChevronRight className="w-4 h-4" />
                             </MagneticButton>
                         )}
-                    </div>
-
-                    {/* Quick Stats with Animated Counters */}
-                    <div className="gsap-hero-stats flex flex-wrap justify-center gap-8 mt-10 text-center">
-                        <div>
-                            <p className="text-3xl font-creativo font-bold text-[#007BFF]">
-                                <CountUp end={50} duration={2.5} suffix="+" />
-                            </p>
-                            <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">{t('hero.episodes', 'Épisodes')}</p>
-                        </div>
-                        <div>
-                            <p className="text-3xl font-creativo font-bold text-[#A9A9F5]">
-                                <CountUp end={10} duration={2} suffix="K+" />
-                            </p>
-                            <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">{t('hero.listeners', 'Auditeurs')}</p>
-                        </div>
-                        <div>
-                            <p className="text-3xl font-creativo font-bold text-[#007BFF]">
-                                <CountUp end={5} duration={1.5} suffix="★" />
-                            </p>
-                            <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">Évaluation</p>
-                        </div>
                     </div>
 
                     {/* RSVP for upcoming live event — gated behind backend flag */}
@@ -628,7 +605,7 @@ export default function Home({ items, onPlay }) {
                                         </div>
                                         <div>
                                             <h4 className="text-black dark:text-white font-creativo font-bold text-lg">Studio</h4>
-                                            <p className="text-gray-500 dark:text-[#6C757D]">Paris, France</p>
+                                            <p className="text-gray-500 dark:text-[#6C757D]">Bruxelles, Belgique</p>
                                         </div>
                                     </div>
                                 </div>
@@ -636,7 +613,7 @@ export default function Home({ items, onPlay }) {
 
                             {/* Form */}
                             <form onSubmit={handleFormSubmit} className="bg-gray-50 dark:bg-[#020202] p-8 rounded-2xl border border-gray-200 dark:border-[#333] space-y-5">
-                                {formStatus === 'success' && (
+                                {formStatus === 'email-client' && (
                                     <div className="bg-[#007BFF]/10 text-[#007BFF] p-4 rounded-lg text-sm font-minimal border border-[#007BFF]/20">
                                         Message envoyé. Merci de nous contacter.
                                     </div>
