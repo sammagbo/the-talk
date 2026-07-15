@@ -1,169 +1,76 @@
-# THE TALK Podcast
+# THE TALK
 
-<div align="center">
+Fashion and culture podcast by Mijean Rochus.
 
-![THE TALK Logo](https://www.thetalkfashion.com/og-image.png)
+- Website: https://www.thetalkfashion.com
+- Content management: Sanity Studio
+- Hosting: Vercel
 
-**🎙️ A Fashion & Culture Podcast by Mijean Rochus**
+## Current product scope
 
-[![Live Demo](https://img.shields.io/badge/LIVE-Demo-blue?style=for-the-badge)](https://www.thetalkfashion.com)
-[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge&logo=supabase)](https://supabase.com)
-[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
-[![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite)](https://vite.dev)
+- Video-first podcast episodes with YouTube embeds
+- Audio playback through MP3 or podcast platform embeds
+- Editorial blog powered by Sanity
+- Shorts and behind-the-scenes content
+- French-first interface with additional UI translations
+- Responsive light and dark themes
 
-</div>
+The legacy Supabase social layer is currently disabled. Accounts, favorites, comments, ratings, badges, premium content and generative-AI features are not part of the active product scope.
 
----
+The store is intentionally hidden until a real catalog, checkout flow and operating model are ready.
 
-## ✨ Features
-
-- 🎧 **Podcast Player** - Stream episodes with Spotify integration
-- ❤️ **Favorites** - Like and save episodes
-- 💬 **Comments** - Real-time discussions on episodes
-- ⭐ **Ratings** - 5-star rating system
-- 🏆 **Gamification** - Badges and achievements
-- 🌍 **i18n** - Multi-language support (FR, EN, PT)
-- 📱 **PWA** - Install as mobile app
-- 🌙 **Dark Mode** - Beautiful dark theme
-
----
-
-## 🛠️ Tech Stack
+## Stack
 
 | Layer | Technology |
-|-------|------------|
-| **Frontend** | React 18, Vite 7, GSAP |
-| **Backend** | Supabase (PostgreSQL + Auth) |
-| **CMS** | Sanity.io |
-| **Styling** | TailwindCSS, Lucide Icons |
-| **Hosting** | Vercel |
+|---|---|
+| Frontend | React 18, Vite 7, React Router |
+| Styling | Tailwind CSS |
+| Content | Sanity |
+| Media | YouTube, Spotify and optional MP3 |
+| Hosting | Vercel |
+| Testing | Vitest and Cypress |
 
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-- Supabase account
-- Sanity account
-
-### Installation
+## Local development
 
 ```bash
-# Clone repository
-git clone https://github.com/sammagbo/the-talk.git
-cd the-talk
-
-# Install dependencies
 npm install
-
-# Copy environment template
 cp .env.example .env
-
-# Start development server
 npm run dev
 ```
 
-### Environment Variables
-
-Create a `.env` file with:
+Required frontend variables:
 
 ```env
-# Supabase
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_ANON_KEY=your-anon-key
-
-# Sanity
 VITE_SANITY_PROJECT_ID=your-project-id
 VITE_SANITY_DATASET=production
 ```
 
----
+Optional server-side variables for newsletter subscription:
 
-## 📁 Project Structure
-
-```
-the-talk/
-├── src/
-│   ├── components/      # React components
-│   ├── context/         # Auth context
-│   ├── hooks/          # Custom hooks
-│   ├── pages/          # Page components
-│   ├── utils/          # Utilities (badges, playback)
-│   ├── supabase.js     # Supabase client
-│   └── App.jsx         # Main app
-├── studio/             # Sanity CMS
-├── supabase/
-│   └── schema.sql      # Database schema
-└── public/             # Static assets
+```env
+MAILCHIMP_API_KEY=your-api-key
+MAILCHIMP_LIST_ID=your-list-id
+MAILCHIMP_SERVER_PREFIX=your-prefix
 ```
 
----
-
-## 🗄️ Database Schema
-
-```mermaid
-erDiagram
-    users ||--o{ favorites : has
-    users ||--o{ comments : posts
-    users ||--o{ ratings : gives
-    users ||--|| user_stats : has
-    polls ||--o{ poll_votes : receives
-```
-
-See [supabase/schema.sql](./supabase/schema.sql) for full schema.
-
----
-
-## 🧪 Testing
+## Sanity Studio
 
 ```bash
-# Run unit tests
+cd studio
+npm install
+npm run dev
+```
+
+Episodes and blog posts are published through Sanity Studio. The public website is the presentation layer and should not contain a second custom publishing system.
+
+## Validation
+
+```bash
+npm run lint
 npm run test
-
-# Run tests with coverage
-npm run test:coverage
-```
-
----
-
-## 📦 Deployment
-
-### Vercel (Recommended)
-
-1. Connect GitHub repo to Vercel
-2. Add environment variables
-3. Deploy automatically on push
-
-### Manual Build
-
-```bash
 npm run build
-# Output in /dist
 ```
 
----
+## Architecture direction
 
-## 🔐 Supabase Setup
-
-1. Create project at [supabase.com](https://supabase.com)
-2. Run `supabase/schema.sql` in SQL Editor
-3. Enable Google OAuth in Authentication → Providers
-4. Add redirect URI in Google Cloud Console
-
----
-
-## 📄 License
-
-MIT © [Mijean Rochus](https://github.com/sammagbo)
-
----
-
-<div align="center">
-
-**Made with ❤️ in Rio de Janeiro**
-
-[Website](https://www.thetalkfashion.com) · [Instagram](https://instagram.com/thetalk)
-
-</div>
+The next major version will move the public website to Next.js and TypeScript while preserving Sanity as the editorial source of truth and reusing the approved visual identity.
