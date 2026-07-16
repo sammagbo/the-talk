@@ -26,7 +26,11 @@ export const episodeBySlugQuery = `
       (publicationStatus == "published" && (!defined(publishedAt) || publishedAt <= now())) ||
       (publicationStatus == "scheduled" && defined(publishedAt) && publishedAt <= now())
     )
-  ][0] { ${episodeCardFields} }
+  ][0] {
+    ${episodeCardFields}, showNotes,
+    guests[]->{name, role, "slug": slug.current, image},
+    seo
+  }
 `;
 export const postCardFields = `
   _id, title, "slug": slug.current, excerpt, publishedAt,
@@ -49,5 +53,15 @@ export const postBySlugQuery = `
       (publicationStatus == "published" && (!defined(publishedAt) || publishedAt <= now())) ||
       (publicationStatus == "scheduled" && defined(publishedAt) && publishedAt <= now())
     )
-  ][0] { ${postCardFields}, body }
+  ][0] { ${postCardFields}, body, seo }
+`;
+
+export const siteSettingsQuery = `
+  coalesce(
+    *[_type == "siteSettings" && _id == "siteSettings"][0],
+    *[_type == "siteSettings"][0]
+  ) {
+    title, description, canonicalUrl,
+    socialLinks[]{label, url}, defaultSeo
+  }
 `;

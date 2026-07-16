@@ -19,7 +19,7 @@ export const postType = defineType({
       options: {source: 'title', maxLength: 96},
       validation: (Rule) => Rule.required(),
     }),
-    defineField({name: 'excerpt', title: 'Chapô', type: 'text', rows: 4, group: 'editorial', validation: (Rule) => Rule.max(320)}),
+    defineField({name: 'excerpt', title: 'Chapô', type: 'text', rows: 4, group: 'editorial', validation: (Rule) => Rule.required().max(320)}),
     defineField({
       name: 'coverImage',
       title: 'Image de couverture',
@@ -31,14 +31,26 @@ export const postType = defineType({
         defineField({name: 'caption', title: 'Légende', type: 'string'}),
       ],
     }),
-    defineField({name: 'mainImage', title: 'Image de couverture (historique)', type: 'image', options: {hotspot: true}, group: 'editorial'}),
-    defineField({name: 'author', title: 'Auteur', type: 'reference', to: [{type: 'person'}], group: 'editorial'}),
+    defineField({
+      name: 'mainImage',
+      title: 'Image de couverture (historique)',
+      type: 'image',
+      options: {hotspot: true},
+      group: 'editorial',
+      hidden: ({document}) => Boolean(document?.coverImage),
+      fields: [
+        defineField({name: 'alt', title: 'Texte alternatif', type: 'string'}),
+        defineField({name: 'caption', title: 'Légende', type: 'string'}),
+      ],
+    }),
+    defineField({name: 'author', title: 'Auteur', type: 'reference', to: [{type: 'person'}], group: 'editorial', validation: (Rule) => Rule.required().warning('Recommandé avant publication.')}),
     defineField({
       name: 'categories',
       title: 'Catégories',
       type: 'array',
       of: [defineArrayMember({type: 'reference', to: [{type: 'category'}]})],
       group: 'editorial',
+      validation: (Rule) => Rule.min(1).warning('Associez au moins une catégorie.'),
     }),
     defineField({name: 'body', title: 'Article', type: 'blockContent', group: 'editorial', validation: (Rule) => Rule.required()}),
     defineField({name: 'featured', title: 'Mettre en avant', type: 'boolean', initialValue: false, group: 'editorial'}),
@@ -73,7 +85,7 @@ export const postType = defineType({
           return true
         }),
     }),
-    defineField({name: 'seo', title: 'Référencement', type: 'seo', group: 'seo'}),
+    defineField({name: 'seo', title: 'Référencement', type: 'seo', group: 'seo', validation: (Rule) => Rule.required().warning('Recommandé avant publication.')}),
   ],
   orderings: [
     {title: 'Date de publication, récente', name: 'publishedAtDesc', by: [{field: 'publishedAt', direction: 'desc'}]},

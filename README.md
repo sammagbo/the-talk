@@ -51,6 +51,15 @@ npm run studio:check
 
 Ces commandes exécutent lint, vérification TypeScript, tests de l’application web et builds de production.
 
+Audit du contenu public :
+
+```bash
+npm run content:audit
+npm run content:audit:test
+```
+
+Le rapport de référence et l’ordre de correction sont dans [`docs/content-audit.md`](docs/content-audit.md).
+
 ## Publication
 
 Sanity reste l’unique source de vérité. Un épisode ou un article doit avoir une adresse (`slug`), un état éditorial et, pour une publication programmée, une date. Le frontend accepte les documents historiques et les nouveaux champs afin de permettre une migration progressive sans duplication de contenu.

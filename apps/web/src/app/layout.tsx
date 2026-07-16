@@ -1,23 +1,30 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { getSiteSettings } from "@/features/site/data";
+import { getSanityImageUrl } from "@/lib/sanity/image";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
-  title: { default: siteConfig.name, template: `%s — ${siteConfig.name}` },
-  description: siteConfig.description,
-  openGraph: {
-    type: "website",
-    locale: "fr_BE",
-    siteName: siteConfig.name,
-    title: siteConfig.name,
-    description: siteConfig.description,
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: siteConfig.name }],
-  },
-  twitter: { card: "summary_large_image", title: siteConfig.name, description: siteConfig.description, images: ["/og-image.png"] },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  const name = settings?.title || siteConfig.name;
+  const description = settings?.defaultSeo?.metaDescription || settings?.description || siteConfig.description;
+  const canonicalUrl = settings?.canonicalUrl || siteConfig.url;
+  const socialImage = getSanityImageUrl(settings?.defaultSeo?.ogImage, { width: 1200, height: 630 }) || "/og-image.png";
+
+  return {
+    metadataBase: new URL(canonicalUrl),
+    title: { default: settings?.defaultSeo?.metaTitle || name, template: `%s — ${name}` },
+    description,
+    robots: settings?.defaultSeo?.noIndex ? { index: false, follow: false } : undefined,
+    openGraph: {
+      type: "website", locale: "fr_BE", siteName: name, title: name, description,
+      images: [{ url: socialImage, width: 1200, height: 630, alt: name }],
+    },
+    twitter: { card: "summary_large_image", title: name, description, images: [socialImage] },
+  };
+}
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

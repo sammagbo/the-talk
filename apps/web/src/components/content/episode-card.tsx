@@ -1,10 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getEpisodePolicy } from "@/lib/content-policy";
 import { formatDate } from "@/lib/format";
 import { getSanityImageUrl } from "@/lib/sanity/image";
 import type { Episode } from "@/lib/sanity/types";
 
 export function EpisodeCard({ episode }: { episode: Episode }) {
+  const policy = getEpisodePolicy(episode);
   const imageUrl = getSanityImageUrl(episode.coverImage, { width: 1200, height: 675 });
   const date = formatDate(episode.publishedAt);
   const number = [
@@ -14,7 +16,7 @@ export function EpisodeCard({ episode }: { episode: Episode }) {
 
   return (
     <article className="group">
-      <Link href={`/episodes/${episode.slug}`} className="block">
+      <Link href={`/episodes/${episode.slug}`} rel={policy.role === "test" ? "nofollow" : undefined} className="block">
         <div className="relative aspect-video overflow-hidden bg-surface-soft">
           <Image
             src={imageUrl ?? "/hero-poster.jpg"}
@@ -29,7 +31,7 @@ export function EpisodeCard({ episode }: { episode: Episode }) {
         </div>
         <div className="pt-5">
           <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-accent-soft">
-            {[number || null, episode.category?.title ?? null, date].filter(Boolean).join(" · ")}
+            {[policy.label ?? null, number || null, episode.category?.title ?? null, date].filter(Boolean).join(" · ")}
           </p>
           <h2 className="mt-3 font-display text-3xl leading-tight tracking-[-0.03em] text-foreground transition-colors group-hover:text-accent-soft">
             {episode.title}
