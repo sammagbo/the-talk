@@ -42,5 +42,5 @@ test("une ancienne URL d’épisode redirige définitivement vers son slug", asy
     maxRedirects: 0,
   });
   expect(response.status()).toBe(308);
-  expect(new URL(response.headers().location).pathname).toBe("/episodes/mode-fashion");
+  expect(new URL(response.headers().location, "http://localhost").pathname).toBe("/episodes/mode-fashion");
 });
