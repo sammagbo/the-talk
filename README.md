@@ -7,7 +7,7 @@ Plateforme éditoriale mode et culture de Mijean Rochus. Le dépôt contient le 
 | Dossier | Rôle | Statut |
 |---|---|---|
 | `/src` | Site React/Vite historique | Production actuelle |
-| `/apps/web` | Nouvelle expérience Next.js/TypeScript | Fondation prête à déployer séparément |
+| `/apps/web` | Nouvelle expérience Next.js/TypeScript | Préproduction technique en cours |
 | `/studio` | Back-office éditorial Sanity | Source de vérité du contenu |
 | `/api` | Fonctions serveur historiques | Maintenues pendant la transition |
 | `/docs` | Architecture, décisions et plan de migration | Documentation active |
@@ -59,6 +59,15 @@ npm run content:audit:test
 ```
 
 Le rapport de référence et l’ordre de correction sont dans [`docs/content-audit.md`](docs/content-audit.md).
+
+Contrôle de préproduction après un build :
+
+```bash
+cd apps/web
+npm run test:e2e
+```
+
+La configuration Vercel, la revalidation Sanity, les budgets et l’inventaire des URLs sont détaillés dans [`docs/preproduction.md`](docs/preproduction.md).
 
 ## Publication
 

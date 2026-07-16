@@ -129,3 +129,7 @@ Observabilité future : Vercel Analytics/Speed Insights pour les signaux web, Se
 ## 10. Contrôle éditorial automatisé
 
 La deuxième étape ajoute un audit public en lecture seule (`npm run content:audit`) et une file « Qualité éditoriale » dans le Studio. Le rapport de référence est conservé dans [`content-audit.md`](content-audit.md). Le pipeline GitHub valide séparément l’audit, l’application moderne et le Studio afin que le projet Vercel historique ne soit plus le seul signal de qualité.
+
+## 11. Socle de préproduction
+
+La troisième étape commence par un cache Sanity à tags avec revalidation temporelle et webhook signé, les mesures Vercel Analytics/Speed Insights, des tests Playwright avec contrôle Axe et la première redirection permanente depuis les anciennes URLs d’épisode. La procédure, les budgets, l’inventaire des URLs et le plan de retour arrière sont détaillés dans [`preproduction.md`](preproduction.md).

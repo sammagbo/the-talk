@@ -32,6 +32,15 @@ export const episodeBySlugQuery = `
     seo
   }
 `;
+export const episodeSlugByIdQuery = `
+  *[_type == "episode" && _id == $id && defined(slug.current) &&
+    (
+      (!defined(publicationStatus) && (!defined(date) || date <= now())) ||
+      (publicationStatus == "published" && (!defined(publishedAt) || publishedAt <= now())) ||
+      (publicationStatus == "scheduled" && defined(publishedAt) && publishedAt <= now())
+    )
+  ][0].slug.current
+`;
 export const postCardFields = `
   _id, title, "slug": slug.current, excerpt, publishedAt,
   "coverImage": coalesce(coverImage, mainImage), featured,

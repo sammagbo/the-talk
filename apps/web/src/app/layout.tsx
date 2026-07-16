@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getSiteSettings } from "@/features/site/data";
@@ -36,6 +38,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <main id="contenu" className="flex-1">{children}</main>
           <SiteFooter />
         </div>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

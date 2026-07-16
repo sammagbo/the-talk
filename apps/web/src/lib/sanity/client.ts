@@ -9,13 +9,21 @@ type SanityRequest<T> = {
   fallback: T;
   cache?: RequestCache;
   revalidate?: number;
+  tags?: string[];
 };
 
-export async function fetchFromSanity<T>({ query, params = {}, fallback, cache = "no-store", revalidate }: SanityRequest<T>) {
+export async function fetchFromSanity<T>({
+  query,
+  params = {},
+  fallback,
+  cache = "force-cache",
+  revalidate = 60,
+  tags = [],
+}: SanityRequest<T>) {
   try {
     return await sanityClient.fetch<T>(query, params, {
       cache,
-      next: revalidate ? { revalidate } : undefined,
+      next: { revalidate, tags },
     });
   }
   catch (error) { console.error("[sanity] Content request failed", error); return fallback; }
