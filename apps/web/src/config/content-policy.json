@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "episodes": {
+    "ep-test": {
+      "role": "test",
+      "label": "Test technique",
+      "notice": "Contenu de démonstration conservé pour les essais techniques du site."
+    },
+    "episodio-teste": {
+      "role": "test",
+      "label": "Test technique",
+      "notice": "Contenu de démonstration conservé pour les essais techniques du site."
+    },
+    "mode-fashion": {
+      "role": "presentation",
+      "label": "Présentation",
+      "notice": "Présentation officielle de l’univers THE TALK."
+    }
+  }
+}

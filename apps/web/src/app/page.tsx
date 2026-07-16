@@ -7,13 +7,15 @@ import { Container } from "@/components/ui/container";
 import { ContentEmpty } from "@/components/ui/content-empty";
 import { getPosts } from "@/features/blog/data";
 import { getEpisodes } from "@/features/episodes/data";
+import { isIndexableEpisode } from "@/lib/content-policy";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default async function HomePage() {
-  const [episodes, posts] = await Promise.all([getEpisodes(3), getPosts(3)]);
+  const [allEpisodes, posts] = await Promise.all([getEpisodes(12), getPosts(3)]);
+  const episodes = allEpisodes.filter(isIndexableEpisode).slice(0, 3);
 
   return (
     <>

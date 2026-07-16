@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { PortableArticle } from "@/components/content/portable-article";
 import { Container } from "@/components/ui/container";
 import { getEpisode } from "@/features/episodes/data";
+import { getEpisodePolicy } from "@/lib/content-policy";
 import { formatDate } from "@/lib/format";
 import { getSanityImageUrl } from "@/lib/sanity/image";
 import { getYouTubeId } from "@/lib/youtube";
@@ -17,12 +18,13 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
   const { slug } = await params;
   const episode = await getEpisode(slug);
   if (!episode) return { title: "Épisode introuvable" };
+  const policy = getEpisodePolicy(slug);
   const image = getSanityImageUrl(episode.seo?.ogImage || episode.coverImage, { width: 1200, height: 630 });
   return {
     title: episode.seo?.metaTitle || episode.title,
     description: episode.seo?.metaDescription || episode.summary || undefined,
     alternates: { canonical: `/episodes/${slug}` },
-    robots: episode.seo?.noIndex ? { index: false, follow: false } : undefined,
+    robots: policy.role === "test" || episode.seo?.noIndex ? { index: false, follow: false } : undefined,
     openGraph: image ? { images: [{ url: image }] } : undefined,
   };
 }
@@ -32,6 +34,7 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
   const episode = await getEpisode(slug);
   if (!episode) notFound();
 
+  const policy = getEpisodePolicy(slug);
   const videoId = getYouTubeId(episode.videoUrl);
   const cover = getSanityImageUrl(episode.coverImage, { width: 1800, height: 1013 });
   const episodeLabel = [
@@ -46,6 +49,12 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
         <Link href="/episodes" className="text-xs font-semibold uppercase tracking-[0.2em] text-muted transition-colors hover:text-foreground">
           &#8592; Tous les épisodes
         </Link>
+        {policy.notice ? (
+          <aside className="mt-8 border-l-2 border-accent bg-surface px-5 py-4" aria-label={policy.label}>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent-soft">{policy.label}</p>
+            <p className="mt-2 text-sm leading-6 text-muted">{policy.notice}</p>
+          </aside>
+        ) : null}
         <header className="mt-12 grid gap-10 lg:grid-cols-[1fr_0.7fr] lg:items-end">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent-soft">{episodeLabel || "THE TALK"}</p>

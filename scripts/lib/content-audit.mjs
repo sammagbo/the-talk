@@ -25,36 +25,39 @@ function isYouTubeUrl(value) {
   }
 }
 
-function auditEpisode(episode) {
+function auditEpisode(episode, role = 'episode') {
   const issues = []
   const summary = episode.excerpt || episode.description
   const image = episode.coverImage || episode.mainImage
   const youtube = episode.youtubeUrl || episode.videoUrl
+  const requiredSeverity = role === 'test' ? 'warning' : 'blocker'
 
-  if (!hasText(episode.title)) issues.push(issue('blocker', 'missing-title', 'episode', episode, 'Titre manquant.'))
-  if (!hasText(episode.slug)) issues.push(issue('blocker', 'missing-slug', 'episode', episode, 'Adresse (slug) manquante.'))
-  if (!hasText(summary)) issues.push(issue('blocker', 'missing-summary', 'episode', episode, 'Résumé éditorial manquant.'))
+  if (!hasText(episode.title)) issues.push(issue(requiredSeverity, 'missing-title', 'episode', episode, 'Titre manquant.'))
+  if (!hasText(episode.slug)) issues.push(issue(requiredSeverity, 'missing-slug', 'episode', episode, 'Adresse (slug) manquante.'))
+  if (!hasText(summary)) issues.push(issue(requiredSeverity, 'missing-summary', 'episode', episode, 'Résumé éditorial manquant.'))
   if (PLACEHOLDER_PATTERN.test(`${episode.title ?? ''} ${summary ?? ''}`)) {
-    issues.push(issue('blocker', 'placeholder-content', 'episode', episode, 'Le titre ou le résumé indique un contenu de test.'))
+    issues.push(role === 'test'
+      ? issue('info', 'approved-test-content', 'episode', episode, 'Contenu de test approuvé, conservé comme démonstration technique et exclu de l’indexation par le frontend.')
+      : issue('blocker', 'placeholder-content', 'episode', episode, 'Le titre ou le résumé indique un contenu de test.'))
   }
   if (!hasText(episode.publicationStatus)) {
-    issues.push(issue('blocker', 'missing-publication-status', 'episode', episode, 'État éditorial non défini.'))
+    issues.push(issue(requiredSeverity, 'missing-publication-status', 'episode', episode, 'État éditorial non défini.'))
   }
   if (!hasText(episode.publishedAt)) {
-    issues.push(issue('blocker', 'missing-published-at', 'episode', episode, 'Date moderne de publication manquante.'))
+    issues.push(issue(requiredSeverity, 'missing-published-at', 'episode', episode, 'Date moderne de publication manquante.'))
   }
-  if (!image?.assetRef) issues.push(issue('blocker', 'missing-image', 'episode', episode, 'Image de couverture manquante.'))
+  if (!image?.assetRef) issues.push(issue(requiredSeverity, 'missing-image', 'episode', episode, 'Image de couverture manquante.'))
   if (image?.assetRef && !hasText(image.alt)) {
-    issues.push(issue('blocker', 'missing-image-alt', 'episode', episode, 'Texte alternatif de l’image manquant.'))
+    issues.push(issue(requiredSeverity, 'missing-image-alt', 'episode', episode, 'Texte alternatif de l’image manquant.'))
   }
   if (!hasText(youtube) && !hasText(episode.audioUrl) && !hasText(episode.spotifyUrl)) {
-    issues.push(issue('blocker', 'missing-media', 'episode', episode, 'Aucun média audio ou vidéo n’est renseigné.'))
+    issues.push(issue(requiredSeverity, 'missing-media', 'episode', episode, 'Aucun média audio ou vidéo n’est renseigné.'))
   }
   if (hasText(youtube) && !isYouTubeUrl(youtube)) {
-    issues.push(issue('blocker', 'invalid-youtube-url', 'episode', episode, 'Le lien vidéo n’est pas une adresse YouTube reconnue.'))
+    issues.push(issue(requiredSeverity, 'invalid-youtube-url', 'episode', episode, 'Le lien vidéo n’est pas une adresse YouTube reconnue.'))
   }
   if (hasText(episode.spotifyUrl) && /\/track\//i.test(episode.spotifyUrl)) {
-    issues.push(issue('blocker', 'spotify-track-link', 'episode', episode, 'Le lien Spotify pointe vers une chanson, pas vers un épisode de podcast.'))
+    issues.push(issue(requiredSeverity, 'spotify-track-link', 'episode', episode, 'Le lien Spotify pointe vers une chanson, pas vers un épisode de podcast.'))
   }
   if (!episode.coverImage?.assetRef && episode.mainImage?.assetRef) {
     issues.push(issue('warning', 'legacy-image-field', 'episode', episode, 'L’image utilise encore le champ historique mainImage.'))
@@ -72,6 +75,9 @@ function auditEpisode(episode) {
   if (!episode.guests?.length) issues.push(issue('warning', 'missing-guests', 'episode', episode, 'Aucun invité structuré n’est associé.'))
   if (!episode.seasonNumber || !episode.episodeNumber) {
     issues.push(issue('info', 'missing-numbering', 'episode', episode, 'Saison ou numéro d’épisode non renseigné.'))
+  }
+  if (role === 'presentation') {
+    issues.push(issue('info', 'presentation-content', 'episode', episode, 'Contenu classé comme présentation officielle de THE TALK.'))
   }
 
   return issues
@@ -135,14 +141,15 @@ function addDuplicateMediaIssues(episodes, issues) {
   }
 }
 
-export function auditDataset(dataset) {
+export function auditDataset(dataset, options = {}) {
   const episodes = dataset.episodes ?? []
   const posts = dataset.posts ?? []
   const categories = dataset.categories ?? []
   const people = dataset.people ?? []
   const settings = dataset.settings ?? []
+  const episodeRoles = options.episodeRoles ?? {}
   const issues = [
-    ...episodes.flatMap(auditEpisode),
+    ...episodes.flatMap((episode) => auditEpisode(episode, episodeRoles[episode.slug] ?? 'episode')),
     ...posts.flatMap(auditPost),
     ...categories.flatMap(auditCategory),
   ]

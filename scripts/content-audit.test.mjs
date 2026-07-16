@@ -49,6 +49,32 @@ test('detects placeholder, legacy and incorrect media fields', () => {
   assert.ok(codes.has('missing-site-settings'))
 })
 
+test('keeps approved test episodes auditable without blocking release', () => {
+  const report = auditDataset({
+    ...readyDataset,
+    episodes: [{
+      _id: 'episode-test', title: 'Ep Test', slug: 'ep-test', description: 'Teste de fonctionnement',
+      date: '2026-01-01T00:00:00Z', duration: '10 min', videoUrl: 'https://youtu.be/dQw4w9WgXcQ',
+      spotifyUrl: 'https://open.spotify.com/track/example', mainImage: {assetRef: 'image-legacy'},
+    }],
+  }, {episodeRoles: {'ep-test': 'test'}})
+
+  assert.equal(report.ready, true)
+  assert.equal(report.issues.some((item) => item.severity === 'blocker' && item.type === 'episode'), false)
+  assert.ok(report.issues.some((item) => item.code === 'approved-test-content' && item.severity === 'info'))
+  assert.ok(report.issues.some((item) => item.code === 'spotify-track-link' && item.severity === 'warning'))
+})
+
+test('records an official presentation without excluding it from quality gates', () => {
+  const presentation = {...readyDataset.episodes[0], slug: 'mode-fashion', title: 'Mode Fashion'}
+  const report = auditDataset({...readyDataset, episodes: [presentation]}, {
+    episodeRoles: {'mode-fashion': 'presentation'},
+  })
+
+  assert.equal(report.ready, true)
+  assert.ok(report.issues.some((item) => item.code === 'presentation-content' && item.severity === 'info'))
+})
+
 test('flags a video reused by multiple episodes', () => {
   const base = readyDataset.episodes[0]
   const report = auditDataset({

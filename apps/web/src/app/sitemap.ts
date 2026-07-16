@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getPosts } from "@/features/blog/data";
 import { getEpisodes } from "@/features/episodes/data";
+import { isIndexableEpisode } from "@/lib/content-policy";
 import { siteConfig } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
@@ -14,7 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...staticRoutes,
-    ...episodes.map((episode) => ({
+    ...episodes.filter(isIndexableEpisode).map((episode) => ({
       url: `${siteConfig.url}/episodes/${episode.slug}`,
       lastModified: episode.publishedAt ?? undefined,
     })),

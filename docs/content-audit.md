@@ -8,7 +8,7 @@ Méthode : lecture seule ; aucun document Sanity n’a été modifié.
 
 ## Verdict
 
-Le contenu actuel n’est pas prêt pour la recette publique de la nouvelle application. L’architecture fonctionne avec les documents historiques, mais le dataset contient surtout des essais et n’utilise pas encore le workflow éditorial moderne.
+Le contenu éditorial officiel n’est pas encore prêt pour la recette publique de la nouvelle application. L’architecture fonctionne avec les documents historiques, et les deux épisodes de test sont désormais reconnus comme des démonstrations techniques intentionnelles plutôt que comme des contenus à supprimer.
 
 | Inventaire public | Quantité |
 |---|---:|
@@ -20,18 +20,30 @@ Le contenu actuel n’est pas prêt pour la recette publique de la nouvelle appl
 | Shorts historiques | 3 |
 | Événements live historiques | 1 |
 
-Le contrôle automatisé relève **17 blocages**, **33 avertissements** et **4 informations**.
+Le contrôle automatisé relève **7 blocages**, **41 avertissements** et **7 informations**. La hausse des avertissements n’est pas une régression : les exigences incomplètes des deux démonstrations ont été reclassées depuis le niveau bloquant.
+
+## Décisions éditoriales intégrées
+
+| Contenu | Rôle | Comportement dans le site moderne |
+|---|---|---|
+| `Ep Test` | Test technique | Conservé, accessible dans la section « Laboratoire », absent de l’accueil et du sitemap, balisé `noindex` |
+| `Episodio teste` | Test technique | Conservé, accessible dans la section « Laboratoire », absent de l’accueil et du sitemap, balisé `noindex` |
+| `Mode Fashion` | Présentation officielle | Conservé dans le catalogue éditorial, visible sur l’accueil et indexable |
+
+Cette classification est centralisée dans `apps/web/src/config/content-policy.json` et partagée par l’interface, le SEO et l’audit. Aucun document Sanity n’a été supprimé ou modifié.
 
 ## Constats importants
 
 ### Épisodes
 
-- `Ep Test` et `Episodio teste` sont explicitement des contenus d’essai.
-- `Mode Fashion` possède une description plus complète, mais partage la même vidéo YouTube que les deux épisodes d’essai.
+- `Ep Test` et `Episodio teste` sont volontairement conservés comme contenus d’essai. Leurs lacunes restent visibles dans l’audit sous forme d’avertissements, mais ne bloquent plus la recette du catalogue éditorial.
+- `Mode Fashion` est une présentation officielle. Elle possède une description plus complète, mais partage la même vidéo YouTube que les deux épisodes d’essai.
 - Les trois liens Spotify pointent vers des chansons (`/track/`) et non vers des épisodes de podcast.
 - Les trois épisodes utilisent uniquement les anciens champs : `description`, `date`, `duration`, `mainImage` et `videoUrl`.
 - Aucun épisode ne possède d’état éditorial moderne, de date `publishedAt`, de texte alternatif, de SEO, d’invité structuré ou de numérotation saison/épisode.
 - Aucun fichier audio n’est renseigné.
+
+Les quatre blocages encore associés à `Mode Fashion` sont l’état éditorial, la date moderne de publication, le texte alternatif de l’image et le lien Spotify de type chanson. Les mêmes lacunes sur les deux tests restent à améliorer si utile, sans exiger leur retrait.
 
 ### Journal
 
@@ -56,15 +68,14 @@ L’article « À propos de Mijean Rochus — La voix derrière THE TALK » cont
 
 | Priorité | Action | Résultat attendu |
 |---|---|---|
-| P0 | Retirer de la publication ou supprimer les épisodes explicitement marqués comme tests | Aucun faux épisode visible |
-| P0 | Décider si `Mode Fashion` devient une bande-annonce réelle ou doit aussi être retiré | Catalogue cohérent |
-| P0 | Remplacer les liens Spotify de chansons par les vrais épisodes, ou les laisser vides | Aucun média trompeur |
+| P0 | Normaliser `Mode Fashion` comme présentation : état, date, alt et média Spotify valide ou vide | Première présentation officielle prête pour recette |
 | P1 | Créer `siteSettings` avec identité, description, URL canonique, réseaux et SEO | Métadonnées globales pilotées par le Studio |
 | P1 | Créer Mijean Rochus comme `person` et l’associer à l’article | Auteur structuré |
 | P1 | Migrer l’article existant vers les champs modernes | Premier contenu prêt pour recette |
 | P1 | Nettoyer les catégories et générer leurs slugs | Taxonomie stable |
 | P2 | Saisir le premier véritable épisode avec image 16:9, alt, invité, médias, notes et SEO | Validation complète du workflow |
-| P2 | Archiver les shorts/live historiques après sauvegarde | Dataset simplifié |
+| P2 | Améliorer progressivement les champs des deux tests, sans les supprimer | Démonstrations techniques plus accessibles et fiables |
+| P3 | Documenter les shorts et live historiques avant toute décision future | Historique préservé et réversible |
 
 ## Contrôle reproductible
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import {readFile} from 'node:fs/promises'
 import {auditDataset, formatAudit} from './lib/content-audit.mjs'
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || process.env.SANITY_STUDIO_PROJECT_ID || '9y73r1va'
@@ -39,6 +40,10 @@ endpoint.searchParams.set('query', query)
 endpoint.searchParams.set('perspective', 'published')
 
 try {
+  const contentPolicy = JSON.parse(await readFile(new URL('../apps/web/src/config/content-policy.json', import.meta.url), 'utf8'))
+  const episodeRoles = Object.fromEntries(
+    Object.entries(contentPolicy.episodes ?? {}).map(([slug, policy]) => [slug, policy.role]),
+  )
   const response = await fetch(endpoint, {headers: {Accept: 'application/json'}})
   if (!response.ok) throw new Error(`Sanity a répondu HTTP ${response.status}`)
   const payload = await response.json()
@@ -47,7 +52,7 @@ try {
   const report = auditDataset({
     ...payload.result,
     source: `${projectId}/${dataset} (documents publiés)`,
-  })
+  }, {episodeRoles})
 
   console.log(args.has('--json') ? JSON.stringify(report, null, 2) : formatAudit(report))
   if (args.has('--strict') && !report.ready) process.exitCode = 1
