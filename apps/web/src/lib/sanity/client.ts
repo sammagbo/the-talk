@@ -1,0 +1,11 @@
+import { createClient, type QueryParams } from "@sanity/client";
+import { sanityConfig } from "./config";
+
+export const sanityClient = createClient({ ...sanityConfig, perspective: "published", useCdn: process.env.NODE_ENV === "production" });
+
+type SanityRequest<T> = { query: string; params?: QueryParams; fallback: T };
+
+export async function fetchFromSanity<T>({ query, params = {}, fallback }: SanityRequest<T>) {
+  try { return await sanityClient.fetch<T>(query, params, { cache: "no-store" }); }
+  catch (error) { console.error("[sanity] Content request failed", error); return fallback; }
+}
