@@ -16,11 +16,12 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) return { title: "Article introuvable" };
-  const image = getSanityImageUrl(post.coverImage, { width: 1200, height: 630 });
+  const image = getSanityImageUrl(post.seo?.ogImage || post.coverImage, { width: 1200, height: 630 });
   return {
-    title: post.title,
-    description: post.excerpt ?? undefined,
+    title: post.seo?.metaTitle || post.title,
+    description: post.seo?.metaDescription || post.excerpt || undefined,
     alternates: { canonical: `/blog/${slug}` },
+    robots: post.seo?.noIndex ? { index: false, follow: false } : undefined,
     openGraph: image ? { images: [{ url: image }] } : undefined,
   };
 }

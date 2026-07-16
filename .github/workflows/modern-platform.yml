@@ -1,0 +1,73 @@
+name: Modern platform checks
+
+on:
+  pull_request:
+    paths:
+      - "apps/web/**"
+      - "studio/**"
+      - "scripts/audit-sanity-content.mjs"
+      - "scripts/content-audit.test.mjs"
+      - "scripts/lib/content-audit.mjs"
+      - "package.json"
+      - ".github/workflows/modern-platform.yml"
+  push:
+    branches: [main]
+    paths:
+      - "apps/web/**"
+      - "studio/**"
+      - "scripts/audit-sanity-content.mjs"
+      - "scripts/content-audit.test.mjs"
+      - "scripts/lib/content-audit.mjs"
+      - "package.json"
+      - ".github/workflows/modern-platform.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: modern-platform-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  content-audit-tests:
+    name: Content audit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: node --test scripts/content-audit.test.mjs
+
+  web:
+    name: Modern web
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - run: npm ci
+      - run: npm run check
+
+  studio:
+    name: Sanity Studio
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: studio
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: studio/package-lock.json
+      - run: npm ci
+      - run: npm run check

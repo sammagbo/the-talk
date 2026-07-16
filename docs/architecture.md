@@ -125,3 +125,7 @@ Observabilité future : Vercel Analytics/Speed Insights pour les signaux web, Se
 - Décider si la date programmée suffit ou si Sanity Scheduled Publishing est requis.
 - Inventorier les URLs actuelles avant toute modification du domaine.
 - Prioriser une seule expansion post-lancement à partir des données d’audience.
+
+## 10. Contrôle éditorial automatisé
+
+La deuxième étape ajoute un audit public en lecture seule (`npm run content:audit`) et une file « Qualité éditoriale » dans le Studio. Le rapport de référence est conservé dans [`content-audit.md`](content-audit.md). Le pipeline GitHub valide séparément l’audit, l’application moderne et le Studio afin que le projet Vercel historique ne soit plus le seul signal de qualité.
