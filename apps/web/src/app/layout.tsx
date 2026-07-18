@@ -6,6 +6,8 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { getSiteSettings } from "@/features/site/data";
 import { getSanityImageUrl } from "@/lib/sanity/image";
 import { siteConfig } from "@/lib/site";
+import "@fontsource-variable/inter";
+import "@fontsource-variable/outfit";
 import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {

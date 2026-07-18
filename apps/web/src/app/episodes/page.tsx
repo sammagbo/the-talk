@@ -39,7 +39,7 @@ export default async function EpisodesPage() {
       {testEpisodes.length ? (
         <section className="mt-24 border-t border-line pt-14 sm:mt-32 sm:pt-20" aria-labelledby="demonstrations-techniques">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-accent-soft">Laboratoire</p>
-          <h2 id="demonstrations-techniques" className="mt-4 font-display text-4xl tracking-[-0.035em] sm:text-5xl">
+          <h2 id="demonstrations-techniques" className="mt-4 font-display text-4xl font-black tracking-[-0.035em] sm:text-5xl">
             Démonstrations techniques
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-7 text-muted">

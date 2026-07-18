@@ -1,14 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0a;
-  --surface: #111111;
-  --surface-soft: #181818;
-  --foreground: #f5f1e8;
-  --muted: #a8a39a;
-  --line: rgba(245, 241, 232, 0.16);
-  --accent: #8aa4ff;
-  --accent-soft: #c8d1ff;
+  --background: #020307;
+  --surface: #080b12;
+  --surface-soft: #111722;
+  --foreground: #f7f9ff;
+  --muted: #9aa6b8;
+  --line: rgba(148, 163, 184, 0.2);
+  --accent: #007bff;
+  --accent-strong: #0069d9;
+  --accent-soft: #a9a9f5;
 }
 
 @theme inline {
@@ -19,40 +20,74 @@
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
   --color-accent-soft: var(--accent-soft);
-  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-display: "Iowan Old Style", "Baskerville", "Times New Roman", serif;
+  --font-sans: "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: "Outfit Variable", "Arial Black", "Helvetica Neue", Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
-  background: var(--background);
+  background:
+    radial-gradient(circle at 15% -10%, rgba(0, 123, 255, 0.12), transparent 24rem),
+    var(--background);
   color: var(--foreground);
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-rendering: optimizeLegibility;
 }
-::selection { background: var(--accent); color: #080808; }
+::selection { background: var(--accent); color: #ffffff; }
 a, button { -webkit-tap-highlight-color: transparent; }
+a:focus-visible, button:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
 .skip-link {
   position: fixed; left: 1rem; top: 1rem; z-index: 100;
   transform: translateY(-200%); border-radius: 999px;
-  background: var(--foreground); color: var(--background);
+  background: var(--accent); color: #ffffff;
   padding: 0.75rem 1rem; transition: transform 160ms ease;
 }
 .skip-link:focus { transform: translateY(0); }
-.editorial-copy { color: #d8d3ca; font-size: 1.075rem; line-height: 1.85; }
+.brand-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, transparent, black 24%, black 76%, transparent);
+}
+.brand-title-gradient {
+  background: linear-gradient(115deg, #007bff 8%, #65aaff 52%, #a9a9f5 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.brand-video { filter: saturate(0.88) contrast(1.08); }
+.brand-badge-dot { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); animation: brand-pulse 2s infinite; }
+@keyframes brand-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.65); }
+  70% { box-shadow: 0 0 0 9px rgba(0, 123, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+}
+.editorial-copy { color: #c7cfdb; font-size: 1.075rem; line-height: 1.85; }
 .editorial-copy > * + * { margin-top: 1.5rem; }
 .editorial-copy h2, .editorial-copy h3 {
-  color: var(--foreground); font-family: "Iowan Old Style", "Baskerville", "Times New Roman", serif;
+  color: var(--foreground); font-family: "Outfit Variable", "Arial Black", "Helvetica Neue", Arial, sans-serif;
   line-height: 1.1; margin-top: 3.5rem;
 }
 .editorial-copy h2 { font-size: clamp(2rem, 5vw, 3.25rem); }
 .editorial-copy h3 { font-size: clamp(1.5rem, 4vw, 2.25rem); }
 .editorial-copy blockquote {
   border-left: 2px solid var(--accent); color: var(--foreground);
-  font-family: "Iowan Old Style", "Baskerville", "Times New Roman", serif;
+  font-family: "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1.5rem; padding-left: 1.5rem;
 }
 .editorial-copy a { color: var(--accent-soft); text-decoration: underline; text-underline-offset: 0.2em; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .brand-video { display: none; }
+  .brand-badge-dot { animation: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}

@@ -58,7 +58,7 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
         <header className="mt-12 grid gap-10 lg:grid-cols-[1fr_0.7fr] lg:items-end">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent-soft">{episodeLabel || "THE TALK"}</p>
-            <h1 className="mt-5 max-w-5xl font-display text-5xl leading-[0.95] tracking-[-0.045em] sm:text-7xl lg:text-8xl">{episode.title}</h1>
+            <h1 className="mt-5 max-w-5xl font-display text-5xl font-black leading-[0.95] tracking-[-0.045em] sm:text-7xl lg:text-8xl">{episode.title}</h1>
             {episode.guests?.length ? (
               <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-muted">
                 Avec {episode.guests.map((guest) => guest.name).join(", ")}
@@ -70,7 +70,7 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
       </Container>
 
       <Container className="pb-16 sm:pb-24">
-        <div className="relative aspect-video overflow-hidden bg-surface-soft">
+        <div className="relative aspect-video overflow-hidden rounded-2xl border border-line bg-surface-soft shadow-[0_24px_80px_rgba(0,123,255,.1)]">
           {videoId ? (
             <iframe
               src={`https://www.youtube-nocookie.com/embed/${videoId}`}
@@ -85,17 +85,17 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
         </div>
 
         {(episode.audioUrl || episode.spotifyUrl || (episode.videoUrl && !videoId)) ? (
-          <section className="mt-8 border border-line bg-surface p-6 sm:p-8" aria-labelledby="ecouter">
+          <section className="mt-8 rounded-2xl border border-line bg-surface p-6 sm:p-8" aria-labelledby="ecouter">
             <h2 id="ecouter" className="text-xs font-semibold uppercase tracking-[0.24em] text-accent-soft">Écouter l’épisode</h2>
             {episode.audioUrl ? <audio controls preload="metadata" src={episode.audioUrl} className="mt-6 w-full" /> : null}
             <div className="mt-6 flex flex-wrap gap-3">
               {episode.spotifyUrl ? (
-                <a href={episode.spotifyUrl} target="_blank" rel="noreferrer" className="border border-line px-5 py-3 text-xs font-semibold uppercase tracking-[0.17em] transition hover:border-foreground">
+                <a href={episode.spotifyUrl} target="_blank" rel="noreferrer" className="rounded-lg border border-accent/40 bg-accent/10 px-5 py-3 text-xs font-bold uppercase tracking-[0.17em] transition hover:border-accent hover:bg-accent hover:text-white">
                   Ouvrir dans Spotify
                 </a>
               ) : null}
               {episode.videoUrl && !videoId ? (
-                <a href={episode.videoUrl} target="_blank" rel="noreferrer" className="border border-line px-5 py-3 text-xs font-semibold uppercase tracking-[0.17em] transition hover:border-foreground">
+                <a href={episode.videoUrl} target="_blank" rel="noreferrer" className="rounded-lg border border-accent/40 bg-accent/10 px-5 py-3 text-xs font-bold uppercase tracking-[0.17em] transition hover:border-accent hover:bg-accent hover:text-white">
                   Voir la vidéo
                 </a>
               ) : null}
@@ -105,7 +105,7 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
 
         {episode.showNotes?.length ? (
           <section className="mx-auto mt-16 max-w-3xl border-t border-line pt-12 sm:mt-24 sm:pt-16" aria-labelledby="notes-episode">
-            <h2 id="notes-episode" className="mb-9 font-display text-4xl tracking-[-0.035em] sm:text-5xl">Notes de l’épisode</h2>
+            <h2 id="notes-episode" className="mb-9 font-display text-4xl font-black tracking-[-0.035em] sm:text-5xl">Notes de l’épisode</h2>
             <PortableArticle value={episode.showNotes} />
           </section>
         ) : null}
