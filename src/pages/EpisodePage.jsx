@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, Play, Clock, Calendar, Share2, Sparkles, Loader2, BrainCircuit, Check, Video, Headphones } from 'lucide-react';
+import { ArrowLeft, Play, Clock, Calendar, Share2, Sparkles, Loader2, BrainCircuit, Check, Video, Headphones, Eye } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
 import LazyImage from '../components/LazyImage';
 import { client, urlFor } from '../sanity';
@@ -221,7 +221,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                             : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white'
                                             }`}
                                     >
-                                        🎧 {t('episode.listen', 'Ouvir')}
+                                        <Headphones size={16} /> {t('episode.listen', 'Ouvir')}
                                     </button>
                                     <button
                                         onClick={() => {
@@ -236,7 +236,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                             : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white'
                                             }`}
                                     >
-                                        👁️ {t('episode.watch', 'Assistir')}
+                                        <Eye size={16} /> {t('episode.watch', 'Assistir')}
                                     </button>
                                 </div>
                             )}

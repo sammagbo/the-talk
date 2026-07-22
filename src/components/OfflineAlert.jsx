@@ -20,7 +20,7 @@ export default function OfflineAlert() {
     if (!isOffline) return null;
 
     return (
-        <div className="fixed top-0 left-0 right-0 z-[9999] bg-amber-500 text-black py-2 px-4 flex items-center justify-center gap-2 text-sm font-bold animate-slide-down">
+        <div className="fixed top-0 left-0 right-0 z-[9999] bg-black text-white dark:bg-white dark:text-black py-2 px-4 flex items-center justify-center gap-2 text-sm font-bold animate-slide-down">
             <WifiOff size={16} />
             <span>Vous êtes hors ligne. Certaines fonctionnalités peuvent être limitées.</span>
         </div>

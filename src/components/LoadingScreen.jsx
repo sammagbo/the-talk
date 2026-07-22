@@ -72,10 +72,6 @@ export default function LoadingScreen({ onComplete }) {
             ref={containerRef}
             className="fixed inset-0 z-[10000] bg-black flex flex-col items-center justify-center"
         >
-            {/* Background gradient orbs */}
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-black/20 dark:bg-white/20 rounded-full blur-[120px]" />
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-black/20 dark:bg-white/20 rounded-full blur-[120px]" />
-
             {/* Logo */}
             <div ref={logoRef} className="text-center z-10">
                 <h1 className="text-5xl md:text-7xl font-creativo font-black tracking-[0.1em] text-white uppercase">
