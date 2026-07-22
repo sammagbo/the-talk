@@ -19,32 +19,21 @@ function setStoredTheme(theme) {
 }
 
 export default function ThemeToggle() {
-    const [theme, setTheme] = useState('dark');
-    const [mounted, setMounted] = useState(false);
+    const [theme, setTheme] = useState(getStoredTheme);
 
-    // Initialize theme after mount (avoid SSR issues)
+    // Sync the <html> class and the stored preference whenever the theme changes.
     useEffect(() => {
-        setTheme(getStoredTheme());
-        setMounted(true);
-    }, []);
-
-    useEffect(() => {
-        if (!mounted) return;
-
         if (theme === 'dark') {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
         }
         setStoredTheme(theme);
-    }, [theme, mounted]);
+    }, [theme]);
 
     const toggleTheme = () => {
-        setTheme(theme === 'dark' ? 'light' : 'dark');
+        setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
     };
-
-    // Don't render until mounted to avoid hydration mismatch
-    if (!mounted) return null;
 
     return (
         <button

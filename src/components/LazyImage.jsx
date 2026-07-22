@@ -18,7 +18,11 @@ const LazyImage = ({
     quality = 75,
     ...props
 }) => {
-    const [imageSrc, setImageSrc] = useState(placeholder || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E");
+    const [imageSrc, setImageSrc] = useState(() =>
+        typeof IntersectionObserver === 'undefined'
+            ? src
+            : (placeholder || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E")
+    );
     const [imageRef, setImageRef] = useState();
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -41,33 +45,31 @@ const LazyImage = ({
     };
 
     useEffect(() => {
+        // No IntersectionObserver: the image is loaded eagerly via initial state.
+        if (typeof IntersectionObserver === 'undefined') return undefined;
+
         let observer;
         let didCancel = false;
 
         if (imageRef && imageSrc !== src) {
-            if (IntersectionObserver) {
-                observer = new IntersectionObserver(
-                    entries => {
-                        entries.forEach(entry => {
-                            if (
-                                !didCancel &&
-                                (entry.intersectionRatio > 0 || entry.isIntersecting)
-                            ) {
-                                setImageSrc(src);
-                                observer.unobserve(imageRef);
-                            }
-                        });
-                    },
-                    {
-                        threshold: 0.01,
-                        rootMargin: '200px', // Load 200px before visible
-                    }
-                );
-                observer.observe(imageRef);
-            } else {
-                // Fallback for older browsers
-                setImageSrc(src);
-            }
+            observer = new IntersectionObserver(
+                entries => {
+                    entries.forEach(entry => {
+                        if (
+                            !didCancel &&
+                            (entry.intersectionRatio > 0 || entry.isIntersecting)
+                        ) {
+                            setImageSrc(src);
+                            observer.unobserve(imageRef);
+                        }
+                    });
+                },
+                {
+                    threshold: 0.01,
+                    rootMargin: '200px', // Load 200px before visible
+                }
+            );
+            observer.observe(imageRef);
         }
         return () => {
             didCancel = true;

@@ -40,8 +40,11 @@ export default function Navbar({
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Close mobile menu on route change
+    // Close mobile menu on route change. This intentionally reacts to route
+    // changes (including browser back/forward, which the per-link onClick
+    // handlers don't cover), so setting state here is the desired behaviour.
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- deliberate reset of ephemeral menu state on navigation
         setIsMenuOpen(false);
     }, [location.pathname]);
 
@@ -52,7 +55,7 @@ export default function Navbar({
             onScrollToSection(sectionId);
         } else {
             // Navigate to home with hash
-            window.location.href = `/#${sectionId}`;
+            window.location.assign(`/#${sectionId}`);
         }
     };
 
