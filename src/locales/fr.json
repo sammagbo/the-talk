@@ -136,14 +136,6 @@
         "come_back": "Revenez bientôt !",
         "read_more": "Lire l'article"
     },
-    "poll": {
-        "title": "Sondage",
-        "vote": "vote",
-        "votes": "votes",
-        "login_prompt": "Connectez-vous pour voter",
-        "vote_recorded": "Votre vote a été enregistré !",
-        "submitting": "Envoi de votre vote..."
-    },
     "profile": {
         "title": "Profil",
         "back": "Retour",

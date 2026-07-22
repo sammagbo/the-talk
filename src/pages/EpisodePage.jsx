@@ -7,6 +7,7 @@ import LazyImage from '../components/LazyImage';
 import { client, urlFor } from '../sanity';
 import { useTranslation } from 'react-i18next';
 import { shareContent, getEpisodeShareUrl } from '../utils/share';
+import { convertToSpotifyEmbed } from '../utils/spotify';
 
 export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying }) {
     const { slug } = useParams();
@@ -27,27 +28,6 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
 
 
     useEffect(() => {
-        // Function to convert Spotify URL to embed format
-        const convertToSpotifyEmbed = (url) => {
-            if (!url) return null;
-
-            // If already in embed format, return as is
-            if (url.includes('/embed/')) {
-                return url;
-            }
-
-            // Convert normal Spotify URLs to embed format
-            // Supports: /intl-xx/, episode, show, track, playlist, album
-            const spotifyRegex = /https:\/\/open\.spotify\.com\/(?:intl-[a-z]{2}\/)?(episode|show|track|playlist|album)\/([a-zA-Z0-9]+)/;
-            const match = url.match(spotifyRegex);
-
-            if (match) {
-                return `https://open.spotify.com/embed/${match[1]}/${match[2]}?utm_source=generator&theme=0`;
-            }
-
-            return null;
-        };
-
         const fetchEpisode = async () => {
             setLoading(true);
             setError(null);
@@ -67,8 +47,6 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                     videoUrl,
                     transcript,
                     slug,
-                    isPremium,
-                    poll,
                     "related": *[_type == "episode" && category->title == ^.category->title && _id != ^._id][0...3]{
                         _id, slug, 
                         title, 
@@ -96,8 +74,6 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                         fullSrc: result.fullSrc ? urlFor(result.fullSrc).width(1600).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=1600&q=80',
                         transcript: result.transcript,
                         slug: result.slug?.current,
-                        isPremium: result.isPremium || false,
-                        poll: result.poll || null
                     });
 
                     // Set media mode from navigation state OR default to 'video' if videoUrl exists
