@@ -167,6 +167,9 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
         );
     }
 
+    const youtubeVideoId = episode.videoUrl?.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1];
+    const youtubeEmbedUrl = youtubeVideoId ? `https://www.youtube.com/embed/${youtubeVideoId}` : '';
+
     return (
         <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-black selection:text-white pb-20 transition-colors duration-300">
             <Helmet>
@@ -196,12 +199,22 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                             "@type": "Person",
                             "name": "Mijean Rochus"
                         },
-                        ...(episode.audioUrl && {
-                            "associatedMedia": {
-                                "@type": "AudioObject",
-                                "contentUrl": episode.audioUrl,
-                                "encodingFormat": "audio/mpeg"
-                            }
+                        ...((episode.audioUrl || youtubeEmbedUrl) && {
+                            "associatedMedia": [
+                                ...(episode.audioUrl ? [{
+                                    "@type": "AudioObject",
+                                    "contentUrl": episode.audioUrl,
+                                    "encodingFormat": "audio/mpeg"
+                                }] : []),
+                                ...(youtubeEmbedUrl ? [{
+                                    "@type": "VideoObject",
+                                    "name": episode.title,
+                                    "description": episode.description || `Découvrez ${episode.title} sur THE TALK`,
+                                    "thumbnailUrl": episode.fullSrc || episode.src,
+                                    "uploadDate": episode.date,
+                                    "embedUrl": youtubeEmbedUrl
+                                }] : [])
+                            ]
                         })
                     })}
                 </script>
@@ -257,7 +270,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                 /* YouTube Embed */
                                 <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl shadow-black/20 dark:shadow-white/20 border border-gray-200 dark:border-[#333]">
                                     <iframe
-                                        src={`https://www.youtube.com/embed/${episode.videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1] || ''}`}
+                                        src={youtubeEmbedUrl}
                                         title={episode.title}
                                         className="w-full h-full"
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
