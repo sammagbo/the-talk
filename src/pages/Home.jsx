@@ -375,7 +375,7 @@ export default function Home({ items }) {
                             <p className="text-gray-600 dark:text-[#6C757D] font-minimal max-w-xl">
                                 {t('shorts.description')}
                             </p>
-                            <div className="h-1.5 w-16 bg-gradient-to-r from-[#FF0050] to-[#FF4500] rounded-full mt-4"></div>
+                            <div className="h-1.5 w-16 bg-[#FF0050] rounded-full mt-4"></div>
                         </div>
 
                         {/* Horizontal Snap Scroll Container */}
