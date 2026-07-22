@@ -303,27 +303,6 @@ export default function Home({ items }) {
                         )}
                     </div>
 
-                    {/* Quick Stats with Animated Counters */}
-                    <div className="gsap-hero-stats flex flex-wrap justify-center gap-8 mt-10 text-center">
-                        <div>
-                            <p className="text-3xl font-creativo font-bold text-black dark:text-white">
-                                <CountUp end={50} duration={2.5} suffix="+" />
-                            </p>
-                            <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">{t('hero.episodes', 'Épisodes')}</p>
-                        </div>
-                        <div>
-                            <p className="text-3xl font-creativo font-bold text-black dark:text-white">
-                                <CountUp end={10} duration={2} suffix="K+" />
-                            </p>
-                            <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">{t('hero.listeners', 'Auditeurs')}</p>
-                        </div>
-                        <div>
-                            <p className="text-3xl font-creativo font-bold text-black dark:text-white">
-                                <CountUp end={5} duration={1.5} suffix="★" />
-                            </p>
-                            <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">Évaluation</p>
-                        </div>
-                    </div>
                 </div>
             </header>
 
@@ -667,17 +646,6 @@ export default function Home({ items }) {
             />
 
             {/* Pinned Corner Links - EMMPO Style */}
-            <div className="fixed bottom-6 left-6 z-40 hidden md:block">
-                <button
-                    onClick={() => scrollToSection('galerie')}
-                    className="group flex items-center gap-2 px-4 py-2 bg-black/80 dark:bg-white/10 backdrop-blur-sm rounded-full border border-white/10 hover:border-white transition-all"
-                >
-                    <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-                    <span className="text-xs font-mono text-white/80 tracking-wider uppercase group-hover:text-white transition-colors">
-                        [NEW EPISODE]
-                    </span>
-                </button>
-            </div>
             <div className="fixed bottom-6 right-6 z-40 hidden md:block">
                 <button
                     onClick={() => setIsSubscribeOpen(true)}
