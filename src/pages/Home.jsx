@@ -12,7 +12,6 @@ import Navbar from '../components/Navbar';
 import { client } from '../sanity';
 import { useGSAP, gsap, ScrollTrigger } from '../hooks/useGSAP';
 import MagneticButton from '../components/MagneticButton';
-import CountUp from '../components/CountUp';
 import Marquee from '../components/Marquee';
 import TiltCard from '../components/TiltCard';
 import useSmoothScroll from '../hooks/useSmoothScroll';
@@ -70,8 +69,7 @@ export default function Home({ items }) {
             .from('.gsap-hero-title', { y: 80, opacity: 0, duration: 1.2 }, '-=0.4')
             .from('.gsap-hero-subtitle', { y: 40, opacity: 0, duration: 0.8 }, '-=0.6')
             .from('.gsap-hero-description', { y: 30, opacity: 0, duration: 0.8 }, '-=0.5')
-            .from('.gsap-hero-ctas a', { y: 30, opacity: 0, duration: 0.6, stagger: 0.15 }, '-=0.4')
-            .from('.gsap-hero-stats > div', { y: 20, opacity: 0, duration: 0.5, stagger: 0.1 }, '-=0.3');
+            .from('.gsap-hero-ctas a', { y: 30, opacity: 0, duration: 0.6, stagger: 0.15 }, '-=0.4');
 
         // Scroll-triggered section animations
         const sections = gsap.utils.toArray('.gsap-section');
@@ -190,9 +188,10 @@ export default function Home({ items }) {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        setFormStatus('success');
-        setTimeout(() => setFormStatus(''), 5000);
-        setFormData({ name: '', email: '', message: '' });
+        const subject = encodeURIComponent(`Contact THE TALK — ${formData.name}`);
+        const body = encodeURIComponent(`${formData.message}\n\nNom: ${formData.name}\nEmail: ${formData.email}`);
+        setFormStatus('email-client');
+        window.location.href = `mailto:contact@thetalkfashion.com?subject=${subject}&body=${body}`;
     };
 
     const scrollToSection = (id) => {
@@ -551,7 +550,7 @@ export default function Home({ items }) {
                                         </div>
                                         <div>
                                             <h4 className="text-black dark:text-white font-creativo font-bold text-lg">Studio</h4>
-                                            <p className="text-gray-500 dark:text-[#6C757D]">Paris, France</p>
+                                            <p className="text-gray-500 dark:text-[#6C757D]">Bruxelles, Belgique</p>
                                         </div>
                                     </div>
                                 </div>
@@ -559,7 +558,7 @@ export default function Home({ items }) {
 
                             {/* Form */}
                             <form onSubmit={handleFormSubmit} className="bg-gray-50 dark:bg-[#020202] p-8 rounded-2xl border border-gray-200 dark:border-[#333] space-y-5">
-                                {formStatus === 'success' && (
+                                {formStatus === 'email-client' && (
                                     <div className="bg-[#007BFF]/10 text-[#007BFF] p-4 rounded-lg text-sm font-minimal border border-[#007BFF]/20">
                                         Message envoyé. Merci de nous contacter.
                                     </div>

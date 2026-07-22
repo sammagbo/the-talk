@@ -81,10 +81,10 @@ const BlogPage = lazy(() => import('./pages/BlogPage'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 import SponsorBanner from './components/SponsorBanner';
-import ExitIntentPopup from './components/ExitIntentPopup';
 import OfflineAlert from './components/OfflineAlert';
 import { client, urlFor } from './sanity';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { STORE_ENABLED } from './config/features';
 
 
 export default function App() {
@@ -209,7 +209,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home items={items} />} />
             <Route path="/episode/:id" element={<EpisodePage items={items} onPlay={handlePlay} onPause={() => setIsPlaying(false)} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
-            <Route path="/store" element={<StorePage />} />
+            {STORE_ENABLED && <Route path="/store" element={<StorePage />} />}
             <Route path="/episodes" element={<EpisodesPage items={items} onPlay={handlePlay} />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/blog" element={<BlogPage />} />
@@ -220,7 +220,6 @@ export default function App() {
       </ErrorBoundary>
 
       <SponsorBanner />
-      <ExitIntentPopup />
 
       <Player
         currentEpisode={currentEpisode}

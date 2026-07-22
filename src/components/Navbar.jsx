@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { STORE_ENABLED } from '../config/features';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -80,12 +81,12 @@ export default function Navbar({
             icon: Info,
             type: 'link', to: '/about', description: 'About the hosts'
         },
-        {
+        ...(STORE_ENABLED ? [{
             label: t('nav.store', 'Boutique'),
             icon: ShoppingBag,
             type: 'link',
             to: '/store'
-        },
+        }] : []),
     ];
 
     return (

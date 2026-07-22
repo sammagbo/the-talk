@@ -1,7 +1,5 @@
 # THE TALK
 
-<div align="center">
-
 ![THE TALK](https://www.thetalkfashion.com/og-image.png)
 
 **Plataforma de mídia editorial — moda, lifestyle e cultura**
@@ -12,7 +10,19 @@ Por Mijean Rochus & Gleid
 [![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite)](https://vite.dev)
 [![Sanity](https://img.shields.io/badge/CMS-Sanity-F03E2F?style=for-the-badge&logo=sanity)](https://sanity.io)
 
-</div>
+---
+
+## Organização do repositório
+
+| Pasta | Papel | Estado |
+|---|---|---|
+| `/src` | Site React/Vite histórico | Produção atual |
+| `/apps/web` | Nova experiência Next.js/TypeScript | Pré-produção técnica em curso |
+| `/studio` | Back-office editorial Sanity | Fonte de verdade do conteúdo |
+| `/api` | Funções serverless históricas | Mantidas durante a transição |
+| `/docs` | Arquitetura, decisões e plano de migração | Documentação ativa |
+
+O site histórico (`/src`) permanece intacto durante a migração. A troca para `apps/web` só ocorrerá após validação editorial, configuração da Vercel e conferência das URLs. Detalhes em [`docs/architecture.md`](docs/architecture.md).
 
 ---
 
@@ -95,23 +105,46 @@ npm install
 npm run dev     # Sanity Studio
 ```
 
+A nova aplicação (`apps/web`) e os controles de qualidade têm seus próprios comandos:
+
+```bash
+npm run modern:check     # lint, checagem TypeScript, testes e build de apps/web
+npm run studio:check     # validação do Sanity Studio
+npm run content:audit    # auditoria do conteúdo público
+```
+
+O relatório de referência e a ordem de correção estão em
+[`docs/content-audit.md`](docs/content-audit.md); o controle de pré-produção após um build
+está em [`docs/preproduction.md`](docs/preproduction.md).
+
 ---
 
 ## Estrutura
 
 ```
 the-talk/
-├── src/
+├── src/                # Site React/Vite histórico (produção atual)
 │   ├── components/     # Componentes React
 │   ├── pages/          # Páginas (Home, Episodes, Episode, Blog, About)
 │   ├── hooks/          # Hooks customizados
 │   ├── locales/        # Traduções (fr, en, pt)
 │   ├── sanity.js       # Cliente Sanity
 │   └── App.jsx         # App e rotas
+├── apps/web/           # Nova aplicação Next.js/TypeScript (pré-produção)
 ├── studio/             # Sanity Studio (CMS)
 ├── api/                # Vercel Serverless (newsletter, OG dinâmico)
+├── docs/               # Arquitetura, auditoria e plano de migração
 └── public/             # Assets estáticos
 ```
+
+---
+
+## Publicação
+
+O Sanity é a única fonte de verdade. Um episódio ou artigo precisa de um endereço (`slug`),
+um estado editorial e, para publicação programada, uma data. O frontend aceita tanto os
+documentos históricos quanto os novos campos, permitindo uma migração progressiva sem
+duplicação de conteúdo. O workflow editorial completo está em [`docs/architecture.md`](docs/architecture.md).
 
 ---
 
@@ -126,10 +159,6 @@ projeto. Build manual: `npm run build` (saída em `/dist`).
 
 MIT © Mijean Rochus & Gleid
 
-<div align="center">
-
 **Feito no Rio de Janeiro**
 
 [Website](https://www.thetalkfashion.com) · [YouTube](https://www.youtube.com/@thetalkpodcastbygleidandmijean)
-
-</div>

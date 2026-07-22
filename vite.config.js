@@ -10,7 +10,6 @@ const staticRoutes = [
   '/episodes',
   '/about',
   '/blog',
-  '/store',
 ]
 
 export default defineConfig({
