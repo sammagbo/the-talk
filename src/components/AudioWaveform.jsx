@@ -7,7 +7,6 @@ import { gsap } from 'gsap';
 export default function AudioWaveform({
     isPlaying = false,
     barCount = 20,
-    color = '#007BFF',
     height = 40,
 }) {
     const containerRef = useRef(null);
@@ -27,14 +26,14 @@ export default function AudioWaveform({
             bar.style.cssText = `
                 width: ${100 / barCount - 2}%;
                 height: 20%;
-                background: linear-gradient(to top, ${color}, #A9A9F5);
+                background: currentColor;
                 border-radius: 2px;
                 transform-origin: bottom;
             `;
             containerRef.current.appendChild(bar);
             barsRef.current.push(bar);
         }
-    }, [barCount, color]);
+    }, [barCount]);
 
     useEffect(() => {
         // Kill existing animations
@@ -71,7 +70,7 @@ export default function AudioWaveform({
     return (
         <div
             ref={containerRef}
-            className="flex items-end justify-between gap-0.5"
+            className="flex items-end justify-between gap-0.5 text-black dark:text-white"
             style={{ height }}
         />
     );

@@ -63,17 +63,17 @@ const Newsletter = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         disabled={status === 'loading'}
-                        className="block w-full pl-11 pr-36 py-4 bg-[#111] border border-[#333] rounded-full text-white placeholder-[#6C757D] focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal disabled:opacity-50"
+                        className="block w-full pl-11 pr-36 py-4 bg-[#111] border border-[#333] rounded-full text-white placeholder-[#6C757D] focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal disabled:opacity-50"
                         placeholder={t('subscribe.placeholder', 'your@email.com')}
                     />
                     <button
                         type="submit"
                         disabled={status === 'loading' || status === 'success'}
-                        className={`absolute right-1.5 top-1.5 bottom-1.5 px-6 rounded-full transition-all transform hover:scale-105 font-bold shadow-[0_0_15px_rgba(0,123,255,0.3)] flex items-center gap-2 disabled:cursor-not-allowed ${status === 'success'
+                        className={`absolute right-1.5 top-1.5 bottom-1.5 px-6 rounded-full transition-all transform hover:scale-105 font-bold flex items-center gap-2 disabled:cursor-not-allowed ${status === 'success'
                             ? 'bg-green-500 hover:bg-green-500'
                             : status === 'error'
                                 ? 'bg-red-500 hover:bg-red-500'
-                                : 'bg-[#007BFF] hover:bg-[#0069d9]'
+                                : 'bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300'
                             } text-white`}
                     >
                         {status === 'loading' ? (

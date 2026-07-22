@@ -38,9 +38,9 @@ export default function SponsorBanner() {
 
     return (
         <div className="fixed bottom-24 left-4 right-4 md:left-auto md:right-8 md:bottom-28 z-40 max-w-sm animate-fade-in-up">
-            <div className="bg-white dark:bg-[#111] border border-[#007BFF]/30 p-4 rounded-xl shadow-2xl flex items-center gap-4 relative overflow-hidden backdrop-blur-md">
+            <div className="bg-white dark:bg-[#111] border border-black/30 dark:border-white/30 p-4 rounded-xl shadow-2xl flex items-center gap-4 relative overflow-hidden backdrop-blur-md">
                 {/* Glow Effect */}
-                <div className="absolute top-0 right-0 w-24 h-24 bg-[#007BFF]/10 rounded-full blur-2xl"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-black/10 dark:bg-white/10 rounded-full blur-2xl"></div>
 
                 <div className="relative z-10 flex-shrink-0 w-16 h-16 bg-gray-100 dark:bg-black rounded-lg p-2 flex items-center justify-center border border-gray-200 dark:border-[#333]">
                     {sponsor.logoUrl ? (
@@ -51,7 +51,7 @@ export default function SponsorBanner() {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                    <p className="text-xs text-[#007BFF] font-bold uppercase tracking-wider mb-0.5">Sponsorisé</p>
+                    <p className="text-xs text-black dark:text-white font-bold uppercase tracking-wider mb-0.5">Sponsorisé</p>
                     <p className="text-sm font-medium text-black dark:text-white line-clamp-2 leading-tight pr-6">
                         {sponsor.text || `Découvrez ${sponsor.name}`}
                     </p>
@@ -60,7 +60,7 @@ export default function SponsorBanner() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={handleClick}
-                        className="inline-flex items-center gap-1 text-xs text-gray-500 hover:text-[#007BFF] mt-1 transition-colors group"
+                        className="inline-flex items-center gap-1 text-xs text-gray-500 hover:text-black hover:dark:text-white mt-1 transition-colors group"
                     >
                         Visiter le site <ExternalLink size={10} className="group-hover:translate-x-0.5 transition-transform" />
                     </a>

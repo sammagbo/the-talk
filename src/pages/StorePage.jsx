@@ -35,7 +35,7 @@ export default function StorePage() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-[#007BFF] selection:text-white transition-colors duration-300">
+        <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-black selection:text-white transition-colors duration-300">
             <Helmet>
                 <title>Boutique | THE TALK</title>
                 <meta name="description" content="Soutenez le podcast en achetant nos produits dérivés officiels." />
@@ -43,7 +43,7 @@ export default function StorePage() {
 
             <nav className="fixed w-full z-50 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-200 dark:border-[#333] py-4">
                 <div className="container mx-auto px-6 flex justify-between items-center">
-                    <Link to="/" className="inline-flex items-center gap-2 text-gray-500 dark:text-[#6C757D] hover:text-[#007BFF] dark:hover:text-white transition-colors font-minimal text-sm uppercase tracking-wider">
+                    <Link to="/" className="inline-flex items-center gap-2 text-gray-500 dark:text-[#6C757D] hover:text-black hover:dark:text-white dark:hover:text-white transition-colors font-minimal text-sm uppercase tracking-wider">
                         <ArrowLeft size={16} /> {t('store.back')}
                     </Link>
                     <ThemeToggle />
@@ -52,8 +52,8 @@ export default function StorePage() {
 
             <div className="pt-32 pb-24 px-6 container mx-auto">
                 <div className="text-center mb-16">
-                    <div className="inline-flex items-center justify-center p-3 bg-[#007BFF]/10 rounded-full mb-4">
-                        <ShoppingBag className="w-8 h-8 text-[#007BFF]" />
+                    <div className="inline-flex items-center justify-center p-3 bg-black/10 dark:bg-white/10 rounded-full mb-4">
+                        <ShoppingBag className="w-8 h-8 text-black dark:text-white" />
                     </div>
                     <h1 className="text-5xl md:text-6xl font-creativo font-bold mb-4">{t('store.title')}</h1>
                     <p className="text-xl text-gray-500 dark:text-[#6C757D] font-minimal">{t('store.description')}</p>
@@ -61,7 +61,7 @@ export default function StorePage() {
 
                 {loading ? (
                     <div className="flex justify-center py-20">
-                        <Loader2 className="w-10 h-10 text-[#007BFF] animate-spin" />
+                        <Loader2 className="w-10 h-10 text-black dark:text-white animate-spin" />
                     </div>
                 ) : products.length === 0 ? (
                     <div className="text-center py-20">
@@ -70,7 +70,7 @@ export default function StorePage() {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
                         {products.map((product) => (
-                            <div key={product._id} className="group bg-gray-50 dark:bg-[#111] rounded-2xl overflow-hidden border border-gray-200 dark:border-[#333] hover:border-[#007BFF] transition-all hover:shadow-[0_0_20px_rgba(0,123,255,0.2)]">
+                            <div key={product._id} className="group bg-gray-50 dark:bg-[#111] rounded-2xl overflow-hidden border border-gray-200 dark:border-[#333] hover:border-black hover:dark:border-white transition-all">
                                 <div className="aspect-square overflow-hidden">
                                     <img
                                         src={product.imageUrl ? urlFor(product.imageUrl).width(800).url() : 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80'}
@@ -91,7 +91,7 @@ export default function StorePage() {
                                     <button
                                         onClick={() => handleBuy(product.stripePriceId)}
                                         disabled={!product.stripePriceId}
-                                        className="w-full bg-[#007BFF] hover:bg-[#0069d9] text-white py-3 rounded-xl font-bold font-creativo transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="w-full bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black py-3 rounded-xl font-bold font-creativo transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         <ShoppingBag size={18} />
                                         {t('store.buy')}

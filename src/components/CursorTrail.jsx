@@ -5,7 +5,7 @@ import { gsap } from 'gsap';
  * CursorTrail - Particle trail effect following the cursor
  */
 export default function CursorTrail({
-    color = '#007BFF',
+    color = '#6C757D',
     particleCount = 20,
     particleSize = 8,
     fadeOut = 0.3

@@ -112,7 +112,7 @@ export default function Navbar({
                         <span className="text-xl font-creativo font-bold tracking-tight leading-none text-black dark:text-white">
                             THE TALK
                         </span>
-                        <span className="text-[10px] font-minimal text-[#A9A9F5] tracking-widest uppercase">
+                        <span className="text-[10px] font-minimal text-black dark:text-white tracking-widest uppercase">
                             By Mijean Rochus &amp; Gleid
                         </span>
                     </div>
@@ -136,7 +136,7 @@ export default function Navbar({
                                         setIsMenuOpen(false);
                                     }}
                                     className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider transition-colors ${isActive
-                                        ? 'bg-[#007BFF]/10 text-[#007BFF]'
+                                        ? 'bg-black/10 dark:bg-white/10 text-black dark:text-white'
                                         : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5'
                                         }`}
                                 >
@@ -193,7 +193,7 @@ export default function Navbar({
                     {/* Close Button */}
                     <button
                         onClick={() => setIsMenuOpen(false)}
-                        className="absolute top-6 right-6 p-3 text-white hover:text-[#007BFF] transition-colors z-50"
+                        className="absolute top-6 right-6 p-3 text-white hover:text-black hover:dark:text-white transition-colors z-50"
                         aria-label="Fermer le menu"
                     >
                         <X size={32} />
@@ -213,15 +213,15 @@ export default function Navbar({
                                             key={item.label}
                                             to={item.to}
                                             onClick={() => setIsMenuOpen(false)}
-                                            className="group flex items-center gap-6 py-3 border-b border-white/10 hover:border-[#007BFF] transition-all"
+                                            className="group flex items-center gap-6 py-3 border-b border-white/10 hover:border-black hover:dark:border-white transition-all"
                                         >
                                             <span className="text-white/40 font-mono text-sm tracking-wider">
                                                 {formattedIndex}.
                                             </span>
-                                            <span className="text-3xl md:text-4xl font-creativo font-bold text-white uppercase tracking-[0.1em] group-hover:text-[#007BFF] transition-colors">
+                                            <span className="text-3xl md:text-4xl font-creativo font-bold text-white uppercase tracking-[0.1em] group-hover:text-black group-hover:dark:text-white transition-colors">
                                                 {item.label}
                                             </span>
-                                            <Icon size={24} className="ml-auto text-white/30 group-hover:text-[#007BFF] transition-colors" />
+                                            <Icon size={24} className="ml-auto text-white/30 group-hover:text-black group-hover:dark:text-white transition-colors" />
                                         </Link>
                                     );
                                 }
@@ -230,15 +230,15 @@ export default function Navbar({
                                     <button
                                         key={item.label}
                                         onClick={() => handleSectionClick(item.section)}
-                                        className="group flex items-center gap-6 py-3 border-b border-white/10 hover:border-[#007BFF] transition-all text-left w-full"
+                                        className="group flex items-center gap-6 py-3 border-b border-white/10 hover:border-black hover:dark:border-white transition-all text-left w-full"
                                     >
                                         <span className="text-white/40 font-mono text-sm tracking-wider">
                                             {formattedIndex}.
                                         </span>
-                                        <span className="text-3xl md:text-4xl font-creativo font-bold text-white uppercase tracking-[0.1em] group-hover:text-[#007BFF] transition-colors">
+                                        <span className="text-3xl md:text-4xl font-creativo font-bold text-white uppercase tracking-[0.1em] group-hover:text-black group-hover:dark:text-white transition-colors">
                                             {item.label}
                                         </span>
-                                        <Icon size={24} className="ml-auto text-white/30 group-hover:text-[#007BFF] transition-colors" />
+                                        <Icon size={24} className="ml-auto text-white/30 group-hover:text-black group-hover:dark:text-white transition-colors" />
                                     </button>
                                 );
                             })}

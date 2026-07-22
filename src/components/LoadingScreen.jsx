@@ -73,13 +73,13 @@ export default function LoadingScreen({ onComplete }) {
             className="fixed inset-0 z-[10000] bg-black flex flex-col items-center justify-center"
         >
             {/* Background gradient orbs */}
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#007BFF]/20 rounded-full blur-[120px]" />
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#A9A9F5]/20 rounded-full blur-[120px]" />
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-black/20 dark:bg-white/20 rounded-full blur-[120px]" />
+            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-black/20 dark:bg-white/20 rounded-full blur-[120px]" />
 
             {/* Logo */}
             <div ref={logoRef} className="text-center z-10">
                 <h1 className="text-5xl md:text-7xl font-creativo font-black tracking-[0.1em] text-white uppercase">
-                    THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#007BFF] to-[#A9A9F5]">TALK</span>
+                    THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-black dark:from-white to-black dark:to-white">TALK</span>
                 </h1>
                 <p className="text-[#6C757D] mt-4 text-sm tracking-widest uppercase font-minimal">
                     Loading Experience
@@ -91,7 +91,7 @@ export default function LoadingScreen({ onComplete }) {
                 <div className="h-[2px] bg-[#333] rounded-full overflow-hidden">
                     <div
                         ref={progressRef}
-                        className="h-full bg-gradient-to-r from-[#007BFF] to-[#A9A9F5] rounded-full"
+                        className="h-full bg-gradient-to-r from-black dark:from-white to-black dark:to-white rounded-full"
                         style={{ width: '0%' }}
                     />
                 </div>

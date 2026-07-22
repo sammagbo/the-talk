@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 /**
  * ScrollProgress - Animated progress bar at top of page
  */
-export default function ScrollProgress({ color = '#007BFF' }) {
+export default function ScrollProgress() {
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
@@ -23,13 +23,12 @@ export default function ScrollProgress({ color = '#007BFF' }) {
     }, []);
 
     return (
-        <div className="fixed top-0 left-0 right-0 h-1 z-[9999] bg-transparent">
+        <div className="fixed top-0 left-0 right-0 h-1 z-[9999] bg-transparent text-black dark:text-white">
             <div
                 className="h-full transition-all duration-100 ease-out"
                 style={{
                     width: `${progress}%`,
-                    background: `linear-gradient(90deg, ${color}, #A9A9F5)`,
-                    boxShadow: `0 0 10px ${color}`,
+                    background: 'currentColor',
                 }}
             />
         </div>

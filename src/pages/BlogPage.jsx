@@ -47,7 +47,7 @@ export default function BlogPage() {
     };
 
     return (
-        <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-[#007BFF] selection:text-white transition-colors duration-300">
+        <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-black selection:text-white transition-colors duration-300">
             <Helmet>
                 <title>{t('blog.title', 'Blog')} | THE TALK</title>
                 <meta name="description" content={t('blog.description', "Articles et insights sur la créativité, l'innovation et le digital.")} />
@@ -55,7 +55,7 @@ export default function BlogPage() {
 
             <nav className="fixed w-full z-50 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-200 dark:border-[#333] py-4">
                 <div className="container mx-auto px-6 flex justify-between items-center">
-                    <Link to="/" className="inline-flex items-center gap-2 text-gray-500 dark:text-[#6C757D] hover:text-[#007BFF] dark:hover:text-white transition-colors font-minimal text-sm uppercase tracking-wider">
+                    <Link to="/" className="inline-flex items-center gap-2 text-gray-500 dark:text-[#6C757D] hover:text-black hover:dark:text-white dark:hover:text-white transition-colors font-minimal text-sm uppercase tracking-wider">
                         <ArrowLeft size={16} /> {t('nav.back_gallery')}
                     </Link>
                     <ThemeToggle />
@@ -72,7 +72,7 @@ export default function BlogPage() {
 
                 {loading ? (
                     <div className="flex justify-center">
-                        <div className="w-10 h-10 border-4 border-[#007BFF] border-t-transparent rounded-full animate-spin"></div>
+                        <div className="w-10 h-10 border-4 border-black dark:border-white border-t-transparent rounded-full animate-spin"></div>
                     </div>
                 ) : posts.length === 0 ? (
                     <div className="text-center text-gray-500 dark:text-[#6C757D]">
@@ -85,7 +85,7 @@ export default function BlogPage() {
                             <Link
                                 key={post._id}
                                 to={`/blog/${post.slug?.current}`}
-                                className="group bg-gray-50 dark:bg-[#111] rounded-2xl overflow-hidden border border-gray-200 dark:border-[#333] hover:border-[#007BFF] transition-all hover:shadow-[0_0_20px_rgba(0,123,255,0.2)]"
+                                className="group bg-gray-50 dark:bg-[#111] rounded-2xl overflow-hidden border border-gray-200 dark:border-[#333] hover:border-black hover:dark:border-white transition-all"
                             >
                                 <div className="aspect-video overflow-hidden">
                                     {post.mainImage ? (
@@ -97,7 +97,7 @@ export default function BlogPage() {
                                             className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                                         />
                                     ) : (
-                                        <div className="w-full h-full bg-gradient-to-br from-[#007BFF] to-[#00d4ff] flex items-center justify-center">
+                                        <div className="w-full h-full bg-gradient-to-br from-black dark:from-white to-black dark:to-white flex items-center justify-center">
                                             <span className="text-white text-4xl font-creativo font-bold">T</span>
                                         </div>
                                     )}
@@ -109,7 +109,7 @@ export default function BlogPage() {
                                             <span>{formatDate(post.publishedAt)}</span>
                                         </div>
                                     )}
-                                    <h2 className="text-xl font-creativo font-bold mb-3 group-hover:text-[#007BFF] transition-colors">
+                                    <h2 className="text-xl font-creativo font-bold mb-3 group-hover:text-black group-hover:dark:text-white transition-colors">
                                         {post.title}
                                     </h2>
                                     {post.excerpt && (
@@ -117,7 +117,7 @@ export default function BlogPage() {
                                             {post.excerpt}
                                         </p>
                                     )}
-                                    <div className="flex items-center gap-2 text-[#007BFF] font-minimal text-sm uppercase tracking-wider">
+                                    <div className="flex items-center gap-2 text-black dark:text-white font-minimal text-sm uppercase tracking-wider">
                                         <span>{t('blog.read_more', "Lire l'article")}</span>
                                         <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
                                     </div>

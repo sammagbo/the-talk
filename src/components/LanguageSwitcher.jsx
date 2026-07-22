@@ -30,7 +30,7 @@ export default function LanguageSwitcher() {
                                 changeLanguage(lang.code);
                             }}
                             className={`text-xs font-bold uppercase transition-colors flex items-center gap-1 ${i18n.language.startsWith(lang.code)
-                                ? 'text-[#007BFF]'
+                                ? 'text-black dark:text-white'
                                 : 'text-gray-500 hover:text-black dark:hover:text-white'
                                 }`}
                             title={lang.label}
