@@ -80,6 +80,8 @@ const AboutPage = lazy(() => import('./pages/AboutPage'));
 const StorePage = lazy(() => import('./pages/StorePage'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
+const TermsPage = lazy(() => import('./pages/TermsPage'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 import SponsorBanner from './components/SponsorBanner';
 import OfflineAlert from './components/OfflineAlert';
@@ -217,6 +219,8 @@ export default function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

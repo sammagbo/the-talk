@@ -623,6 +623,11 @@ export default function Home({ items }) {
                     </div>
 
                     <div className="text-center md:text-right">
+                        <p className="mb-2 flex items-center justify-center md:justify-end gap-3 text-xs font-minimal">
+                            <Link to="/privacy" className="text-[#6C757D] hover:text-black hover:dark:text-white transition-colors">{t('footer.privacy', 'Confidentialité')}</Link>
+                            <span className="text-gray-300 dark:text-[#333]">·</span>
+                            <Link to="/terms" className="text-[#6C757D] hover:text-black hover:dark:text-white transition-colors">{t('footer.terms', 'Conditions')}</Link>
+                        </p>
                         <p className="text-[#6C757D] text-xs font-minimal opacity-50">© 2025 Mijean Rochus. All Rights Reserved.</p>
                         <p className="text-[#6C757D] text-xs font-minimal opacity-40 mt-1 flex items-center justify-center md:justify-end gap-1">
                             Developed with <span className="text-red-500">♥</span> by{' '}
