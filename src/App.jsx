@@ -74,6 +74,7 @@ const Home = lazy(() => import('./pages/Home').catch(err => {
   return { default: () => <div style={{ color: '#fff', padding: '40px' }}>Failed to load Home: {err.message}</div> };
 }));
 const EpisodePage = lazy(() => import('./pages/EpisodePage'));
+const EpisodeRedirect = lazy(() => import('./pages/EpisodeRedirect'));
 const EpisodesPage = lazy(() => import('./pages/EpisodesPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const StorePage = lazy(() => import('./pages/StorePage'));
@@ -138,7 +139,7 @@ export default function App() {
 
           // Convert normal Spotify URLs to embed format
           // Supports multiple formats:
-          // https://open.spotify.com/episode/xxx
+          // https://open.spotify.com/<type>/xxx (episode, show, track, ...)
           // https://open.spotify.com/intl-fr/track/xxx (with locale)
           // https://open.spotify.com/show/xxx?si=xxx (with query params)
           const spotifyRegex = /https:\/\/open\.spotify\.com\/(?:intl-[a-z]{2}\/)?(episode|show|track|playlist|album)\/([a-zA-Z0-9]+)/;
@@ -208,7 +209,9 @@ export default function App() {
         }>
           <Routes>
             <Route path="/" element={<Home items={items} />} />
-            <Route path="/episode/:id" element={<EpisodePage items={items} onPlay={handlePlay} onPause={() => setIsPlaying(false)} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
+            <Route path="/episodes/:slug" element={<EpisodePage items={items} onPlay={handlePlay} onPause={() => setIsPlaying(false)} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
+            {/* Backward compatibility: legacy /episode/:id redirects to the canonical slug URL */}
+            <Route path="/episode/:id" element={<EpisodeRedirect />} />
             {STORE_ENABLED && <Route path="/store" element={<StorePage />} />}
             <Route path="/episodes" element={<EpisodesPage items={items} onPlay={handlePlay} />} />
             <Route path="/about" element={<AboutPage />} />

@@ -63,9 +63,9 @@ export const shareContent = async (shareData, onSuccess, onError) => {
 
 /**
  * Generate share URL for an episode
- * @param {string} episodeId - Episode ID
+ * @param {string} slug - Episode slug
  * @returns {string} - Full URL to episode
  */
-export const getEpisodeShareUrl = (episodeId) => {
-    return `${window.location.origin}/episode/${episodeId}`;
+export const getEpisodeShareUrl = (slug) => {
+    return `${window.location.origin}/episodes/${slug}`;
 };

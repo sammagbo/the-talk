@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { shareContent, getEpisodeShareUrl } from '../utils/share';
 
 export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying }) {
-    const { id } = useParams();
+    const { slug } = useParams();
     const { t } = useTranslation();
     const location = useLocation();
 
@@ -53,7 +53,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
             setError(null);
             try {
                 // Fetch directly from Sanity by ID with category expansion and related episodes
-                const query = `*[_type == "episode" && _id == $id][0]{ 
+                const query = `*[_type == "episode" && slug.current == $slug][0]{ 
                     _id, 
                     title, 
                     description, 
@@ -70,7 +70,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                     isPremium,
                     poll,
                     "related": *[_type == "episode" && category->title == ^.category->title && _id != ^._id][0...3]{
-                        _id, 
+                        _id, slug, 
                         title, 
                         duration, 
                         date, 
@@ -78,7 +78,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                         "src": mainImage.asset->url 
                     }
                 }`;
-                const result = await client.fetch(query, { id });
+                const result = await client.fetch(query, { slug });
 
                 if (result) {
                     setEpisode({
@@ -110,7 +110,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                     // Set related episodes from the same query result
                     if (result.related) {
                         const mappedRelated = result.related.map(item => ({
-                            id: item._id,
+                            id: item._id, slug: item.slug?.current,
                             title: item.title,
                             category: item.category,
                             date: item.date,
@@ -130,10 +130,10 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
             }
         };
 
-        if (id) {
+        if (slug) {
             fetchEpisode();
         }
-    }, [id, retryCount, t]);
+    }, [slug, retryCount, t]);
 
 
     useEffect(() => {
@@ -183,7 +183,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                         "@type": "PodcastEpisode",
                         "name": episode.title,
                         "description": episode.description || `Découvrez ${episode.title} sur THE TALK`,
-                        "url": `https://www.thetalkfashion.com/episode/${episode.id}`,
+                        "url": `https://www.thetalkfashion.com/episodes/${episode.slug}`,
                         "datePublished": episode.date,
                         "duration": episode.duration ? `PT${episode.duration.replace(':', 'M')}S` : undefined,
                         "image": episode.fullSrc,
@@ -297,7 +297,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                 </div>
                                 <button
                                     onClick={async () => {
-                                        const shareUrl = getEpisodeShareUrl(episode.id);
+                                        const shareUrl = getEpisodeShareUrl(episode.slug);
                                         const result = await shareContent({
                                             title: `${episode.title} | THE TALK`,
                                             text: `Écoute cet épisode de THE TALK: ${episode.title}`,
@@ -406,7 +406,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 {relatedEpisodes.map(item => (
-                                    <Link to={`/episode/${item.id}`} key={item.id} className="group block" onClick={() => window.scrollTo(0, 0)}>
+                                    <Link to={`/episodes/${item.slug}`} key={item.id} className="group block" onClick={() => window.scrollTo(0, 0)}>
                                         <div className="aspect-square rounded-xl overflow-hidden mb-4 border border-gray-200 dark:border-[#333]">
                                             <LazyImage
                                                 src={item.fullSrc}

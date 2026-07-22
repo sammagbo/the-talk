@@ -294,7 +294,7 @@ export default function EpisodesPage({ items, onPlay }) {
                                     className="group relative overflow-hidden rounded-2xl bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] hover:border-black/50 hover:dark:border-white/50 transition-all duration-300 hover:shadow-xl hover:shadow-black/5 hover:dark:shadow-white/5"
                                 >
                                     {/* Thumbnail */}
-                                    <Link to={`/episode/${item.id}`} className="block">
+                                    <Link to={`/episodes/${item.slug}`} className="block">
                                         <div className="aspect-video overflow-hidden relative">
                                             <LazyImage
                                                 src={item.src}
@@ -330,7 +330,7 @@ export default function EpisodesPage({ items, onPlay }) {
                                     {/* Info + Play */}
                                     <div className="p-5">
                                         <div className="flex items-start justify-between gap-3">
-                                            <Link to={`/episode/${item.id}`} className="block flex-1 min-w-0">
+                                            <Link to={`/episodes/${item.slug}`} className="block flex-1 min-w-0">
                                                 <p className="text-black dark:text-white text-xs font-creativo font-bold uppercase tracking-widest mb-1.5">{item.category}</p>
                                                 <h3 className="text-lg font-creativo font-bold text-black dark:text-white group-hover:text-black group-hover:dark:text-white transition-colors leading-snug line-clamp-2">
                                                     {item.title}
