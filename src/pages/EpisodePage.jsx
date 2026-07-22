@@ -406,7 +406,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 {relatedEpisodes.map(item => (
-                                    <Link to={`/episodes/${item.slug}`} key={item.id} className="group block" onClick={() => window.scrollTo(0, 0)}>
+                                    <Link to={item.slug ? `/episodes/${item.slug}` : `/episode/${item.id}`} key={item.id} className="group block" onClick={() => window.scrollTo(0, 0)}>
                                         <div className="aspect-square rounded-xl overflow-hidden mb-4 border border-gray-200 dark:border-[#333]">
                                             <LazyImage
                                                 src={item.fullSrc}

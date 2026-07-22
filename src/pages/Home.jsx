@@ -286,7 +286,7 @@ export default function Home({ items }) {
                     <div className="gsap-hero-ctas flex flex-col sm:flex-row gap-4 justify-center items-center">
                         {items.length > 0 ? (
                             <Link
-                                to={`/episodes/${items[0].slug}`}
+                                to={items[0].slug ? `/episodes/${items[0].slug}` : `/episode/${items[0].id}`}
                                 className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
                             >
                                 [ {t('hero.watch_latest', 'VOIR LE DERNIER ÉPISODE')} ]
@@ -326,7 +326,7 @@ export default function Home({ items }) {
                     <div className="flex justify-center pb-6">
                         {items.length > 0 && (
                             <Link
-                                to={`/episodes/${items[0].slug}`}
+                                to={items[0].slug ? `/episodes/${items[0].slug}` : `/episode/${items[0].id}`}
                                 className="w-full max-w-4xl group"
                             >
                                 <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-black/10 dark:from-white/10 to-black/10 dark:to-white/10 border-2 border-black dark:border-white hover:shadow-xl hover:shadow-black/20 hover:dark:shadow-white/20 transition-all h-full">
