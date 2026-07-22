@@ -49,12 +49,12 @@ export default function LazySpotifyEmbed({
             {!isVisible ? (
                 // Lightweight placeholder before iframe loads
                 <div
-                    className="flex items-center justify-center gap-3 bg-[#1DB954]/10 rounded-xl border border-[#1DB954]/20 cursor-pointer hover:bg-[#1DB954]/20 transition-colors"
+                    className="flex items-center justify-center gap-3 bg-black/10 dark:bg-white/10 rounded-xl border border-black/20 dark:border-white/20 cursor-pointer hover:bg-black/20 dark:hover:bg-white/20 transition-colors"
                     style={{ height }}
                     onClick={() => setIsVisible(true)}
                 >
-                    <Play size={20} className="text-[#1DB954]" fill="currentColor" />
-                    <span className="text-sm font-medium text-[#1DB954]">
+                    <Play size={20} className="text-black dark:text-white" fill="currentColor" />
+                    <span className="text-sm font-medium text-black dark:text-white">
                         Écouter sur Spotify
                     </span>
                 </div>
@@ -66,7 +66,7 @@ export default function LazySpotifyEmbed({
                             className="absolute inset-0 flex items-center justify-center bg-[#111] rounded-xl"
                             style={{ height }}
                         >
-                            <Loader2 className="w-6 h-6 animate-spin text-[#1DB954]" />
+                            <Loader2 className="w-6 h-6 animate-spin text-black dark:text-white" />
                         </div>
                     )}
 

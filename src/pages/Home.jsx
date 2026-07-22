@@ -375,7 +375,7 @@ export default function Home({ items }) {
                             <p className="text-gray-600 dark:text-[#6C757D] font-minimal max-w-xl">
                                 {t('shorts.description')}
                             </p>
-                            <div className="h-1.5 w-16 bg-gradient-to-r from-[#FF0050] to-[#FF4500] rounded-full mt-4"></div>
+                            <div className="h-1.5 w-16 bg-[#FF0050] rounded-full mt-4"></div>
                         </div>
 
                         {/* Horizontal Snap Scroll Container */}
@@ -613,7 +613,7 @@ export default function Home({ items }) {
                     <div className="flex flex-col md:flex-row gap-6 items-center">
                         <LanguageSwitcher />
                         <div className="h-4 w-[1px] bg-gray-300 dark:bg-[#333] hidden md:block"></div>
-                        <a href="https://www.buymeacoffee.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#FFD700] hover:text-[#FFC107] transition-colors font-minimal text-sm font-bold mr-4">
+                        <a href="https://www.buymeacoffee.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#6C757D] hover:text-black hover:dark:text-white transition-colors font-minimal text-sm font-bold mr-4">
                             <Coffee size={18} />
                             <span>{t('footer.support')}</span>
                         </a>
@@ -630,7 +630,7 @@ export default function Home({ items }) {
                         </p>
                         <p className="text-[#6C757D] text-xs font-minimal opacity-50">© 2025 Mijean Rochus. All Rights Reserved.</p>
                         <p className="text-[#6C757D] text-xs font-minimal opacity-40 mt-1 flex items-center justify-center md:justify-end gap-1">
-                            Developed with <span className="text-red-500">♥</span> by{' '}
+                            Developed with <span className="text-[#6C757D]">♥</span> by{' '}
                             <a
                                 href="https://www.linkedin.com/in/sam-magbo-02086555/"
                                 target="_blank"
