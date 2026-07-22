@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 /**
@@ -6,10 +6,11 @@ import { useLocation } from 'react-router-dom';
  */
 export default function usePrefetch() {
     const location = useLocation();
-    const prefetchedRef = new Set();
+    // Persist across renders so already-prefetched hrefs are not fetched twice.
+    const prefetchedRef = useRef(new Set());
 
     const prefetch = useCallback((href) => {
-        if (prefetchedRef.has(href)) return;
+        if (prefetchedRef.current.has(href)) return;
 
         // Create a link element for prefetching
         const link = document.createElement('link');
@@ -18,7 +19,7 @@ export default function usePrefetch() {
         link.as = 'document';
         document.head.appendChild(link);
 
-        prefetchedRef.add(href);
+        prefetchedRef.current.add(href);
     }, []);
 
     useEffect(() => {

@@ -74,15 +74,19 @@ const Home = lazy(() => import('./pages/Home').catch(err => {
   return { default: () => <div style={{ color: '#fff', padding: '40px' }}>Failed to load Home: {err.message}</div> };
 }));
 const EpisodePage = lazy(() => import('./pages/EpisodePage'));
+const EpisodeRedirect = lazy(() => import('./pages/EpisodeRedirect'));
 const EpisodesPage = lazy(() => import('./pages/EpisodesPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const StorePage = lazy(() => import('./pages/StorePage'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
+const TermsPage = lazy(() => import('./pages/TermsPage'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 import SponsorBanner from './components/SponsorBanner';
 import OfflineAlert from './components/OfflineAlert';
 import { client, urlFor } from './sanity';
+import { convertToSpotifyEmbed } from './utils/spotify';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { STORE_ENABLED } from './config/features';
 
@@ -126,30 +130,6 @@ export default function App() {
         }`;
 
         const data = await client.fetch(query);
-
-        // Function to convert Spotify URL to embed format
-        const convertToSpotifyEmbed = (url) => {
-          if (!url) return null;
-
-          // If already in embed format, return as is
-          if (url.includes('/embed/')) {
-            return url;
-          }
-
-          // Convert normal Spotify URLs to embed format
-          // Supports multiple formats:
-          // https://open.spotify.com/episode/xxx
-          // https://open.spotify.com/intl-fr/track/xxx (with locale)
-          // https://open.spotify.com/show/xxx?si=xxx (with query params)
-          const spotifyRegex = /https:\/\/open\.spotify\.com\/(?:intl-[a-z]{2}\/)?(episode|show|track|playlist|album)\/([a-zA-Z0-9]+)/;
-          const match = url.match(spotifyRegex);
-
-          if (match) {
-            return `https://open.spotify.com/embed/${match[1]}/${match[2]}?utm_source=generator&theme=0`;
-          }
-
-          return null;
-        };
 
         const mappedItems = data.map(item => ({
           id: item._id,
@@ -208,12 +188,16 @@ export default function App() {
         }>
           <Routes>
             <Route path="/" element={<Home items={items} />} />
-            <Route path="/episode/:id" element={<EpisodePage items={items} onPlay={handlePlay} onPause={() => setIsPlaying(false)} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
+            <Route path="/episodes/:slug" element={<EpisodePage items={items} onPlay={handlePlay} onPause={() => setIsPlaying(false)} currentEpisode={currentEpisode} isPlaying={isPlaying} />} />
+            {/* Backward compatibility: legacy /episode/:id redirects to the canonical slug URL */}
+            <Route path="/episode/:id" element={<EpisodeRedirect />} />
             {STORE_ENABLED && <Route path="/store" element={<StorePage />} />}
             <Route path="/episodes" element={<EpisodesPage items={items} onPlay={handlePlay} />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

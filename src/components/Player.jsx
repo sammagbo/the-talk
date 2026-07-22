@@ -242,7 +242,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                         aria-label="Share"
                         onClick={async () => {
                             if (!currentEpisode?.id) return;
-                            const shareUrl = getEpisodeShareUrl(currentEpisode.id);
+                            const shareUrl = getEpisodeShareUrl(currentEpisode.slug);
                             const result = await shareContent({
                                 title: `${currentEpisode.title} | THE TALK`,
                                 text: `Écoute cet épisode de THE TALK: ${currentEpisode.title}`,

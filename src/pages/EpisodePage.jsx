@@ -7,9 +7,10 @@ import LazyImage from '../components/LazyImage';
 import { client, urlFor } from '../sanity';
 import { useTranslation } from 'react-i18next';
 import { shareContent, getEpisodeShareUrl } from '../utils/share';
+import { convertToSpotifyEmbed } from '../utils/spotify';
 
 export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying }) {
-    const { id } = useParams();
+    const { slug } = useParams();
     const { t } = useTranslation();
     const location = useLocation();
 
@@ -27,33 +28,12 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
 
 
     useEffect(() => {
-        // Function to convert Spotify URL to embed format
-        const convertToSpotifyEmbed = (url) => {
-            if (!url) return null;
-
-            // If already in embed format, return as is
-            if (url.includes('/embed/')) {
-                return url;
-            }
-
-            // Convert normal Spotify URLs to embed format
-            // Supports: /intl-xx/, episode, show, track, playlist, album
-            const spotifyRegex = /https:\/\/open\.spotify\.com\/(?:intl-[a-z]{2}\/)?(episode|show|track|playlist|album)\/([a-zA-Z0-9]+)/;
-            const match = url.match(spotifyRegex);
-
-            if (match) {
-                return `https://open.spotify.com/embed/${match[1]}/${match[2]}?utm_source=generator&theme=0`;
-            }
-
-            return null;
-        };
-
         const fetchEpisode = async () => {
             setLoading(true);
             setError(null);
             try {
                 // Fetch directly from Sanity by ID with category expansion and related episodes
-                const query = `*[_type == "episode" && _id == $id][0]{ 
+                const query = `*[_type == "episode" && slug.current == $slug][0]{ 
                     _id, 
                     title, 
                     description, 
@@ -67,10 +47,8 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                     videoUrl,
                     transcript,
                     slug,
-                    isPremium,
-                    poll,
                     "related": *[_type == "episode" && category->title == ^.category->title && _id != ^._id][0...3]{
-                        _id, 
+                        _id, slug, 
                         title, 
                         duration, 
                         date, 
@@ -78,7 +56,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                         "src": mainImage.asset->url 
                     }
                 }`;
-                const result = await client.fetch(query, { id });
+                const result = await client.fetch(query, { slug });
 
                 if (result) {
                     setEpisode({
@@ -96,8 +74,6 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                         fullSrc: result.fullSrc ? urlFor(result.fullSrc).width(1600).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=1600&q=80',
                         transcript: result.transcript,
                         slug: result.slug?.current,
-                        isPremium: result.isPremium || false,
-                        poll: result.poll || null
                     });
 
                     // Set media mode from navigation state OR default to 'video' if videoUrl exists
@@ -110,7 +86,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                     // Set related episodes from the same query result
                     if (result.related) {
                         const mappedRelated = result.related.map(item => ({
-                            id: item._id,
+                            id: item._id, slug: item.slug?.current,
                             title: item.title,
                             category: item.category,
                             date: item.date,
@@ -130,10 +106,10 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
             }
         };
 
-        if (id) {
+        if (slug) {
             fetchEpisode();
         }
-    }, [id, retryCount, t]);
+    }, [slug, retryCount, t]);
 
 
     useEffect(() => {
@@ -167,6 +143,9 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
         );
     }
 
+    const youtubeVideoId = episode.videoUrl?.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1];
+    const youtubeEmbedUrl = youtubeVideoId ? `https://www.youtube.com/embed/${youtubeVideoId}` : '';
+
     return (
         <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-black selection:text-white pb-20 transition-colors duration-300">
             <Helmet>
@@ -183,7 +162,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                         "@type": "PodcastEpisode",
                         "name": episode.title,
                         "description": episode.description || `Découvrez ${episode.title} sur THE TALK`,
-                        "url": `https://www.thetalkfashion.com/episode/${episode.id}`,
+                        "url": `https://www.thetalkfashion.com/episodes/${episode.slug}`,
                         "datePublished": episode.date,
                         "duration": episode.duration ? `PT${episode.duration.replace(':', 'M')}S` : undefined,
                         "image": episode.fullSrc,
@@ -196,12 +175,22 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                             "@type": "Person",
                             "name": "Mijean Rochus"
                         },
-                        ...(episode.audioUrl && {
-                            "associatedMedia": {
-                                "@type": "AudioObject",
-                                "contentUrl": episode.audioUrl,
-                                "encodingFormat": "audio/mpeg"
-                            }
+                        ...((episode.audioUrl || youtubeEmbedUrl) && {
+                            "associatedMedia": [
+                                ...(episode.audioUrl ? [{
+                                    "@type": "AudioObject",
+                                    "contentUrl": episode.audioUrl,
+                                    "encodingFormat": "audio/mpeg"
+                                }] : []),
+                                ...(youtubeEmbedUrl ? [{
+                                    "@type": "VideoObject",
+                                    "name": episode.title,
+                                    "description": episode.description || `Découvrez ${episode.title} sur THE TALK`,
+                                    "thumbnailUrl": episode.fullSrc || episode.src,
+                                    "uploadDate": episode.date,
+                                    "embedUrl": youtubeEmbedUrl
+                                }] : [])
+                            ]
                         })
                     })}
                 </script>
@@ -257,7 +246,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                 /* YouTube Embed */
                                 <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl shadow-black/20 dark:shadow-white/20 border border-gray-200 dark:border-[#333]">
                                     <iframe
-                                        src={`https://www.youtube.com/embed/${episode.videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1] || ''}`}
+                                        src={youtubeEmbedUrl}
                                         title={episode.title}
                                         className="w-full h-full"
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -297,7 +286,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                 </div>
                                 <button
                                     onClick={async () => {
-                                        const shareUrl = getEpisodeShareUrl(episode.id);
+                                        const shareUrl = getEpisodeShareUrl(episode.slug);
                                         const result = await shareContent({
                                             title: `${episode.title} | THE TALK`,
                                             text: `Écoute cet épisode de THE TALK: ${episode.title}`,
@@ -406,7 +395,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 {relatedEpisodes.map(item => (
-                                    <Link to={`/episode/${item.id}`} key={item.id} className="group block" onClick={() => window.scrollTo(0, 0)}>
+                                    <Link to={item.slug ? `/episodes/${item.slug}` : `/episode/${item.id}`} key={item.id} className="group block" onClick={() => window.scrollTo(0, 0)}>
                                         <div className="aspect-square rounded-xl overflow-hidden mb-4 border border-gray-200 dark:border-[#333]">
                                             <LazyImage
                                                 src={item.fullSrc}

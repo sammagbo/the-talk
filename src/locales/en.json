@@ -136,14 +136,6 @@
         "first_comment": "Be the first to comment on this episode.",
         "delete": "Delete"
     },
-    "poll": {
-        "title": "Episode Poll",
-        "vote": "vote",
-        "votes": "votes",
-        "login_prompt": "Login to vote in this poll",
-        "vote_recorded": "Your vote has been recorded!",
-        "submitting": "Submitting your vote..."
-    },
     "profile": {
         "title": "Profile",
         "back": "Back",

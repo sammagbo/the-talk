@@ -136,14 +136,6 @@
         "first_comment": "Seja o primeiro a comentar este episódio.",
         "delete": "Excluir"
     },
-    "poll": {
-        "title": "Enquete do Episódio",
-        "vote": "voto",
-        "votes": "votos",
-        "login_prompt": "Faça login para votar nesta enquete",
-        "vote_recorded": "Seu voto foi registrado!",
-        "submitting": "Enviando seu voto..."
-    },
     "profile": {
         "title": "Perfil",
         "back": "Voltar",
