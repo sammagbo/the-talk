@@ -31,7 +31,7 @@ export default function NotFound() {
                 id="main-content"
                 className="flex-1 flex flex-col items-center justify-center text-center px-6 py-24"
             >
-                <p className="text-xs md:text-sm tracking-[0.3em] uppercase font-minimal text-[#007BFF] mb-6">
+                <p className="text-xs md:text-sm tracking-[0.3em] uppercase font-minimal text-black dark:text-white mb-6">
                     [ {t('notFound.tag', 'ERREUR 404')} ]
                 </p>
 
@@ -53,14 +53,14 @@ export default function NotFound() {
                 <div className="mt-10 flex flex-col sm:flex-row items-center gap-4">
                     <Link
                         to="/"
-                        className="inline-flex items-center justify-center gap-2 bg-[#007BFF] hover:bg-[#0069d9] text-white px-7 py-3 rounded-full font-bold uppercase tracking-wider text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-[#007BFF] focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
+                        className="inline-flex items-center justify-center gap-2 bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-7 py-3 rounded-full font-bold uppercase tracking-wider text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:dark:ring-white focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
                     >
                         <HomeIcon size={18} />
                         {t('notFound.home', "Retour à l'accueil")}
                     </Link>
                     <Link
                         to="/episodes"
-                        className="inline-flex items-center justify-center gap-2 border border-black/20 dark:border-white/20 hover:border-black/50 dark:hover:border-white/50 px-7 py-3 rounded-full font-bold uppercase tracking-wider text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-[#007BFF]"
+                        className="inline-flex items-center justify-center gap-2 border border-black/20 dark:border-white/20 hover:border-black/50 dark:hover:border-white/50 px-7 py-3 rounded-full font-bold uppercase tracking-wider text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:dark:ring-white"
                     >
                         {t('notFound.episodes', 'Voir les épisodes')}
                         <ArrowRight size={18} />

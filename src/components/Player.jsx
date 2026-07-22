@@ -177,7 +177,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                                 <button
                                     onClick={onTogglePlay}
                                     aria-label={isPlaying ? 'Pause' : 'Play'}
-                                    className="w-12 h-12 bg-[#007BFF] hover:bg-[#0069d9] rounded-full flex items-center justify-center text-white transition-transform hover:scale-105 shadow-lg shadow-[#007BFF]/20"
+                                    className="w-12 h-12 bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 rounded-full flex items-center justify-center text-white dark:text-black transition-transform hover:scale-105 shadow-lg shadow-black/20 dark:shadow-white/20"
                                 >
                                     {isPlaying ? <Pause size={22} fill="currentColor" /> : <Play size={22} fill="currentColor" className="ml-0.5" />}
                                 </button>
@@ -211,7 +211,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                                     max={duration || 100}
                                     value={progress}
                                     onChange={handleSeek}
-                                    className="w-full h-1 bg-gray-200 dark:bg-[#333] rounded-lg appearance-none cursor-pointer accent-[#007BFF]"
+                                    className="w-full h-1 bg-gray-200 dark:bg-[#333] rounded-lg appearance-none cursor-pointer accent-black dark:accent-white"
                                 />
                                 <span>{formatTime(duration)}</span>
                             </div>
@@ -276,7 +276,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                                             setPlaybackSpeed(speed);
                                             setShowSpeedMenu(false);
                                         }}
-                                        className={`w-full px-4 py-2 text-sm text-left hover:bg-gray-100 dark:hover:bg-[#222] transition-colors ${playbackSpeed === speed ? 'text-[#007BFF] font-bold' : 'text-gray-700 dark:text-gray-300'
+                                        className={`w-full px-4 py-2 text-sm text-left hover:bg-gray-100 dark:hover:bg-[#222] transition-colors ${playbackSpeed === speed ? 'text-black dark:text-white font-bold' : 'text-gray-700 dark:text-gray-300'
                                             }`}
                                     >
                                         {speed}x
@@ -310,7 +310,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                                     setVolume(parseFloat(e.target.value));
                                     if (parseFloat(e.target.value) > 0) setIsMuted(false);
                                 }}
-                                className="w-full h-1 bg-gray-200 dark:bg-[#333] rounded-lg appearance-none cursor-pointer accent-[#007BFF]"
+                                className="w-full h-1 bg-gray-200 dark:bg-[#333] rounded-lg appearance-none cursor-pointer accent-black dark:accent-white"
                             />
                         </div>
                     </div>
@@ -329,7 +329,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
             {/* Share Toast Notification */}
             {shareToast && (
                 <div className="fixed bottom-32 left-1/2 transform -translate-x-1/2 z-[201] animate-fade-in-up">
-                    <div className="flex items-center gap-3 px-5 py-3 bg-[#007BFF] text-white rounded-xl shadow-lg">
+                    <div className="flex items-center gap-3 px-5 py-3 bg-black dark:bg-white text-white dark:text-black rounded-xl shadow-lg">
                         <Check size={18} />
                         <span className="font-minimal text-sm">{shareToast}</span>
                     </div>

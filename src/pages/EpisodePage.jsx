@@ -143,7 +143,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
     if (loading) {
         return (
             <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
-                <Loader2 className="animate-spin w-10 h-10 text-[#007BFF]" />
+                <Loader2 className="animate-spin w-10 h-10 text-black dark:text-white" />
             </div>
         );
     }
@@ -153,12 +153,12 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
             <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-4">
                 <h2 className="text-3xl font-creativo font-bold mb-4">{error || t('episode.not_found')}</h2>
                 <div className="flex gap-4 items-center">
-                    <Link to="/" className="text-[#007BFF] hover:underline flex items-center gap-2">
+                    <Link to="/" className="text-black dark:text-white hover:underline flex items-center gap-2">
                         <ArrowLeft size={20} /> {t('episode.back_home')}
                     </Link>
                     <button
                         onClick={() => setRetryCount(c => c + 1)}
-                        className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-6 py-2 rounded-full font-bold transition-all"
+                        className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-6 py-2 rounded-full font-bold transition-all"
                     >
                         {t('episode.retry')}
                     </button>
@@ -168,7 +168,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
     }
 
     return (
-        <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-[#007BFF] selection:text-white pb-20 transition-colors duration-300">
+        <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-black selection:text-white pb-20 transition-colors duration-300">
             <Helmet>
                 <title>{episode.title} | THE TALK</title>
                 <meta name="description" content={`Écoutez ${episode.title} - ${episode.category}. Une conversation exclusive sur THE TALK.`} />
@@ -209,7 +209,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
             {/* Navigation */}
             <nav className="fixed w-full z-50 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-200 dark:border-[#333] py-4">
                 <div className="container mx-auto px-6 flex justify-between items-center">
-                    <Link to="/" className="inline-flex items-center gap-2 text-gray-500 dark:text-[#6C757D] hover:text-[#007BFF] dark:hover:text-white transition-colors font-minimal text-sm uppercase tracking-wider">
+                    <Link to="/" className="inline-flex items-center gap-2 text-gray-500 dark:text-[#6C757D] hover:text-black hover:dark:text-white dark:hover:text-white transition-colors font-minimal text-sm uppercase tracking-wider">
                         <ArrowLeft size={16} /> {t('nav.back_gallery')}
                     </Link>
                     <ThemeToggle />
@@ -228,7 +228,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                     <button
                                         onClick={() => setMediaMode('audio')}
                                         className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${mediaMode === 'audio'
-                                            ? 'bg-[#A9A9F5] text-white shadow-lg'
+                                            ? 'bg-black dark:bg-white text-white dark:text-black shadow-lg'
                                             : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white'
                                             }`}
                                     >
@@ -243,7 +243,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                             }
                                         }}
                                         className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${mediaMode === 'video'
-                                            ? 'bg-[#007BFF] text-white shadow-lg'
+                                            ? 'bg-black dark:bg-white text-white dark:text-black shadow-lg'
                                             : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white'
                                             }`}
                                     >
@@ -255,7 +255,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                             {/* Media Display */}
                             {episode.videoUrl && mediaMode === 'video' ? (
                                 /* YouTube Embed */
-                                <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl shadow-[#007BFF]/20 border border-gray-200 dark:border-[#333]">
+                                <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl shadow-black/20 dark:shadow-white/20 border border-gray-200 dark:border-[#333]">
                                     <iframe
                                         src={`https://www.youtube.com/embed/${episode.videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1] || ''}`}
                                         title={episode.title}
@@ -266,7 +266,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                 </div>
                             ) : (
                                 /* Cover Image */
-                                <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl shadow-[#007BFF]/20 border border-gray-200 dark:border-[#333]">
+                                <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl shadow-black/20 dark:shadow-white/20 border border-gray-200 dark:border-[#333]">
                                     <img
                                         src={episode.fullSrc}
                                         alt={episode.title}
@@ -278,7 +278,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
 
                         {/* Details */}
                         <div className="w-full md:w-2/3">
-                            <span className="inline-block px-3 py-1 bg-[#007BFF]/20 text-[#007BFF] text-xs font-bold rounded-full mb-4 uppercase tracking-wider">
+                            <span className="inline-block px-3 py-1 bg-black/20 dark:bg-white/20 text-black dark:text-white text-xs font-bold rounded-full mb-4 uppercase tracking-wider">
                                 {episode.category}
                             </span>
 
@@ -322,7 +322,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                         setMediaMode('audio');
                                         onPlay({ ...episode, id: episode.id });
                                     }}
-                                    className="w-full md:w-auto bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(0,123,255,0.3)] hover:shadow-[0_0_30px_rgba(0,123,255,0.5)] transition-all transform hover:scale-105 flex items-center justify-center gap-3"
+                                    className="w-full md:w-auto bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded-full font-bold text-lg transition-all transform hover:scale-105 flex items-center justify-center gap-3"
                                 >
                                     {currentEpisode?.id === episode.id && isPlaying ? (
                                         <>
@@ -349,7 +349,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                 <button
                                     onClick={() => setActiveTab('description')}
                                     className={`pb-4 px-4 font-bold text-sm uppercase tracking-wider text-center transition-colors border-b-2 ${activeTab === 'description'
-                                        ? 'border-[#007BFF] text-[#007BFF]'
+                                        ? 'border-black dark:border-white text-black dark:text-white'
                                         : 'border-transparent text-gray-500 dark:text-[#6C757D] hover:text-black dark:hover:text-white'
                                         }`}
                                 >
@@ -358,7 +358,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                 <button
                                     onClick={() => setActiveTab('transcript')}
                                     className={`pb-4 px-4 font-bold text-sm uppercase tracking-wider text-center transition-colors border-b-2 ${activeTab === 'transcript'
-                                        ? 'border-[#007BFF] text-[#007BFF]'
+                                        ? 'border-black dark:border-white text-black dark:text-white'
                                         : 'border-transparent text-gray-500 dark:text-[#6C757D] hover:text-black dark:hover:text-white'
                                         }`}
                                 >
@@ -414,7 +414,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                                 className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                                             />
                                         </div>
-                                        <h3 className="font-bold text-lg leading-tight group-hover:text-[#007BFF] transition-colors text-black dark:text-white">
+                                        <h3 className="font-bold text-lg leading-tight group-hover:text-black group-hover:dark:text-white transition-colors text-black dark:text-white">
                                             {item.title}
                                         </h3>
                                         <p className="text-sm text-gray-500 dark:text-[#6C757D] mt-1 font-minimal">
@@ -431,7 +431,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
             {/* Share Toast Notification */}
             {shareToast && (
                 <div className="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-[200] animate-fade-in-up">
-                    <div className="flex items-center gap-3 px-5 py-3 bg-[#007BFF] text-white rounded-xl shadow-lg">
+                    <div className="flex items-center gap-3 px-5 py-3 bg-black dark:bg-white text-white dark:text-black rounded-xl shadow-lg">
                         <Check size={18} />
                         <span className="font-minimal text-sm">{shareToast}</span>
                     </div>

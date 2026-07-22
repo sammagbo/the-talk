@@ -66,8 +66,8 @@ export default function SubscribeModal({ isOpen, onClose }) {
 
                 {/* Content */}
                 <div className="text-center mb-6">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-[#007BFF]/10 rounded-full mb-4">
-                        <Mail className="w-8 h-8 text-[#007BFF]" />
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-black/10 dark:bg-white/10 rounded-full mb-4">
+                        <Mail className="w-8 h-8 text-black dark:text-white" />
                     </div>
                     <h2 className="text-2xl font-creativo font-bold text-black dark:text-white mb-2">
                         {t('subscribe.title', 'Restez Inspiré')}
@@ -96,7 +96,7 @@ export default function SubscribeModal({ isOpen, onClose }) {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                                 placeholder={t('subscribe.placeholder', 'votre@email.com')}
-                                className="w-full pl-12 pr-4 py-4 bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded-xl text-black dark:text-white focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal placeholder:text-gray-400"
+                                className="w-full pl-12 pr-4 py-4 bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded-xl text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal placeholder:text-gray-400"
                             />
                         </div>
 
@@ -109,7 +109,7 @@ export default function SubscribeModal({ isOpen, onClose }) {
                         <button
                             type="submit"
                             disabled={status === 'loading'}
-                            className="w-full bg-gradient-to-r from-[#007BFF] to-[#0056b3] text-white font-creativo font-bold py-4 rounded-xl transition-all hover:shadow-[0_0_20px_rgba(0,123,255,0.3)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            className="w-full bg-gradient-to-r from-black dark:from-white to-gray-700 dark:to-gray-400 text-white font-creativo font-bold py-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                         >
                             {status === 'loading' ? (
                                 <>

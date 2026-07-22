@@ -111,8 +111,8 @@ export default function ExitIntentPopup() {
                 </button>
 
                 {/* Decorative Background */}
-                <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-br from-[#007BFF] to-[#A9A9F5] opacity-10"></div>
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#007BFF]/20 rounded-full blur-3xl"></div>
+                <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-br from-black dark:from-white to-black dark:to-white opacity-10"></div>
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-black/20 dark:bg-white/20 rounded-full blur-3xl"></div>
 
                 <div className="p-8 pt-10 relative">
                     {status === 'success' ? (
@@ -128,7 +128,7 @@ export default function ExitIntentPopup() {
                     ) : (
                         <>
                             <div className="text-center mb-8">
-                                <div className="inline-flex items-center gap-2 bg-[#007BFF]/10 text-[#007BFF] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                                <div className="inline-flex items-center gap-2 bg-black/10 dark:bg-white/10 text-black dark:text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
                                     <Sparkles size={12} />
                                     Exclusive Content
                                 </div>
@@ -150,13 +150,13 @@ export default function ExitIntentPopup() {
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
                                         disabled={status === 'loading'}
-                                        className="w-full bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded-xl pl-12 pr-4 py-3 text-black dark:text-white focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal"
+                                        className="w-full bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded-xl pl-12 pr-4 py-3 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
                                     />
                                 </div>
                                 <button
                                     type="submit"
                                     disabled={status === 'loading'}
-                                    className="w-full bg-[#007BFF] hover:bg-[#0069d9] text-white font-creativo font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-[#007BFF]/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                                    className="w-full bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black font-creativo font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-black/20 dark:shadow-white/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                                 >
                                     {status === 'loading' ? (
                                         'Traitement...'

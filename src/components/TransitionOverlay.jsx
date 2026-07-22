@@ -51,7 +51,7 @@ export default function TransitionOverlay() {
             style={{ display: 'none' }}
         >
             {/* Main overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#007BFF] to-[#A9A9F5]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-black dark:from-white to-black dark:to-white" />
 
             {/* Logo in center */}
             <div className="absolute inset-0 flex items-center justify-center">

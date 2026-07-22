@@ -112,7 +112,7 @@ export default function CustomCursor() {
                 style={{
                     width: '6px',
                     height: '6px',
-                    backgroundColor: '#007BFF',
+                    backgroundColor: '#6C757D',
                     borderRadius: '50%',
                 }}
             />

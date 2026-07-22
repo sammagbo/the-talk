@@ -44,7 +44,7 @@ const portableTextComponents = {
         h3: ({ children }) => <h3 className="text-2xl font-creativo font-bold mt-8 mb-3">{children}</h3>,
         normal: ({ children }) => <p className="text-lg leading-relaxed mb-6 text-gray-700 dark:text-gray-300">{children}</p>,
         blockquote: ({ children }) => (
-            <blockquote className="border-l-4 border-[#007BFF] pl-6 my-8 italic text-xl text-gray-600 dark:text-gray-400">
+            <blockquote className="border-l-4 border-black dark:border-white pl-6 my-8 italic text-xl text-gray-600 dark:text-gray-400">
                 {children}
             </blockquote>
         ),
@@ -55,7 +55,7 @@ const portableTextComponents = {
                 href={value?.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#007BFF] hover:underline"
+                className="text-black dark:text-white hover:underline"
             >
                 {children}
             </a>
@@ -177,7 +177,7 @@ export default function BlogPost() {
     if (loading) {
         return (
             <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
-                <div className="w-10 h-10 border-4 border-[#007BFF] border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-10 h-10 border-4 border-black dark:border-white border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
     }
@@ -186,7 +186,7 @@ export default function BlogPost() {
         return (
             <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white flex flex-col items-center justify-center">
                 <h1 className="text-4xl font-creativo font-bold mb-4">Article non trouvé</h1>
-                <Link to="/blog" className="text-[#007BFF] hover:underline">
+                <Link to="/blog" className="text-black dark:text-white hover:underline">
                     Retour au blog
                 </Link>
             </div>
@@ -194,7 +194,7 @@ export default function BlogPost() {
     }
 
     return (
-        <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-[#007BFF] selection:text-white transition-colors duration-300">
+        <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-black selection:text-white transition-colors duration-300">
             <Helmet>
                 <title>{post.title} | THE TALK Blog</title>
                 <meta name="description" content={`Lisez ${post.title} sur THE TALK Blog.`} />
@@ -202,7 +202,7 @@ export default function BlogPost() {
 
             <nav className="fixed w-full z-50 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-200 dark:border-[#333] py-4">
                 <div className="container mx-auto px-6 flex justify-between items-center">
-                    <Link to="/blog" className="inline-flex items-center gap-2 text-gray-500 dark:text-[#6C757D] hover:text-[#007BFF] dark:hover:text-white transition-colors font-minimal text-sm uppercase tracking-wider">
+                    <Link to="/blog" className="inline-flex items-center gap-2 text-gray-500 dark:text-[#6C757D] hover:text-black hover:dark:text-white dark:hover:text-white transition-colors font-minimal text-sm uppercase tracking-wider">
                         <ArrowLeft size={16} /> Retour au blog
                     </Link>
 
@@ -212,7 +212,7 @@ export default function BlogPost() {
                             <div className="hidden md:flex items-center gap-2 bg-gray-100 dark:bg-white/10 rounded-full px-3 py-1.5 border border-gray-200 dark:border-white/10">
                                 <button
                                     onClick={handleSpeak}
-                                    className="p-1.5 rounded-full hover:bg-white dark:hover:bg-black/20 text-[#007BFF] transition-colors"
+                                    className="p-1.5 rounded-full hover:bg-white dark:hover:bg-black/20 text-black dark:text-white transition-colors"
                                     title={isSpeaking ? "Pause" : "Lire l'article"}
                                 >
                                     {isSpeaking ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" />}
@@ -254,7 +254,7 @@ export default function BlogPost() {
                     {speechSupported && (isSpeaking || isPaused) && (
                         <div className="fixed bottom-6 right-6 z-40 md:hidden">
                             <div className="bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#333] shadow-2xl rounded-2xl p-4 flex items-center gap-4 animate-in slide-in-from-bottom-5">
-                                <div className="p-3 bg-[#007BFF]/10 rounded-full text-[#007BFF] animate-pulse">
+                                <div className="p-3 bg-black/10 dark:bg-white/10 rounded-full text-black dark:text-white animate-pulse">
                                     <Volume2 size={24} />
                                 </div>
                                 <div>
@@ -262,7 +262,7 @@ export default function BlogPost() {
                                     <div className="flex items-center gap-3">
                                         <button
                                             onClick={handleSpeak}
-                                            className="p-2 bg-[#007BFF] text-white rounded-full hover:scale-105 transition-transform"
+                                            className="p-2 bg-black dark:bg-white text-white dark:text-black rounded-full hover:scale-105 transition-transform"
                                         >
                                             {isSpeaking ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
                                         </button>
@@ -293,7 +293,7 @@ export default function BlogPost() {
                                     onClick={handleSpeak}
                                     className={`flex items-center gap-2 text-sm font-bold uppercase tracking-wider px-4 py-2 rounded-full backdrop-blur-md transition-all ${post.mainImage
                                             ? 'bg-white/10 hover:bg-white/20 text-white'
-                                            : 'bg-[#007BFF]/10 text-[#007BFF] hover:bg-[#007BFF]/20'
+                                            : 'bg-black/10 dark:bg-white/10 text-black dark:text-white hover:bg-black/20 hover:dark:bg-white/20'
                                         }`}
                                 >
                                     {isSpeaking ? <Pause size={16} /> : <Play size={16} />}
@@ -312,7 +312,7 @@ export default function BlogPost() {
                     <div className="mt-16 pt-8 border-t border-gray-200 dark:border-[#333]">
                         <Link
                             to="/blog"
-                            className="inline-flex items-center gap-2 text-[#007BFF] hover:underline font-minimal uppercase tracking-wider"
+                            className="inline-flex items-center gap-2 text-black dark:text-white hover:underline font-minimal uppercase tracking-wider"
                         >
                             <ArrowLeft size={16} /> Voir tous les articles
                         </Link>

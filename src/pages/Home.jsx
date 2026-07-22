@@ -204,7 +204,7 @@ export default function Home({ items }) {
 
 
     return (
-        <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-[#007BFF] selection:text-white transition-colors duration-300">
+        <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-black selection:text-white transition-colors duration-300">
             <Helmet>
                 <title>THE TALK | Podcast by Mijean Rochus</title>
                 <meta name="description" content="Plongez dans l'univers de la mode et du mannequinat à travers des conversations exclusives. Un podcast mode par Mijean Rochus." />
@@ -259,8 +259,6 @@ export default function Home({ items }) {
             <header className="relative h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-black">
                 {/* Abstract Digital Background */}
                 <div className="absolute inset-0 z-0 bg-white dark:bg-black">
-                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#007BFF]/20 rounded-full blur-[100px] animate-pulse"></div>
-                    <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#A9A9F5]/20 rounded-full blur-[100px]"></div>
                     {/* Video Carousel - Crossfade between fashion videos */}
                     <HeroVideo />
                     <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white/50 dark:from-black dark:via-transparent dark:to-black/50"></div>
@@ -268,13 +266,13 @@ export default function Home({ items }) {
                 </div>
 
                 <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-                    <div className="gsap-hero-badge mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#007BFF]/30 bg-[#007BFF]/10 backdrop-blur-sm">
-                        <span className="w-2 h-2 rounded-full bg-[#007BFF] animate-pulse"></span>
-                        <span className="text-xs font-minimal text-[#A9A9F5] tracking-widest uppercase">{t('hero.new_episode')}</span>
+                    <div className="gsap-hero-badge mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-black/30 dark:border-white/30 bg-black/10 dark:bg-white/10 backdrop-blur-sm">
+                        <span className="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse"></span>
+                        <span className="text-xs font-minimal text-black dark:text-white tracking-widest uppercase">{t('hero.new_episode')}</span>
                     </div>
 
                     <h1 className="gsap-hero-title text-6xl md:text-8xl font-creativo font-black mb-6 tracking-[0.08em] leading-tight uppercase">
-                        THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#007BFF] to-[#A9A9F5]">TALK</span>
+                        THE <span className="text-black dark:text-white">TALK</span>
                     </h1>
 
                     <p className="gsap-hero-subtitle text-xl md:text-2xl font-minimal text-gray-600 dark:text-[#6C757D] mb-4 max-w-2xl mx-auto font-light flex items-center justify-center gap-2">
@@ -289,7 +287,7 @@ export default function Home({ items }) {
                         {items.length > 0 ? (
                             <Link
                                 to={`/episode/${items[0].id}`}
-                                className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider hover:shadow-[0_0_20px_rgba(0,123,255,0.4)] w-full sm:w-auto justify-center uppercase"
+                                className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
                             >
                                 [ {t('hero.watch_latest', 'VOIR LE DERNIER ÉPISODE')} ]
                                 <ChevronRight className="w-4 h-4" />
@@ -297,7 +295,7 @@ export default function Home({ items }) {
                         ) : (
                             <MagneticButton
                                 onClick={() => scrollToSection('videos')}
-                                className="bg-[#007BFF] hover:bg-[#0069d9] text-white px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider hover:shadow-[0_0_20px_rgba(0,123,255,0.4)] w-full sm:w-auto justify-center uppercase"
+                                className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
                             >
                                 [ {t('hero.listen_now', 'ÉCOUTER')} ]
                                 <ChevronRight className="w-4 h-4" />
@@ -308,19 +306,19 @@ export default function Home({ items }) {
                     {/* Quick Stats with Animated Counters */}
                     <div className="gsap-hero-stats flex flex-wrap justify-center gap-8 mt-10 text-center">
                         <div>
-                            <p className="text-3xl font-creativo font-bold text-[#007BFF]">
+                            <p className="text-3xl font-creativo font-bold text-black dark:text-white">
                                 <CountUp end={50} duration={2.5} suffix="+" />
                             </p>
                             <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">{t('hero.episodes', 'Épisodes')}</p>
                         </div>
                         <div>
-                            <p className="text-3xl font-creativo font-bold text-[#A9A9F5]">
+                            <p className="text-3xl font-creativo font-bold text-black dark:text-white">
                                 <CountUp end={10} duration={2} suffix="K+" />
                             </p>
                             <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">{t('hero.listeners', 'Auditeurs')}</p>
                         </div>
                         <div>
-                            <p className="text-3xl font-creativo font-bold text-[#007BFF]">
+                            <p className="text-3xl font-creativo font-bold text-black dark:text-white">
                                 <CountUp end={5} duration={1.5} suffix="★" />
                             </p>
                             <p className="text-sm text-gray-500 dark:text-[#6C757D] font-minimal">Évaluation</p>
@@ -335,13 +333,13 @@ export default function Home({ items }) {
                 <section id="videos" className="gsap-section py-16 px-4 md:px-8 max-w-7xl mx-auto">
                     <div className="mb-8">
                         <div className="flex items-center gap-3 mb-4">
-                            <Video className="w-8 h-8 text-[#007BFF]" />
+                            <Video className="w-8 h-8 text-black dark:text-white" />
                             <h2 className="text-3xl md:text-4xl font-creativo font-bold">En Vedette</h2>
                         </div>
                         <p className="text-gray-600 dark:text-[#6C757D] font-minimal max-w-xl">
                             Découvrez nos derniers épisodes vidéo et contenus exclusifs.
                         </p>
-                        <div className="h-1.5 w-16 bg-gradient-to-r from-[#007BFF] to-[#A9A9F5] rounded-full mt-4"></div>
+                        <div className="h-1.5 w-16 bg-gradient-to-r from-black dark:from-white to-black dark:to-white rounded-full mt-4"></div>
                     </div>
 
                     {/* Horizontal Carousel */}
@@ -352,7 +350,7 @@ export default function Home({ items }) {
                                 to={`/episode/${items[0].id}`}
                                 className="w-full max-w-4xl group"
                             >
-                                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#007BFF]/10 to-[#A9A9F5]/10 border-2 border-[#007BFF] hover:shadow-xl hover:shadow-[#007BFF]/20 transition-all h-full">
+                                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-black/10 dark:from-white/10 to-black/10 dark:to-white/10 border-2 border-black dark:border-white hover:shadow-xl hover:shadow-black/20 hover:dark:shadow-white/20 transition-all h-full">
                                     <div className="aspect-video overflow-hidden relative">
                                         <LazyImage
                                             src={items[0].fullSrc || items[0].src}
@@ -360,12 +358,12 @@ export default function Home({ items }) {
                                             className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
                                         />
                                         <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                                            <div className="w-20 h-20 rounded-full bg-[#007BFF] flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                                            <div className="w-20 h-20 rounded-full bg-black dark:bg-white flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
                                                 <Play className="w-10 h-10 text-white ml-1" fill="currentColor" />
                                             </div>
                                         </div>
                                         {/* Featured Badge */}
-                                        <div className="absolute top-4 left-4 px-3 py-1.5 bg-[#007BFF] rounded-full">
+                                        <div className="absolute top-4 left-4 px-3 py-1.5 bg-black dark:bg-white rounded-full">
                                             <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
                                                 <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
                                                 Dernier Épisode
@@ -378,8 +376,8 @@ export default function Home({ items }) {
                                         </div>
                                     </div>
                                     <div className="p-6 md:p-8">
-                                        <span className="text-[#007BFF] text-sm font-bold uppercase tracking-wider">{items[0].category}</span>
-                                        <h3 className="text-2xl md:text-3xl font-creativo font-bold mt-2 group-hover:text-[#007BFF] transition-colors">{items[0].title}</h3>
+                                        <span className="text-black dark:text-white text-sm font-bold uppercase tracking-wider">{items[0].category}</span>
+                                        <h3 className="text-2xl md:text-3xl font-creativo font-bold mt-2 group-hover:text-black group-hover:dark:text-white transition-colors">{items[0].title}</h3>
                                         <p className="text-gray-500 dark:text-[#6C757D] text-base mt-3 line-clamp-2">{items[0].description || 'Découvrez notre dernier épisode exclusif.'}</p>
                                     </div>
                                 </div>
@@ -508,13 +506,13 @@ export default function Home({ items }) {
                     <div className="container mx-auto px-6 max-w-5xl relative z-10">
 
                         {/* New Contact Header Card based on references */}
-                        <div className="bg-gray-50 dark:bg-[#020202] p-10 rounded-3xl border border-gray-200 dark:border-[#333] mb-12 flex flex-col md:flex-row items-center justify-between group hover:border-[#007BFF]/50 transition-all duration-500 shadow-2xl">
+                        <div className="bg-gray-50 dark:bg-[#020202] p-10 rounded-3xl border border-gray-200 dark:border-[#333] mb-12 flex flex-col md:flex-row items-center justify-between group hover:border-black/50 hover:dark:border-white/50 transition-all duration-500 shadow-2xl">
                             <div className="mb-6 md:mb-0">
                                 <h2 className="text-4xl md:text-5xl font-creativo font-black text-black dark:text-white mb-3">{t('contact.title')}</h2>
                                 <p className="text-gray-600 dark:text-[#6C757D] text-lg font-minimal">{t('contact.subtitle')}</p>
                             </div>
                             {/* The Icon Circle */}
-                            <div className="bg-gradient-to-tr from-[#007BFF] to-[#0056b3] p-6 rounded-full group-hover:scale-110 group-hover:rotate-45 transition-all duration-500 shadow-lg shadow-[#007BFF]/30 cursor-pointer">
+                            <div className="bg-gradient-to-tr from-black dark:from-white to-gray-700 dark:to-gray-400 p-6 rounded-full group-hover:scale-110 group-hover:rotate-45 transition-all duration-500 shadow-lg shadow-black/30 dark:shadow-white/30 cursor-pointer">
                                 <ArrowUpRight className="w-8 h-8 text-white" />
                             </div>
                         </div>
@@ -525,7 +523,7 @@ export default function Home({ items }) {
                             <div className="space-y-10">
                                 <div className="space-y-6">
                                     <div className="flex items-center gap-5 group cursor-pointer">
-                                        <div className="bg-gray-100 dark:bg-[#111] p-4 rounded-xl text-[#007BFF] group-hover:bg-[#007BFF] group-hover:text-white transition-colors">
+                                        <div className="bg-gray-100 dark:bg-[#111] p-4 rounded-xl text-black dark:text-white group-hover:bg-black group-hover:dark:bg-white group-hover:text-white group-hover:dark:text-black transition-colors">
                                             <Mail className="w-6 h-6" />
                                         </div>
                                         <div>
@@ -535,7 +533,7 @@ export default function Home({ items }) {
                                     </div>
 
                                     <div className="flex items-center gap-5 group cursor-pointer">
-                                        <div className="bg-gray-100 dark:bg-[#111] p-4 rounded-xl text-[#007BFF] group-hover:bg-[#007BFF] group-hover:text-white transition-colors">
+                                        <div className="bg-gray-100 dark:bg-[#111] p-4 rounded-xl text-black dark:text-white group-hover:bg-black group-hover:dark:bg-white group-hover:text-white group-hover:dark:text-black transition-colors">
                                             <Instagram className="w-6 h-6" />
                                         </div>
                                         <div>
@@ -545,7 +543,7 @@ export default function Home({ items }) {
                                     </div>
 
                                     <div className="flex items-center gap-5 group cursor-pointer">
-                                        <div className="bg-gray-100 dark:bg-[#111] p-4 rounded-xl text-[#007BFF] group-hover:bg-[#007BFF] group-hover:text-white transition-colors">
+                                        <div className="bg-gray-100 dark:bg-[#111] p-4 rounded-xl text-black dark:text-white group-hover:bg-black group-hover:dark:bg-white group-hover:text-white group-hover:dark:text-black transition-colors">
                                             <MapPin className="w-6 h-6" />
                                         </div>
                                         <div>
@@ -559,7 +557,7 @@ export default function Home({ items }) {
                             {/* Form */}
                             <form onSubmit={handleFormSubmit} className="bg-gray-50 dark:bg-[#020202] p-8 rounded-2xl border border-gray-200 dark:border-[#333] space-y-5">
                                 {formStatus === 'email-client' && (
-                                    <div className="bg-[#007BFF]/10 text-[#007BFF] p-4 rounded-lg text-sm font-minimal border border-[#007BFF]/20">
+                                    <div className="bg-black/10 dark:bg-white/10 text-black dark:text-white p-4 rounded-lg text-sm font-minimal border border-black/20 dark:border-white/20">
                                         Message envoyé. Merci de nous contacter.
                                     </div>
                                 )}
@@ -571,7 +569,7 @@ export default function Home({ items }) {
                                         required
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-lg px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal"
+                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-lg px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
                                         placeholder="Mijea..."
                                     />
                                 </div>
@@ -582,7 +580,7 @@ export default function Home({ items }) {
                                         required
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-lg px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all font-minimal"
+                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-lg px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
                                         placeholder="hello@exemple.com"
                                     />
                                 </div>
@@ -593,13 +591,13 @@ export default function Home({ items }) {
                                         required
                                         value={formData.message}
                                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-lg px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] transition-all resize-none font-minimal"
+                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-lg px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all resize-none font-minimal"
                                         placeholder="Votre message..."
                                     ></textarea>
                                 </div>
                                 <button
                                     type="submit"
-                                    className="w-full bg-[#007BFF] hover:bg-[#0069d9] text-white font-creativo font-bold py-4 rounded-lg transition-all shadow-lg shadow-[#007BFF]/20 mt-2"
+                                    className="w-full bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black font-creativo font-bold py-4 rounded-lg transition-all shadow-lg shadow-black/20 dark:shadow-white/20 mt-2"
                                 >
                                     ENVOYER LE MESSAGE
                                 </button>
@@ -627,7 +625,7 @@ export default function Home({ items }) {
                 <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
                     <div className="flex flex-col items-start">
                         <div className="flex items-center gap-2 mb-2">
-                            <Mic className="w-5 h-5 text-[#007BFF]" />
+                            <Mic className="w-5 h-5 text-black dark:text-white" />
                             <span className="text-black dark:text-white font-creativo font-bold tracking-tight">THE TALK</span>
                         </div>
                         <p className="text-gray-500 dark:text-[#6C757D] text-xs font-minimal">A Podcast by Mijean Rochus. Innovation & Creativity.</p>
@@ -640,9 +638,9 @@ export default function Home({ items }) {
                             <Coffee size={18} />
                             <span>{t('footer.support')}</span>
                         </a>
-                        <a href="#" className="text-[#6C757D] hover:text-[#007BFF] transition-colors"><Twitter className="w-5 h-5" /></a>
-                        <a href="#" className="text-[#6C757D] hover:text-[#007BFF] transition-colors"><Facebook className="w-5 h-5" /></a>
-                        <a href="#" className="text-[#6C757D] hover:text-[#007BFF] transition-colors"><Instagram className="w-5 h-5" /></a>
+                        <a href="#" className="text-[#6C757D] hover:text-black hover:dark:text-white transition-colors"><Twitter className="w-5 h-5" /></a>
+                        <a href="#" className="text-[#6C757D] hover:text-black hover:dark:text-white transition-colors"><Facebook className="w-5 h-5" /></a>
+                        <a href="#" className="text-[#6C757D] hover:text-black hover:dark:text-white transition-colors"><Instagram className="w-5 h-5" /></a>
                     </div>
 
                     <div className="text-center md:text-right">
@@ -653,7 +651,7 @@ export default function Home({ items }) {
                                 href="https://www.linkedin.com/in/sam-magbo-02086555/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-[#007BFF] hover:text-[#A9A9F5] transition-colors font-medium"
+                                className="text-black dark:text-white hover:text-black hover:dark:text-white transition-colors font-medium"
                             >
                                 Magbo Studio
                             </a>
@@ -672,10 +670,10 @@ export default function Home({ items }) {
             <div className="fixed bottom-6 left-6 z-40 hidden md:block">
                 <button
                     onClick={() => scrollToSection('galerie')}
-                    className="group flex items-center gap-2 px-4 py-2 bg-black/80 dark:bg-white/10 backdrop-blur-sm rounded-full border border-white/10 hover:border-[#007BFF] transition-all"
+                    className="group flex items-center gap-2 px-4 py-2 bg-black/80 dark:bg-white/10 backdrop-blur-sm rounded-full border border-white/10 hover:border-white transition-all"
                 >
-                    <span className="w-2 h-2 rounded-full bg-[#007BFF] animate-pulse"></span>
-                    <span className="text-xs font-mono text-white/80 tracking-wider uppercase group-hover:text-[#007BFF] transition-colors">
+                    <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                    <span className="text-xs font-mono text-white/80 tracking-wider uppercase group-hover:text-white transition-colors">
                         [NEW EPISODE]
                     </span>
                 </button>
@@ -683,12 +681,12 @@ export default function Home({ items }) {
             <div className="fixed bottom-6 right-6 z-40 hidden md:block">
                 <button
                     onClick={() => setIsSubscribeOpen(true)}
-                    className="group flex items-center gap-2 px-4 py-2 bg-black/80 dark:bg-white/10 backdrop-blur-sm rounded-full border border-white/10 hover:border-[#A9A9F5] transition-all"
+                    className="group flex items-center gap-2 px-4 py-2 bg-black/80 dark:bg-white/10 backdrop-blur-sm rounded-full border border-white/10 hover:border-white transition-all"
                 >
-                    <span className="text-xs font-mono text-white/80 tracking-wider uppercase group-hover:text-[#A9A9F5] transition-colors">
+                    <span className="text-xs font-mono text-white/80 tracking-wider uppercase group-hover:text-white transition-colors">
                         [SUBSCRIBE]
                     </span>
-                    <Mail className="w-3 h-3 text-white/60 group-hover:text-[#A9A9F5] transition-colors" />
+                    <Mail className="w-3 h-3 text-white/60 group-hover:text-white transition-colors" />
                 </button>
             </div>
         </div>
