@@ -65,8 +65,6 @@ export default function AboutPage() {
 
             <style>
                 {`
-                    .font-creativo { font-family: 'Outfit', sans-serif; }
-                    .font-minimal { font-family: 'Inter', sans-serif; }
                     
                     /* Film Grain Effect */
                     .film-grain {

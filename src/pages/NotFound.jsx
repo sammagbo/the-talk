@@ -17,8 +17,6 @@ export default function NotFound() {
 
             <style>
                 {`
-          .font-creativo { font-family: 'Outfit', sans-serif; }
-          .font-minimal { font-family: 'Inter', sans-serif; }
         `}
             </style>
 

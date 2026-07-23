@@ -23,6 +23,8 @@ export default {
       },
       fontFamily: {
         editorial: ['"Playfair Display"', 'serif'],
+        creativo: ['Outfit', 'sans-serif'],
+        minimal: ['Inter', 'sans-serif'],
       },
     },
   },
