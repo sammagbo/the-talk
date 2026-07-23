@@ -52,7 +52,7 @@ export default function StorePage() {
 
             <div className="pt-32 pb-24 px-6 container mx-auto">
                 <div className="text-center mb-16">
-                    <div className="inline-flex items-center justify-center p-3 bg-black/10 dark:bg-white/10 rounded-full mb-4">
+                    <div className="inline-flex items-center justify-center p-3 bg-black/10 dark:bg-white/10 rounded-none mb-4">
                         <ShoppingBag className="w-8 h-8 text-black dark:text-white" />
                     </div>
                     <h1 className="text-5xl md:text-6xl font-creativo font-bold mb-4">{t('store.title')}</h1>
@@ -70,7 +70,7 @@ export default function StorePage() {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
                         {products.map((product) => (
-                            <div key={product._id} className="group bg-gray-50 dark:bg-[#111] rounded-2xl overflow-hidden border border-gray-200 dark:border-[#333] hover:border-black hover:dark:border-white transition-all">
+                            <div key={product._id} className="group bg-gray-50 dark:bg-[#111] rounded-none overflow-hidden border border-gray-200 dark:border-[#333] hover:border-black hover:dark:border-white transition-all">
                                 <div className="aspect-square overflow-hidden">
                                     <img
                                         src={product.imageUrl ? urlFor(product.imageUrl).width(800).url() : 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80'}
@@ -81,7 +81,7 @@ export default function StorePage() {
                                 <div className="p-6">
                                     <div className="flex justify-between items-start mb-2">
                                         <h3 className="text-xl font-creativo font-bold">{product.title}</h3>
-                                        <span className="bg-black dark:bg-white text-white dark:text-black px-3 py-1 rounded-full text-sm font-bold ml-2">
+                                        <span className="bg-black dark:bg-white text-white dark:text-black px-3 py-1 rounded-none text-sm font-bold ml-2">
                                             {product.price?.toFixed(2)}€
                                         </span>
                                     </div>
@@ -91,7 +91,7 @@ export default function StorePage() {
                                     <button
                                         onClick={() => handleBuy(product.stripePriceId)}
                                         disabled={!product.stripePriceId}
-                                        className="w-full bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black py-3 rounded-xl font-bold font-creativo transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="w-full bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black py-3 rounded-none font-bold font-creativo transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         <ShoppingBag size={18} />
                                         {t('store.buy')}

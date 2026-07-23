@@ -84,10 +84,10 @@ export default function LoadingScreen({ onComplete }) {
 
             {/* Progress bar */}
             <div className="absolute bottom-20 left-1/2 -translate-x-1/2 w-48 z-10">
-                <div className="h-[2px] bg-[#333] rounded-full overflow-hidden">
+                <div className="h-[2px] bg-[#333] rounded-none overflow-hidden">
                     <div
                         ref={progressRef}
-                        className="h-full bg-gradient-to-r from-black dark:from-white to-black dark:to-white rounded-full"
+                        className="h-full bg-gradient-to-r from-black dark:from-white to-black dark:to-white rounded-none"
                         style={{ width: '0%' }}
                     />
                 </div>

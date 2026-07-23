@@ -54,7 +54,7 @@ export default function SubscribeModal({ isOpen, onClose }) {
             />
 
             {/* Modal */}
-            <div className="relative bg-white dark:bg-[#111] rounded-2xl border border-gray-200 dark:border-[#333] p-8 max-w-md w-full shadow-2xl animate-fade-in">
+            <div className="relative bg-white dark:bg-[#111] rounded-none border border-gray-200 dark:border-[#333] p-8 max-w-md w-full shadow-2xl animate-fade-in">
                 {/* Close Button */}
                 <button
                     onClick={onClose}
@@ -66,7 +66,7 @@ export default function SubscribeModal({ isOpen, onClose }) {
 
                 {/* Content */}
                 <div className="text-center mb-6">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-black/10 dark:bg-white/10 rounded-full mb-4">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-black/10 dark:bg-white/10 rounded-none mb-4">
                         <Mail className="w-8 h-8 text-black dark:text-white" />
                     </div>
                     <h2 className="text-2xl font-creativo font-bold text-black dark:text-white mb-2">
@@ -79,7 +79,7 @@ export default function SubscribeModal({ isOpen, onClose }) {
 
                 {status === 'success' ? (
                     <div className="text-center py-8">
-                        <div className="inline-flex items-center justify-center w-16 h-16 bg-green-500/20 rounded-full mb-4">
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-green-500/20 rounded-none mb-4">
                             <Check className="w-8 h-8 text-green-500" />
                         </div>
                         <p className="text-green-500 font-creativo font-bold text-lg">
@@ -96,7 +96,7 @@ export default function SubscribeModal({ isOpen, onClose }) {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                                 placeholder={t('subscribe.placeholder', 'votre@email.com')}
-                                className="w-full pl-12 pr-4 py-4 bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded-xl text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal placeholder:text-gray-400"
+                                className="w-full pl-12 pr-4 py-4 bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded-none text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal placeholder:text-gray-400"
                             />
                         </div>
 
@@ -109,7 +109,7 @@ export default function SubscribeModal({ isOpen, onClose }) {
                         <button
                             type="submit"
                             disabled={status === 'loading'}
-                            className="w-full bg-gradient-to-r from-black dark:from-white to-gray-700 dark:to-gray-400 text-white font-creativo font-bold py-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            className="w-full bg-gradient-to-r from-black dark:from-white to-gray-700 dark:to-gray-400 text-white font-creativo font-bold py-4 rounded-none transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                         >
                             {status === 'loading' ? (
                                 <>

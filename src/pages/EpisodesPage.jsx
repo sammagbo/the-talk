@@ -141,7 +141,7 @@ export default function EpisodesPage({ items, onPlay }) {
                 <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
                     <div>
                         <div className="flex items-center gap-3 mb-3">
-                            <div className="bg-gradient-to-tr from-black dark:from-white to-black dark:to-white p-2.5 rounded-xl text-white">
+                            <div className="bg-gradient-to-tr from-black dark:from-white to-black dark:to-white p-2.5 rounded-none text-white">
                                 <Headphones size={24} />
                             </div>
                             <h1 className="text-4xl md:text-5xl font-creativo font-black tracking-tight">
@@ -151,12 +151,12 @@ export default function EpisodesPage({ items, onPlay }) {
                         <p className="text-gray-600 dark:text-[#6C757D] font-minimal text-lg max-w-xl">
                             Tout le contenu THE TALK en un lieu — vidéo et audio réunis.
                         </p>
-                        <div className="h-1.5 w-16 bg-gradient-to-r from-black dark:from-white to-black dark:to-white rounded-full mt-4"></div>
+                        <div className="h-1.5 w-16 bg-gradient-to-r from-black dark:from-white to-black dark:to-white rounded-none mt-4"></div>
                     </div>
 
                     {/* Episode Count Badge */}
-                    <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-[#111] rounded-full border border-gray-200 dark:border-[#333]">
-                        <span className="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse"></span>
+                    <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-[#111] rounded-none border border-gray-200 dark:border-[#333]">
+                        <span className="w-2 h-2 rounded-none bg-black dark:bg-white animate-pulse"></span>
                         <span className="text-sm font-mono text-gray-600 dark:text-[#6C757D]">
                             {items.length} épisode{items.length !== 1 ? 's' : ''}
                         </span>
@@ -171,7 +171,7 @@ export default function EpisodesPage({ items, onPlay }) {
                             placeholder="Rechercher un épisode..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-full px-5 py-3 pl-11 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
+                            className="w-full bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-none px-5 py-3 pl-11 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
                         />
                         <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#6C757D] w-4 h-4" />
                         {searchQuery && (
@@ -189,7 +189,7 @@ export default function EpisodesPage({ items, onPlay }) {
                             <button
                                 key={cat}
                                 onClick={() => setActiveCategory(cat)}
-                                className={`px-4 py-2.5 rounded-full text-sm font-minimal transition-all border ${activeCategory === cat
+                                className={`px-4 py-2.5 rounded-none text-sm font-minimal transition-all border ${activeCategory === cat
                                     ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white font-bold shadow-lg shadow-black/20 dark:shadow-white/20'
                                     : 'bg-transparent text-gray-500 border-gray-300 dark:text-[#6C757D] dark:border-[#6C757D]/30 hover:border-black hover:dark:border-white hover:text-black hover:dark:text-white'
                                     }`}
@@ -223,7 +223,7 @@ export default function EpisodesPage({ items, onPlay }) {
                                     onMouseLeave={() => setHoveredShort(null)}
                                     onClick={() => setSelectedShort(short)}
                                 >
-                                    <div className="aspect-[9/16] rounded-xl overflow-hidden bg-gray-900 border border-gray-200 dark:border-[#333] group-hover:border-[#FF0050] transition-all duration-300 relative">
+                                    <div className="aspect-[9/16] rounded-none overflow-hidden bg-gray-900 border border-gray-200 dark:border-[#333] group-hover:border-[#FF0050] transition-all duration-300 relative">
                                         {hoveredShort === short._id && short.videoUrl ? (
                                             <video
                                                 src={short.videoUrl}
@@ -278,7 +278,7 @@ export default function EpisodesPage({ items, onPlay }) {
 
                     {filteredItems.length === 0 ? (
                         <div className="flex flex-col items-center justify-center py-24 text-center">
-                            <div className="w-20 h-20 rounded-full bg-gray-100 dark:bg-[#111] flex items-center justify-center mb-6">
+                            <div className="w-20 h-20 rounded-none bg-gray-100 dark:bg-[#111] flex items-center justify-center mb-6">
                                 <Search className="w-8 h-8 text-gray-400" />
                             </div>
                             <h3 className="text-xl font-creativo font-bold mb-2">Aucun épisode trouvé</h3>
@@ -291,7 +291,7 @@ export default function EpisodesPage({ items, onPlay }) {
                             {filteredItems.map((item, index) => (
                                 <div
                                     key={item.id}
-                                    className="group relative overflow-hidden rounded-2xl bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] hover:border-black/50 hover:dark:border-white/50 transition-all duration-300 hover:shadow-xl hover:shadow-black/5 hover:dark:shadow-white/5"
+                                    className="group relative overflow-hidden rounded-none bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] hover:border-black/50 hover:dark:border-white/50 transition-all duration-300 hover:shadow-xl hover:shadow-black/5 hover:dark:shadow-white/5"
                                 >
                                     {/* Thumbnail */}
                                     <Link to={item.slug ? `/episodes/${item.slug}` : `/episode/${item.id}`} className="block">
@@ -306,7 +306,7 @@ export default function EpisodesPage({ items, onPlay }) {
                                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
 
                                             {/* Type Badge */}
-                                            <div className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 ${
+                                            <div className={`absolute top-3 left-3 px-2.5 py-1 rounded-none text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 ${
                                                 hasVideo(item)
                                                     ? 'bg-black dark:bg-white text-white dark:text-black'
                                                     : 'bg-black dark:bg-white text-white dark:text-black'
@@ -319,7 +319,7 @@ export default function EpisodesPage({ items, onPlay }) {
                                             </div>
 
                                             {/* HUD Badge */}
-                                            <div className="absolute top-3 right-3 px-2.5 py-1 bg-black/60 backdrop-blur-sm rounded-full border border-white/20">
+                                            <div className="absolute top-3 right-3 px-2.5 py-1 bg-black/60 backdrop-blur-sm rounded-none border border-white/20">
                                                 <span className="text-[10px] font-mono text-white/90 tracking-wider">
                                                     EP.{String(index + 1).padStart(3, '0')} // {item.duration || '45:00'}
                                                 </span>
@@ -372,7 +372,7 @@ export default function EpisodesPage({ items, onPlay }) {
                 >
                     <button
                         onClick={() => setSelectedShort(null)}
-                        className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                        className="absolute top-4 right-4 z-10 w-10 h-10 rounded-none bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
                     >
                         <X className="w-6 h-6 text-white" />
                     </button>
@@ -384,7 +384,7 @@ export default function EpisodesPage({ items, onPlay }) {
                         {selectedShort.videoUrl?.includes('youtube') || selectedShort.videoUrl?.includes('youtu.be') ? (
                             <iframe
                                 src={`https://www.youtube.com/embed/${selectedShort.videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1] || ''}?autoplay=1`}
-                                className="w-full h-full rounded-2xl"
+                                className="w-full h-full rounded-none"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
                             />
@@ -396,7 +396,7 @@ export default function EpisodesPage({ items, onPlay }) {
                                 controls
                                 playsInline
                                 onEnded={handleVideoEnded}
-                                className="w-full h-full object-contain rounded-2xl"
+                                className="w-full h-full object-contain rounded-none"
                             />
                         )}
 

@@ -27,7 +27,7 @@ class ErrorBoundary extends React.Component {
         <div className="min-h-screen bg-black flex items-center justify-center p-6">
           <div className="max-w-md w-full text-center">
             {/* Error Icon */}
-            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-red-500/10 flex items-center justify-center">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-none bg-red-500/10 flex items-center justify-center">
               <AlertTriangle className="w-10 h-10 text-red-500" />
             </div>
 
@@ -40,7 +40,7 @@ class ErrorBoundary extends React.Component {
             <p className="text-gray-400 font-minimal mb-2">
               Nous sommes désolés, quelque chose s'est mal passé.
             </p>
-            <p className="text-red-400/70 text-sm font-mono mb-8 bg-red-500/10 rounded-lg p-3">
+            <p className="text-red-400/70 text-sm font-mono mb-8 bg-red-500/10 rounded-none p-3">
               {this.state.error?.message || 'Erreur inconnue'}
             </p>
 
@@ -48,14 +48,14 @@ class ErrorBoundary extends React.Component {
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button
                 onClick={() => window.location.reload()}
-                className="inline-flex items-center justify-center gap-2 bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-6 py-3 rounded-full font-bold transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-6 py-3 rounded-none font-bold transition-all"
               >
                 <RefreshCw size={18} />
                 Réessayer
               </button>
               <a
                 href="/"
-                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-full font-bold transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-none font-bold transition-all"
               >
                 <HomeIcon size={18} />
                 Retour à l'accueil
@@ -175,7 +175,7 @@ export default function App() {
       {/* Skip to main content link for accessibility */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-black focus:dark:bg-white focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:font-bold focus:outline-none focus:ring-2 focus:ring-white"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-black focus:dark:bg-white focus:text-white focus:px-4 focus:py-2 focus:rounded-none focus:font-bold focus:outline-none focus:ring-2 focus:ring-white"
       >
         Passer au contenu principal
       </a>
