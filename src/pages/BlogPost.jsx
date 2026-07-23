@@ -177,7 +177,7 @@ export default function BlogPost() {
     if (loading) {
         return (
             <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
-                <div className="w-10 h-10 border-4 border-black dark:border-white border-t-transparent rounded-none animate-spin"></div>
+                <div className="w-10 h-10 border-4 border-black dark:border-white border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
     }
