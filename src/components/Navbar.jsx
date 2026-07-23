@@ -218,7 +218,7 @@ export default function Navbar({
                                             onClick={() => setIsMenuOpen(false)}
                                             className="group flex items-center gap-6 py-3 border-b border-white/10 hover:border-black hover:dark:border-white transition-all"
                                         >
-                                            <span className="text-white/40 font-mono text-sm tracking-wider">
+                                            <span className="text-white/40 font-minimal text-sm tracking-wider">
                                                 {formattedIndex}.
                                             </span>
                                             <span className="text-3xl md:text-4xl font-creativo font-bold text-white uppercase tracking-[0.1em] group-hover:text-black group-hover:dark:text-white transition-colors">
@@ -235,7 +235,7 @@ export default function Navbar({
                                         onClick={() => handleSectionClick(item.section)}
                                         className="group flex items-center gap-6 py-3 border-b border-white/10 hover:border-black hover:dark:border-white transition-all text-left w-full"
                                     >
-                                        <span className="text-white/40 font-mono text-sm tracking-wider">
+                                        <span className="text-white/40 font-minimal text-sm tracking-wider">
                                             {formattedIndex}.
                                         </span>
                                         <span className="text-3xl md:text-4xl font-creativo font-bold text-white uppercase tracking-[0.1em] group-hover:text-black group-hover:dark:text-white transition-colors">
@@ -255,7 +255,7 @@ export default function Navbar({
                                 {deferredPrompt && (
                                     <button
                                         onClick={() => { onInstallClick?.(); setIsMenuOpen(false); }}
-                                        className="flex items-center gap-2 px-4 py-2 bg-white text-black rounded-none font-mono text-sm tracking-wider hover:scale-105 transition-transform"
+                                        className="flex items-center gap-2 px-4 py-2 bg-white text-black rounded-none font-minimal text-sm tracking-wider hover:scale-105 transition-transform"
                                     >
                                         <Download size={16} />
                                         INSTALL
@@ -265,10 +265,10 @@ export default function Navbar({
                         </div>
 
                         {/* HUD Corner Indicators */}
-                        <div className="absolute top-8 left-8 text-white/20 font-mono text-[10px] tracking-wider">
+                        <div className="absolute top-8 left-8 text-white/20 font-minimal text-[10px] tracking-wider">
                             MENU // NAVIGATION
                         </div>
-                        <div className="absolute top-8 right-20 text-white/20 font-mono text-[10px] tracking-wider">
+                        <div className="absolute top-8 right-20 text-white/20 font-minimal text-[10px] tracking-wider">
                             THE_TALK.FM
                         </div>
                     </div>

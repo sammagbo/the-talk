@@ -114,7 +114,7 @@ export default function AboutPage() {
                                         className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
                                     />
                                 </div>
-                                <div className="absolute top-4 left-4 bg-white/90 dark:bg-black/90 backdrop-blur-sm px-3 py-1 text-xs font-mono border border-black/10 dark:border-white/10 uppercase tracking-wider">
+                                <div className="absolute top-4 left-4 bg-white/90 dark:bg-black/90 backdrop-blur-sm px-3 py-1 text-xs font-minimal border border-black/10 dark:border-white/10 uppercase tracking-wider">
                                     M. Rochus // Founder
                                 </div>
                             </div>
