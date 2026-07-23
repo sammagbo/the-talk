@@ -116,8 +116,6 @@ export default function EpisodesPage({ items, onPlay }) {
             {/* Fonts */}
             <style>
                 {`
-                    .font-creativo { font-family: 'Outfit', sans-serif; }
-                    .font-minimal { font-family: 'Inter', sans-serif; }
                 `}
             </style>
 

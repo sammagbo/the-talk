@@ -236,8 +236,6 @@ export default function Home({ items }) {
             {/* Intégration des polices Google Fonts */}
             <style>
                 {`
-          .font-creativo { font-family: 'Outfit', sans-serif; }
-          .font-minimal { font-family: 'Inter', sans-serif; }
           .animate-fade-in { animation: fadeIn 0.5s ease-out; }
           .custom-scrollbar::-webkit-scrollbar { width: 6px; }
           .custom-scrollbar::-webkit-scrollbar-track { background: #111; }
