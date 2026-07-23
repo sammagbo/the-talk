@@ -266,8 +266,8 @@ export default function Home({ items }) {
                 </div>
 
                 <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-                    <div className="gsap-hero-badge mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-black/30 dark:border-white/30 bg-black/10 dark:bg-white/10 backdrop-blur-sm">
-                        <span className="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse"></span>
+                    <div className="gsap-hero-badge mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-none border border-black/30 dark:border-white/30 bg-black/10 dark:bg-white/10 backdrop-blur-sm">
+                        <span className="w-2 h-2 rounded-none bg-black dark:bg-white animate-pulse"></span>
                         <span className="text-xs font-minimal text-black dark:text-white tracking-widest uppercase">{t('hero.new_episode')}</span>
                     </div>
 
@@ -287,7 +287,7 @@ export default function Home({ items }) {
                         {items.length > 0 ? (
                             <Link
                                 to={items[0].slug ? `/episodes/${items[0].slug}` : `/episode/${items[0].id}`}
-                                className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
+                                className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded-none transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
                             >
                                 [ {t('hero.watch_latest', 'VOIR LE DERNIER ÉPISODE')} ]
                                 <ChevronRight className="w-4 h-4" />
@@ -295,7 +295,7 @@ export default function Home({ items }) {
                         ) : (
                             <MagneticButton
                                 onClick={() => scrollToSection('videos')}
-                                className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
+                                className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded-none transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
                             >
                                 [ {t('hero.listen_now', 'ÉCOUTER')} ]
                                 <ChevronRight className="w-4 h-4" />
@@ -318,7 +318,7 @@ export default function Home({ items }) {
                         <p className="text-gray-600 dark:text-[#6C757D] font-minimal max-w-xl">
                             Découvrez nos derniers épisodes vidéo et contenus exclusifs.
                         </p>
-                        <div className="h-1.5 w-16 bg-gradient-to-r from-black dark:from-white to-black dark:to-white rounded-full mt-4"></div>
+                        <div className="h-1.5 w-16 bg-gradient-to-r from-black dark:from-white to-black dark:to-white rounded-none mt-4"></div>
                     </div>
 
                     {/* Horizontal Carousel */}
@@ -329,7 +329,7 @@ export default function Home({ items }) {
                                 to={items[0].slug ? `/episodes/${items[0].slug}` : `/episode/${items[0].id}`}
                                 className="w-full max-w-4xl group"
                             >
-                                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-black/10 dark:from-white/10 to-black/10 dark:to-white/10 border-2 border-black dark:border-white hover:shadow-xl hover:shadow-black/20 hover:dark:shadow-white/20 transition-all h-full">
+                                <div className="relative overflow-hidden rounded-none bg-gradient-to-br from-black/10 dark:from-white/10 to-black/10 dark:to-white/10 border-2 border-black dark:border-white hover:shadow-xl hover:shadow-black/20 hover:dark:shadow-white/20 transition-all h-full">
                                     <div className="aspect-video overflow-hidden relative">
                                         <LazyImage
                                             src={items[0].fullSrc || items[0].src}
@@ -342,13 +342,13 @@ export default function Home({ items }) {
                                             </div>
                                         </div>
                                         {/* Featured Badge */}
-                                        <div className="absolute top-4 left-4 px-3 py-1.5 bg-black dark:bg-white rounded-full">
+                                        <div className="absolute top-4 left-4 px-3 py-1.5 bg-black dark:bg-white rounded-none">
                                             <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                                                <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                                                <span className="w-2 h-2 rounded-none bg-white animate-pulse"></span>
                                                 Dernier Épisode
                                             </span>
                                         </div>
-                                        <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-full border border-white/20">
+                                        <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-none border border-white/20">
                                             <span className="text-[10px] font-mono text-white/90 tracking-wider">
                                                 EP.{String(items[0].id).padStart(3, '0')} // {items[0].duration || '45:00'}
                                             </span>
@@ -375,7 +375,7 @@ export default function Home({ items }) {
                             <p className="text-gray-600 dark:text-[#6C757D] font-minimal max-w-xl">
                                 {t('shorts.description')}
                             </p>
-                            <div className="h-1.5 w-16 bg-[#FF0050] rounded-full mt-4"></div>
+                            <div className="h-1.5 w-16 bg-[#FF0050] rounded-none mt-4"></div>
                         </div>
 
                         {/* Horizontal Snap Scroll Container */}
@@ -392,7 +392,7 @@ export default function Home({ items }) {
                                     onClick={() => setSelectedShort(short)}
                                 >
                                     {/* 9:16 Vertical Video Card */}
-                                    <div className="aspect-[9/16] rounded-2xl overflow-hidden bg-gray-900 border border-gray-200 dark:border-[#333] group-hover:border-[#FF0050] transition-all duration-300 relative">
+                                    <div className="aspect-[9/16] rounded-none overflow-hidden bg-gray-900 border border-gray-200 dark:border-[#333] group-hover:border-[#FF0050] transition-all duration-300 relative">
                                         {/* Thumbnail or Hover Video */}
                                         {hoveredShort === short._id && short.videoUrl ? (
                                             <video
@@ -438,7 +438,7 @@ export default function Home({ items }) {
                         {/* Close Button */}
                         <button
                             onClick={() => setSelectedShort(null)}
-                            className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                            className="absolute top-4 right-4 z-10 w-10 h-10 rounded-none bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
                         >
                             <X className="w-6 h-6 text-white" />
                         </button>
@@ -451,7 +451,7 @@ export default function Home({ items }) {
                             {selectedShort.videoUrl?.includes('youtube') || selectedShort.videoUrl?.includes('youtu.be') ? (
                                 <iframe
                                     src={`https://www.youtube.com/embed/${selectedShort.videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1] || ''}?autoplay=1`}
-                                    className="w-full h-full rounded-2xl"
+                                    className="w-full h-full rounded-none"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     allowFullScreen
                                 />
@@ -463,7 +463,7 @@ export default function Home({ items }) {
                                     controls
                                     playsInline
                                     onEnded={handleVideoEnded}
-                                    className="w-full h-full object-contain rounded-2xl"
+                                    className="w-full h-full object-contain rounded-none"
                                 />
                             )}
 
@@ -485,13 +485,13 @@ export default function Home({ items }) {
                     <div className="container mx-auto px-6 max-w-5xl relative z-10">
 
                         {/* New Contact Header Card based on references */}
-                        <div className="bg-gray-50 dark:bg-[#020202] p-10 rounded-3xl border border-gray-200 dark:border-[#333] mb-12 flex flex-col md:flex-row items-center justify-between group hover:border-black/50 hover:dark:border-white/50 transition-all duration-500 shadow-2xl">
+                        <div className="bg-gray-50 dark:bg-[#020202] p-10 rounded-none border border-gray-200 dark:border-[#333] mb-12 flex flex-col md:flex-row items-center justify-between group hover:border-black/50 hover:dark:border-white/50 transition-all duration-500 shadow-2xl">
                             <div className="mb-6 md:mb-0">
                                 <h2 className="text-4xl md:text-5xl font-creativo font-black text-black dark:text-white mb-3">{t('contact.title')}</h2>
                                 <p className="text-gray-600 dark:text-[#6C757D] text-lg font-minimal">{t('contact.subtitle')}</p>
                             </div>
                             {/* The Icon Circle */}
-                            <div className="bg-gradient-to-tr from-black dark:from-white to-gray-700 dark:to-gray-400 p-6 rounded-full group-hover:scale-110 group-hover:rotate-45 transition-all duration-500 shadow-lg shadow-black/30 dark:shadow-white/30 cursor-pointer">
+                            <div className="bg-gradient-to-tr from-black dark:from-white to-gray-700 dark:to-gray-400 p-6 rounded-none group-hover:scale-110 group-hover:rotate-45 transition-all duration-500 shadow-lg shadow-black/30 dark:shadow-white/30 cursor-pointer">
                                 <ArrowUpRight className="w-8 h-8 text-white" />
                             </div>
                         </div>
@@ -502,7 +502,7 @@ export default function Home({ items }) {
                             <div className="space-y-10">
                                 <div className="space-y-6">
                                     <div className="flex items-center gap-5 group cursor-pointer">
-                                        <div className="bg-gray-100 dark:bg-[#111] p-4 rounded-xl text-black dark:text-white group-hover:bg-black group-hover:dark:bg-white group-hover:text-white group-hover:dark:text-black transition-colors">
+                                        <div className="bg-gray-100 dark:bg-[#111] p-4 rounded-none text-black dark:text-white group-hover:bg-black group-hover:dark:bg-white group-hover:text-white group-hover:dark:text-black transition-colors">
                                             <Mail className="w-6 h-6" />
                                         </div>
                                         <div>
@@ -512,7 +512,7 @@ export default function Home({ items }) {
                                     </div>
 
                                     <div className="flex items-center gap-5 group cursor-pointer">
-                                        <div className="bg-gray-100 dark:bg-[#111] p-4 rounded-xl text-black dark:text-white group-hover:bg-black group-hover:dark:bg-white group-hover:text-white group-hover:dark:text-black transition-colors">
+                                        <div className="bg-gray-100 dark:bg-[#111] p-4 rounded-none text-black dark:text-white group-hover:bg-black group-hover:dark:bg-white group-hover:text-white group-hover:dark:text-black transition-colors">
                                             <Instagram className="w-6 h-6" />
                                         </div>
                                         <div>
@@ -522,7 +522,7 @@ export default function Home({ items }) {
                                     </div>
 
                                     <div className="flex items-center gap-5 group cursor-pointer">
-                                        <div className="bg-gray-100 dark:bg-[#111] p-4 rounded-xl text-black dark:text-white group-hover:bg-black group-hover:dark:bg-white group-hover:text-white group-hover:dark:text-black transition-colors">
+                                        <div className="bg-gray-100 dark:bg-[#111] p-4 rounded-none text-black dark:text-white group-hover:bg-black group-hover:dark:bg-white group-hover:text-white group-hover:dark:text-black transition-colors">
                                             <MapPin className="w-6 h-6" />
                                         </div>
                                         <div>
@@ -534,9 +534,9 @@ export default function Home({ items }) {
                             </div>
 
                             {/* Form */}
-                            <form onSubmit={handleFormSubmit} className="bg-gray-50 dark:bg-[#020202] p-8 rounded-2xl border border-gray-200 dark:border-[#333] space-y-5">
+                            <form onSubmit={handleFormSubmit} className="bg-gray-50 dark:bg-[#020202] p-8 rounded-none border border-gray-200 dark:border-[#333] space-y-5">
                                 {formStatus === 'email-client' && (
-                                    <div className="bg-black/10 dark:bg-white/10 text-black dark:text-white p-4 rounded-lg text-sm font-minimal border border-black/20 dark:border-white/20">
+                                    <div className="bg-black/10 dark:bg-white/10 text-black dark:text-white p-4 rounded-none text-sm font-minimal border border-black/20 dark:border-white/20">
                                         Message envoyé. Merci de nous contacter.
                                     </div>
                                 )}
@@ -548,7 +548,7 @@ export default function Home({ items }) {
                                         required
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-lg px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
+                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-none px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
                                         placeholder="Mijea..."
                                     />
                                 </div>
@@ -559,7 +559,7 @@ export default function Home({ items }) {
                                         required
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-lg px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
+                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-none px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
                                         placeholder="hello@exemple.com"
                                     />
                                 </div>
@@ -570,13 +570,13 @@ export default function Home({ items }) {
                                         required
                                         value={formData.message}
                                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-lg px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all resize-none font-minimal"
+                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-none px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all resize-none font-minimal"
                                         placeholder="Votre message..."
                                     ></textarea>
                                 </div>
                                 <button
                                     type="submit"
-                                    className="w-full bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black font-creativo font-bold py-4 rounded-lg transition-all shadow-lg shadow-black/20 dark:shadow-white/20 mt-2"
+                                    className="w-full bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black font-creativo font-bold py-4 rounded-none transition-all shadow-lg shadow-black/20 dark:shadow-white/20 mt-2"
                                 >
                                     ENVOYER LE MESSAGE
                                 </button>
@@ -654,7 +654,7 @@ export default function Home({ items }) {
             <div className="fixed bottom-6 right-6 z-40 hidden md:block">
                 <button
                     onClick={() => setIsSubscribeOpen(true)}
-                    className="group flex items-center gap-2 px-4 py-2 bg-black/80 dark:bg-white/10 backdrop-blur-sm rounded-full border border-white/10 hover:border-white transition-all"
+                    className="group flex items-center gap-2 px-4 py-2 bg-black/80 dark:bg-white/10 backdrop-blur-sm rounded-none border border-white/10 hover:border-white transition-all"
                 >
                     <span className="text-xs font-mono text-white/80 tracking-wider uppercase group-hover:text-white transition-colors">
                         [SUBSCRIBE]

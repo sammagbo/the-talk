@@ -27,7 +27,7 @@ const portableTextComponents = {
                     <img
                         src={urlFor(value).width(1200).url()}
                         alt={value.alt || ''}
-                        className="w-full rounded-xl"
+                        className="w-full rounded-none"
                     />
                     {value.caption && (
                         <figcaption className="text-center text-gray-500 dark:text-[#6C757D] mt-2 text-sm">
@@ -177,7 +177,7 @@ export default function BlogPost() {
     if (loading) {
         return (
             <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
-                <div className="w-10 h-10 border-4 border-black dark:border-white border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-10 h-10 border-4 border-black dark:border-white border-t-transparent rounded-none animate-spin"></div>
             </div>
         );
     }
@@ -209,10 +209,10 @@ export default function BlogPost() {
                     <div className="flex items-center gap-4">
                         {/* Audio Player Controls - Top Bar */}
                         {speechSupported && (
-                            <div className="hidden md:flex items-center gap-2 bg-gray-100 dark:bg-white/10 rounded-full px-3 py-1.5 border border-gray-200 dark:border-white/10">
+                            <div className="hidden md:flex items-center gap-2 bg-gray-100 dark:bg-white/10 rounded-none px-3 py-1.5 border border-gray-200 dark:border-white/10">
                                 <button
                                     onClick={handleSpeak}
-                                    className="p-1.5 rounded-full hover:bg-white dark:hover:bg-black/20 text-black dark:text-white transition-colors"
+                                    className="p-1.5 rounded-none hover:bg-white dark:hover:bg-black/20 text-black dark:text-white transition-colors"
                                     title={isSpeaking ? "Pause" : "Lire l'article"}
                                 >
                                     {isSpeaking ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" />}
@@ -220,7 +220,7 @@ export default function BlogPost() {
                                 {(isSpeaking || isPaused) && (
                                     <button
                                         onClick={handleStop}
-                                        className="p-1.5 rounded-full hover:bg-white dark:hover:bg-black/20 text-red-500 transition-colors"
+                                        className="p-1.5 rounded-none hover:bg-white dark:hover:bg-black/20 text-red-500 transition-colors"
                                         title="Arrêter"
                                     >
                                         <Square size={14} fill="currentColor" />
@@ -253,8 +253,8 @@ export default function BlogPost() {
                     {/* Floating Audio Player (Mobile/Sticky) */}
                     {speechSupported && (isSpeaking || isPaused) && (
                         <div className="fixed bottom-6 right-6 z-40 md:hidden">
-                            <div className="bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#333] shadow-2xl rounded-2xl p-4 flex items-center gap-4 animate-in slide-in-from-bottom-5">
-                                <div className="p-3 bg-black/10 dark:bg-white/10 rounded-full text-black dark:text-white animate-pulse">
+                            <div className="bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#333] shadow-2xl rounded-none p-4 flex items-center gap-4 animate-in slide-in-from-bottom-5">
+                                <div className="p-3 bg-black/10 dark:bg-white/10 rounded-none text-black dark:text-white animate-pulse">
                                     <Volume2 size={24} />
                                 </div>
                                 <div>
@@ -262,13 +262,13 @@ export default function BlogPost() {
                                     <div className="flex items-center gap-3">
                                         <button
                                             onClick={handleSpeak}
-                                            className="p-2 bg-black dark:bg-white text-white dark:text-black rounded-full hover:scale-105 transition-transform"
+                                            className="p-2 bg-black dark:bg-white text-white dark:text-black rounded-none hover:scale-105 transition-transform"
                                         >
                                             {isSpeaking ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
                                         </button>
                                         <button
                                             onClick={handleStop}
-                                            className="p-2 bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-white rounded-full hover:bg-gray-200 transition-colors"
+                                            className="p-2 bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-white rounded-none hover:bg-gray-200 transition-colors"
                                         >
                                             <Square size={16} fill="currentColor" />
                                         </button>
@@ -291,7 +291,7 @@ export default function BlogPost() {
                                 </div>
                                 <button
                                     onClick={handleSpeak}
-                                    className={`flex items-center gap-2 text-sm font-bold uppercase tracking-wider px-4 py-2 rounded-full backdrop-blur-md transition-all ${post.mainImage
+                                    className={`flex items-center gap-2 text-sm font-bold uppercase tracking-wider px-4 py-2 rounded-none backdrop-blur-md transition-all ${post.mainImage
                                             ? 'bg-white/10 hover:bg-white/20 text-white'
                                             : 'bg-black/10 dark:bg-white/10 text-black dark:text-white hover:bg-black/20 hover:dark:bg-white/20'
                                         }`}

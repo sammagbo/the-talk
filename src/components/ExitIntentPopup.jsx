@@ -99,7 +99,7 @@ export default function ExitIntentPopup() {
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
             onClick={handleOverlayClick}
         >
-            <div className="bg-white dark:bg-[#111] max-w-md w-full rounded-2xl border border-gray-200 dark:border-[#333] shadow-2xl overflow-hidden relative animate-scale-up">
+            <div className="bg-white dark:bg-[#111] max-w-md w-full rounded-none border border-gray-200 dark:border-[#333] shadow-2xl overflow-hidden relative animate-scale-up">
 
                 {/* Close Button */}
                 <button
@@ -112,12 +112,12 @@ export default function ExitIntentPopup() {
 
                 {/* Decorative Background */}
                 <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-br from-black dark:from-white to-black dark:to-white opacity-10"></div>
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-black/20 dark:bg-white/20 rounded-full blur-3xl"></div>
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-black/20 dark:bg-white/20 rounded-none blur-3xl"></div>
 
                 <div className="p-8 pt-10 relative">
                     {status === 'success' ? (
                         <div className="text-center py-8">
-                            <div className="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <div className="w-16 h-16 bg-green-100 text-green-500 rounded-none flex items-center justify-center mx-auto mb-4">
                                 <Sparkles size={32} />
                             </div>
                             <h3 className="text-2xl font-creativo font-bold text-black dark:text-white mb-2">Bienvenue !</h3>
@@ -128,7 +128,7 @@ export default function ExitIntentPopup() {
                     ) : (
                         <>
                             <div className="text-center mb-8">
-                                <div className="inline-flex items-center gap-2 bg-black/10 dark:bg-white/10 text-black dark:text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                                <div className="inline-flex items-center gap-2 bg-black/10 dark:bg-white/10 text-black dark:text-white px-3 py-1 rounded-none text-xs font-bold uppercase tracking-widest mb-4">
                                     <Sparkles size={12} />
                                     Exclusive Content
                                 </div>
@@ -150,13 +150,13 @@ export default function ExitIntentPopup() {
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
                                         disabled={status === 'loading'}
-                                        className="w-full bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded-xl pl-12 pr-4 py-3 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
+                                        className="w-full bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded-none pl-12 pr-4 py-3 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
                                     />
                                 </div>
                                 <button
                                     type="submit"
                                     disabled={status === 'loading'}
-                                    className="w-full bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black font-creativo font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-black/20 dark:shadow-white/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                                    className="w-full bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black font-creativo font-bold py-3.5 rounded-none transition-all shadow-lg shadow-black/20 dark:shadow-white/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                                 >
                                     {status === 'loading' ? (
                                         'Traitement...'

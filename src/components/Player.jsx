@@ -144,7 +144,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                     <img
                         src={currentEpisode.src}
                         alt={currentEpisode.title}
-                        className="w-12 h-12 rounded-lg object-cover shadow-md hidden md:block"
+                        className="w-12 h-12 rounded-none object-cover shadow-md hidden md:block"
                     />
                     <div className="min-w-0">
                         <h4 className="font-bold text-sm md:text-base truncate text-black dark:text-white">{currentEpisode.title}</h4>
@@ -211,7 +211,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                                     max={duration || 100}
                                     value={progress}
                                     onChange={handleSeek}
-                                    className="w-full h-1 bg-gray-200 dark:bg-[#333] rounded-lg appearance-none cursor-pointer accent-black dark:accent-white"
+                                    className="w-full h-1 bg-gray-200 dark:bg-[#333] rounded-none appearance-none cursor-pointer accent-black dark:accent-white"
                                 />
                                 <span>{formatTime(duration)}</span>
                             </div>
@@ -263,12 +263,12 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                         <button
                             onClick={() => setShowSpeedMenu(!showSpeedMenu)}
                             aria-label="Playback speed"
-                            className="flex items-center gap-1 px-2 py-1 text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white bg-gray-100 dark:bg-[#222] rounded-full transition-colors"
+                            className="flex items-center gap-1 px-2 py-1 text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white bg-gray-100 dark:bg-[#222] rounded-none transition-colors"
                         >
                             {playbackSpeed}x
                         </button>
                         {showSpeedMenu && (
-                            <div className="absolute bottom-full mb-2 right-0 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#333] rounded-lg shadow-xl py-1 min-w-[80px] z-50">
+                            <div className="absolute bottom-full mb-2 right-0 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#333] rounded-none shadow-xl py-1 min-w-[80px] z-50">
                                 {PLAYBACK_SPEEDS.map((speed) => (
                                     <button
                                         key={speed}
@@ -310,7 +310,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                                     setVolume(parseFloat(e.target.value));
                                     if (parseFloat(e.target.value) > 0) setIsMuted(false);
                                 }}
-                                className="w-full h-1 bg-gray-200 dark:bg-[#333] rounded-lg appearance-none cursor-pointer accent-black dark:accent-white"
+                                className="w-full h-1 bg-gray-200 dark:bg-[#333] rounded-none appearance-none cursor-pointer accent-black dark:accent-white"
                             />
                         </div>
                     </div>
@@ -319,7 +319,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                     <button
                         onClick={onClose}
                         aria-label="Fermer le lecteur"
-                        className="p-2 hover:bg-gray-100 dark:hover:bg-[#222] rounded-full text-gray-500 dark:text-[#6C757D] transition-colors"
+                        className="p-2 hover:bg-gray-100 dark:hover:bg-[#222] rounded-none text-gray-500 dark:text-[#6C757D] transition-colors"
                     >
                         <X size={20} />
                     </button>
@@ -329,7 +329,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
             {/* Share Toast Notification */}
             {shareToast && (
                 <div className="fixed bottom-32 left-1/2 transform -translate-x-1/2 z-[201] animate-fade-in-up">
-                    <div className="flex items-center gap-3 px-5 py-3 bg-black dark:bg-white text-white dark:text-black rounded-xl shadow-lg">
+                    <div className="flex items-center gap-3 px-5 py-3 bg-black dark:bg-white text-white dark:text-black rounded-none shadow-lg">
                         <Check size={18} />
                         <span className="font-minimal text-sm">{shareToast}</span>
                     </div>

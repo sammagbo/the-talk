@@ -49,7 +49,7 @@ export default function LazySpotifyEmbed({
             {!isVisible ? (
                 // Lightweight placeholder before iframe loads
                 <div
-                    className="flex items-center justify-center gap-3 bg-black/10 dark:bg-white/10 rounded-xl border border-black/20 dark:border-white/20 cursor-pointer hover:bg-black/20 dark:hover:bg-white/20 transition-colors"
+                    className="flex items-center justify-center gap-3 bg-black/10 dark:bg-white/10 rounded-none border border-black/20 dark:border-white/20 cursor-pointer hover:bg-black/20 dark:hover:bg-white/20 transition-colors"
                     style={{ height }}
                     onClick={() => setIsVisible(true)}
                 >
@@ -63,7 +63,7 @@ export default function LazySpotifyEmbed({
                     {/* Loading state */}
                     {!isLoaded && (
                         <div
-                            className="absolute inset-0 flex items-center justify-center bg-[#111] rounded-xl"
+                            className="absolute inset-0 flex items-center justify-center bg-[#111] rounded-none"
                             style={{ height }}
                         >
                             <Loader2 className="w-6 h-6 animate-spin text-black dark:text-white" />
@@ -80,7 +80,7 @@ export default function LazySpotifyEmbed({
                         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                         loading="lazy"
                         onLoad={() => setIsLoaded(true)}
-                        className={`rounded-xl shadow-sm transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                        className={`rounded-none shadow-sm transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
                         style={{ borderRadius: '12px' }}
                     />
                 </>

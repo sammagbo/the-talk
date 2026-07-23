@@ -38,11 +38,11 @@ export default function SponsorBanner() {
 
     return (
         <div className="fixed bottom-24 left-4 right-4 md:left-auto md:right-8 md:bottom-28 z-40 max-w-sm animate-fade-in-up">
-            <div className="bg-white dark:bg-[#111] border border-black/30 dark:border-white/30 p-4 rounded-xl shadow-2xl flex items-center gap-4 relative overflow-hidden backdrop-blur-md">
+            <div className="bg-white dark:bg-[#111] border border-black/30 dark:border-white/30 p-4 rounded-none shadow-2xl flex items-center gap-4 relative overflow-hidden backdrop-blur-md">
                 {/* Glow Effect */}
-                <div className="absolute top-0 right-0 w-24 h-24 bg-black/10 dark:bg-white/10 rounded-full blur-2xl"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-black/10 dark:bg-white/10 rounded-none blur-2xl"></div>
 
-                <div className="relative z-10 flex-shrink-0 w-16 h-16 bg-gray-100 dark:bg-black rounded-lg p-2 flex items-center justify-center border border-gray-200 dark:border-[#333]">
+                <div className="relative z-10 flex-shrink-0 w-16 h-16 bg-gray-100 dark:bg-black rounded-none p-2 flex items-center justify-center border border-gray-200 dark:border-[#333]">
                     {sponsor.logoUrl ? (
                         <img src={urlFor(sponsor.logoUrl).width(200).url()} alt={sponsor.name} className="max-w-full max-h-full object-contain" />
                     ) : (

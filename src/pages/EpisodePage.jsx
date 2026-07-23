@@ -134,7 +134,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                     </Link>
                     <button
                         onClick={() => setRetryCount(c => c + 1)}
-                        className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-6 py-2 rounded-full font-bold transition-all"
+                        className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-6 py-2 rounded-none font-bold transition-all"
                     >
                         {t('episode.retry')}
                     </button>
@@ -213,10 +213,10 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                         {/* Media Mode Toggle (only show if episode has video) */}
                         <div className="w-full md:w-1/3 shrink-0">
                             {episode.videoUrl && (
-                                <div className="flex mb-4 bg-gray-100 dark:bg-[#1a1a1a] rounded-xl p-1 border border-gray-200 dark:border-[#333]">
+                                <div className="flex mb-4 bg-gray-100 dark:bg-[#1a1a1a] rounded-none p-1 border border-gray-200 dark:border-[#333]">
                                     <button
                                         onClick={() => setMediaMode('audio')}
-                                        className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${mediaMode === 'audio'
+                                        className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-none text-sm font-bold transition-all ${mediaMode === 'audio'
                                             ? 'bg-black dark:bg-white text-white dark:text-black shadow-lg'
                                             : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white'
                                             }`}
@@ -231,7 +231,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                                 onPause();
                                             }
                                         }}
-                                        className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-bold transition-all ${mediaMode === 'video'
+                                        className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-none text-sm font-bold transition-all ${mediaMode === 'video'
                                             ? 'bg-black dark:bg-white text-white dark:text-black shadow-lg'
                                             : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white'
                                             }`}
@@ -244,7 +244,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                             {/* Media Display */}
                             {episode.videoUrl && mediaMode === 'video' ? (
                                 /* YouTube Embed */
-                                <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl shadow-black/20 dark:shadow-white/20 border border-gray-200 dark:border-[#333]">
+                                <div className="aspect-video rounded-none overflow-hidden shadow-2xl shadow-black/20 dark:shadow-white/20 border border-gray-200 dark:border-[#333]">
                                     <iframe
                                         src={youtubeEmbedUrl}
                                         title={episode.title}
@@ -255,7 +255,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                 </div>
                             ) : (
                                 /* Cover Image */
-                                <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl shadow-black/20 dark:shadow-white/20 border border-gray-200 dark:border-[#333]">
+                                <div className="aspect-square rounded-none overflow-hidden shadow-2xl shadow-black/20 dark:shadow-white/20 border border-gray-200 dark:border-[#333]">
                                     <img
                                         src={episode.fullSrc}
                                         alt={episode.title}
@@ -267,7 +267,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
 
                         {/* Details */}
                         <div className="w-full md:w-2/3">
-                            <span className="inline-block px-3 py-1 bg-black/20 dark:bg-white/20 text-black dark:text-white text-xs font-bold rounded-full mb-4 uppercase tracking-wider">
+                            <span className="inline-block px-3 py-1 bg-black/20 dark:bg-white/20 text-black dark:text-white text-xs font-bold rounded-none mb-4 uppercase tracking-wider">
                                 {episode.category}
                             </span>
 
@@ -311,12 +311,12 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                         setMediaMode('audio');
                                         onPlay({ ...episode, id: episode.id });
                                     }}
-                                    className="w-full md:w-auto bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded-full font-bold text-lg transition-all transform hover:scale-105 flex items-center justify-center gap-3"
+                                    className="w-full md:w-auto bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded-none font-bold text-lg transition-all transform hover:scale-105 flex items-center justify-center gap-3"
                                 >
                                     {currentEpisode?.id === episode.id && isPlaying ? (
                                         <>
                                             <div className="relative">
-                                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75"></span>
+                                                <span className="absolute inline-flex h-full w-full animate-ping rounded-none bg-white opacity-75"></span>
                                                 <Play className="relative inline-flex" fill="currentColor" />
                                             </div>
                                             {t('episode.playing')}
@@ -375,7 +375,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                                         {episode.transcript ? (
                                             <div className="whitespace-pre-wrap">{episode.transcript}</div>
                                         ) : (
-                                            <div className="flex flex-col items-center justify-center py-12 text-center bg-gray-50 dark:bg-[#111] rounded-2xl border border-dashed border-gray-300 dark:border-[#333]">
+                                            <div className="flex flex-col items-center justify-center py-12 text-center bg-gray-50 dark:bg-[#111] rounded-none border border-dashed border-gray-300 dark:border-[#333]">
                                                 <p className="text-gray-500 dark:text-[#666] italic mb-2">{t('episode.transcript_unavailable')}</p>
                                                 <span className="text-xs text-gray-400">{t('episode.come_back_later')}</span>
                                             </div>
@@ -396,7 +396,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 {relatedEpisodes.map(item => (
                                     <Link to={item.slug ? `/episodes/${item.slug}` : `/episode/${item.id}`} key={item.id} className="group block" onClick={() => window.scrollTo(0, 0)}>
-                                        <div className="aspect-square rounded-xl overflow-hidden mb-4 border border-gray-200 dark:border-[#333]">
+                                        <div className="aspect-square rounded-none overflow-hidden mb-4 border border-gray-200 dark:border-[#333]">
                                             <LazyImage
                                                 src={item.fullSrc}
                                                 alt={item.title}
@@ -420,7 +420,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
             {/* Share Toast Notification */}
             {shareToast && (
                 <div className="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-[200] animate-fade-in-up">
-                    <div className="flex items-center gap-3 px-5 py-3 bg-black dark:bg-white text-white dark:text-black rounded-xl shadow-lg">
+                    <div className="flex items-center gap-3 px-5 py-3 bg-black dark:bg-white text-white dark:text-black rounded-none shadow-lg">
                         <Check size={18} />
                         <span className="font-minimal text-sm">{shareToast}</span>
                     </div>

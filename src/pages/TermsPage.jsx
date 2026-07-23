@@ -161,7 +161,7 @@ export default function TermsPage() {
                         <ArrowLeft size={16} /> {c.back}
                     </Link>
 
-                    <div className="flex items-start gap-3 border-2 border-black dark:border-white rounded-xl p-4 mb-10" role="note">
+                    <div className="flex items-start gap-3 border-2 border-black dark:border-white rounded-none p-4 mb-10" role="note">
                         <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
                         <p className="font-minimal text-sm font-bold leading-relaxed">{c.draftNotice}</p>
                     </div>

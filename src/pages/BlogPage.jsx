@@ -72,7 +72,7 @@ export default function BlogPage() {
 
                 {loading ? (
                     <div className="flex justify-center">
-                        <div className="w-10 h-10 border-4 border-black dark:border-white border-t-transparent rounded-full animate-spin"></div>
+                        <div className="w-10 h-10 border-4 border-black dark:border-white border-t-transparent rounded-none animate-spin"></div>
                     </div>
                 ) : posts.length === 0 ? (
                     <div className="text-center text-gray-500 dark:text-[#6C757D]">
@@ -85,7 +85,7 @@ export default function BlogPage() {
                             <Link
                                 key={post._id}
                                 to={`/blog/${post.slug?.current}`}
-                                className="group bg-gray-50 dark:bg-[#111] rounded-2xl overflow-hidden border border-gray-200 dark:border-[#333] hover:border-black hover:dark:border-white transition-all"
+                                className="group bg-gray-50 dark:bg-[#111] rounded-none overflow-hidden border border-gray-200 dark:border-[#333] hover:border-black hover:dark:border-white transition-all"
                             >
                                 <div className="aspect-video overflow-hidden">
                                     {post.mainImage ? (
