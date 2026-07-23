@@ -91,7 +91,7 @@ export default function LoadingScreen({ onComplete }) {
                         style={{ width: '0%' }}
                     />
                 </div>
-                <p className="text-center text-[#6C757D] text-xs mt-3 font-mono">
+                <p className="text-center text-[#6C757D] text-xs mt-3 font-minimal">
                     {progress}%
                 </p>
             </div>

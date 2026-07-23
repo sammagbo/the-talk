@@ -40,7 +40,7 @@ class ErrorBoundary extends React.Component {
             <p className="text-gray-400 font-minimal mb-2">
               Nous sommes désolés, quelque chose s'est mal passé.
             </p>
-            <p className="text-red-400/70 text-sm font-mono mb-8 bg-red-500/10 rounded-none p-3">
+            <p className="text-red-400/70 text-sm font-minimal mb-8 bg-red-500/10 rounded-none p-3">
               {this.state.error?.message || 'Erreur inconnue'}
             </p>
 

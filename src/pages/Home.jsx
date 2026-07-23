@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Newsletter from '../Newsletter';
-import { Mic, Instagram, Mail, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, ArrowRight, Upload, Bot, Loader2, Search, Coffee, Heart, Calendar, Video, Headphones, Play, Film, X, ShoppingBag, Code, Shield } from 'lucide-react';
+import { Mic, Instagram, Mail, ChevronRight, Facebook, Twitter, MapPin, ArrowUpRight, ArrowRight, Upload, Bot, Loader2, Search, Coffee, Heart, Calendar, Video, Headphones, Play, X, ShoppingBag, Code, Shield } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 
@@ -276,7 +276,7 @@ export default function Home({ items }) {
                     </h1>
 
                     <p className="gsap-hero-subtitle text-xl md:text-2xl font-minimal text-gray-600 dark:text-[#6C757D] mb-4 max-w-2xl mx-auto font-light flex items-center justify-center gap-2">
-                        A Podcast by <span className="font-editorial italic text-3xl text-black dark:text-white">Mijean Rochus</span>
+                        A Podcast by <span className="font-editorial italic text-3xl text-black dark:text-white">Mijean Rochus &amp; Gleid</span>
                     </p>
 
                     <p className="gsap-hero-description text-lg text-gray-800 dark:text-white/80 mb-10 max-w-xl mx-auto font-minimal leading-relaxed">
@@ -287,7 +287,7 @@ export default function Home({ items }) {
                         {items.length > 0 ? (
                             <Link
                                 to={items[0].slug ? `/episodes/${items[0].slug}` : `/episode/${items[0].id}`}
-                                className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded-none transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
+                                className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded-none transition-all duration-300 flex items-center gap-2 font-minimal font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
                             >
                                 [ {t('hero.watch_latest', 'VOIR LE DERNIER ÉPISODE')} ]
                                 <ChevronRight className="w-4 h-4" />
@@ -295,7 +295,7 @@ export default function Home({ items }) {
                         ) : (
                             <MagneticButton
                                 onClick={() => scrollToSection('videos')}
-                                className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded-none transition-all duration-300 flex items-center gap-2 font-mono font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
+                                className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded-none transition-all duration-300 flex items-center gap-2 font-minimal font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
                             >
                                 [ {t('hero.listen_now', 'ÉCOUTER')} ]
                                 <ChevronRight className="w-4 h-4" />
@@ -349,7 +349,7 @@ export default function Home({ items }) {
                                             </span>
                                         </div>
                                         <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-none border border-white/20">
-                                            <span className="text-[10px] font-mono text-white/90 tracking-wider">
+                                            <span className="text-[10px] font-minimal text-white/90 tracking-wider">
                                                 EP.{String(items[0].id).padStart(3, '0')} // {items[0].duration || '45:00'}
                                             </span>
                                         </div>
@@ -369,7 +369,6 @@ export default function Home({ items }) {
                     <section className="gsap-section py-20 px-4 md:px-8 max-w-7xl mx-auto">
                         <div className="mb-8">
                             <div className="flex items-center gap-3 mb-4">
-                                <Film className="w-8 h-8 text-[#FF0050]" />
                                 <h2 className="text-3xl md:text-4xl font-creativo font-bold">{t('shorts.title')}</h2>
                             </div>
                             <p className="text-gray-600 dark:text-[#6C757D] font-minimal max-w-xl">
@@ -656,7 +655,7 @@ export default function Home({ items }) {
                     onClick={() => setIsSubscribeOpen(true)}
                     className="group flex items-center gap-2 px-4 py-2 bg-black/80 dark:bg-white/10 backdrop-blur-sm rounded-none border border-white/10 hover:border-white transition-all"
                 >
-                    <span className="text-xs font-mono text-white/80 tracking-wider uppercase group-hover:text-white transition-colors">
+                    <span className="text-xs font-minimal text-white/80 tracking-wider uppercase group-hover:text-white transition-colors">
                         [SUBSCRIBE]
                     </span>
                     <Mail className="w-3 h-3 text-white/60 group-hover:text-white transition-colors" />

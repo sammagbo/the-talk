@@ -7,7 +7,6 @@ import {
     Video,
     Play,
     Search,
-    Film,
     X,
     ArrowLeft,
     Clock,
@@ -141,9 +140,6 @@ export default function EpisodesPage({ items, onPlay }) {
                 <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
                     <div>
                         <div className="flex items-center gap-3 mb-3">
-                            <div className="bg-gradient-to-tr from-black dark:from-white to-black dark:to-white p-2.5 rounded-none text-white">
-                                <Headphones size={24} />
-                            </div>
                             <h1 className="text-4xl md:text-5xl font-creativo font-black tracking-tight">
                                 Épisodes
                             </h1>
@@ -157,7 +153,7 @@ export default function EpisodesPage({ items, onPlay }) {
                     {/* Episode Count Badge */}
                     <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-[#111] rounded-none border border-gray-200 dark:border-[#333]">
                         <span className="w-2 h-2 rounded-none bg-black dark:bg-white animate-pulse"></span>
-                        <span className="text-sm font-mono text-gray-600 dark:text-[#6C757D]">
+                        <span className="text-sm font-minimal text-gray-600 dark:text-[#6C757D]">
                             {items.length} épisode{items.length !== 1 ? 's' : ''}
                         </span>
                     </div>
@@ -206,7 +202,6 @@ export default function EpisodesPage({ items, onPlay }) {
                 {shorts.length > 0 && (
                     <section className="px-4 md:px-8 max-w-7xl mx-auto mb-16">
                         <div className="flex items-center gap-3 mb-5">
-                            <Film className="w-5 h-5 text-[#FF0050]" />
                             <h2 className="text-lg font-creativo font-bold uppercase tracking-wider">Shorts</h2>
                             <div className="h-px flex-1 bg-gray-200 dark:bg-[#333]"></div>
                         </div>
@@ -320,7 +315,7 @@ export default function EpisodesPage({ items, onPlay }) {
 
                                             {/* HUD Badge */}
                                             <div className="absolute top-3 right-3 px-2.5 py-1 bg-black/60 backdrop-blur-sm rounded-none border border-white/20">
-                                                <span className="text-[10px] font-mono text-white/90 tracking-wider">
+                                                <span className="text-[10px] font-minimal text-white/90 tracking-wider">
                                                     EP.{String(index + 1).padStart(3, '0')} // {item.duration || '45:00'}
                                                 </span>
                                             </div>

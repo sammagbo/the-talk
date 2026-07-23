@@ -226,7 +226,7 @@ export default function BlogPost() {
                                         <Square size={14} fill="currentColor" />
                                     </button>
                                 )}
-                                <span className="text-xs font-mono font-bold text-gray-500 dark:text-gray-400 uppercase">
+                                <span className="text-xs font-minimal font-bold text-gray-500 dark:text-gray-400 uppercase">
                                     {isSpeaking ? 'Lecture en cours...' : 'Écouter'}
                                 </span>
                             </div>
@@ -258,7 +258,7 @@ export default function BlogPost() {
                                     <Volume2 size={24} />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-mono text-gray-500 uppercase mb-1">Lecture en cours</p>
+                                    <p className="text-xs font-minimal text-gray-500 uppercase mb-1">Lecture en cours</p>
                                     <div className="flex items-center gap-3">
                                         <button
                                             onClick={handleSpeak}
