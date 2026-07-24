@@ -12,6 +12,7 @@ const staticRoutes = [
   '/blog',
   '/privacy',
   '/terms',
+  '/shorts',
 ]
 
 export default defineConfig({

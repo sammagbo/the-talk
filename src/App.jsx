@@ -1,5 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Player from './components/Player';
 import { Loader2, AlertTriangle, RefreshCw, Home as HomeIcon } from 'lucide-react';
 import CustomCursor from './components/CustomCursor';
@@ -82,6 +82,7 @@ const BlogPage = lazy(() => import('./pages/BlogPage'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 const TermsPage = lazy(() => import('./pages/TermsPage'));
+const ShortsPage = lazy(() => import('./pages/ShortsPage'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 import SponsorBanner from './components/SponsorBanner';
 import OfflineAlert from './components/OfflineAlert';
@@ -92,6 +93,7 @@ import { STORE_ENABLED } from './config/features';
 
 
 export default function App() {
+  const location = useLocation();
   const [items, setItems] = useState([]);
   const [currentEpisode, setCurrentEpisode] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -198,6 +200,7 @@ export default function App() {
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/terms" element={<TermsPage />} />
+            <Route path="/shorts" element={<ShortsPage onPause={() => setIsPlaying(false)} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
@@ -205,12 +208,14 @@ export default function App() {
 
       <SponsorBanner />
 
-      <Player
-        currentEpisode={currentEpisode}
-        isPlaying={isPlaying}
-        onClose={handleClosePlayer}
-        onTogglePlay={() => setIsPlaying(!isPlaying)}
-      />
+      {location.pathname !== '/shorts' && (
+        <Player
+          currentEpisode={currentEpisode}
+          isPlaying={isPlaying}
+          onClose={handleClosePlayer}
+          onTogglePlay={() => setIsPlaying(!isPlaying)}
+        />
+      )}
       <SpeedInsights />
     </div >
   );
