@@ -4,6 +4,7 @@ import {episodeType} from './episodeType'
 import {personType} from './personType'
 import {postType} from './postType'
 import {seoType} from './seoType'
+import {shortType} from './shortType'
 import {siteSettingsType} from './siteSettingsType'
 
 export const schemaTypes = [
@@ -13,5 +14,6 @@ export const schemaTypes = [
   personType,
   episodeType,
   postType,
+  shortType,
   siteSettingsType,
 ]
