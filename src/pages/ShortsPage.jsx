@@ -22,18 +22,34 @@ function ShortSlide({ short, isActive, muted, registerRef }) {
         >
             {isActive ? (
                 youtube ? (
-                    <iframe
-                        key={`${short._id}-${muted}`}
-                        src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=${muted ? 1 : 0}&playsinline=1&controls=0&loop=1&playlist=${youtubeId}&rel=0`}
-                        title={short.title}
-                        className="aspect-[9/16] h-full max-h-full w-auto max-w-full"
-                        allow="autoplay; encrypted-media; picture-in-picture"
-                    />
+                    <>
+                        <iframe
+                            key={`${short._id}-${muted}`}
+                            src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=${muted ? 1 : 0}&playsinline=1&controls=0&loop=1&playlist=${youtubeId}&rel=0`}
+                            title={short.title}
+                            className="aspect-[9/16] h-full max-h-full w-auto max-w-full"
+                            allow="autoplay; encrypted-media; picture-in-picture"
+                        />
+                        {/* Absorbs touch so the swipe reaches the feed's scroll container instead of
+                            being captured by the cross-origin iframe (iOS in particular). */}
+                        <div className="absolute inset-0" aria-hidden="true" />
+                    </>
                 ) : (
                     <video
+                        ref={(el) => {
+                            if (!el) return;
+                            // React's `muted` prop doesn't reliably set the HTML attribute on first
+                            // paint, and iOS Safari requires the attribute (not just the property) to
+                            // allow autoplay. Force all three, and (re)try play() on every update.
+                            el.muted = muted;
+                            el.defaultMuted = true;
+                            el.setAttribute('muted', '');
+                            if (isActive && muted) {
+                                el.play().catch(() => {});
+                            }
+                        }}
                         src={short.videoUrl}
                         autoPlay
-                        muted={muted}
                         loop
                         playsInline
                         className="h-full max-h-full w-auto max-w-full object-contain"
