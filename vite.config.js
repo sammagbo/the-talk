@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
-import legacy from '@vitejs/plugin-legacy'
 import Sitemap from 'vite-plugin-sitemap'
 
 // Static routes for sitemap
@@ -18,12 +17,6 @@ const staticRoutes = [
 export default defineConfig({
   plugins: [
     react(),
-    legacy({
-      targets: ['defaults', 'not IE 11', 'iOS >= 12'],
-      additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
-      renderLegacyChunks: true,
-      polyfills: true,
-    }),
     Sitemap({
       hostname: 'https://www.thetalkfashion.com',
       dynamicRoutes: staticRoutes,
