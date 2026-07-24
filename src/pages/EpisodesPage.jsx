@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 import {
@@ -20,6 +20,7 @@ const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
 
 export default function EpisodesPage({ items, onPlay }) {
 
+    const navigate = useNavigate();
 
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState('Tous');
@@ -27,9 +28,7 @@ export default function EpisodesPage({ items, onPlay }) {
 
     // Shorts state
     const [shorts, setShorts] = useState([]);
-    const [selectedShort, setSelectedShort] = useState(null);
     const [hoveredShort, setHoveredShort] = useState(null);
-    const videoRef = useRef(null);
 
     // Fetch shorts from Sanity
     useEffect(() => {
@@ -55,24 +54,6 @@ export default function EpisodesPage({ items, onPlay }) {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
-
-    // Auto-play short when opened
-    useEffect(() => {
-        if (selectedShort && videoRef.current) {
-            videoRef.current.play().catch(e => console.log("Autoplay blocked:", e));
-        }
-    }, [selectedShort]);
-
-    // Handle video end in shorts modal
-    const handleVideoEnded = () => {
-        if (!selectedShort || shorts.length === 0) return;
-        const currentIndex = shorts.findIndex(s => s._id === selectedShort._id);
-        if (currentIndex !== -1 && currentIndex < shorts.length - 1) {
-            setSelectedShort(shorts[currentIndex + 1]);
-        } else {
-            setSelectedShort(shorts[0]);
-        }
-    };
 
     // PWA install prompt
     useEffect(() => {
@@ -214,7 +195,7 @@ export default function EpisodesPage({ items, onPlay }) {
                                     className="snap-start shrink-0 w-32 md:w-40 cursor-pointer group relative"
                                     onMouseEnter={() => setHoveredShort(short._id)}
                                     onMouseLeave={() => setHoveredShort(null)}
-                                    onClick={() => setSelectedShort(short)}
+                                    onClick={() => navigate(`/shorts?start=${short._id}`)}
                                 >
                                     <div className="aspect-[9/16] rounded-none overflow-hidden bg-gray-900 border border-gray-200 dark:border-[#333] group-hover:border-[#FF0050] transition-all duration-300 relative">
                                         {hoveredShort === short._id && short.videoUrl ? (
@@ -357,48 +338,6 @@ export default function EpisodesPage({ items, onPlay }) {
                 </section>
             </main>
 
-            {/* Shorts Full-Screen Modal */}
-            {selectedShort && (
-                <div
-                    className="fixed inset-0 z-[100] bg-black flex items-center justify-center"
-                    onClick={() => setSelectedShort(null)}
-                >
-                    <button
-                        onClick={() => setSelectedShort(null)}
-                        className="absolute top-4 right-4 z-10 w-10 h-10 rounded-none bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                    >
-                        <X className="w-6 h-6 text-white" />
-                    </button>
-
-                    <div
-                        className="relative w-full max-w-md h-[90vh] max-h-[800px]"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        {selectedShort.videoUrl?.includes('youtube') || selectedShort.videoUrl?.includes('youtu.be') ? (
-                            <iframe
-                                src={`https://www.youtube.com/embed/${selectedShort.videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1] || ''}?autoplay=1`}
-                                className="w-full h-full rounded-none"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                            />
-                        ) : (
-                            <video
-                                ref={videoRef}
-                                src={selectedShort.videoUrl}
-                                autoPlay
-                                controls
-                                playsInline
-                                onEnded={handleVideoEnded}
-                                className="w-full h-full object-contain rounded-none"
-                            />
-                        )}
-
-                        <div className="absolute bottom-4 left-4 right-4 text-white">
-                            <h3 className="text-xl font-bold">{selectedShort.title}</h3>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }
