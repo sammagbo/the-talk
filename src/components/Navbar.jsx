@@ -109,7 +109,7 @@ export default function Navbar({
                     <img
                         src="/logo.png"
                         alt="THE TALK Logo"
-                        className="w-10 h-10 rounded-none object-cover transition-transform group-hover:scale-105"
+                        className="w-10 h-10 rounded-none object-cover transition-transform group-hover:scale-105 dark:invert"
                     />
                     <div className="flex flex-col">
                         <span className="text-xl font-creativo font-bold tracking-tight leading-none text-black dark:text-white">
