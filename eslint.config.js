@@ -5,7 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist', 'google-cloud-sdk']),
+  globalIgnores(['**/dist', 'google-cloud-sdk']),
   {
     files: ['**/*.{js,jsx}'],
     extends: [
