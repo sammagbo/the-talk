@@ -147,7 +147,7 @@ export default function EpisodesPage({ items, onPlay }) {
                             placeholder="Rechercher un épisode..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-none px-5 py-3 pl-11 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
+                            className="w-full bg-gray-100 dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded px-5 py-3 pl-11 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
                         />
                         <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#6C757D] w-4 h-4" />
                         {searchQuery && (
@@ -165,7 +165,7 @@ export default function EpisodesPage({ items, onPlay }) {
                             <button
                                 key={cat}
                                 onClick={() => setActiveCategory(cat)}
-                                className={`px-4 py-2.5 rounded-none text-sm font-minimal transition-all border ${activeCategory === cat
+                                className={`px-4 py-2.5 rounded text-sm font-minimal transition-all border ${activeCategory === cat
                                     ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white font-bold shadow-lg shadow-black/20 dark:shadow-white/20'
                                     : 'bg-transparent text-gray-500 border-gray-300 dark:text-[#6C757D] dark:border-[#6C757D]/30 hover:border-black hover:dark:border-white hover:text-black hover:dark:text-white'
                                     }`}
@@ -198,7 +198,7 @@ export default function EpisodesPage({ items, onPlay }) {
                                     onMouseLeave={() => setHoveredShort(null)}
                                     onClick={() => navigate(`/shorts?start=${short._id}`)}
                                 >
-                                    <div className="aspect-[9/16] rounded-none overflow-hidden bg-gray-900 border border-gray-200 dark:border-[#333] group-hover:border-[#FF0050] transition-all duration-300 relative">
+                                    <div className="aspect-[9/16] rounded overflow-hidden bg-gray-900 border border-gray-200 dark:border-[#333] group-hover:border-[#FF0050] transition-all duration-300 relative">
                                         {hoveredShort === short._id && short.videoUrl ? (
                                             <video
                                                 src={short.videoUrl}
@@ -266,7 +266,7 @@ export default function EpisodesPage({ items, onPlay }) {
                             {filteredItems.map((item, index) => (
                                 <div
                                     key={item.id}
-                                    className="group relative overflow-hidden rounded-none bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] hover:border-black/50 hover:dark:border-white/50 transition-all duration-300 hover:shadow-xl hover:shadow-black/5 hover:dark:shadow-white/5"
+                                    className="group relative overflow-hidden rounded bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] hover:border-black/50 hover:dark:border-white/50 transition-all duration-300 hover:shadow-xl hover:shadow-black/5 hover:dark:shadow-white/5"
                                 >
                                     {/* Thumbnail */}
                                     <Link to={item.slug ? `/episodes/${item.slug}` : `/episode/${item.id}`} className="block">

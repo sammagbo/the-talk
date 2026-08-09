@@ -209,10 +209,10 @@ export default function BlogPost() {
                     <div className="flex items-center gap-4">
                         {/* Audio Player Controls - Top Bar */}
                         {speechSupported && (
-                            <div className="hidden md:flex items-center gap-2 bg-gray-100 dark:bg-white/10 rounded-none px-3 py-1.5 border border-gray-200 dark:border-white/10">
+                            <div className="hidden md:flex items-center gap-2 bg-gray-100 dark:bg-white/10 rounded px-3 py-1.5 border border-gray-200 dark:border-white/10">
                                 <button
                                     onClick={handleSpeak}
-                                    className="p-1.5 rounded-none hover:bg-white dark:hover:bg-black/20 text-black dark:text-white transition-colors"
+                                    className="p-1.5 rounded hover:bg-white dark:hover:bg-black/20 text-black dark:text-white transition-colors"
                                     title={isSpeaking ? "Pause" : "Lire l'article"}
                                 >
                                     {isSpeaking ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" />}
@@ -220,7 +220,7 @@ export default function BlogPost() {
                                 {(isSpeaking || isPaused) && (
                                     <button
                                         onClick={handleStop}
-                                        className="p-1.5 rounded-none hover:bg-white dark:hover:bg-black/20 text-red-500 transition-colors"
+                                        className="p-1.5 rounded hover:bg-white dark:hover:bg-black/20 text-red-500 transition-colors"
                                         title="Arrêter"
                                     >
                                         <Square size={14} fill="currentColor" />
@@ -262,13 +262,13 @@ export default function BlogPost() {
                                     <div className="flex items-center gap-3">
                                         <button
                                             onClick={handleSpeak}
-                                            className="p-2 bg-black dark:bg-white text-white dark:text-black rounded-none hover:scale-105 transition-transform"
+                                            className="p-2 bg-black dark:bg-white text-white dark:text-black rounded hover:scale-105 transition-transform"
                                         >
                                             {isSpeaking ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
                                         </button>
                                         <button
                                             onClick={handleStop}
-                                            className="p-2 bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-white rounded-none hover:bg-gray-200 transition-colors"
+                                            className="p-2 bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-white rounded hover:bg-gray-200 transition-colors"
                                         >
                                             <Square size={16} fill="currentColor" />
                                         </button>
@@ -291,7 +291,7 @@ export default function BlogPost() {
                                 </div>
                                 <button
                                     onClick={handleSpeak}
-                                    className={`flex items-center gap-2 text-sm font-bold uppercase tracking-wider px-4 py-2 rounded-none backdrop-blur-md transition-all ${post.mainImage
+                                    className={`flex items-center gap-2 text-sm font-bold uppercase tracking-wider px-4 py-2 rounded backdrop-blur-md transition-all ${post.mainImage
                                             ? 'bg-white/10 hover:bg-white/20 text-white'
                                             : 'bg-black/10 dark:bg-white/10 text-black dark:text-white hover:bg-black/20 hover:dark:bg-white/20'
                                         }`}

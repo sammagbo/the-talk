@@ -138,7 +138,7 @@ export default function Navbar({
                                         }
                                         setIsMenuOpen(false);
                                     }}
-                                    className={`flex items-center gap-1.5 px-3 py-2 rounded-none text-sm font-bold uppercase tracking-wider transition-colors ${isActive
+                                    className={`flex items-center gap-1.5 px-3 py-2 rounded text-sm font-bold uppercase tracking-wider transition-colors ${isActive
                                         ? 'bg-black/10 dark:bg-white/10 text-black dark:text-white'
                                         : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5'
                                         }`}
@@ -154,7 +154,7 @@ export default function Navbar({
                                 key={item.label}
                                 onClick={() => handleSectionClick(item.section)}
                                 aria-label={`Naviguer vers ${item.label}`}
-                                className="flex items-center gap-1.5 px-3 py-2 rounded-none text-sm font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
+                                className="flex items-center gap-1.5 px-3 py-2 rounded text-sm font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
                             >
                                 <Icon size={16} />
                                 {item.label}
@@ -172,7 +172,7 @@ export default function Navbar({
                         <button
                             onClick={onInstallClick}
                             aria-label="Installer l'application"
-                            className="flex items-center gap-1.5 bg-black dark:bg-white text-white dark:text-black px-3 py-2 rounded-none font-bold text-sm uppercase tracking-wider transition-transform hover:scale-105"
+                            className="flex items-center gap-1.5 bg-black dark:bg-white text-white dark:text-black px-3 py-2 rounded font-bold text-sm uppercase tracking-wider transition-transform hover:scale-105"
                         >
                             <Download size={14} />
                             {t('nav.install', 'Installer')}
@@ -255,7 +255,7 @@ export default function Navbar({
                                 {deferredPrompt && (
                                     <button
                                         onClick={() => { onInstallClick?.(); setIsMenuOpen(false); }}
-                                        className="flex items-center gap-2 px-4 py-2 bg-white text-black rounded-none font-minimal text-sm tracking-wider hover:scale-105 transition-transform"
+                                        className="flex items-center gap-2 px-4 py-2 bg-white text-black rounded font-minimal text-sm tracking-wider hover:scale-105 transition-transform"
                                     >
                                         <Download size={16} />
                                         INSTALL

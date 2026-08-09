@@ -150,13 +150,13 @@ export default function ExitIntentPopup() {
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
                                         disabled={status === 'loading'}
-                                        className="w-full bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded-none pl-12 pr-4 py-3 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
+                                        className="w-full bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded pl-12 pr-4 py-3 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
                                     />
                                 </div>
                                 <button
                                     type="submit"
                                     disabled={status === 'loading'}
-                                    className="w-full bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black font-creativo font-bold py-3.5 rounded-none transition-all shadow-lg shadow-black/20 dark:shadow-white/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                                    className="w-full bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black font-creativo font-bold py-3.5 rounded transition-all shadow-lg shadow-black/20 dark:shadow-white/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                                 >
                                     {status === 'loading' ? (
                                         'Traitement...'

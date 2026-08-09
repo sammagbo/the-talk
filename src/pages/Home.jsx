@@ -265,7 +265,7 @@ export default function Home({ items }) {
                         {items.length > 0 ? (
                             <Link
                                 to={items[0].slug ? `/episodes/${items[0].slug}` : `/episode/${items[0].id}`}
-                                className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded-none transition-all duration-300 flex items-center gap-2 font-minimal font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
+                                className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded transition-all duration-300 flex items-center gap-2 font-minimal font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
                             >
                                 [ {t('hero.watch_latest', 'VOIR LE DERNIER ÉPISODE')} ]
                                 <ChevronRight className="w-4 h-4" />
@@ -273,7 +273,7 @@ export default function Home({ items }) {
                         ) : (
                             <MagneticButton
                                 onClick={() => scrollToSection('videos')}
-                                className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded-none transition-all duration-300 flex items-center gap-2 font-minimal font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
+                                className="bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-8 py-4 rounded transition-all duration-300 flex items-center gap-2 font-minimal font-bold text-sm tracking-wider w-full sm:w-auto justify-center uppercase"
                             >
                                 [ {t('hero.listen_now', 'ÉCOUTER')} ]
                                 <ChevronRight className="w-4 h-4" />
@@ -307,7 +307,7 @@ export default function Home({ items }) {
                                 to={items[0].slug ? `/episodes/${items[0].slug}` : `/episode/${items[0].id}`}
                                 className="w-full max-w-4xl group"
                             >
-                                <div className="relative overflow-hidden rounded-none bg-gradient-to-br from-black/10 dark:from-white/10 to-black/10 dark:to-white/10 border-2 border-black dark:border-white hover:shadow-xl hover:shadow-black/20 hover:dark:shadow-white/20 transition-all h-full">
+                                <div className="relative overflow-hidden rounded bg-gradient-to-br from-black/10 dark:from-white/10 to-black/10 dark:to-white/10 border-2 border-black dark:border-white hover:shadow-xl hover:shadow-black/20 hover:dark:shadow-white/20 transition-all h-full">
                                     <div className="aspect-video overflow-hidden relative">
                                         <LazyImage
                                             src={items[0].fullSrc || items[0].src}
@@ -369,7 +369,7 @@ export default function Home({ items }) {
                                     onClick={() => navigate(`/shorts?start=${short._id}`)}
                                 >
                                     {/* 9:16 Vertical Video Card */}
-                                    <div className="aspect-[9/16] rounded-none overflow-hidden bg-gray-900 border border-gray-200 dark:border-[#333] group-hover:border-[#FF0050] transition-all duration-300 relative">
+                                    <div className="aspect-[9/16] rounded overflow-hidden bg-gray-900 border border-gray-200 dark:border-[#333] group-hover:border-[#FF0050] transition-all duration-300 relative">
                                         {/* Thumbnail or Hover Video */}
                                         {hoveredShort === short._id && short.videoUrl ? (
                                             <video
@@ -476,7 +476,7 @@ export default function Home({ items }) {
                                         required
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-none px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
+                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
                                         placeholder="Mijea..."
                                     />
                                 </div>
@@ -487,7 +487,7 @@ export default function Home({ items }) {
                                         required
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-none px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
+                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal"
                                         placeholder="hello@exemple.com"
                                     />
                                 </div>
@@ -498,13 +498,13 @@ export default function Home({ items }) {
                                         required
                                         value={formData.message}
                                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-none px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all resize-none font-minimal"
+                                        className="w-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded px-4 py-3.5 text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all resize-none font-minimal"
                                         placeholder="Votre message..."
                                     ></textarea>
                                 </div>
                                 <button
                                     type="submit"
-                                    className="w-full bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black font-creativo font-bold py-4 rounded-none transition-all shadow-lg shadow-black/20 dark:shadow-white/20 mt-2"
+                                    className="w-full bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black font-creativo font-bold py-4 rounded transition-all shadow-lg shadow-black/20 dark:shadow-white/20 mt-2"
                                 >
                                     ENVOYER LE MESSAGE
                                 </button>
@@ -582,7 +582,7 @@ export default function Home({ items }) {
             <div className="fixed bottom-6 right-6 z-40 hidden md:block">
                 <button
                     onClick={() => setIsSubscribeOpen(true)}
-                    className="group flex items-center gap-2 px-4 py-2 bg-black/80 dark:bg-white/10 backdrop-blur-sm rounded-none border border-white/10 hover:border-white transition-all"
+                    className="group flex items-center gap-2 px-4 py-2 bg-black/80 dark:bg-white/10 backdrop-blur-sm rounded border border-white/10 hover:border-white transition-all"
                 >
                     <span className="text-xs font-minimal text-white/80 tracking-wider uppercase group-hover:text-white transition-colors">
                         [SUBSCRIBE]

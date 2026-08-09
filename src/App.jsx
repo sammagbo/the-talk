@@ -48,14 +48,14 @@ class ErrorBoundary extends React.Component {
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button
                 onClick={() => window.location.reload()}
-                className="inline-flex items-center justify-center gap-2 bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-6 py-3 rounded-none font-bold transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-6 py-3 rounded font-bold transition-all"
               >
                 <RefreshCw size={18} />
                 Réessayer
               </button>
               <a
                 href="/"
-                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-none font-bold transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded font-bold transition-all"
               >
                 <HomeIcon size={18} />
                 Retour à l'accueil
@@ -178,7 +178,7 @@ export default function App() {
       {/* Skip to main content link for accessibility */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-black focus:dark:bg-white focus:text-white focus:px-4 focus:py-2 focus:rounded-none focus:font-bold focus:outline-none focus:ring-2 focus:ring-white"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-black focus:dark:bg-white focus:text-white focus:px-4 focus:py-2 focus:rounded focus:font-bold focus:outline-none focus:ring-2 focus:ring-white"
       >
         Passer au contenu principal
       </a>

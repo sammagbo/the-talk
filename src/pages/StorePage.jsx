@@ -92,7 +92,7 @@ export default function StorePage() {
                                     <button
                                         onClick={() => handleBuy(product.stripePriceId)}
                                         disabled={!product.stripePriceId}
-                                        className="w-full bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black py-3 rounded-none font-bold font-creativo transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="w-full bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black py-3 rounded font-bold font-creativo transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         <ShoppingBag size={18} />
                                         {t('store.buy')}
