@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { X, Volume2, VolumeX, Loader2 } from 'lucide-react';
 import { client } from '../sanity';
+import { PLACEHOLDER_IMAGE } from '../config/media';
 
 const YOUTUBE_ID_REGEX = /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
 
@@ -57,7 +58,7 @@ function ShortSlide({ short, isActive, muted, registerRef }) {
                 )
             ) : (
                 <img
-                    src={short.thumbnailUrl || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80'}
+                    src={short.thumbnailUrl || PLACEHOLDER_IMAGE}
                     alt={short.title}
                     className="h-full max-h-full w-auto max-w-full object-contain"
                 />

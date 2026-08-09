@@ -51,14 +51,14 @@ export default function NotFound() {
                 <div className="mt-10 flex flex-col sm:flex-row items-center gap-4">
                     <Link
                         to="/"
-                        className="inline-flex items-center justify-center gap-2 bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-7 py-3 rounded-none font-bold uppercase tracking-wider text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:dark:ring-white focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
+                        className="inline-flex items-center justify-center gap-2 bg-black dark:bg-white hover:bg-gray-800 hover:dark:bg-gray-300 text-white dark:text-black px-7 py-3 rounded font-bold uppercase tracking-wider text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:dark:ring-white focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
                     >
                         <HomeIcon size={18} />
                         {t('notFound.home', "Retour à l'accueil")}
                     </Link>
                     <Link
                         to="/episodes"
-                        className="inline-flex items-center justify-center gap-2 border border-black/20 dark:border-white/20 hover:border-black/50 dark:hover:border-white/50 px-7 py-3 rounded-none font-bold uppercase tracking-wider text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:dark:ring-white"
+                        className="inline-flex items-center justify-center gap-2 border border-black/20 dark:border-white/20 hover:border-black/50 dark:hover:border-white/50 px-7 py-3 rounded font-bold uppercase tracking-wider text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:dark:ring-white"
                     >
                         {t('notFound.episodes', 'Voir les épisodes')}
                         <ArrowRight size={18} />

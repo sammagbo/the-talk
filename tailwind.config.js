@@ -6,6 +6,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    // Replaces the default scale rather than extending it, so the larger radii
+    // cannot be reintroduced: interactive elements use `rounded` (4px),
+    // everything else stays square.
+    borderRadius: {
+      none: '0',
+      DEFAULT: '4px',
+      full: '9999px',
+    },
     extend: {
       keyframes: {
         'fade-in-up': {

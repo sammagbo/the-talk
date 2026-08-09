@@ -96,7 +96,7 @@ export default function SubscribeModal({ isOpen, onClose }) {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                                 placeholder={t('subscribe.placeholder', 'votre@email.com')}
-                                className="w-full pl-12 pr-4 py-4 bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded-none text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal placeholder:text-gray-400"
+                                className="w-full pl-12 pr-4 py-4 bg-gray-50 dark:bg-[#020202] border border-gray-200 dark:border-[#333] rounded text-black dark:text-white focus:outline-none focus:border-black focus:dark:border-white focus:ring-1 focus:ring-black focus:dark:ring-white transition-all font-minimal placeholder:text-gray-400"
                             />
                         </div>
 
@@ -109,7 +109,7 @@ export default function SubscribeModal({ isOpen, onClose }) {
                         <button
                             type="submit"
                             disabled={status === 'loading'}
-                            className="w-full bg-gradient-to-r from-black dark:from-white to-gray-700 dark:to-gray-400 text-white font-creativo font-bold py-4 rounded-none transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            className="w-full bg-gradient-to-r from-black dark:from-white to-gray-700 dark:to-gray-400 text-white font-creativo font-bold py-4 rounded transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                         >
                             {status === 'loading' ? (
                                 <>

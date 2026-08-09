@@ -263,7 +263,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                         <button
                             onClick={() => setShowSpeedMenu(!showSpeedMenu)}
                             aria-label="Playback speed"
-                            className="flex items-center gap-1 px-2 py-1 text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white bg-gray-100 dark:bg-[#222] rounded-none transition-colors"
+                            className="flex items-center gap-1 px-2 py-1 text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white bg-gray-100 dark:bg-[#222] rounded transition-colors"
                         >
                             {playbackSpeed}x
                         </button>
@@ -319,7 +319,7 @@ export default function Player({ currentEpisode, isPlaying, onClose, onTogglePla
                     <button
                         onClick={onClose}
                         aria-label="Fermer le lecteur"
-                        className="p-2 hover:bg-gray-100 dark:hover:bg-[#222] rounded-none text-gray-500 dark:text-[#6C757D] transition-colors"
+                        className="p-2 hover:bg-gray-100 dark:hover:bg-[#222] rounded text-gray-500 dark:text-[#6C757D] transition-colors"
                     >
                         <X size={20} />
                     </button>

@@ -121,7 +121,9 @@
     .static-logo img {
       width: 40px;
       height: 40px;
-      border-radius: 8px;
+      border-radius: 4px;
+      /* This fallback always paints on black, so the dark mark is inverted. */
+      filter: invert(1);
     }
 
     .static-logo-text {
@@ -247,7 +249,7 @@
       background: #007BFF;
       color: #fff;
       padding: 1rem 2rem;
-      border-radius: 0.5rem;
+      border-radius: 4px;
       text-decoration: none;
       font-weight: bold;
       font-size: 1rem;
@@ -300,7 +302,7 @@
       padding: 0.75rem 1.25rem;
       background: #111;
       border: 1px solid #333;
-      border-radius: 2rem;
+      border-radius: 4px;
       color: #fff;
       text-decoration: none;
       font-size: 0.875rem;
@@ -403,7 +405,7 @@
       margin: 2rem auto;
       background: #111;
       border: 1px solid #333;
-      border-radius: 1rem;
+      border-radius: 4px;
       overflow: hidden;
     }
 
@@ -446,7 +448,7 @@
       background: #1DB954;
       color: #fff;
       padding: 0.75rem 1.5rem;
-      border-radius: 2rem;
+      border-radius: 4px;
       text-decoration: none;
       font-weight: bold;
       font-size: 0.875rem;
@@ -459,7 +461,7 @@
     .noscript-notice {
       background: #1a1a2e;
       border: 1px solid #007BFF;
-      border-radius: 0.5rem;
+      border-radius: 4px;
       padding: 1.5rem 2rem;
       margin: 2rem auto;
       max-width: 600px;
@@ -637,7 +639,7 @@
         <div class="noscript-content">
           <!-- Featured Episode for No-JS users -->
           <div class="noscript-episode">
-            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80"
+            <img src="/og-image.png"
               alt="Dernier épisode THE TALK" class="noscript-episode-img" loading="lazy" />
             <div class="noscript-episode-content">
               <p class="noscript-episode-cat">Nouvel Épisode</p>

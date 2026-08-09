@@ -8,8 +8,8 @@ import Navbar from '../components/Navbar';
 // Update this date whenever the terms change.
 const LAST_UPDATED = '2026-07-22';
 
-// Contact address placeholder — replace with the real address before launch.
-const CONTACT = '[e-mail de contato]';
+// Public contact address, kept in sync with the site footer.
+const CONTACT = 'contact@thetalkfashion.com';
 
 const content = {
     fr: {
