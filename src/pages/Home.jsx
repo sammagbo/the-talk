@@ -15,6 +15,7 @@ import MagneticButton from '../components/MagneticButton';
 import Marquee from '../components/Marquee';
 import TiltCard from '../components/TiltCard';
 import useSmoothScroll from '../hooks/useSmoothScroll';
+import { PLACEHOLDER_IMAGE } from '../config/media';
 
 
 
@@ -381,7 +382,7 @@ export default function Home({ items }) {
                                             />
                                         ) : (
                                             <img
-                                                src={short.thumbnailUrl || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=400&q=80'}
+                                                src={short.thumbnailUrl || PLACEHOLDER_IMAGE}
                                                 alt={short.title}
                                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                             />

@@ -15,6 +15,7 @@ import {
 import LazyImage from '../components/LazyImage';
 import Navbar from '../components/Navbar';
 import { client } from '../sanity';
+import { PLACEHOLDER_IMAGE } from '../config/media';
 
 const categories = ['Tous', 'Épisodes', 'Interviews', 'Coulisses'];
 
@@ -209,7 +210,7 @@ export default function EpisodesPage({ items, onPlay }) {
                                             />
                                         ) : (
                                             <img
-                                                src={short.thumbnailUrl || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=400&q=80'}
+                                                src={short.thumbnailUrl || PLACEHOLDER_IMAGE}
                                                 alt={short.title}
                                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                             />

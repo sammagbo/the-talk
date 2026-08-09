@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import ThemeToggle from '../components/ThemeToggle';
 import { client, urlFor } from '../sanity';
+import { PLACEHOLDER_IMAGE } from '../config/media';
 import { useTranslation } from 'react-i18next';
 
 export default function StorePage() {
@@ -73,7 +74,7 @@ export default function StorePage() {
                             <div key={product._id} className="group bg-gray-50 dark:bg-[#111] rounded-none overflow-hidden border border-gray-200 dark:border-[#333] hover:border-black hover:dark:border-white transition-all">
                                 <div className="aspect-square overflow-hidden">
                                     <img
-                                        src={product.imageUrl ? urlFor(product.imageUrl).width(800).url() : 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80'}
+                                        src={product.imageUrl ? urlFor(product.imageUrl).width(800).url() : PLACEHOLDER_IMAGE}
                                         alt={product.title}
                                         className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                                     />

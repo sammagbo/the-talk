@@ -5,6 +5,7 @@ import { ArrowLeft, Play, Clock, Calendar, Share2, Sparkles, Loader2, BrainCircu
 import ThemeToggle from '../components/ThemeToggle';
 import LazyImage from '../components/LazyImage';
 import { client, urlFor } from '../sanity';
+import { PLACEHOLDER_IMAGE } from '../config/media';
 import { useTranslation } from 'react-i18next';
 import { shareContent, getEpisodeShareUrl } from '../utils/share';
 import { convertToSpotifyEmbed } from '../utils/spotify';
@@ -70,8 +71,8 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                         spotifyEmbedUrl: convertToSpotifyEmbed(result.spotifyEmbedUrl),
                         videoUrl: result.videoUrl,
                         mainImage: result.src,
-                        src: result.src ? urlFor(result.src).width(800).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=800&q=80',
-                        fullSrc: result.fullSrc ? urlFor(result.fullSrc).width(1600).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=1600&q=80',
+                        src: result.src ? urlFor(result.src).width(800).url() : PLACEHOLDER_IMAGE,
+                        fullSrc: result.fullSrc ? urlFor(result.fullSrc).width(1600).url() : PLACEHOLDER_IMAGE,
                         transcript: result.transcript,
                         slug: result.slug?.current,
                     });
@@ -91,7 +92,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                             category: item.category,
                             date: item.date,
                             duration: item.duration,
-                            fullSrc: item.src ? urlFor(item.src).width(600).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=600&q=80'
+                            fullSrc: item.src ? urlFor(item.src).width(600).url() : PLACEHOLDER_IMAGE
                         }));
                         setRelatedEpisodes(mappedRelated);
                     }

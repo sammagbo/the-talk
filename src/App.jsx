@@ -87,6 +87,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 import SponsorBanner from './components/SponsorBanner';
 import OfflineAlert from './components/OfflineAlert';
 import { client, urlFor } from './sanity';
+import { PLACEHOLDER_IMAGE } from './config/media';
 import { convertToSpotifyEmbed } from './utils/spotify';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { STORE_ENABLED } from './config/features';
@@ -137,8 +138,8 @@ export default function App() {
           id: item._id,
           category: item.category?.title || 'Épisodes',
           title: item.title,
-          src: item.mainImage ? urlFor(item.mainImage).width(800).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=800&q=80',
-          fullSrc: item.mainImage ? urlFor(item.mainImage).width(1600).url() : 'https://images.unsplash.com/photo-1478737270239-2f02b77ac6d5?auto=format&fit=crop&w=1600&q=80',
+          src: item.mainImage ? urlFor(item.mainImage).width(800).url() : PLACEHOLDER_IMAGE,
+          fullSrc: item.mainImage ? urlFor(item.mainImage).width(1600).url() : PLACEHOLDER_IMAGE,
           spotifyEmbedUrl: convertToSpotifyEmbed(item.spotifyEmbedUrl),
           audioUrl: item.audioUrl,
           videoUrl: item.videoUrl,
