@@ -145,7 +145,7 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
         );
     }
 
-    const youtubeVideoId = episode.videoUrl?.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1];
+    const youtubeVideoId = episode.videoUrl?.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1];
     const youtubeEmbedUrl = youtubeVideoId ? `https://www.youtube.com/embed/${youtubeVideoId}` : '';
     const episodeUrl = `https://www.thetalkfashion.com/episodes/${episode.slug}`;
     const episodeImage = new URL(episode.fullSrc, 'https://www.thetalkfashion.com').href;
