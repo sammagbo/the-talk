@@ -9,6 +9,7 @@ import { PLACEHOLDER_IMAGE } from '../config/media';
 import { useTranslation } from 'react-i18next';
 import { shareContent, getEpisodeShareUrl } from '../utils/share';
 import { convertToSpotifyEmbed } from '../utils/spotify';
+import { toIsoDuration } from '../utils/duration';
 
 export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying }) {
     const { slug } = useParams();
@@ -146,6 +147,16 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
 
     const youtubeVideoId = episode.videoUrl?.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1];
     const youtubeEmbedUrl = youtubeVideoId ? `https://www.youtube.com/embed/${youtubeVideoId}` : '';
+    const episodeUrl = `https://www.thetalkfashion.com/episodes/${episode.slug}`;
+    const episodeImage = new URL(episode.fullSrc, 'https://www.thetalkfashion.com').href;
+    const episodeDescription = episode.description || `Découvrez ${episode.title} sur THE TALK`;
+    const publisher = {
+        "@type": "Organization",
+        "@id": "https://www.thetalkfashion.com/#organization",
+        "name": "THE TALK",
+        "url": "https://www.thetalkfashion.com/",
+        "logo": "https://www.thetalkfashion.com/logo.png"
+    };
 
     return (
         <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-black selection:text-white pb-20 transition-colors duration-300">
@@ -154,44 +165,45 @@ export default function EpisodePage({ onPlay, onPause, currentEpisode, isPlaying
                 <meta name="description" content={`Écoutez ${episode.title} - ${episode.category}. Une conversation exclusive sur THE TALK.`} />
                 <meta property="og:title" content={`${episode.title} | THE TALK`} />
                 <meta property="og:description" content={`Découvrez les coulisses et l'innovation derrière cet épisode spécial : ${episode.title}.`} />
-                <meta property="og:image" content={episode.fullSrc} />
+                <meta property="og:image" content={episodeImage} />
                 <meta property="og:type" content="article" />
                 {/* Schema.org Structured Data for Episode */}
                 <script type="application/ld+json">
                     {JSON.stringify({
                         "@context": "https://schema.org",
-                        "@type": "PodcastEpisode",
+                        "@type": youtubeVideoId ? "VideoObject" : "PodcastEpisode",
                         "name": episode.title,
-                        "description": episode.description || `Découvrez ${episode.title} sur THE TALK`,
-                        "url": `https://www.thetalkfashion.com/episodes/${episode.slug}`,
-                        "datePublished": episode.date,
-                        "duration": episode.duration ? `PT${episode.duration.replace(':', 'M')}S` : undefined,
-                        "image": episode.fullSrc,
-                        "partOfSeries": {
-                            "@type": "PodcastSeries",
-                            "name": "THE TALK",
-                            "url": "https://www.thetalkfashion.com"
-                        },
-                        "author": {
-                            "@type": "Person",
-                            "name": "Mijean Rochus"
-                        },
-                        ...((episode.audioUrl || youtubeEmbedUrl) && {
-                            "associatedMedia": [
-                                ...(episode.audioUrl ? [{
+                        "description": episodeDescription,
+                        "url": episodeUrl,
+                        "duration": toIsoDuration(episode.duration),
+                        "publisher": publisher,
+                        ...(youtubeVideoId ? {
+                            "thumbnailUrl": episodeImage,
+                            "uploadDate": episode.date,
+                            "embedUrl": youtubeEmbedUrl,
+                            "contentUrl": `https://www.youtube.com/watch?v=${youtubeVideoId}`,
+                            ...(episode.audioUrl && {
+                                "associatedMedia": {
                                     "@type": "AudioObject",
                                     "contentUrl": episode.audioUrl,
                                     "encodingFormat": "audio/mpeg"
-                                }] : []),
-                                ...(youtubeEmbedUrl ? [{
-                                    "@type": "VideoObject",
-                                    "name": episode.title,
-                                    "description": episode.description || `Découvrez ${episode.title} sur THE TALK`,
-                                    "thumbnailUrl": episode.fullSrc || episode.src,
-                                    "uploadDate": episode.date,
-                                    "embedUrl": youtubeEmbedUrl
-                                }] : [])
-                            ]
+                                }
+                            })
+                        } : {
+                            "image": episodeImage,
+                            "datePublished": episode.date,
+                            "partOfSeries": {
+                                "@type": "PodcastSeries",
+                                "name": "THE TALK",
+                                "url": "https://www.thetalkfashion.com/"
+                            },
+                            ...(episode.audioUrl && {
+                                "associatedMedia": {
+                                    "@type": "AudioObject",
+                                    "contentUrl": episode.audioUrl,
+                                    "encodingFormat": "audio/mpeg"
+                                }
+                            })
                         })
                     })}
                 </script>
