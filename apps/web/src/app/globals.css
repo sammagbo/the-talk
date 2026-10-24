@@ -9,6 +9,7 @@
   --line: rgba(148, 163, 184, 0.2);
   --accent: #007bff;
   --accent-strong: #0069d9;
+  --accent-deep: #0056b3;
   --accent-soft: #a9a9f5;
 }
 
@@ -21,6 +22,7 @@
   --color-line: var(--line);
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
+  --color-accent-deep: var(--accent-deep);
   --color-accent-soft: var(--accent-soft);
   --font-sans: "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-display: "Outfit Variable", "Arial Black", "Helvetica Neue", Arial, sans-serif;
@@ -46,7 +48,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .skip-link {
   position: fixed; left: 1rem; top: 1rem; z-index: 100;
   transform: translateY(-200%); border-radius: 999px;
-  background: var(--accent); color: #ffffff;
+  background: var(--accent-strong); color: #ffffff;
   padding: 0.75rem 1rem; transition: transform 160ms ease;
 }
 .skip-link:focus { transform: translateY(0); }

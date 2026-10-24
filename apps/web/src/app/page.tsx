@@ -57,7 +57,7 @@ export default async function HomePage() {
             <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
                 href={latestEpisode ? `/episodes/${latestEpisode.slug}` : "/episodes"}
-                className="inline-flex w-full items-center justify-center rounded-lg bg-accent px-7 py-4 text-xs font-black uppercase tracking-[0.16em] text-white shadow-[0_0_30px_rgba(0,123,255,.34)] transition hover:bg-accent-strong hover:shadow-[0_0_38px_rgba(0,123,255,.5)] sm:w-auto"
+                className="inline-flex w-full items-center justify-center rounded-lg bg-accent-strong px-7 py-4 text-xs font-black uppercase tracking-[0.16em] text-white shadow-[0_0_30px_rgba(0,123,255,.34)] transition hover:bg-accent-deep hover:shadow-[0_0_38px_rgba(0,123,255,.5)] sm:w-auto"
               >
                 [ Voir le dernier épisode ] <span aria-hidden="true" className="ml-3">&#8594;</span>
               </Link>
@@ -162,7 +162,7 @@ export default async function HomePage() {
                 <h2 className="mt-4 max-w-3xl font-display text-4xl font-black leading-tight tracking-[-0.04em] sm:text-6xl">Faisons avancer la conversation.</h2>
                 <p className="mt-5 max-w-xl text-base leading-7 text-muted">THE TALK est ouvert aux collaborations éditoriales, créatives et culturelles.</p>
               </div>
-              <a href="mailto:contact@thetalkfashion.com" className="inline-flex items-center justify-center rounded-lg bg-accent px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-white transition hover:bg-accent-strong">
+              <a href="mailto:contact@thetalkfashion.com" className="inline-flex items-center justify-center rounded-lg bg-accent-strong px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-white transition hover:bg-accent-deep">
                 Écrire à THE TALK <span aria-hidden="true" className="ml-3">&#8599;</span>
               </a>
             </div>
