@@ -585,7 +585,7 @@ export default function Home({ items }) {
                     className="group flex items-center gap-2 px-4 py-2 bg-black/80 dark:bg-white/10 backdrop-blur-sm rounded border border-white/10 hover:border-white transition-all"
                 >
                     <span className="text-xs font-minimal text-white/80 tracking-wider uppercase group-hover:text-white transition-colors">
-                        [SUBSCRIBE]
+                        [{t('subscribe.button', "S'abonner")}]
                     </span>
                     <Mail className="w-3 h-3 text-white/60 group-hover:text-white transition-colors" />
                 </button>
