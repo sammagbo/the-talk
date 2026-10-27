@@ -31,7 +31,7 @@ export function SiteHeader() {
 
         <Link
           href="/episodes"
-          className="hidden rounded-lg bg-accent px-4 py-2.5 text-[0.68rem] font-black uppercase tracking-[0.15em] text-white shadow-[0_0_24px_rgba(0,123,255,.2)] transition hover:bg-accent-strong hover:shadow-[0_0_28px_rgba(0,123,255,.36)] lg:inline-flex"
+          className="hidden rounded-lg bg-accent-strong px-4 py-2.5 text-[0.68rem] font-black uppercase tracking-[0.15em] text-white shadow-[0_0_24px_rgba(0,123,255,.2)] transition hover:bg-accent-deep hover:shadow-[0_0_28px_rgba(0,123,255,.36)] lg:inline-flex"
         >
           Écouter
         </Link>

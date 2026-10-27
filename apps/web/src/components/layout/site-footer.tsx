@@ -21,7 +21,7 @@ export async function SiteFooter() {
           </div>
           <a
             href="mailto:contact@thetalkfashion.com"
-            className="inline-flex items-center justify-center rounded-lg bg-accent px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-white transition hover:bg-accent-strong"
+            className="inline-flex items-center justify-center rounded-lg bg-accent-strong px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-white transition hover:bg-accent-deep"
           >
             Nous contacter <span aria-hidden="true" className="ml-3">&#8599;</span>
           </a>
